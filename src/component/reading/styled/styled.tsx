@@ -12,7 +12,7 @@ export const ReadingBox = styled.div`
     right:0;
     bottom:0;
     z-index: 100;
-    background-color: rgba(126,126,126,.4);
+    background-color: rgba(0, 0, 0, 0.45);
     cursor: wait;
     &>div{
         display: flex;

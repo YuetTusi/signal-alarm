@@ -1,6 +1,7 @@
 import { FC, MouseEvent } from "react";
 import { useNavigate } from 'react-router-dom';
-import { Input, Button, Form, App } from 'antd';
+import { KeyOutlined, ReloadOutlined } from '@ant-design/icons';
+import { Col, Row, Input, Button, Form, App } from 'antd';
 import { LoginBox } from "./styled/styled";
 import { useForm } from "antd/es/form/Form";
 import { FormValue } from "./prop";
@@ -54,9 +55,29 @@ const Login: FC<any> = () => {
                 <Password />
             </Item>
             <Item>
-                <Button
-                    onClick={onLoginSubmit}
-                    type="primary">登录</Button>
+                <Row gutter={24} style={{ marginTop: '1rem' }}>
+                    <Col span={12}>
+                        <Button
+                            onClick={onLoginSubmit}
+                            type="primary"
+                            block={true}
+                        >
+                            <KeyOutlined />
+                            <span>登录</span>
+                        </Button>
+                    </Col>
+                    <Col span={12}>
+                        <Button
+                            onClick={() => formRef.resetFields()}
+                            type="primary"
+                            block={true}>
+                            <ReloadOutlined />
+                            <span>重置</span>
+                        </Button>
+                    </Col>
+                </Row>
+
+
             </Item>
         </Form>
     </LoginBox>

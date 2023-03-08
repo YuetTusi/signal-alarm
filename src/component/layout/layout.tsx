@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useEffect } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import DragBar from '../drag-bar';
 import Reading from '@/component/reading';
 import { LayoutBox } from './styled/styled';

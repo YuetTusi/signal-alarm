@@ -1,8 +1,10 @@
 import { join } from 'path';
 import { app, BrowserWindow, globalShortcut } from 'electron';
 import { bindHandle } from './bind';
+import { port } from '../../config/port';
 
-const isDev = process.env['NODE_ENV'] === 'development';
+const { env, resourcesPath } = process;
+const isDev = env['NODE_ENV'] === 'development';
 var mainWindow: BrowserWindow | null = null;
 
 app.whenReady()
@@ -22,6 +24,17 @@ app.whenReady()
         }
     });
 
+app.on('second-instance', (event, commandLine, workingDirectory) => {
+    //单例应用
+    if (mainWindow) {
+        if (mainWindow.isMinimized()) {
+            mainWindow.restore();
+        }
+        mainWindow.focus();
+        mainWindow.show();
+    }
+});
+
 app.on('ready', () => {
 
     mainWindow = new BrowserWindow({
@@ -39,24 +52,27 @@ app.on('ready', () => {
         }
     });
 
-    mainWindow.setMenu(null);
+    // mainWindow.setMenu(null);
 
     if (isDev) {
-        mainWindow.loadURL('http://127.0.0.1:4000/');
+
+        mainWindow.loadURL(`http://127.0.0.1:${port.dev}/`);
         mainWindow.webContents.openDevTools();
     } else {
-        mainWindow.loadFile(join(__dirname, 'index.html'));
+        mainWindow.loadFile(join(resourcesPath, 'app.asar.unpacked/dist/index.html'));
     }
 
     bindHandle(mainWindow);
 });
 
-
 app.on('window-all-closed', () => {
-
     if (mainWindow) {
         mainWindow.destroy();
     }
 
     app.exit(0);
 });
+
+if (!app.requestSingleInstanceLock()) {
+    app.quit();
+}
