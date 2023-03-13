@@ -1,37 +1,65 @@
-import { FC, MouseEvent } from "react";
+import forage from 'localforage';
+import { FC, MouseEvent, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import { KeyOutlined, ReloadOutlined } from '@ant-design/icons';
+import { UserOutlined, ReloadOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Col, Row, Input, Button, Form, App } from 'antd';
+import { useModel } from "@/model";
 import { LoginBox } from "./styled/styled";
-import { useForm } from "antd/es/form/Form";
 import { FormValue } from "./prop";
 
-const { Item } = Form;
+const { Item, useForm } = Form;
 const { Password } = Input;
 
-const Login: FC<any> = () => {
+const Login: FC<{}> = () => {
 
+    const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
-    const [formRef] = useForm<FormValue>();
     const { message } = App.useApp();
+    const [formRef] = useForm<FormValue>();
+    const {
+        setLoginUserName,
+        loginByNamePassword
+    } = useModel(state => ({
+        setLoginUserName: state.setLoginUserName,
+        loginByNamePassword: state.loginByNamePassword
+    }));
 
+    /**
+     * 登录
+     */
     const onLoginSubmit = async (event: MouseEvent) => {
         event.preventDefault();
+        message.destroy();
         try {
             const { userName, password } = await formRef.validateFields();
-            message.destroy();
-            if (userName === 'admin' && password === '111111') {
+            setLoading(true);
+            const ret = await loginByNamePassword(userName, password);
+            if (ret === null) {
+                message.warning('登录失败');
+                return;
+            }
+
+            if (ret.code === 200) {
                 message.success('登录成功');
+                setLoginUserName(userName);
+                forage.setItem('token', ret.data.token ?? '');
                 navigate('/dashboard');
             } else {
-                message.warning('登录失败，请检查用户与密码');
+                message.warning(`登录失败（${ret.message}）`);
             }
         } catch (error) {
-            console.warn(error);
+            if (error.errorFields) {
+                console.warn(error);
+            } else {
+                message.warning(`登录失败（${error.message}）`);
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
     return <LoginBox>
+        <h3>登录</h3>
         <Form
             form={formRef}
             style={{ width: '240px' }}
@@ -59,16 +87,19 @@ const Login: FC<any> = () => {
                     <Col span={12}>
                         <Button
                             onClick={onLoginSubmit}
+                            disabled={loading}
                             type="primary"
                             block={true}
                         >
-                            <KeyOutlined />
+                            {loading ? <LoadingOutlined /> : <UserOutlined />}
                             <span>登录</span>
                         </Button>
                     </Col>
                     <Col span={12}>
                         <Button
-                            onClick={() => formRef.resetFields()}
+                            onClick={() => {
+                                formRef.resetFields();
+                            }}
                             type="primary"
                             block={true}>
                             <ReloadOutlined />
@@ -76,8 +107,6 @@ const Login: FC<any> = () => {
                         </Button>
                     </Col>
                 </Row>
-
-
             </Item>
         </Form>
     </LoginBox>
