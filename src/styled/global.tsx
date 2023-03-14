@@ -24,7 +24,7 @@ export const GlobalStyle = createGlobalStyle`
         font-family: "Microsoft YaHei","NSimSun","Arial";
         background-color: #181d30;
     }
-    .ant-modal-mask{
+    .ant-modal-mask,.ant-modal-wrap{
         top:22px !important;
     }
 `;

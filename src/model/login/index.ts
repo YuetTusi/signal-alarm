@@ -17,7 +17,11 @@ interface LoginState {
      * @param userName 用户名
      * @param password 密码
      */
-    loginByNamePassword: (userName: string, password: string) => Promise<null | RequestResult>
+    loginByNamePassword: (userName: string, password: string) => Promise<null | RequestResult>,
+    /**
+     * 登出 
+     */
+    logout: () => void
 }
 
 export type { LoginState };

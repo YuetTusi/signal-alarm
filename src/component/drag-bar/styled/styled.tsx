@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const DragBarBox = styled.div`
     box-sizing: border-box;
-    height: 24px;
+    height: 23px;
     background-color:  transparent;
     display: flex;
     flex-direction: row;

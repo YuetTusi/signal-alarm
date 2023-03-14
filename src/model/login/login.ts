@@ -22,6 +22,13 @@ const login = (setState: SetState, getState: GetState): LoginState => ({
             throw error;
         }
     },
+    async logout() {
+        try {
+            await httpPost('/system/index/logout');
+        } catch (error) {
+            throw error;
+        }
+    }
 });
 
 export { login };
