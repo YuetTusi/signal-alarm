@@ -1,8 +1,8 @@
+import { request } from '@/utility/http';
 import { GetState, SetState } from '..';
 import { LoginState } from '../login';
-import { httpPost } from '@/utility/http';
 
-const login = (setState: SetState, getState: GetState): LoginState => ({
+const login = (setState: SetState, _: GetState): LoginState => ({
 
     loginUserName: '',
 
@@ -13,7 +13,7 @@ const login = (setState: SetState, getState: GetState): LoginState => ({
     async loginByNamePassword(userName, password) {
 
         try {
-            const res = await httpPost('/system/index/login', {
+            const res = await request.post('/system/index/login', {
                 username: userName,
                 password
             });
@@ -24,7 +24,8 @@ const login = (setState: SetState, getState: GetState): LoginState => ({
     },
     async logout() {
         try {
-            await httpPost('/system/index/logout');
+            await request.post('/system/index/logout');
+            // await request('system/index/logout', 'POST');
         } catch (error) {
             throw error;
         }

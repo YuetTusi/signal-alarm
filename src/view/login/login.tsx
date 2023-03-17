@@ -1,4 +1,3 @@
-import forage from 'localforage';
 import { FC, MouseEvent, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { UserOutlined, ReloadOutlined, LoadingOutlined } from '@ant-design/icons';
@@ -42,7 +41,7 @@ const Login: FC<{}> = () => {
             if (ret.code === 200) {
                 message.success('登录成功');
                 setLoginUserName(userName);
-                forage.setItem('token', ret.data.token ?? '');
+                sessionStorage.setItem('token', ret.data.token ?? '');
                 navigate('/dashboard');
             } else {
                 message.warning(`登录失败（${ret.message}）`);
@@ -99,6 +98,8 @@ const Login: FC<{}> = () => {
                         <Button
                             onClick={() => {
                                 formRef.resetFields();
+
+
                             }}
                             type="primary"
                             block={true}>

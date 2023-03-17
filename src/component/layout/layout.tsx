@@ -1,4 +1,3 @@
-import forage from 'localforage';
 import { FC, PropsWithChildren, useState, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SettingOutlined, LogoutOutlined } from '@ant-design/icons';
@@ -30,7 +29,7 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
         event.preventDefault();
         try {
             await logout();
-            forage.removeItem('token');
+            sessionStorage.clear();
             message.success('用户已登出');
             navigator('/');
         } catch (error) {

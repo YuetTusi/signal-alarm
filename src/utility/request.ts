@@ -50,7 +50,7 @@ function request<T = any>(url: string, method: HttpMethod = 'GET', data?: Record
     let baseOptions: RequestInit = {
         mode: 'cors',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded,application/json;charset=UTF-8'
+            'Content-Type': 'application/json;charset=UTF-8'
         },
         body: parameter
     }

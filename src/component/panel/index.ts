@@ -1,4 +1,4 @@
-import { Panel, BoxPanel } from './panel';
+import { Panel, BoxPanel, DisplayPanel } from './panel';
 
 
-export { Panel, BoxPanel };
+export { Panel, BoxPanel, DisplayPanel };
