@@ -7,9 +7,9 @@ import DetailModal from './detail-modal';
 import { WapInfoBox } from './styled/style';
 import { WapInfoProp } from './prop';
 
-const toTabItem = () => {
-    return Object.entries(Protocol).reduce((acc, [_, v]) => {
-        if (typeof v === 'number') {
+const toTabItem = () =>
+    Object.entries(Protocol).reduce((acc, [_, v]) => {
+        if (typeof v === 'number' && v !== Protocol.Others) {
             acc.push({
                 key: v.toString(),
                 label: getProtocolLabel(v),
@@ -17,8 +17,14 @@ const toTabItem = () => {
             });
         }
         return acc;
-    }, [] as any[]);
-};
+    }, [] as any[]).concat([
+        //拼上`其他`为保证是最后一个页签
+        {
+            key: Protocol.Others.toString(),
+            label: getProtocolLabel(Protocol.Others),
+            children: <TopTable protocol={Protocol.Others} />
+        }
+    ]);
 
 
 /**
@@ -42,6 +48,7 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
                 <Tabs
                     items={toTabItem()}
                     defaultActiveKey={Protocol.All.toString()}
+                    destroyInactiveTabPane={false}
                     type="card" />
             </div>
         </DisplayPanel>

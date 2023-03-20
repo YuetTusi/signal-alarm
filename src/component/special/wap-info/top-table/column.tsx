@@ -1,4 +1,5 @@
 import { ColumnsType } from 'antd/es/table';
+import { Progress } from 'antd';
 import { Wap } from '@/schema/wap';
 
 const getColumns = (): ColumnsType<Wap> => {
@@ -7,20 +8,36 @@ const getColumns = (): ColumnsType<Wap> => {
         key: 'protocolName',
         dataIndex: 'protocolName',
     }, {
-        title: 'rssi',
+        title: '强度',
+        key: 'rssi',
+        dataIndex: 'rssi',
+        width: 100,
+        align: 'center',
+        render: (value: number) => {
+            return <Progress
+                steps={5}
+                percent={value / 500 * 100}
+                strokeColor={['#d9f0ef', '#8cd1ce', '#4eb9b3', '#26a9a2', '#038f88']}
+                showInfo={false} />;
+            // return value;
+        }
+    }, {
+        title: '强度值',
         key: 'rssi',
         dataIndex: 'rssi',
         width: 80
-    }, {
-        title: 'arfcn',
-        key: 'arfcn',
-        dataIndex: 'arfcn',
-        width: 80
-    }, {
-        title: 'arfcnName',
-        key: 'arfcnName',
-        dataIndex: 'arfcnName',
-    }];
+    },
+        // {
+        //     title: '频点',
+        //     key: 'arfcn',
+        //     dataIndex: 'arfcn',
+        //     width: 80
+        // }, {
+        //     title: '频点信息名称',
+        //     key: 'arfcnName',
+        //     dataIndex: 'arfcnName'
+        // }
+    ];
 };
 
 export { getColumns };

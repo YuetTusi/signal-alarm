@@ -13,32 +13,61 @@ import { TopTableProp } from './prop';
 const TopTable: FC<TopTableProp> = ({ protocol }) => {
 
     useEffect(() => {
-        querySpecialWapTop10Data();
+        Promise.all([
+            querySpecialWapTop10Data(),
+            querySpecialHotspotTop10Data(),
+            querySpecialTerminalTop10Data()
+        ]);
     }, []);
 
     const {
         specialWapLoading,
         specialWapTop10Data,
-        querySpecialWapTop10Data
+        specialHotspotLoading,
+        specialHotspotTop10Data,
+        specialTerminalLoading,
+        specialTerminalTop10Data,
+        querySpecialWapTop10Data,
+        querySpecialHotspotTop10Data,
+        querySpecialTerminalTop10Data
     } = useModel(state => ({
         specialWapLoading: state.specialWapLoading,
+        specialHotspotLoading: state.specialHotspotLoading,
         specialWapTop10Data: state.specialWapTop10Data,
+        specialHotspotTop10Data: state.specialHotspotTop10Data,
+        specialTerminalLoading: state.specialTerminalLoading,
+        specialTerminalTop10Data: state.specialTerminalTop10Data,
         querySpecialWapTop10Data: state.querySpecialWapTop10Data,
+        querySpecialHotspotTop10Data: state.querySpecialHotspotTop10Data,
+        querySpecialTerminalTop10Data: state.querySpecialTerminalTop10Data
     }));
 
-    const filterData = () =>
-        protocol === Protocol.All
-            ? specialWapTop10Data
-            : specialWapTop10Data.filter(item => item.protocolType === protocol);
+    /**
+     * 全部数据将`热点`，`终端`与wap数据合并一起显示
+     */
+    const getAllData = () => specialWapTop10Data;
 
-    specialWapTop10Data.filter((item) => item.protocolType === protocol);
+    /**
+     * 按Protocol字典类型过滤数据
+     */
+    const filterData = () => {
+        if (protocol === Protocol.Hotspot) {
+            return specialHotspotTop10Data;
+        } else if (protocol === Protocol.Terminal) {
+            return specialTerminalTop10Data;
+        } else {
+            return protocol === Protocol.All
+                ? getAllData()
+                : specialWapTop10Data.filter(item => item.protocolType === protocol);
+        }
+    };
 
     return <Table<Wap>
         columns={getColumns()}
         dataSource={filterData()}
-        loading={specialWapLoading}
+        loading={specialWapLoading || specialHotspotLoading || specialTerminalLoading}
         pagination={false}
-        bordered={true}
+        bordered={false}
         rowKey="id"
     />
 };

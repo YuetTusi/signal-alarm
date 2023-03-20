@@ -7,17 +7,17 @@ const getColumns = (): ColumnsType<Wap> => {
         key: 'protocolName',
         dataIndex: 'protocolName',
     }, {
-        title: 'rssi',
+        title: '强度',
         key: 'rssi',
         dataIndex: 'rssi',
         width: 80
     }, {
-        title: 'arfcn',
+        title: '频点',
         key: 'arfcn',
         dataIndex: 'arfcn',
         width: 80
     }, {
-        title: 'arfcnName',
+        title: '频点信息名称',
         key: 'arfcnName',
         dataIndex: 'arfcnName',
     }];
