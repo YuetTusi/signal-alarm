@@ -1,8 +1,8 @@
-
 import url from 'url';
 import http from 'http';
-import forage from 'localforage';
+import electron from 'electron';
 import { helper } from '@/utility/helper';
+
 
 /**
  * 封装HTTP请求
@@ -66,7 +66,6 @@ class HttpRequest {
             req.end();
         });
     }
-
     /**
      * GET请求
      * @param fetchUrl URL
@@ -126,6 +125,32 @@ class HttpRequest {
      */
     del<T = any>(fetchUrl: string, parameters?: Record<string, any>) {
         return this._request<T>(fetchUrl, parameters, 'DELETE');
+    }
+    /**
+     * 文件
+     * @param fetchUrl URL
+     */
+    attachment(fetchUrl: string): Promise<Buffer> {
+        const options = url.parse(this._getFetchUrl(fetchUrl));
+
+        let data = Buffer.alloc(0);
+
+        return new Promise((resolve, reject) => {
+            const req = http.get({
+                ...options,
+                headers: {
+                    'token': sessionStorage.getItem('token') ?? ''
+                }
+            }, (res) => {
+                res.on('data', chunk => {
+                    data = Buffer.concat([data, chunk]);
+                });
+                res.on('end', () => {
+                    resolve(data);
+                });
+            });
+            req.end();
+        });
     }
 }
 

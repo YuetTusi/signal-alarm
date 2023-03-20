@@ -6,3 +6,12 @@ export const WapInfoBox = styled.div`
         margin:0 !important;
     }
 `;
+
+export const SearchBarBox = styled.div`
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+`;

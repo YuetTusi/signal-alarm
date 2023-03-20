@@ -41,14 +41,15 @@ app.on('ready', () => {
         title: '文档生成',
         width: 1280,
         height: 900,
-        minHeight: 600,
+        minHeight: 800,
         minWidth: 1280,
         show: true,
         frame: false,
         webPreferences: {
             javascript: true,
             nodeIntegration: true,
-            contextIsolation: false
+            contextIsolation: false,
+            webSecurity: false
         }
     });
 

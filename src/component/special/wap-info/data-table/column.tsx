@@ -10,16 +10,24 @@ const getColumns = (): ColumnsType<Wap> => {
         title: '强度',
         key: 'rssi',
         dataIndex: 'rssi',
-        width: 80
+        width: 60
     }, {
         title: '频点',
         key: 'arfcn',
         dataIndex: 'arfcn',
-        width: 80
+        width: 60
     }, {
         title: '频点信息名称',
         key: 'arfcnName',
         dataIndex: 'arfcnName',
+    }, {
+        title: '设备ID',
+        key: 'deviceId',
+        dataIndex: 'deviceId',
+    }, {
+        title: '设备地址',
+        key: 'siteName',
+        dataIndex: 'siteName',
     }];
 };
 

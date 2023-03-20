@@ -1,4 +1,4 @@
-import { BrowserWindow, IpcMainEvent, ipcMain } from 'electron';
+import { BrowserWindow, IpcMainEvent, ipcMain, dialog } from 'electron';
 
 const bindHandle = (win: BrowserWindow) => {
 
@@ -18,6 +18,8 @@ const bindHandle = (win: BrowserWindow) => {
         event.preventDefault();
         win.close();
     });
+
+    ipcMain.handle('open-dialog', (event, options) => dialog.showOpenDialog(options));
 };
 
 export { bindHandle };

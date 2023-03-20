@@ -50,7 +50,6 @@ const specialTerminal = (setState: SetState, _: GetState): SpecialTerminalState 
             if (res === null) {
                 message.warning('查询失败')
             } else if (res.code === 200) {
-                console.log(res);
                 setState({
                     specialTerminalData: res.data.records,
                     specialTerminalPageIndex: pageIndex,

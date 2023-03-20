@@ -38,12 +38,13 @@ const DetailModel: FC<DetailModalProp> = ({ open, onCancel, onOk }) => {
         ]}
         onCancel={onCancelClick}
         open={open}
-        width={800}
+        width={1000}
         getContainer="#app"
         title="专项检查详情"
         centered={true}
         destroyOnClose={true}
         maskClosable={false}
+        forceRender={true}
     >
         <DataTable />
     </Modal>
