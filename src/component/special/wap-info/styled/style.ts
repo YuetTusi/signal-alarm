@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 export const WapInfoBox = styled.div`
 
+    width: 400px;
+
     .ant-tabs-nav{
         margin:0 !important;
     }

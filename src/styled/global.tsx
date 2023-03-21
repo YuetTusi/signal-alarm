@@ -27,4 +27,32 @@ export const GlobalStyle = createGlobalStyle`
     .ant-modal-mask,.ant-modal-wrap{
         top:22px !important;
     }
+
+    //Webkit滚动条样式
+    ::-webkit-scrollbar {
+        width: 10px;
+		height: 10px;
+    }
+	::-webkit-scrollbar:horizontal{
+		width: 0;
+		height: 0;
+	}
+    ::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        border-radius: 2px;
+    }
+    ::-webkit-scrollbar-thumb {
+        border-radius: 2px;
+        background: #ddd;
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+    }
+    ::-webkit-scrollbar-thumb:hover{
+        background: #ccc;
+    }
+    ::-webkit-scrollbar-thumb:active{
+        background: #999;
+    }
+    ::-webkit-scrollbar-thumb:window-inactive {
+        background: #c1c1c1;
+    }
 `;

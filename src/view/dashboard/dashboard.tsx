@@ -1,7 +1,6 @@
 import { FC, useEffect } from "react";
-import WapInfo, { TopTable } from '@/component/special/wap-info';
-import { getProtocolLabel, Protocol } from "@/schema/protocol";
-import { helper } from "@/utility/helper";
+import WapInfo from '@/component/special/wap-info';
+import { DashboardBox } from "./styled/box";
 
 const Dashboard: FC<{}> = () => {
 
@@ -9,10 +8,13 @@ const Dashboard: FC<{}> = () => {
 
     }, []);
 
-    return <div>
-        <h1>Dashboard</h1>
-        <WapInfo />
-    </div>
+    return <DashboardBox>
+        <div className="left-box"></div>
+        <div className="center-box"></div>
+        <div className="right-box">
+            <WapInfo />
+        </div>
+    </DashboardBox>
 };
 
 export { Dashboard };

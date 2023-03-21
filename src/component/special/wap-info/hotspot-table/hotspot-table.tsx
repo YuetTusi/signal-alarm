@@ -3,7 +3,7 @@ import path from 'path';
 import dayjs, { Dayjs } from 'dayjs';
 import electron, { OpenDialogReturnValue } from 'electron';
 import { FC, useEffect } from 'react';
-import { App, Divider, message, Table, Modal } from 'antd';
+import { App, Divider, message, Table } from 'antd';
 import { useModel } from '@/model';
 import { Wap } from '@/schema/wap';
 import { helper } from '@/utility/helper';
