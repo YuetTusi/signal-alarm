@@ -1,7 +1,7 @@
 import { Progress } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { Wap } from '@/schema/wap';
-import { Protocol } from '@/schema/protocol';
+import { getProtocolLabel } from '@/schema/protocol';
 
 const getColumns = (): ColumnsType<Wap> => {
     return [{
@@ -9,9 +9,7 @@ const getColumns = (): ColumnsType<Wap> => {
         key: 'protocolType',
         dataIndex: 'protocolType',
         render: (val: any) => {
-            return val === Protocol.WiFi24G
-                ? <span>WiFi2.4G</span>
-                : <span>WiFi5.8G</span>;
+            return getProtocolLabel(val);
         }
     }, {
         title: 'APID',
