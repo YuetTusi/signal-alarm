@@ -35,6 +35,9 @@ const toTabItem = () =>
 const WapInfo: FC<WapInfoProp> = ({ }) => {
 
     const [detailModalOpen, setDetailModalOpen] = useState<boolean>(false);
+    const [activeKey, setActiveKey] = useState<string>(Protocol.All.toString());
+
+    const onTabChange = (tabKey: string) => setActiveKey(tabKey);
 
     return <WapInfoBox>
         <DisplayPanel>
@@ -46,6 +49,8 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
             </div>
             <div className="content">
                 <Tabs
+                    onChange={onTabChange}
+                    activeKey={activeKey}
                     items={toTabItem()}
                     defaultActiveKey={Protocol.All.toString()}
                     destroyInactiveTabPane={false}
@@ -54,6 +59,7 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
         </DisplayPanel>
         <DetailModal
             open={detailModalOpen}
+            protocol={Number.parseInt(activeKey) as Protocol}
             onCancel={() => setDetailModalOpen(false)}
             onOk={() => setDetailModalOpen(false)} />
     </WapInfoBox>;

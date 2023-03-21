@@ -41,12 +41,23 @@ const specialTerminal = (setState: SetState, _: GetState): SpecialTerminalState 
             setState({ specialTerminalLoading: false });
         }
     },
-    async querySpecialTerminalData(pageIndex: number, pageSize = helper.PAGE_SIZE) {
+    async querySpecialTerminalData(pageIndex: number, pageSize = helper.PAGE_SIZE, condition?: Record<string, any>) {
 
         message.destroy();
         setState({ specialTerminalLoading: true });
+        let params = '';
+        if (!helper.isNullOrUndefined(condition)) {
+            let q: string[] = [];
+            if (condition?.beginTime) {
+                q.push(`createTimeBegin=${condition?.beginTime}`);
+            }
+            if (condition?.endTime) {
+                q.push(`createTimeEnd=${condition?.endTime}`);
+            }
+            params = '?' + q.join('&');
+        }
         try {
-            const res = await request.get(`/spi/terminal/${pageIndex}/${pageSize}`);
+            const res = await request.get(`/spi/terminal/${pageIndex}/${pageSize}${params}`);
             if (res === null) {
                 message.warning('查询失败')
             } else if (res.code === 200) {
@@ -65,6 +76,25 @@ const specialTerminal = (setState: SetState, _: GetState): SpecialTerminalState 
             setState({ specialTerminalLoading: false });
         }
     },
+    async exportSpecialTerminalData(pageIndex: number, pageSize = helper.PAGE_SIZE, condition?: Record<string, any>) {
+        let params = `?page=${pageIndex}&limit=${pageSize}`;
+        if (!helper.isNullOrUndefined(condition)) {
+            let q: string[] = [];
+            if (condition?.beginTime) {
+                q.push(`createTimeBegin=${condition?.beginTime}`);
+            }
+            if (condition?.endTime) {
+                q.push(`createTimeEnd=${condition?.endTime}`);
+            }
+            params = params + '&' + q.join('&');
+        }
+        try {
+            const chunk = await request.attachment(`/spi/terminal/export${params}`);
+            return chunk;
+        } catch (error) {
+            throw error;
+        }
+    }
 });
 
 export { specialTerminal };

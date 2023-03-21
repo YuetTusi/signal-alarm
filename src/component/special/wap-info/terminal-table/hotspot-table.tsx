@@ -3,45 +3,45 @@ import path from 'path';
 import dayjs, { Dayjs } from 'dayjs';
 import electron, { OpenDialogReturnValue } from 'electron';
 import { FC, useEffect } from 'react';
-import { App, Divider, message, Table, Modal } from 'antd';
+import { App, Divider, message, Table } from 'antd';
 import { useModel } from '@/model';
 import { Wap } from '@/schema/wap';
 import { helper } from '@/utility/helper';
 import { SearchBar } from './search-bar';
 import { getColumns } from './column';
-import { DataTableProp } from './prop';
+import { TerminalTableProp } from './prop';
 
 const { ipcRenderer } = electron;
 const { writeFile } = fs.promises;
 const { join } = path;
 
 /**
- * 专项检测分页数据
+ * 专项检测终端数据
  */
-const DataTable: FC<DataTableProp> = ({ }) => {
+const TerminalTable: FC<TerminalTableProp> = ({ }) => {
 
     const { modal } = App.useApp();
 
     useEffect(() => {
-        querySpecialWapData(1, helper.PAGE_SIZE);
+        querySpecialTerminalData(1, helper.PAGE_SIZE);
     }, []);
 
     const {
-        specialWapLoading,
-        specialWapPageIndex,
-        specialWapPageSize,
-        specialWapTotal,
-        specialWapData,
-        querySpecialWapData,
-        exportSpecialWapData
+        specialTerminalPageIndex,
+        specialTerminalPageSize,
+        specialTerminalTotal,
+        specialTerminalData,
+        specialTerminalLoading,
+        querySpecialTerminalData,
+        exportSpecialTerminalData
     } = useModel(state => ({
-        specialWapPageIndex: state.specialWapPageIndex,
-        specialWapPageSize: state.specialWapPageSize,
-        specialWapTotal: state.specialWapTotal,
-        specialWapData: state.specialWapData,
-        specialWapLoading: state.specialWapLoading,
-        querySpecialWapData: state.querySpecialWapData,
-        exportSpecialWapData: state.exportSpecialWapData
+        specialTerminalPageIndex: state.specialTerminalPageIndex,
+        specialTerminalPageSize: state.specialTerminalPageSize,
+        specialTerminalTotal: state.specialTerminalTotal,
+        specialTerminalData: state.specialTerminalData,
+        specialTerminalLoading: state.specialTerminalLoading,
+        querySpecialTerminalData: state.querySpecialTerminalData,
+        exportSpecialTerminalData: state.exportSpecialTerminalData
     }));
 
     /**
@@ -49,7 +49,7 @@ const DataTable: FC<DataTableProp> = ({ }) => {
      */
     const onPageChange = async (pageIndex: number, pageSize: number) => {
         try {
-            await querySpecialWapData(pageIndex, pageSize);
+            await querySpecialTerminalData(pageIndex, pageSize);
         } catch (error) {
             console.log(error);
         }
@@ -62,7 +62,7 @@ const DataTable: FC<DataTableProp> = ({ }) => {
      */
     const onSearch = async (beginTime: Dayjs, endTime: Dayjs) => {
         try {
-            await querySpecialWapData(1, helper.PAGE_SIZE, {
+            await querySpecialTerminalData(1, helper.PAGE_SIZE, {
                 beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
                 endTime: endTime.format('YYYY-MM-DD 23:59:59')
             });
@@ -85,7 +85,7 @@ const DataTable: FC<DataTableProp> = ({ }) => {
                 properties: ['openDirectory']
             });
             if (filePaths.length > 0) {
-                const data = await exportSpecialWapData(specialWapPageIndex, specialWapPageSize, {
+                const data = await exportSpecialTerminalData(specialTerminalPageIndex, specialTerminalPageSize, {
                     beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
                     endTime: endTime.format('YYYY-MM-DD 23:59:59')
                 });
@@ -108,20 +108,19 @@ const DataTable: FC<DataTableProp> = ({ }) => {
         <Divider />
         <Table<Wap>
             columns={getColumns()}
-            dataSource={specialWapData}
-            loading={specialWapLoading}
+            dataSource={specialTerminalData}
+            loading={specialTerminalLoading}
             pagination={{
                 onChange: onPageChange,
-                total: specialWapTotal,
-                current: specialWapPageIndex,
-                pageSize: specialWapPageSize
+                total: specialTerminalTotal,
+                current: specialTerminalPageIndex,
+                pageSize: specialTerminalPageSize
             }}
             rowKey="id"
         />
     </>
 };
 
-DataTable.defaultProps = {
-};
+TerminalTable.defaultProps = {};
 
-export { DataTable };
+export { TerminalTable };

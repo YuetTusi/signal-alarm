@@ -1,13 +1,18 @@
 import { FC, MouseEvent, useEffect } from 'react';
 import { Button, Modal } from 'antd';
+import { Protocol } from '@/schema/protocol';
 import { useModel } from '@/model';
-import DataTable from '../data-table';
+import WapTable from '../wap-table';
+import HotspotTable from '../hotspot-table';
+import TerminalTable from '../terminal-table';
 import { DetailModalProp } from './prop';
 
 /**
  * 专项检查详情框
  */
-const DetailModel: FC<DetailModalProp> = ({ open, onCancel, onOk }) => {
+const DetailModel: FC<DetailModalProp> = ({ open, protocol, onCancel }) => {
+
+    let title = '专项检查详情';
 
     useEffect(() => {
         if (open) {
@@ -31,6 +36,20 @@ const DetailModel: FC<DetailModalProp> = ({ open, onCancel, onOk }) => {
         onCancel();
     };
 
+    const renderTable = () => {
+        switch (protocol) {
+            case Protocol.Hotspot:
+                title = '热点详情';
+                return <HotspotTable />;
+            case Protocol.Terminal:
+                title = '终端详情';
+                return <TerminalTable />;
+            default:
+                title = '专项检查详情';
+                return <WapTable />;
+        }
+    }
+
     return <Modal
         footer={[
             <Button onClick={onCancelClick} type="default" key="SDM_0">取消</Button>
@@ -40,13 +59,13 @@ const DetailModel: FC<DetailModalProp> = ({ open, onCancel, onOk }) => {
         open={open}
         width={1000}
         getContainer="#app"
-        title="专项检查详情"
+        title={title}
         centered={true}
         destroyOnClose={true}
         maskClosable={false}
         forceRender={true}
     >
-        <DataTable />
+        {renderTable()}
     </Modal>
 };
 

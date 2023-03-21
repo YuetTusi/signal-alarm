@@ -43,15 +43,17 @@ interface SpecialTerminalState {
      */
     setSpecialTerminalPage: (pageIndex: number, pageSize: number, total: number) => void,
     /**
-     * 查询专项检查（摄像头，手机信号，其他等）Top10数据
-     * @param protocal 类型
+     * 查询专项检查（终端）Top10数据
      */
     querySpecialTerminalTop10Data: () => void,
     /**
-     * 查询专项检查（摄像头，手机信号，其他等）分页数据
-     * @param protocal 类型
+     * 查询专项检查（终端）分页数据
      */
-    querySpecialTerminalData: (pageIndex: number, pageSize: number) => void
+    querySpecialTerminalData: (pageIndex: number, pageSize: number, condition?: Record<string, any>) => void,
+    /**
+     * 导出专项检查（终端）数据
+     */
+    exportSpecialTerminalData: (pageIndex: number, pageSize: number, condition?: Record<string, any>) => Promise<Buffer>
 }
 
 export type { SpecialTerminalState };

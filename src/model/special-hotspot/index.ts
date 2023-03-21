@@ -51,7 +51,12 @@ interface SpecialHotspotState {
      * 查询专项检查（热点）分页数据
      * @param protocal 类型
      */
-    querySpecialHotspotData: (pageIndex: number, pageSize: number) => void
+    querySpecialHotspotData: (pageIndex: number, pageSize: number, condition?: Record<string, any>) => void,
+    /**
+     * 导出专项检查（热点）数据
+     * @param protocal 类型
+     */
+    exportSpecialHotspotData: (pageIndex: number, pageSize: number, condition?: Record<string, any>) => Promise<Buffer>
 }
 
 export type { SpecialHotspotState };
