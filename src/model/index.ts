@@ -2,7 +2,7 @@ import { create, StoreApi } from 'zustand';
 import { reading, ReadingState } from './reading';
 import { specialWap, SpecialWapState } from './special-wap';
 import { specialHotspot, SpecialHotspotState } from './special-hotspot';
-import { specialTerminal, SpecialTerminalState } from './spcial-terminal';
+import { specialTerminal, SpecialTerminalState } from './special-terminal';
 import { login, LoginState } from './login';
 
 interface OtherState {

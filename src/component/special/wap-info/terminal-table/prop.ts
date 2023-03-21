@@ -2,6 +2,8 @@ import { Dayjs } from "dayjs";
 
 export interface TerminalTableProp { }
 
+export interface TerminalTopProp { }
+
 export interface SearchBarProp {
 
     /**

@@ -2,6 +2,8 @@ import { Dayjs } from "dayjs";
 
 export interface HotspotTableProp { }
 
+export interface HotspotTopProp { }
+
 export interface SearchBarProp {
 
     /**

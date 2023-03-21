@@ -1,4 +1,5 @@
 import { Dayjs } from "dayjs";
+import { Protocol } from "@/schema/protocol";
 
 export interface WapTableProp { }
 
@@ -27,4 +28,9 @@ export interface SearchFormValue {
      * 结束时间
      */
     endTime: Dayjs
+}
+
+export interface WapTopProp {
+
+    protocol: Protocol
 }

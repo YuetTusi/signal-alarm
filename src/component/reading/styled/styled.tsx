@@ -11,7 +11,7 @@ export const ReadingBox = styled.div`
     left:0;
     right:0;
     bottom:0;
-    z-index: 100;
+    z-index: 2000;
     background-color: rgba(0, 0, 0, 0.45);
     cursor: wait;
     &>div{

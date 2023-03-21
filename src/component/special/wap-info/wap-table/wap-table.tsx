@@ -33,7 +33,8 @@ const WapTable: FC<WapTableProp> = ({ }) => {
         specialWapTotal,
         specialWapData,
         querySpecialWapData,
-        exportSpecialWapData
+        exportSpecialWapData,
+        setReading
     } = useModel(state => ({
         specialWapPageIndex: state.specialWapPageIndex,
         specialWapPageSize: state.specialWapPageSize,
@@ -41,7 +42,8 @@ const WapTable: FC<WapTableProp> = ({ }) => {
         specialWapData: state.specialWapData,
         specialWapLoading: state.specialWapLoading,
         querySpecialWapData: state.querySpecialWapData,
-        exportSpecialWapData: state.exportSpecialWapData
+        exportSpecialWapData: state.exportSpecialWapData,
+        setReading: state.setReading,
     }));
 
     /**
@@ -79,6 +81,7 @@ const WapTable: FC<WapTableProp> = ({ }) => {
     const onExport = async (beginTime: Dayjs, endTime: Dayjs) => {
         message.destroy();
         const fileName = '专项数据_' + dayjs().format('YYYYMMDDHHmmss') + '.xlsx';
+        setReading(true);
         try {
             const { filePaths }: OpenDialogReturnValue = await ipcRenderer.invoke('open-dialog', {
                 title: '选择存储目录',
@@ -100,6 +103,8 @@ const WapTable: FC<WapTableProp> = ({ }) => {
         } catch (error) {
             console.warn(error);
             message.warning(`导出失败（${error.message}）`);
+        } finally {
+            setReading(false);
         }
     };
 

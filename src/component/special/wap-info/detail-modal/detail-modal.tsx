@@ -12,8 +12,6 @@ import { DetailModalProp } from './prop';
  */
 const DetailModel: FC<DetailModalProp> = ({ open, protocol, onCancel }) => {
 
-    let title = '专项检查详情';
-
     useEffect(() => {
         if (open) {
             querySpecialWapTop10Data();
@@ -36,16 +34,24 @@ const DetailModel: FC<DetailModalProp> = ({ open, protocol, onCancel }) => {
         onCancel();
     };
 
+    const getTitle = () => {
+        switch (protocol) {
+            case Protocol.Hotspot:
+                return '热点详情';
+            case Protocol.Terminal:
+                return '终端详情';
+            default:
+                return '专项检查详情';
+        }
+    };
+
     const renderTable = () => {
         switch (protocol) {
             case Protocol.Hotspot:
-                title = '热点详情';
                 return <HotspotTable />;
             case Protocol.Terminal:
-                title = '终端详情';
                 return <TerminalTable />;
             default:
-                title = '专项检查详情';
                 return <WapTable />;
         }
     }
@@ -59,7 +65,7 @@ const DetailModel: FC<DetailModalProp> = ({ open, protocol, onCancel }) => {
         open={open}
         width={1000}
         getContainer="#app"
-        title={title}
+        title={getTitle()}
         centered={true}
         destroyOnClose={true}
         maskClosable={false}

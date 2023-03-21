@@ -1,30 +1,52 @@
 import { FC, useState } from 'react';
 import { Tabs } from 'antd';
-import TopTable from './top-table';
-import { getProtocolLabel, Protocol } from '@/schema/protocol';
 import { DisplayPanel } from '@/component/panel';
+import { getProtocolLabel, Protocol } from '@/schema/protocol';
+import { WapTop } from './wap-table';
+import { TerminalTop } from './terminal-table';
+import { HotspotTop } from './hotspot-table';
 import DetailModal from './detail-modal';
 import { WapInfoBox } from './styled/style';
 import { WapInfoProp } from './prop';
 
 const toTabItem = () =>
-    Object.entries(Protocol).reduce((acc, [_, v]) => {
-        if (typeof v === 'number' && v !== Protocol.Others) {
-            acc.push({
-                key: v.toString(),
-                label: getProtocolLabel(v),
-                children: <TopTable protocol={v as Protocol} />
-            });
-        }
-        return acc;
-    }, [] as any[]).concat([
-        //拼上`其他`为保证是最后一个页签
-        {
-            key: Protocol.Others.toString(),
-            label: getProtocolLabel(Protocol.Others),
-            children: <TopTable protocol={Protocol.Others} />
-        }
-    ]);
+    Object.entries(Protocol)
+        .filter(([_, v]) => (typeof v === 'number'))
+        .reduce<any[]>((acc, [_, v]) => {
+            switch (v) {
+                case Protocol.Hotspot:
+                    acc.push({
+                        key: v.toString(),
+                        label: getProtocolLabel(v as any),
+                        children: <HotspotTop />
+                    });
+                    break;
+                case Protocol.Terminal:
+                    acc.push({
+                        key: v.toString(),
+                        label: getProtocolLabel(v as any),
+                        children: <TerminalTop />
+                    });
+                case Protocol.Others:
+                    //其他跳过，最后追加以保证是页签是最后一个
+                    break;
+                default:
+                    acc.push({
+                        key: v.toString(),
+                        label: getProtocolLabel(v as any),
+                        children: <WapTop protocol={v as Protocol} />
+                    });
+                    break;
+            }
+            return acc;
+        }, [] as any[]).concat([
+            //拼上`其他`为保证是最后一个页签
+            {
+                key: Protocol.Others,
+                label: getProtocolLabel(Protocol.Others),
+                children: <WapTop protocol={Protocol.Others} />
+            }
+        ]);
 
 
 /**
@@ -50,8 +72,8 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
             <div className="content">
                 <Tabs
                     onChange={onTabChange}
-                    activeKey={activeKey}
                     items={toTabItem()}
+                    activeKey={activeKey}
                     defaultActiveKey={Protocol.All.toString()}
                     destroyInactiveTabPane={false}
                     type="card" />
