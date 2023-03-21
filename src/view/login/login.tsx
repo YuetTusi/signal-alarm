@@ -1,7 +1,7 @@
 import { FC, MouseEvent, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { UserOutlined, ReloadOutlined, LoadingOutlined } from '@ant-design/icons';
-import { Col, Row, Input, Button, Form, App } from 'antd';
+import { Col, Row, Input, Button, Form, message } from 'antd';
 import { useModel } from "@/model";
 import { LoginBox } from "./styled/styled";
 import { FormValue } from "./prop";
@@ -13,7 +13,6 @@ const Login: FC<{}> = () => {
 
     const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
-    const { message } = App.useApp();
     const [formRef] = useForm<FormValue>();
     const {
         setLoginUserName,

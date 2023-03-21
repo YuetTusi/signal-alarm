@@ -1,72 +1,65 @@
 import fs from 'fs';
 import path from 'path';
-import dayjs, { Dayjs } from 'dayjs';
 import electron, { OpenDialogReturnValue } from 'electron';
+import dayjs, { Dayjs } from 'dayjs';
 import { FC, useEffect } from 'react';
 import { App, Divider, message, Table } from 'antd';
-import { useModel } from '@/model';
-import { Wap } from '@/schema/wap';
+import useModel from '@/model';
+import { AlarmMsg } from '@/schema/alarm-msg';
 import { helper } from '@/utility/helper';
 import { SearchBar } from './search-bar';
 import { getColumns } from './column';
-import { HotspotTableProp } from './prop';
+import { AlarmTopProp } from './prop';
+import { AlarmTableBox } from './styled/style';
 
-const { ipcRenderer } = electron;
-const { writeFile } = fs.promises;
 const { join } = path;
+const { writeFile } = fs.promises;
+const { ipcRenderer } = electron;
 
 /**
- * 专项检测热点数据
+ * 预警信息分页
  */
-const HotspotTable: FC<HotspotTableProp> = ({ }) => {
+const AlarmTable: FC<AlarmTopProp> = () => {
 
     const { modal } = App.useApp();
 
-    useEffect(() => {
-        querySpecialHotspotData(1, helper.PAGE_SIZE);
-    }, []);
-
     const {
-        specialHotspotPageIndex,
-        specialHotspotPageSize,
-        specialHotspotTotal,
-        specialHotspotData,
-        specialHotspotLoading,
-        querySpecialHotspotData,
-        exportSpecialHotspotData,
+        alarmLoading,
+        alarmPageIndex,
+        alarmPageSize,
+        alarmTotal,
+        alarmData,
+        queryAlarmData,
+        exportAlarmData,
         setReading
     } = useModel(state => ({
-        specialHotspotPageIndex: state.specialHotspotPageIndex,
-        specialHotspotPageSize: state.specialHotspotPageSize,
-        specialHotspotTotal: state.specialHotspotTotal,
-        specialHotspotData: state.specialHotspotData,
-        specialHotspotLoading: state.specialHotspotLoading,
-        querySpecialHotspotData: state.querySpecialHotspotData,
-        exportSpecialHotspotData: state.exportSpecialHotspotData,
+        alarmLoading: state.alarmLoading,
+        alarmPageIndex: state.alarmPageIndex,
+        alarmPageSize: state.alarmPageSize,
+        alarmTotal: state.alarmTotal,
+        alarmData: state.alarmData,
+        queryAlarmData: state.queryAlarmData,
+        exportAlarmData: state.exportAlarmData,
         setReading: state.setReading
     }));
 
-    /**
-     * 翻页Change
-     */
-    const onPageChange = async (pageIndex: number, pageSize: number) => {
-        try {
-            await querySpecialHotspotData(pageIndex, pageSize);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    useEffect(() => {
+        queryAlarmData(1, helper.PAGE_SIZE);
+    }, []);
+
 
     /**
      * 查询
      * @param beginTime 起始时间
      * @param endTime 结束时间
+     * @param status 状态(-1:全部 0:待处理 1:已处理)
      */
-    const onSearch = async (beginTime: Dayjs, endTime: Dayjs) => {
+    const onSearch = async (beginTime: Dayjs, endTime: Dayjs, status: number) => {
         try {
-            await querySpecialHotspotData(1, helper.PAGE_SIZE, {
+            await queryAlarmData(1, helper.PAGE_SIZE, {
                 beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                endTime: endTime.format('YYYY-MM-DD 23:59:59')
+                endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+                status
             });
         } catch (error) {
             console.warn(error);
@@ -77,8 +70,9 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
      * 导出
      * @param beginTime 起始时间
      * @param endTime 结束时间
+     * @param status 状态(-1:全部 0:待处理 1:已处理)
      */
-    const onExport = async (beginTime: Dayjs, endTime: Dayjs) => {
+    const onExport = async (beginTime: Dayjs, endTime: Dayjs, status: number) => {
         message.destroy();
         const fileName = '专项数据_' + dayjs().format('YYYYMMDDHHmmss') + '.xlsx';
         setReading(true);
@@ -88,9 +82,10 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
                 properties: ['openDirectory']
             });
             if (filePaths.length > 0) {
-                const data = await exportSpecialHotspotData(specialHotspotPageIndex, specialHotspotPageSize, {
+                const data = await exportAlarmData(alarmPageIndex, alarmPageSize, {
                     beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                    endTime: endTime.format('YYYY-MM-DD 23:59:59')
+                    endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+                    status
                 });
                 await writeFile(join(filePaths[0], fileName), data);
                 modal.success({
@@ -99,8 +94,6 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
                     centered: true,
                     okText: '确定'
                 });
-            } else {
-                setReading(false);
             }
         } catch (error) {
             console.warn(error);
@@ -110,25 +103,35 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
         }
     };
 
-    return <>
+    /**
+     * 翻页Change
+     * @param pageIndex 页码
+     * @param pageSize 页尺寸
+     */
+    const onPageChange = async (pageIndex: number, pageSize: number) => {
+        try {
+            queryAlarmData(pageIndex, pageSize);
+        } catch (error) {
+            console.warn(error);
+        }
+    };
+
+    return <AlarmTableBox>
         <SearchBar onExport={onExport} onSearch={onSearch} />
         <Divider />
-        <Table<Wap>
+        <Table<AlarmMsg>
             columns={getColumns()}
-            dataSource={specialHotspotData}
-            loading={specialHotspotLoading}
             pagination={{
                 onChange: onPageChange,
-                total: specialHotspotTotal,
-                current: specialHotspotPageIndex,
-                pageSize: specialHotspotPageSize
+                current: alarmPageIndex,
+                pageSize: alarmPageSize,
+                total: alarmTotal
             }}
+            dataSource={alarmData}
+            loading={alarmLoading}
             rowKey="id"
         />
-    </>
+    </AlarmTableBox>;
 };
 
-HotspotTable.defaultProps = {
-};
-
-export { HotspotTable };
+export { AlarmTable };

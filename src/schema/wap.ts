@@ -1,5 +1,5 @@
 import { BaseEntity } from './base-entity';
-import { Protocal } from './protocol';
+import { Protocol } from './protocol';
 
 /**
  * 专项检查（摄像头，手机，其他等）数据
@@ -10,7 +10,7 @@ class Wap extends BaseEntity {
     arfcnName: string | null = null
     rssi: string = ''
     protocolName: string = ''
-    protocolType: Protocal = Protocal.All
+    protocolType: Protocol = Protocol.All
     param: any
 };
 

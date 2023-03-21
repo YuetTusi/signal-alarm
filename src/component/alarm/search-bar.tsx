@@ -1,0 +1,89 @@
+import dayjs from 'dayjs';
+import { FC, useEffect, MouseEvent } from 'react';
+import { Form, Button, DatePicker, Select } from 'antd';
+import { SearchBarBox } from './styled/style';
+import { SearchBarProp, SearchFormValue } from './prop';
+
+const { Item, useForm } = Form;
+
+const SearchBar: FC<SearchBarProp> = ({ onSearch, onExport }) => {
+
+    const [formRef] = useForm<SearchFormValue>();
+
+    useEffect(() => {
+        formRef.setFieldsValue({
+            beginTime: dayjs().add(-1, 'M'),
+            endTime: dayjs(),
+            status: -1
+        })
+    }, []);
+
+    /**
+     * 查询Click
+     */
+    const onSubmitClick = (event: MouseEvent) => {
+        event.preventDefault();
+        const { beginTime, endTime, status } = formRef.getFieldsValue();
+        onSearch(beginTime, endTime, status);
+    };
+
+    /**
+     * 导出Click
+     */
+    const onExportClick = (event: MouseEvent) => {
+        event.preventDefault();
+        const { beginTime, endTime, status } = formRef.getFieldsValue();
+        onExport(beginTime, endTime, status);
+    };
+
+    return <SearchBarBox>
+        <div>
+            <Form form={formRef} layout="inline">
+                <Item
+                    name="beginTime"
+                    label="起始时间">
+                    <DatePicker
+                        allowClear={false}
+                        inputReadOnly={true}
+                        style={{ width: '120px' }} />
+                </Item>
+                <Item
+                    name="endTime"
+                    label="结束时间">
+                    <DatePicker
+                        allowClear={false}
+                        inputReadOnly={true}
+                        style={{ width: '120px' }} />
+                </Item>
+                <Item
+                    name="status"
+                    label="状态">
+                    <Select
+                        options={[{
+                            value: -1,
+                            label: '全部'
+                        }, {
+                            value: 0,
+                            label: '待处理'
+                        }, {
+                            value: 1,
+                            label: '已处理'
+                        }]}
+                        style={{ width: '100px' }} />
+                </Item>
+                <Item>
+                    <Button
+                        onClick={onSubmitClick}
+                        type="primary">查询</Button>
+                </Item>
+            </Form>
+        </div>
+        <div>
+            <Button
+                onClick={onExportClick}
+                type="primary">导出</Button>
+        </div>
+    </SearchBarBox>
+};
+
+export { SearchBar };

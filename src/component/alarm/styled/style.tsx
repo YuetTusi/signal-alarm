@@ -1,11 +1,18 @@
 import styled from 'styled-components';
 
-export const WapInfoBox = styled.div`
+export const AlarmInfoBox = styled.div`
 
-    width: 400px;
+    width: auto;
 
     .ant-tabs-nav{
         margin:0 !important;
+    }
+`;
+
+export const AlarmTableBox = styled.div`
+
+    .ant-tag{
+        margin-right: 0 !important;
     }
 `;
 
