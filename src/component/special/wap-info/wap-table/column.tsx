@@ -37,21 +37,23 @@ const getTopColumns = (): ColumnsType<Wap> => {
         title: '类型',
         key: 'protocolName',
         dataIndex: 'protocolName',
-    }, {
-        title: '强度',
-        key: 'rssi',
-        dataIndex: 'rssi',
-        width: 100,
-        align: 'center',
-        render: (value: number) => {
-            return <Progress
-                steps={5}
-                percent={value / 500 * 100}
-                strokeColor={['#d9f0ef', '#8cd1ce', '#4eb9b3', '#26a9a2', '#038f88']}
-                showInfo={false} />;
-            // return value;
-        }
-    }, {
+    },
+    // {
+    //     title: '强度',
+    //     key: 'rssi',
+    //     dataIndex: 'rssi',
+    //     width: 100,
+    //     align: 'center',
+    //     render: (value: number) => {
+    //         return <Progress
+    //             steps={5}
+    //             percent={value / 500 * 100}
+    //             strokeColor={['#d9f0ef', '#8cd1ce', '#4eb9b3', '#26a9a2', '#038f88']}
+    //             showInfo={false} />;
+    //         // return value;
+    //     }
+    // }, 
+    {
         title: '强度值',
         key: 'rssi',
         dataIndex: 'rssi',

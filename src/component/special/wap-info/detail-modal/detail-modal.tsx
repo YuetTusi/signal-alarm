@@ -36,7 +36,8 @@ const DetailModel: FC<DetailModalProp> = ({ open, protocol, onCancel }) => {
 
     const getTitle = () => {
         switch (protocol) {
-            case Protocol.Hotspot:
+            case Protocol.WiFi24G:
+            case Protocol.WiFi58G:
                 return '热点详情';
             case Protocol.Terminal:
                 return '终端详情';
@@ -47,7 +48,8 @@ const DetailModel: FC<DetailModalProp> = ({ open, protocol, onCancel }) => {
 
     const renderTable = () => {
         switch (protocol) {
-            case Protocol.Hotspot:
+            case Protocol.WiFi24G:
+            case Protocol.WiFi58G:
                 return <HotspotTable />;
             case Protocol.Terminal:
                 return <TerminalTable />;
@@ -63,7 +65,7 @@ const DetailModel: FC<DetailModalProp> = ({ open, protocol, onCancel }) => {
         ]}
         onCancel={onCancelClick}
         open={open}
-        width={1000}
+        width={1040}
         getContainer="#app"
         title={getTitle()}
         centered={true}

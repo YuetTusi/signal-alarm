@@ -1,8 +1,12 @@
 import { Dayjs } from "dayjs";
+import { Protocol } from "@/schema/protocol";
 
-export interface HotspotTableProp { }
+export interface HotspotTableProp {
+}
 
-export interface HotspotTopProp { }
+export interface HotspotTopProp {
+    protocol: Protocol
+}
 
 export interface SearchBarProp {
 

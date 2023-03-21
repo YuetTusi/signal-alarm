@@ -14,11 +14,12 @@ const toTabItem = () =>
         .filter(([_, v]) => (typeof v === 'number'))
         .reduce<any[]>((acc, [_, v]) => {
             switch (v) {
-                case Protocol.Hotspot:
+                case Protocol.WiFi24G:
+                case Protocol.WiFi58G:
                     acc.push({
                         key: v.toString(),
                         label: getProtocolLabel(v as any),
-                        children: <HotspotTop />
+                        children: <HotspotTop protocol={v} />
                     });
                     break;
                 case Protocol.Terminal:

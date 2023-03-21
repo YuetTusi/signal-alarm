@@ -1,27 +1,53 @@
 import { Progress } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { Wap } from '@/schema/wap';
+import { Protocol } from '@/schema/protocol';
 
 const getColumns = (): ColumnsType<Wap> => {
     return [{
         title: '类型',
-        key: 'protocolName',
-        dataIndex: 'protocolName',
+        key: 'protocolType',
+        dataIndex: 'protocolType',
+        render: (val: any) => {
+            return val === Protocol.WiFi24G
+                ? <span>WiFi2.4G</span>
+                : <span>WiFi5.8G</span>;
+        }
     }, {
-        title: '强度',
+        title: 'APID',
+        key: 'apId',
+        dataIndex: 'apId',
+    }, {
+        title: 'MAC地址',
+        key: 'mac',
+        dataIndex: 'mac',
+    }, {
+        title: '强度值',
         key: 'rssi',
         dataIndex: 'rssi',
-        width: 60
+        width: 80
     }, {
-        title: '频点',
-        key: 'arfcn',
-        dataIndex: 'arfcn',
-        width: 60
+        title: '频点号',
+        key: 'channel',
+        dataIndex: 'channel',
+        width: 80
     }, {
-        title: '频点信息名称',
-        key: 'arfcnName',
-        dataIndex: 'arfcnName',
-    }, {
+        title: '第二频点',
+        key: 'secondChannel',
+        dataIndex: 'secondChannel',
+        width: 80
+    },
+    {
+        title: '上行流量',
+        key: 'upStream',
+        dataIndex: 'upStream',
+    },
+    {
+        title: '下行流量',
+        key: 'downStream',
+        dataIndex: 'downStream',
+    },
+    {
         title: '设备ID',
         key: 'deviceId',
         dataIndex: 'deviceId',
@@ -34,40 +60,37 @@ const getColumns = (): ColumnsType<Wap> => {
 
 const getTopColumns = (): ColumnsType<Wap> => {
     return [{
-        title: '类型',
-        key: 'protocolName',
-        dataIndex: 'protocolName',
-    }, {
-        title: '强度',
-        key: 'rssi',
-        dataIndex: 'rssi',
-        width: 100,
-        align: 'center',
-        render: (value: number) => {
-            return <Progress
-                steps={5}
-                percent={value / 500 * 100}
-                strokeColor={['#d9f0ef', '#8cd1ce', '#4eb9b3', '#26a9a2', '#038f88']}
-                showInfo={false} />;
-            // return value;
-        }
-    }, {
+        title: 'APID',
+        key: 'apId',
+        dataIndex: 'apId',
+
+    },
+    // {
+    //     title: '强度',
+    //     key: 'rssi',
+    //     dataIndex: 'rssi',
+    //     width: 100,
+    //     align: 'center',
+    //     render: (value: number) => {
+    //         return <Progress
+    //             steps={5}
+    //             percent={value / 500 * 100}
+    //             strokeColor={['#d9f0ef', '#8cd1ce', '#4eb9b3', '#26a9a2', '#038f88']}
+    //             showInfo={false} />;
+    //         // return value;
+    //     }
+    // }, 
+    {
+        title: 'MAC地址',
+        key: 'mac',
+        dataIndex: 'mac'
+    },
+    {
         title: '强度值',
         key: 'rssi',
         dataIndex: 'rssi',
         width: 80
-    },
-        // {
-        //     title: '频点',
-        //     key: 'arfcn',
-        //     dataIndex: 'arfcn',
-        //     width: 80
-        // }, {
-        //     title: '频点信息名称',
-        //     key: 'arfcnName',
-        //     dataIndex: 'arfcnName'
-        // }
-    ];
+    }];
 };
 
 

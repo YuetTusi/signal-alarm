@@ -13,6 +13,10 @@ const helper = {
      */
     IS_DEV: process.env['NODE_ENV'] === 'development',
     /**
+     * 服务端SSE通信地址
+     */
+    SSE_URL: 'http://127.0.0.1:8888/CreateSseConnect',
+    /**
      * 默认分页尺寸
      */
     PAGE_SIZE: 10,

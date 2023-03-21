@@ -9,7 +9,7 @@ import { HotspotTopProp } from './prop';
 /**
  * 专项数据（热点）Top10
  */
-const HotspotTop: FC<HotspotTopProp> = () => {
+const HotspotTop: FC<HotspotTopProp> = ({ protocol }) => {
 
     useEffect(() => {
         Promise.all([
@@ -27,10 +27,12 @@ const HotspotTop: FC<HotspotTopProp> = () => {
         querySpecialHotspotTop10Data: state.querySpecialHotspotTop10Data
     }));
 
+    const filterData = () =>
+        specialHotspotTop10Data.filter(item => item.protocolType === protocol);
 
     return <Table<Wap>
         columns={getTopColumns()}
-        dataSource={specialHotspotTop10Data}
+        dataSource={filterData()}
         loading={specialHotspotLoading}
         pagination={false}
         bordered={false}
