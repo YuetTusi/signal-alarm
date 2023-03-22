@@ -6,7 +6,6 @@ import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from '@/styled/global';
 import { ViewRouter } from '@/router';
 import { ConfigProvider, App as AntdApp, Empty, theme } from 'antd';
-// import dateLocale from 'antd/es/date-picker/locale/zh_CN';
 import zhCN from 'antd/es/locale/zh_CN';
 import { cyan } from '@/theme/cyan';
 

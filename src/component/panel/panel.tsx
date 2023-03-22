@@ -14,8 +14,8 @@ export const BoxPanel = styled(Panel) <{
 }>`
 
     &>.content{
-        margin: ${(props) => props.margin + 'px' ?? 0};
-        padding:${(props) => props.padding + 'px' ?? 0};
+        margin: ${(props) => props.margin ?? 0 + 'px'};
+        padding:${(props) => props.padding ?? 0 + 'px'};
     }
 `;
 

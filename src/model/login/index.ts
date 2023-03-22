@@ -8,6 +8,10 @@ interface LoginState {
      */
     loginUserName: string,
     /**
+     * 用户Hash
+     */
+    loginUserHash: string,
+    /**
      * 设置登录用户名
      * @param userName 用户名
      */

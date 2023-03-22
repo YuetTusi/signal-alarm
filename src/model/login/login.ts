@@ -5,11 +5,10 @@ import { LoginState } from '../login';
 const login = (setState: SetState, _: GetState): LoginState => ({
 
     loginUserName: '',
-
+    loginUserHash: '',
     setLoginUserName(userName) {
         setState({ loginUserName: userName });
     },
-
     async loginByNamePassword(userName, password) {
 
         try {

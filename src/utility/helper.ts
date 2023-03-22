@@ -15,7 +15,7 @@ const helper = {
     /**
      * 服务端SSE通信地址
      */
-    SSE_URL: 'http://127.0.0.1:8888/CreateSseConnect',
+    SSE_URL: 'http://58.48.76.202:18800',
     /**
      * 默认分页尺寸
      */

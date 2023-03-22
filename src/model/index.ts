@@ -4,6 +4,7 @@ import { specialWap, SpecialWapState } from './special-wap';
 import { specialHotspot, SpecialHotspotState } from './special-hotspot';
 import { specialTerminal, SpecialTerminalState } from './special-terminal';
 import { alarm, AlarmState } from './alarm';
+import { alarmTypeStatis, AlarmTypeStatisState } from './alarm-type-statis';
 import { login, LoginState } from './login';
 
 interface OtherState {
@@ -19,7 +20,8 @@ type State = OtherState
     & SpecialWapState
     & SpecialHotspotState
     & SpecialTerminalState
-    & AlarmState;
+    & AlarmState
+    & AlarmTypeStatisState;
 type GetState = StoreApi<State>['getState'];
 type SetState = StoreApi<State>['setState'];
 
@@ -31,7 +33,8 @@ const useModel = create((setState: SetState, getState: GetState) => ({
     ...specialWap(setState, getState),
     ...specialHotspot(setState, getState),
     ...specialTerminal(setState, getState),
-    ...alarm(setState, getState)
+    ...alarm(setState, getState),
+    ...alarmTypeStatis(setState, getState)
 }));
 
 export type { State, GetState, SetState };
