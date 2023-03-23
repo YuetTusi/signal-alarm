@@ -9,7 +9,9 @@ export const ViewRouter: FC<{}> = () => <Router>
         <Route
             path="/"
             element={
-                <Login />
+                <Layout>
+                    <Login />
+                </Layout>
             }>
         </Route>
         <Route

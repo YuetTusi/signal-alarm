@@ -26,7 +26,7 @@ const DragBar: FC<PropsWithChildren<DragBarProp>> = memo(({ children }) => {
             content: '确认退出应用？',
             okText: '是',
             cancelText: '否'
-        })
+        });
     }, []);
 
     return <DragBarBox>

@@ -5,6 +5,7 @@ import { specialHotspot, SpecialHotspotState } from './special-hotspot';
 import { specialTerminal, SpecialTerminalState } from './special-terminal';
 import { alarm, AlarmState } from './alarm';
 import { alarmTypeStatis, AlarmTypeStatisState } from './alarm-type-statis';
+import { alarmSiteTopStatis, AlarmSiteTopStatisState } from './alarm-site-top-statis';
 import { login, LoginState } from './login';
 
 interface OtherState {
@@ -21,7 +22,9 @@ type State = OtherState
     & SpecialHotspotState
     & SpecialTerminalState
     & AlarmState
-    & AlarmTypeStatisState;
+    & AlarmTypeStatisState
+    & AlarmSiteTopStatisState;
+
 type GetState = StoreApi<State>['getState'];
 type SetState = StoreApi<State>['setState'];
 
@@ -34,7 +37,8 @@ const useModel = create((setState: SetState, getState: GetState) => ({
     ...specialHotspot(setState, getState),
     ...specialTerminal(setState, getState),
     ...alarm(setState, getState),
-    ...alarmTypeStatis(setState, getState)
+    ...alarmTypeStatis(setState, getState),
+    ...alarmSiteTopStatis(setState, getState)
 }));
 
 export type { State, GetState, SetState };

@@ -13,16 +13,20 @@ let sse: News;
 
 const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
 
-    // useEffect(() => {
+    useEffect(() => {
 
-    //     sse = instance();
-    //     sse.on('open', () => { console.log('sse open'); });
-    //     sse.on('message', (event, data) => {
-    //         console.log(event);
-    //         console.log(data);
-    //     });
-    //     sse.on('close', (info) => console.log(info));
-    // }, []);
+        const user = sessionStorage.getItem('user');
+        const hash = sessionStorage.getItem('sh');
+        if (user !== null && hash !== null) {
+            sse = instance();
+            sse.on('open', () => { console.log('sse open'); });
+            sse.on('message', (event, data) => {
+                console.log(event);
+                console.log(data);
+            });
+            sse.on('close', (info) => console.log(info));
+        }
+    }, []);
 
     const [passwordModalOpen, setPasswordModalOpen] = useState<boolean>(false);
     const navigator = useNavigate();
