@@ -7,6 +7,7 @@ import { alarm, AlarmState } from './alarm';
 import { alarmTypeStatis, AlarmTypeStatisState } from './alarm-type-statis';
 import { alarmSiteTopStatis, AlarmSiteTopStatisState } from './alarm-site-top-statis';
 import { specialTypeStatis, SpecialTypeStatisState } from './special-type-statis';
+import { alarmWeekStatis, AlarmWeekStatisState } from './alarm-week-statis';
 import { login, LoginState } from './login';
 
 interface OtherState {
@@ -25,7 +26,8 @@ type State = OtherState
     & AlarmState
     & AlarmTypeStatisState
     & AlarmSiteTopStatisState
-    & SpecialTypeStatisState;
+    & SpecialTypeStatisState
+    & AlarmWeekStatisState;
 
 type GetState = StoreApi<State>['getState'];
 type SetState = StoreApi<State>['setState'];
@@ -41,7 +43,8 @@ const useModel = create((setState: SetState, getState: GetState) => ({
     ...alarm(setState, getState),
     ...alarmTypeStatis(setState, getState),
     ...alarmSiteTopStatis(setState, getState),
-    ...specialTypeStatis(setState, getState)
+    ...specialTypeStatis(setState, getState),
+    ...alarmWeekStatis(setState, getState)
 }));
 
 export type { State, GetState, SetState };

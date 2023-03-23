@@ -4,7 +4,7 @@ import { alarmTypeStatis } from './alarm-type-statis';
 interface AlarmTypeStatisState {
 
     /**
-     * 告警场所Top10图表数据
+     * 查询告警类型图表数据
      */
     alarmTypeStatisData: AlarmType[]
     /**

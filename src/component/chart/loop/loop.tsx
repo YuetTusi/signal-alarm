@@ -73,7 +73,7 @@ const Loop: FC<LoopProp> = ({ data, serieName }) => {
 
     return <div
         ref={chartDom}
-        style={{ width: '360px', height: '260px' }} />;
+        style={{ width: '320px', height: '200px' }} />;
 };
 
 Loop.defaultProps = {

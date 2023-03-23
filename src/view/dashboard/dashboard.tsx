@@ -1,7 +1,9 @@
 import { FC, memo } from "react";
 import WapInfo from "@/component/special/wap-info";
 import { AlarmInfo } from '@/component/alarm';
-import { AlarmTypeChart, AlarmSiteTopChart, SpecialTypeChart } from '@/component/statis';
+import {
+    AlarmTypeChart, AlarmSiteTopChart, SpecialTypeChart, AlarmWeekChart
+} from '@/component/statis';
 import { DashboardBox } from "./styled/box";
 
 const Dashboard: FC<{}> = memo(() => {
@@ -10,6 +12,7 @@ const Dashboard: FC<{}> = memo(() => {
         <div className="left-box">
             <AlarmSiteTopChart />
             <AlarmTypeChart />
+            <AlarmWeekChart />
             <SpecialTypeChart />
         </div>
         <div className="center-box">
