@@ -13,11 +13,15 @@ export const LayoutBox = styled.div`
         flex-direction: row;
         justify-content: flex-end;
         align-items: center;
+        height: 40px;
+        &>.ant-btn{
+            margin-left: 5px;
+        }
     }
 
     .context-box{
         position: absolute;
-        top:48px;
+        top:63px;
         left:0;
         right:0;
         bottom:0;

@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef } from 'react';
+import { Empty } from 'antd';
 import * as echarts from 'echarts/core';
 import { PieChart } from 'echarts/charts';
-
 import {
     TitleComponent,
     TooltipComponent,
@@ -13,7 +13,9 @@ import {
 } from 'echarts/components';
 import { LabelLayout, UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
+import { helper } from '@/utility/helper';
 import { LoopProp } from './prop';
+import { ChartBox } from './styled/box';
 
 // 注册必须的组件
 echarts.use([
@@ -53,7 +55,7 @@ const Loop: FC<LoopProp> = ({ data, serieName }) => {
                     show: true,
                     feature: {
                         mark: { show: true },
-                        saveAsImage: { show: true }
+                        saveAsImage: { show: false }
                     }
                 },
                 series: [
@@ -71,9 +73,12 @@ const Loop: FC<LoopProp> = ({ data, serieName }) => {
         }
     }, [data, serieName]);
 
-    return <div
-        ref={chartDom}
-        style={{ width: '320px', height: '200px' }} />;
+    return helper.isNullOrUndefined(data) || data.length === 0
+        ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+        : <ChartBox
+            width={320}
+            height={200}
+            ref={chartDom} />;
 };
 
 Loop.defaultProps = {

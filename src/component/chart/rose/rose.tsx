@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef } from 'react';
+import { Empty } from 'antd';
 import * as echarts from 'echarts/core';
 import { PieChart } from 'echarts/charts';
-
 import {
     TitleComponent,
     TooltipComponent,
@@ -13,6 +13,8 @@ import {
 } from 'echarts/components';
 import { LabelLayout, UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
+import { helper } from '@/utility/helper';
+import { ChartBox } from './styled/box';
 import { RoseProp } from './prop';
 
 // 注册必须的组件
@@ -71,9 +73,12 @@ const Rose: FC<RoseProp> = ({ data, serieName }) => {
         }
     }, [data, serieName]);
 
-    return <div
-        ref={chartDom}
-        style={{ width: '360px', height: '180px' }} />;
+    return helper.isNullOrUndefined(data) || data.length === 0
+        ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+        : <ChartBox
+            width={320}
+            height={200}
+            ref={chartDom} />;
 };
 
 Rose.defaultProps = {

@@ -1,7 +1,6 @@
 import { GetState, SetState } from '..';
 import { AlarmWeekStatisState } from './index';
 import { request } from '@/utility/http';
-import { AlarmType } from '@/schema/alarm-type';
 import { message } from 'antd';
 import { AlarmWeek } from '@/schema/alarm-week';
 
