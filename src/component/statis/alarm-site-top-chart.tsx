@@ -1,7 +1,7 @@
 
 import { FC, useEffect } from 'react';
 import useModel from '@/model';
-import { Rose } from '@/component/chart/rose';
+import { Loop } from '@/component/chart';
 import { DisplayPanel } from '../panel';
 
 /**
@@ -30,7 +30,7 @@ const AlarmSiteTopChart: FC<{}> = () => {
     return <DisplayPanel>
         <div className="caption">告警场所Top10</div>
         <div className="content">
-            <Rose serieName="告警场所Top10" data={convertData()} />
+            <Loop serieName="告警场所Top10" data={convertData()} />
         </div>
     </DisplayPanel>;
 };

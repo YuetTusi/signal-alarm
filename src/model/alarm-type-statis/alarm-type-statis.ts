@@ -8,7 +8,7 @@ const alarmTypeStatis = (setState: SetState, _: GetState): AlarmTypeStatisState 
 
     alarmTypeStatisData: [],
     /**
-     * 查询告警类型统计数据（玫瑰图）
+     * 查询告警类型统计数据
      */
     queryAlarmTypeStatis: async () => {
         message.destroy();

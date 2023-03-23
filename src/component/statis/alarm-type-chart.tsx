@@ -1,7 +1,7 @@
 
 import { FC, useEffect } from 'react';
 import useModel from '@/model';
-import { Rose } from '@/component/chart/rose';
+import { Loop } from '@/component/chart';
 import { getProtocolLabel } from '@/schema/protocol';
 import { DisplayPanel } from '../panel';
 
@@ -26,9 +26,9 @@ const AlarmTypeChart: FC<{}> = () => {
         }));
 
     return <DisplayPanel>
-        <div className="caption">专项检查分类统计</div>
+        <div className="caption">告警类型统计</div>
         <div className="content">
-            <Rose serieName="专项检查分类统计" data={convertData()} />
+            <Loop serieName="告警类型统计" data={convertData()} />
         </div>
     </DisplayPanel>;
 };
