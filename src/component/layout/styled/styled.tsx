@@ -16,6 +16,10 @@ export const LayoutBox = styled.div`
         height: 40px;
         &>.ant-btn{
             margin-left: 5px;
+            &:last-child{
+                margin-left: 0;
+                margin-right: 10px;
+            }
         }
     }
 

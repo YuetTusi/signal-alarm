@@ -7,7 +7,7 @@ import { GlobalStyle } from '@/styled/global';
 import { ViewRouter } from '@/router';
 import { ConfigProvider, App as AntdApp, Empty, theme } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
-import { cyan } from '@/theme/cyan';
+import { blue } from '@/theme/blue';
 
 dayjs.locale('zh-cn');
 dayjs.extend(customParseFormat);
@@ -22,7 +22,7 @@ localforage.config({
 const App = () => <ConfigProvider
     theme={{
         algorithm: theme.darkAlgorithm,
-        token: { ...cyan }
+        token: { ...blue }
     }}
     locale={zhCN}
     componentSize="small"
@@ -30,7 +30,7 @@ const App = () => <ConfigProvider
         <Empty description="暂无数据" image={Empty.PRESENTED_IMAGE_SIMPLE} />
     }>
     <AntdApp>
-        <ThemeProvider theme={cyan}>
+        <ThemeProvider theme={blue}>
             <GlobalStyle />
             <ViewRouter />
         </ThemeProvider>

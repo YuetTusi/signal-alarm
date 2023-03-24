@@ -100,7 +100,7 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
                 <span>恢复出厂</span>
             </Button>
             <SettingMenu onMenuAction={onMenuAction} />
-            <span style={{ textAlign: 'center', padding: "0 10px", color: '#5e5e5e' }}>|</span>
+            <span style={{ textAlign: 'center', padding: "0 5px", color: '#5e5e5e' }}>|</span>
             <Button
                 onClick={onLogoutClick}
                 type="primary">

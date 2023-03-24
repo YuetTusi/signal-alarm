@@ -22,7 +22,7 @@ export const BoxPanel = styled(Panel) <{
 
 export const DisplayPanel = styled(BoxPanel)`
 
-    border:1px solid #303030;
+    border:1px solid #141c67;
 
     &>.caption{
         display: flex;
@@ -30,8 +30,8 @@ export const DisplayPanel = styled(BoxPanel)`
         justify-content: space-between;
         align-items: center;
         padding:5px 10px;
-        color:#fff;
-        background-color: ${(props) => props.theme['colorPrimary']};
+        color:${props => props.theme['colorInfo']};
+        background:linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(11,29,139,1) 33%, rgba(11,29,139,0) 100%);;
         border-top-left-radius:${(props) => `${props.theme['borderRadius']}px`};
         border-top-right-radius:${(props) => `${props.theme['borderRadius']}px`};
     }
