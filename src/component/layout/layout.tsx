@@ -6,11 +6,13 @@ import { App, Button } from 'antd';
 import DragBar from '../drag-bar';
 import { useModel } from '@/model';
 import { instance, News } from '@/utility/news';
+import { StorageKeys } from '@/utility/storage-keys';
 import Reading from '@/component/reading';
 import PasswordModal from '@/component/password-modal';
 import { LayoutBox } from './styled/styled';
 import { SettingMenu } from '../setting-menu';
 import { SettingMenuAction } from '../setting-menu/prop';
+
 
 let sse: News;
 
@@ -18,14 +20,12 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
 
     useEffect(() => {
 
-        const user = sessionStorage.getItem('user');
-        const hash = sessionStorage.getItem('sh');
-        if (user !== null && hash !== null) {
+        const user = sessionStorage.getItem(StorageKeys.User);
+        const userId = sessionStorage.getItem(StorageKeys.UserId);
+        const hash = sessionStorage.getItem(StorageKeys.Hash);
+        if (user !== null && userId !== null && hash !== null) {
             sse = instance();
-            sse.on('open', () => {
-                console.log('sse open');
-                sse.pushUser();
-            });
+            sse.on('open', () => console.log('SSE is opening'));
             sse.on('message', (event, data) => {
                 console.log(event);
                 console.log(data);
@@ -52,8 +52,8 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
     const onLogoutClick = async (event: MouseEvent) => {
         event.preventDefault();
         try {
-            await logout();
             await instance().close();
+            await logout();
             await localforage.clear();
             sessionStorage.clear();
             message.success('用户已登出');
@@ -107,7 +107,7 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
                 onClick={onLogoutClick}
                 type="primary">
                 <LogoutOutlined />
-                <span>登出</span>
+                <span>安全登出</span>
             </Button>
         </div>
         <div className="context-box">

@@ -1,7 +1,9 @@
 import url from 'url';
 import http from 'http';
-import electron from 'electron';
 import { helper } from '@/utility/helper';
+import { StorageKeys } from './storage-keys';
+
+
 
 
 /**
@@ -39,7 +41,7 @@ class HttpRequest {
                 method,
                 headers: {
                     'Content-Type': 'application/json;charset=utf8',
-                    'token': sessionStorage.getItem('token') ?? ''
+                    'token': sessionStorage.getItem(StorageKeys.Token) ?? ''
                 }
             }, (res) => {
                 res.setEncoding('utf-8');
@@ -73,13 +75,12 @@ class HttpRequest {
     get<T = any>(fetchUrl: string): Promise<null | RequestResult<T>> {
         const options = url.parse(this._getFetchUrl(fetchUrl));
         let data = '';
-
         return new Promise((resolve, reject) => {
             const req = http.get({
                 ...options,
                 headers: {
                     'Content-Type': 'application/json;charset=utf8',
-                    'token': sessionStorage.getItem('token') ?? ''
+                    'token': sessionStorage.getItem(StorageKeys.Token) ?? ''
                 }
             }, (res) => {
                 res.setEncoding('utf-8');
@@ -139,7 +140,7 @@ class HttpRequest {
             const req = http.get({
                 ...options,
                 headers: {
-                    'token': sessionStorage.getItem('token') ?? ''
+                    'token': sessionStorage.getItem(StorageKeys.Token) ?? ''
                 }
             }, (res) => {
                 res.on('data', chunk => {

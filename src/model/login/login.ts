@@ -4,9 +4,21 @@ import { LoginState } from '../login';
 
 const login = (setState: SetState, _: GetState): LoginState => ({
 
+    loginUserId: '',
     loginUserName: '',
     loginUserHash: '',
     loginRemember: false,
+    /**
+     * 设置登录用户id
+     * @param id id
+     */
+    setLoginUserId(id: string) {
+        setState({ loginUserId: id });
+    },
+    /**
+     * 设置登录用户名
+     * @param userName 用户名
+     */
     setLoginUserName(userName) {
         setState({ loginUserName: userName });
     },
@@ -16,6 +28,20 @@ const login = (setState: SetState, _: GetState): LoginState => ({
      */
     setLoginRemember: (remember: boolean) => {
         setState({ loginRemember: remember });
+    },
+    /**
+     * 查询登录用户信息
+     */
+    queryLoginUserInfo: async () => {
+        try {
+            const res = await request.get<{
+                name: string, userId: number, roles: string
+            }>('/system/index/info');
+            console.log(res);
+            return res;
+        } catch (error) {
+            throw error;
+        }
     },
     /**
      * 登录

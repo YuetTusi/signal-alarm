@@ -1,6 +1,7 @@
 import events from 'events';
 import { helper } from '@/utility/helper';
 import { request } from './http';
+import { StorageKeys } from './storage-keys';
 
 const { EventEmitter } = events;
 const { SSE_URL } = helper;
@@ -16,22 +17,23 @@ class News extends EventEmitter {
 
     private source: EventSource;
     private dst: string = '';
-    private user: string = '';
+    private userId: string = '';
     private hash: string = '';
 
     constructor(url?: string) {
 
         super();
         const dst = url ?? SSE_URL;
-        const user = sessionStorage.getItem('user');
-        const hash = sessionStorage.getItem('sh');
-        if (user === null || hash === null) {
+        const userId = sessionStorage.getItem(StorageKeys.UserId);
+        const hash = sessionStorage.getItem(StorageKeys.Hash);
+        if (userId === null || hash === null) {
             throw new Error('用户未登录或未知哈希值');
         }
         this.dst = dst;
-        this.user = user!;
+        this.userId = userId!;
         this.hash = hash!;
-        this.source = new EventSource(`${dst}/sse/connect?userId=${user}&hash=${hash}`);
+        console.log(`${dst}/sse/connect?userId=${userId}&hash=${hash}`);
+        this.source = new EventSource(`${dst}/sse/connect?userId=${userId}&hash=${hash}`);
         this.source.addEventListener('open', (event) => {
             super.emit('open', event);
         });
@@ -44,7 +46,11 @@ class News extends EventEmitter {
     }
     async pushUser() {
         try {
-            const res = await request.post(`${this.dst}/sse/push-user`);
+            const res = await request.post(`${this.dst}/sse/push-user`, {
+                userId: this.userId,
+                hash: this.hash,
+                message: ''
+            });
             console.log(res);
         } catch (error) {
             throw error;
@@ -57,7 +63,7 @@ class News extends EventEmitter {
                 this.source.close();
                 await request.get(`${this.dst}/sse/close?hash=${this.hash}`);
                 console.log('SSE已关闭');
-                super.emit('closed', { user: this.user, hash: this.hash });
+                super.emit('closed', { userId: this.userId, hash: this.hash });
                 handle = null;
             }
         } catch (error) {

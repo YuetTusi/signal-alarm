@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from 'fs';
+import crypto from 'crypto';
 import dayjs from "dayjs";
 import { v4 } from 'uuid';
 
@@ -64,6 +65,14 @@ const helper = {
             return false;
         }
     },
+    /**
+     * 使用MD5生成哈希值
+     * @param val 字串
+     */
+    md5(val: string) {
+        const md5 = crypto.createHash('md5');
+        return md5.update(val).digest('hex');
+    }
 };
 
 export { helper };

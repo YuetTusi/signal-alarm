@@ -1,10 +1,11 @@
-import hash from 'shorthash';
 import localforage from 'localforage';
 import { FC, MouseEvent, useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { UserOutlined, ReloadOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Col, Row, Input, Button, Checkbox, Form, message } from 'antd';
 import { useModel } from "@/model";
+import { helper } from '@/utility/helper';
+import { StorageKeys } from '@/utility/storage-keys';
 import DragBar from '@/component/drag-bar';
 import Reading from '@/component/reading';
 import { LoginBox, LoginOuterBox } from "./styled/styled";
@@ -20,28 +21,32 @@ const Login: FC<{}> = () => {
     const [formRef] = useForm<FormValue>();
     const {
         loginRemember,
+        setLoginUserId,
         setLoginUserName,
         setLoginRemember,
-        loginByNamePassword
+        loginByNamePassword,
+        queryLoginUserInfo
     } = useModel(state => ({
         loginRemember: state.loginRemember,
+        setLoginUserId: state.setLoginUserId,
         setLoginRemember: state.setLoginRemember,
         setLoginUserName: state.setLoginUserName,
-        loginByNamePassword: state.loginByNamePassword
+        loginByNamePassword: state.loginByNamePassword,
+        queryLoginUserInfo: state.queryLoginUserInfo
     }));
 
     useEffect(() => {
         (async () => {
             try {
                 const [token, hash, user] = await Promise.all([
-                    localforage.getItem<string>('token'),
-                    localforage.getItem<string>('sh'),
-                    localforage.getItem<string>('user'),
+                    localforage.getItem<string>(StorageKeys.Token),
+                    localforage.getItem<string>(StorageKeys.Hash),
+                    localforage.getItem<string>(StorageKeys.User),
                 ]);
                 if (token !== null && hash !== null && user !== null) {
-                    sessionStorage.setItem('token', token);
-                    sessionStorage.setItem('sh', hash);
-                    sessionStorage.setItem('user', user);
+                    sessionStorage.setItem(StorageKeys.Token, token);
+                    sessionStorage.setItem(StorageKeys.Hash, hash);
+                    sessionStorage.setItem(StorageKeys.User, user);
                     navigate('/dashboard');
                 }
             } catch (error) {
@@ -67,17 +72,26 @@ const Login: FC<{}> = () => {
 
             if (ret.code === 200) {
                 message.success('登录成功');
-                setLoginUserName(userName);
-                sessionStorage.setItem('token', ret.data.token ?? '');
-                sessionStorage.setItem('sh', hash.unique(userName));
-                sessionStorage.setItem('user', userName);
-                if (loginRemember) {
-                    //如果记住登录状态，将token写入localStorage
-                    localforage.setItem('token', ret.data.token ?? '');
-                    localforage.setItem('sh', hash.unique(userName));
-                    localforage.setItem('user', userName);
+                sessionStorage.setItem(StorageKeys.Token, ret.data.token ?? '');
+                const res = await queryLoginUserInfo();
+                if (res !== null && res.code === 200) {
+                    setLoginUserName(res.data.name);
+                    setLoginUserId(res.data.userId.toString());
+                    const userHash = helper.md5(res.data.userId.toString());
+                    sessionStorage.setItem(StorageKeys.Hash, userHash);
+                    sessionStorage.setItem(StorageKeys.User, res.data.name);
+                    sessionStorage.setItem(StorageKeys.UserId, res.data.userId.toString());
+                    if (loginRemember) {
+                        //如果记住登录状态，将token写入localStorage
+                        localforage.setItem(StorageKeys.Token, ret.data.token ?? '');
+                        localforage.setItem(StorageKeys.Hash, userHash);
+                        localforage.setItem(StorageKeys.User, res.data.name);
+                        localforage.setItem(StorageKeys.UserId, res.data.userId.toString());
+                    }
+                    navigate('/dashboard');
+                } else {
+                    message.warning(`登录失败（${res?.message ?? ''}）`);
                 }
-                navigate('/dashboard');
             } else {
                 message.warning(`登录失败（${ret.message}）`);
             }
