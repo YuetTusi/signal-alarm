@@ -1,8 +1,7 @@
-
+import dayjs from 'dayjs';
 import { FC, useEffect } from 'react';
 import useModel from '@/model';
-import { Loop } from '@/component/chart';
-import { getProtocolLabel } from '@/schema/protocol';
+import { Line } from '@/component/chart';
 import { DisplayPanel } from '../panel';
 
 /**
@@ -23,15 +22,21 @@ const AlarmWeekChart: FC<{}> = () => {
     }, []);
 
     const convertData = () =>
-        alarmWeekStatisData.map(item => ({
-            name: getProtocolLabel(item.protocolType),
-            value: item.num
-        }));
+        alarmWeekStatisData.reduce<{ days: string[], num: number[] }>((total, current) => {
+            total.days.push(dayjs(current.day).format('YYYY/M/D'));
+            total.num.push(Number(current.num));
+            return total;
+        }, {
+            days: [],
+            num: []
+        });
+
+    const { days, num } = convertData();
 
     return <DisplayPanel>
         <div className="caption">近7天告警数量统计</div>
         <div className="content">
-            <Loop serieName="近7天告警数量统计" data={convertData()} />
+            <Line serieName="近7天告警数量统计" data={num} days={days} />
         </div>
     </DisplayPanel>;
 };

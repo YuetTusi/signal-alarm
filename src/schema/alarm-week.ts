@@ -13,7 +13,15 @@ class AlarmWeek extends BaseEntity {
     /**
      * 数量
      */
-    num: number = 0
+    num: string = ''
+    /**
+     * 时间
+     */
+    day: string = ''
+    /**
+     * 地址
+     */
+    siteName: string = ''
 }
 
 export { AlarmWeek };

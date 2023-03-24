@@ -39,10 +39,10 @@ app.on('ready', () => {
 
     mainWindow = new BrowserWindow({
         title: '文档生成',
-        width: 1280,
+        width: 1440,
         height: 900,
         minHeight: 800,
-        minWidth: 1280,
+        minWidth: 1440,
         show: true,
         frame: false,
         webPreferences: {
@@ -54,6 +54,7 @@ app.on('ready', () => {
     });
 
     // mainWindow.setMenu(null);
+    mainWindow.maximize();
 
     if (isDev) {
 
