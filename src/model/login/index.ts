@@ -12,10 +12,19 @@ interface LoginState {
      */
     loginUserHash: string,
     /**
+     * 记住状态
+     */
+    loginRemember: boolean,
+    /**
      * 设置登录用户名
      * @param userName 用户名
      */
     setLoginUserName: (userName: string) => void,
+    /**
+     * 更新登录记忆状态
+     * @param remember 是否记忆
+     */
+    setLoginRemember: (remember: boolean) => void,
     /**
      * 登录
      * @param userName 用户名

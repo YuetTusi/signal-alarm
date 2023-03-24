@@ -6,9 +6,22 @@ const login = (setState: SetState, _: GetState): LoginState => ({
 
     loginUserName: '',
     loginUserHash: '',
+    loginRemember: false,
     setLoginUserName(userName) {
         setState({ loginUserName: userName });
     },
+    /**
+     * 更新登录记忆状态
+     * @param remember 是否记忆
+     */
+    setLoginRemember: (remember: boolean) => {
+        setState({ loginRemember: remember });
+    },
+    /**
+     * 登录
+     * @param userName 用户名
+     * @param password 密码
+     */
     async loginByNamePassword(userName, password) {
 
         try {
@@ -24,7 +37,6 @@ const login = (setState: SetState, _: GetState): LoginState => ({
     async logout() {
         try {
             await request.post('/system/index/logout');
-            // await request('system/index/logout', 'POST');
         } catch (error) {
             throw error;
         }

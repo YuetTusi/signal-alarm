@@ -30,6 +30,7 @@ export const DisplayPanel = styled(BoxPanel)`
         justify-content: space-between;
         align-items: center;
         padding:5px 10px;
+        font-weight:bold;
         color:${props => props.theme['colorInfo']};
         background:linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(11,29,139,1) 33%, rgba(11,29,139,0) 100%);;
         border-top-left-radius:${(props) => `${props.theme['borderRadius']}px`};

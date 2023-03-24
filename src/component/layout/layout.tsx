@@ -1,3 +1,4 @@
+import localforage from 'localforage';
 import { FC, PropsWithChildren, useState, MouseEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ThunderboltOutlined, LogoutOutlined, InteractionOutlined } from '@ant-design/icons';
@@ -53,6 +54,7 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
         try {
             await logout();
             await instance().close();
+            await localforage.clear();
             sessionStorage.clear();
             message.success('用户已登出');
             navigator('/');

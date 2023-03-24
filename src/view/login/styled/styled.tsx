@@ -6,7 +6,7 @@ export const LoginBox = styled.div`
     flex-direction: column;
     margin: 0 auto;
     height:auto;
-    padding: 50px 80px;
+    padding: 40px 80px;
 
     &>h3{
         display: flex;

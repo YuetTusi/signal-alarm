@@ -10,7 +10,7 @@ var handle: News | null = null;
 
 /**
  * 接受服务端消息推送
- * 基于SSE单工通信
+ * 基于SSE单向通信
  */
 class News extends EventEmitter {
 
