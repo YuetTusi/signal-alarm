@@ -8,6 +8,11 @@ export const LayoutBox = styled.div`
     right:0;
     bottom:0;
 
+    background-image: url("/src/assets/image/dashboard-bg.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position-y: 17px;
+
     .setting-box{
         display: flex;
         flex-direction: row;
@@ -25,7 +30,7 @@ export const LayoutBox = styled.div`
 
     .context-box{
         position: absolute;
-        top:63px;
+        top:75px;
         left:0;
         right:0;
         bottom:0;

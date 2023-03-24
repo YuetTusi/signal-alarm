@@ -40,7 +40,7 @@ export const LoginOuterBox = styled.div`
     position: absolute;
     top:50%;
     left:50%;
-    margin-top: -200px;
+    margin-top: -240px;
     margin-left: -195px;
 
     border:1px solid #3775a8;
@@ -48,4 +48,17 @@ export const LoginOuterBox = styled.div`
     background-color: rgba(32,71,136,0.5);
     height:auto;
     width: 400px;
+`;
+
+
+export const BackgroundBox = styled.div`
+    display: block;
+    position: absolute;
+    top:22px;
+    left:0;
+    right:0;
+    bottom: 0;
+    background-image: url("/src/assets/image/login-bg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
 `;

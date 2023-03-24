@@ -1,87 +1,44 @@
-import localforage from 'localforage';
-import { FC, PropsWithChildren, useState, MouseEvent, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ThunderboltOutlined, LogoutOutlined, InteractionOutlined } from '@ant-design/icons';
-import { App, Button } from 'antd';
+import { FC, PropsWithChildren } from 'react';
 import DragBar from '../drag-bar';
-import { useModel } from '@/model';
-import { instance, News } from '@/utility/news';
-import { StorageKeys } from '@/utility/storage-keys';
 import Reading from '@/component/reading';
-import PasswordModal from '@/component/password-modal';
 import { LayoutBox } from './styled/styled';
-import { SettingMenu } from '../setting-menu';
-import { SettingMenuAction } from '../setting-menu/prop';
-
-
-let sse: News;
 
 const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
 
-    useEffect(() => {
 
-        const user = sessionStorage.getItem(StorageKeys.User);
-        const userId = sessionStorage.getItem(StorageKeys.UserId);
-        const hash = sessionStorage.getItem(StorageKeys.Hash);
-        if (user !== null && userId !== null && hash !== null) {
-            sse = instance();
-            sse.on('open', () => console.log('SSE is opening'));
-            sse.on('message', (event, data) => {
-                console.log(event);
-                console.log(data);
-            });
-            sse.on('close', (info) => console.log(info));
-        }
-    }, []);
+    // const onLogoutClick = async (event: MouseEvent) => {
+    //     event.preventDefault();
+    //     try {
+    //         await instance().close();
+    //         await logout();
+    //         await localforage.clear();
+    //         sessionStorage.clear();
+    //         message.success('用户已登出');
+    //         navigator('/');
+    //     } catch (error) {
+    //         console.warn(error);
+    //     }
+    // };
 
-    const [passwordModalOpen, setPasswordModalOpen] = useState<boolean>(false);
-    const navigator = useNavigate();
-    const { message } = App.useApp();
-    const {
-        logout
-    } = useModel(state => ({
-        logout: state.logout
-    }));
-
-    const onPasswordModalCancel = () => setPasswordModalOpen(false);
-
-    const onPasswordModalOk = (newPassword: string) => {
-        console.log(newPassword);
-    };
-
-    const onLogoutClick = async (event: MouseEvent) => {
-        event.preventDefault();
-        try {
-            await instance().close();
-            await logout();
-            await localforage.clear();
-            sessionStorage.clear();
-            message.success('用户已登出');
-            navigator('/');
-        } catch (error) {
-            console.warn(error);
-        }
-    };
-
-    const onMenuAction = (type: SettingMenuAction) => {
-        switch (type) {
-            case SettingMenuAction.Sensitivity:
-            case SettingMenuAction.Camera:
-            case SettingMenuAction.Network:
-                break;
-            case SettingMenuAction.ModifyPassword:
-                setPasswordModalOpen(true);
-                break;
-            default:
-                console.warn(type);
-                break;
-        }
-    };
+    // const onMenuAction = (type: SettingMenuAction) => {
+    //     switch (type) {
+    //         case SettingMenuAction.Sensitivity:
+    //         case SettingMenuAction.Camera:
+    //         case SettingMenuAction.Network:
+    //             break;
+    //         case SettingMenuAction.ModifyPassword:
+    //             setPasswordModalOpen(true);
+    //             break;
+    //         default:
+    //             console.warn(type);
+    //             break;
+    //     }
+    // };
 
     return <LayoutBox>
-        <DragBar>信号哨兵长时检测系统</DragBar>
+        <DragBar></DragBar>
         <Reading />
-        <div className="setting-box">
+        {/* <div className="setting-box">
             <Button
                 onClick={() => {
                     sse.pushUser();
@@ -109,14 +66,10 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
                 <LogoutOutlined />
                 <span>安全登出</span>
             </Button>
-        </div>
+        </div> */}
         <div className="context-box">
             {children}
         </div>
-        <PasswordModal
-            open={passwordModalOpen}
-            onCancel={onPasswordModalCancel}
-            onOk={onPasswordModalOk} />
     </LayoutBox>
 };
 

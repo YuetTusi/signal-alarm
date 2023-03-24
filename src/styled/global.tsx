@@ -22,7 +22,7 @@ export const GlobalStyle = createGlobalStyle`
         color:#ffffffd9;
         font-size: 1.4rem;
         font-family: "Microsoft YaHei","NSimSun","Arial";
-        background-color: #0d1351;
+        background-color: #02002f;
     }
     .ant-modal-mask,.ant-modal-wrap{
         top:22px !important;

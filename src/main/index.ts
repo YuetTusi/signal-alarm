@@ -45,6 +45,7 @@ app.on('ready', () => {
         minWidth: 1440,
         show: true,
         frame: false,
+        backgroundColor: '#02002f',
         webPreferences: {
             javascript: true,
             nodeIntegration: true,

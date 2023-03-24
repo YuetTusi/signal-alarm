@@ -20,6 +20,15 @@ export const DashboardBox = styled.div`
     &>.center-box{
         flex:1;
         padding: 0 5px;
+
+        display: flex;
+        flex-direction: column;
+        &>.main-box{
+            flex:1;
+        }
+        &>.bottom-box{
+
+        }
     }
     &>.right-box{
         flex:none;

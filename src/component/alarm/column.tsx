@@ -74,11 +74,11 @@ const getTopColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => {
         key: 'warnReason',
         dataIndex: 'warnReason',
     }, {
-        title: '告警级别',
-        key: 'warnLevel',
-        dataIndex: 'warnLevel',
-        width: 80
-    }, {
+        title: '设备地址',
+        key: 'siteName',
+        dataIndex: 'siteName'
+    },
+    {
         title: '时间',
         key: 'createTime',
         dataIndex: 'createTime',
