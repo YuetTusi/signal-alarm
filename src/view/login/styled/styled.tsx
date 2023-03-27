@@ -17,19 +17,19 @@ export const LoginBox = styled.div`
         text-align: center;
         margin-bottom: 20px;
         &::before{
+            content: "";
             display: inline-block;
             flex:1;
             font-size:0;
             margin-right: 10px;
-            content: "";
             border-bottom:1px solid #6c8aa6;
         }
         &::after{
+            content: "";
             display: inline-block;
             flex:1;
             font-size:0;
             margin-left: 10px;
-            content: "";
             border-bottom:1px solid #6c8aa6;
         }
     }
@@ -60,5 +60,5 @@ export const BackgroundBox = styled.div`
     bottom: 0;
     background-image: url("/src/assets/image/login-bg.jpg");
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: 100% 100%;
 `;

@@ -4,8 +4,8 @@ export const blue: Partial<AliasToken> = {
     borderRadius: 2,
     colorPrimary: '#085ffc',
     colorInfo: '#b4cdff',
-    colorBgContainer: '#192368',
-    colorBgElevated: '#0d1045',
-    colorBgMask: 'rgba(13,19,81,.7)'
+    colorBgContainer: 'rgba(25, 35, 104, .7)',
+    colorBgElevated: 'rgba(13, 16, 69, 1)',
+    colorBgMask: 'rgba(8, 12, 50, .7)'
 };
 
