@@ -141,9 +141,11 @@ const Login: FC<{}> = () => {
                                     <Checkbox
                                         onChange={(event) => setLoginRemember(event.target.checked)}
                                         checked={loginRemember}
-                                        style={{ verticalAlign: 'text-top' }} />
+                                        style={{ verticalAlign: 'text-top' }} >
+                                        <label onClick={() => setLoginRemember(!loginRemember)}>记住密码</label>
+                                    </Checkbox>
                                 </Col>
-                                <Col flex={1}><label>记住密码</label></Col>
+                                {/* <Col flex={1}><label>记住密码</label></Col> */}
                             </Row>
                         </Item>
                         <Item>

@@ -1,6 +1,6 @@
+import { message } from 'antd';
 import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';
-import { message } from 'antd';
 import { GetState, SetState } from '..';
 import { AlarmState } from './index';
 

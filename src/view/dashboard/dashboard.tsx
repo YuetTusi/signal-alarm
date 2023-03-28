@@ -1,19 +1,19 @@
+import localforage from "localforage";
 import { FC, memo, useEffect, MouseEvent } from "react";
 import { useNavigate } from 'react-router-dom';
 import { Button, message } from "antd";
 import { ThunderboltOutlined, LogoutOutlined, InteractionOutlined } from '@ant-design/icons';
+import useModel from "@/model";
+import { instance, News } from "@/utility/news";
+import { StorageKeys } from "@/utility/storage-keys";
 import WapInfo from "@/component/special/wap-info";
 import { SettingMenu } from "@/component/setting-menu";
 import { AlarmInfo } from '@/component/alarm';
 import {
     AlarmTypeChart, AlarmSiteTopChart, SpecialTypeChart, AlarmWeekChart
 } from '@/component/statis';
-import { DashboardBox } from "./styled/box";
-import { instance, News } from "@/utility/news";
-import { StorageKeys } from "@/utility/storage-keys";
-import useModel from "@/model";
-import localforage from "localforage";
 import { SettingMenuAction } from "@/component/setting-menu/prop";
+import { DashboardBox } from "./styled/box";
 
 let sse: News;
 

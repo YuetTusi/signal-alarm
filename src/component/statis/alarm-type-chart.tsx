@@ -5,6 +5,9 @@ import { Loop } from '@/component/chart';
 import { getProtocolLabel } from '@/schema/protocol';
 import { DisplayPanel } from '../panel';
 
+/**
+ * 告警类型统计图表
+ */
 const AlarmTypeChart: FC<{}> = () => {
 
     const {

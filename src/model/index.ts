@@ -1,4 +1,5 @@
 import { create, StoreApi } from 'zustand';
+import { zustandLog } from '@/utility/zustand-log';
 import { reading, ReadingState } from './reading';
 import { specialWap, SpecialWapState } from './special-wap';
 import { specialHotspot, SpecialHotspotState } from './special-hotspot';
@@ -32,8 +33,10 @@ type State = OtherState
 type GetState = StoreApi<State>['getState'];
 type SetState = StoreApi<State>['setState'];
 
-
-const useModel = create((setState: SetState, getState: GetState) => ({
+/**
+ * 使用仓库model
+ */
+const useModel = create(zustandLog((setState: SetState, getState: GetState) => ({
 
     ...reading(setState, getState),
     ...login(setState, getState),
@@ -45,7 +48,7 @@ const useModel = create((setState: SetState, getState: GetState) => ({
     ...alarmSiteTopStatis(setState, getState),
     ...specialTypeStatis(setState, getState),
     ...alarmWeekStatis(setState, getState)
-}));
+}), false));
 
 export type { State, GetState, SetState };
 export { useModel };

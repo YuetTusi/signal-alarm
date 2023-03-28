@@ -21,14 +21,16 @@ localforage.config({
 
 const App = () => <ConfigProvider
     theme={{
-        algorithm: theme.darkAlgorithm,
-        token: { ...blue }
+        token: { ...blue },
+        algorithm: theme.darkAlgorithm
     }}
-    locale={zhCN}
-    componentSize="small"
     renderEmpty={() =>
-        <Empty description="暂无数据" image={Empty.PRESENTED_IMAGE_SIMPLE} />
-    }>
+        <Empty
+            description="暂无数据"
+            image={Empty.PRESENTED_IMAGE_SIMPLE} />
+    }
+    locale={zhCN}
+    componentSize="small">
     <AntdApp>
         <ThemeProvider theme={blue}>
             <GlobalStyle />

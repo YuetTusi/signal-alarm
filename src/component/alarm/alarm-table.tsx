@@ -74,7 +74,7 @@ const AlarmTable: FC<AlarmTopProp> = () => {
      */
     const onExport = async (beginTime: Dayjs, endTime: Dayjs, status: number) => {
         message.destroy();
-        const fileName = '专项数据_' + dayjs().format('YYYYMMDDHHmmss') + '.xlsx';
+        const fileName = '预警数据_' + dayjs().format('YYYYMMDDHHmmss') + '.xlsx';
         setReading(true);
         try {
             const { filePaths }: OpenDialogReturnValue = await ipcRenderer.invoke('open-dialog', {
