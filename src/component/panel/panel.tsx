@@ -16,6 +16,12 @@ export const BoxPanel = styled(Panel) <{
     &>.content{
         margin: ${(props) => props.margin ?? 0 + 'px'};
         padding:${(props) => props.padding ?? 0 + 'px'};
+        p{
+            margin: 0;
+            padding: 5px;
+            text-align: right;
+            background-color: rgba(25, 35, 104, .7);
+        }
     }
 `;
 

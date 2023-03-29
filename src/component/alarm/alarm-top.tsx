@@ -1,7 +1,7 @@
-import { FC, useEffect, useState, useRef } from 'react';
-import { App, message, Table } from 'antd';
+import { FC, useEffect, useState, useRef, Key, MouseEvent } from 'react';
+import { Button, message, Table } from 'antd';
 import { AlarmMsg } from '@/schema/alarm-msg';
-import useModel from '@/model';
+import { useModel } from '@/model';
 import { ProcessModal } from './process-modal';
 import { AlarmDetailModal } from './alarm-detail-modal';
 import { getTopColumns } from './column';
@@ -15,6 +15,7 @@ const AlarmTop: FC<AlarmTopProp> = () => {
     const alarmData = useRef<AlarmMsg>();
     const [processModalOpen, setProcessModalOpen] = useState<boolean>(false);
     const [alarmDetailModalOpen, setAlarmDetailModalOpen] = useState<boolean>(false);
+    const [selectedKeys, setSelectedKeys] = useState<Key[]>([]);
 
     const {
         alarmTop10Loading,
@@ -73,9 +74,40 @@ const AlarmTop: FC<AlarmTopProp> = () => {
         }
     };
 
+    /**
+     * 勾选行Change
+     */
+    const onRowSelect = (selectedRowKeys: Key[], _: AlarmMsg[]) =>
+        setSelectedKeys(selectedRowKeys);
+
+    /**
+     * 批量处理Click
+     */
+    const onBatchProcessClick = (event: MouseEvent<HTMLElement>) => {
+        event.preventDefault();
+        message.destroy();
+        if (selectedKeys.length === 0) {
+            message.info('请选择预警信息');
+        } else {
+            console.log(selectedKeys);
+        }
+    };
+
     return <>
+        {/* <p>
+            <Button
+                onClick={onBatchProcessClick}
+                type="link">
+                批量处理
+            </Button>
+        </p> */}
         <Table<AlarmMsg>
             columns={getTopColumns(actionHandle)}
+            // rowSelection={{
+            //     type: 'checkbox',
+            //     onChange: onRowSelect,
+            //     selectedRowKeys: selectedKeys
+            // }}
             dataSource={alarmTop10Data}
             loading={alarmTop10Loading}
             pagination={false}

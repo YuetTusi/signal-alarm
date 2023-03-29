@@ -2,7 +2,6 @@ import { RequestResult } from '@/utility/http';
 import { login } from './login';
 
 interface LoginState {
-
     /**
      * 用户ID
      */

@@ -1,5 +1,5 @@
-import { AlarmMsg } from "@/schema/alarm-msg"
-import { Dayjs } from "dayjs"
+import { Dayjs } from "dayjs";
+import { AlarmMsg } from "@/schema/alarm-msg";
 
 export interface AlarmTopProp { }
 

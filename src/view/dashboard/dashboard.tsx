@@ -1,11 +1,12 @@
 import localforage from "localforage";
 import { FC, memo, useEffect, MouseEvent } from "react";
 import { useNavigate } from 'react-router-dom';
-import { Button, message } from "antd";
+import { Button, Empty, message } from "antd";
 import { ThunderboltOutlined, LogoutOutlined, InteractionOutlined } from '@ant-design/icons';
 import useModel from "@/model";
 import { instance, News } from "@/utility/news";
 import { StorageKeys } from "@/utility/storage-keys";
+import { DisplayPanel } from '@/component/panel';
 import WapInfo from "@/component/special/wap-info";
 import { SettingMenu } from "@/component/setting-menu";
 import { AlarmInfo } from '@/component/alarm';
@@ -108,9 +109,14 @@ const Dashboard: FC<{}> = memo(() => {
                 </Button>
             </div>
             <div className="main-box">
-                <div>
-                    main-box
-                </div>
+                <DisplayPanel>
+                    <div className="caption">
+                        无线环境长时检测
+                    </div>
+                    <div className="content">
+                        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                    </div>
+                </DisplayPanel>
             </div>
             <div className="bottom-box">
                 <AlarmInfo />
