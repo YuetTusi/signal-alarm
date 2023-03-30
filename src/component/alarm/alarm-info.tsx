@@ -4,7 +4,6 @@ import { DetailModal } from './detail-modal';
 import { AlarmTop } from './alarm-top';
 import { AlarmInfoBox } from './styled/style';
 
-
 /**
  * 预警信息
  */

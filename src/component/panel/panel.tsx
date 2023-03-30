@@ -25,7 +25,6 @@ export const BoxPanel = styled(Panel) <{
     }
 `;
 
-
 export const DisplayPanel = styled(BoxPanel)`
 
     border:1px solid #141c67;

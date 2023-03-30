@@ -74,7 +74,8 @@ const Rose: FC<RoseProp> = ({ data, serieName }) => {
     }, [data, serieName]);
 
     return helper.isNullOrUndefined(data) || data.length === 0
-        ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+        ? <Empty
+            image={Empty.PRESENTED_IMAGE_SIMPLE} />
         : <ChartBox
             width={320}
             height={200}
