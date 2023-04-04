@@ -12,6 +12,7 @@ class Wap extends BaseEntity {
     protocolName: string = ''
     protocolType: Protocol = Protocol.All
     param: any
+    siteName: string = ''
 };
 
 export { Wap };

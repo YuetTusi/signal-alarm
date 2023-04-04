@@ -2,9 +2,10 @@ import { FC, useState } from 'react';
 import { Tabs } from 'antd';
 import { DisplayPanel } from '@/component/panel';
 import { getProtocolLabel, Protocol } from '@/schema/protocol';
+import WapList from './wap-list';
 import { WapTop } from './wap-table';
-import { TerminalTop } from './terminal-table';
-import { HotspotTop } from './hotspot-table';
+import TerminalList from './terminal-list';
+import HotspotList from './hotspot-list';
 import DetailModal from './detail-modal';
 import { WapInfoBox } from './styled/style';
 import { WapInfoProp } from './prop';
@@ -19,14 +20,14 @@ const toTabItem = () =>
                     acc.push({
                         key: v.toString(),
                         label: getProtocolLabel(v as any),
-                        children: <HotspotTop protocol={v} />
+                        children: <HotspotList protocol={v} />
                     });
                     break;
                 case Protocol.Terminal:
                     acc.push({
                         key: v.toString(),
                         label: getProtocolLabel(v as any),
-                        children: <TerminalTop />
+                        children: <TerminalList />
                     });
                 case Protocol.Others:
                     //其他跳过，最后追加以保证是页签是最后一个
@@ -35,7 +36,7 @@ const toTabItem = () =>
                     acc.push({
                         key: v.toString(),
                         label: getProtocolLabel(v as any),
-                        children: <WapTop protocol={v as Protocol} />
+                        children: <WapList protocol={v as Protocol} />
                     });
                     break;
             }

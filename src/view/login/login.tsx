@@ -1,7 +1,7 @@
 import localforage from 'localforage';
 import { FC, MouseEvent, useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import { UserOutlined, ReloadOutlined, LoadingOutlined } from '@ant-design/icons';
+import { UserOutlined, ReloadOutlined, LoadingOutlined, KeyOutlined } from '@ant-design/icons';
 import { Col, Row, Input, Button, Checkbox, Form, message } from 'antd';
 import { useModel } from "@/model";
 import { helper } from '@/utility/helper';
@@ -124,7 +124,7 @@ const Login: FC<{}> = () => {
                             }]}
                             name="userName"
                             label="用户">
-                            <Input />
+                            <Input prefix={<UserOutlined style={{ color: '#424242' }} />} />
                         </Item>
                         <Item
                             rules={[{
@@ -133,7 +133,7 @@ const Login: FC<{}> = () => {
                             }]}
                             name="password"
                             label="密码">
-                            <Password />
+                            <Password prefix={<KeyOutlined style={{ color: '#424242' }} />} />
                         </Item>
                         <Item>
                             <Row gutter={16}>

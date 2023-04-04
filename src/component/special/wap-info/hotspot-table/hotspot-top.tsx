@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react';
 import { Table } from 'antd';
-import { useModel } from '@/model';
+import { State, useModel } from '@/model';
 import { Wap } from '@/schema/wap';
 import { getTopColumns } from './column';
 import { HotspotTopProp } from './prop';
@@ -21,7 +21,7 @@ const HotspotTop: FC<HotspotTopProp> = ({ protocol }) => {
         specialHotspotLoading,
         specialHotspotTop10Data,
         querySpecialHotspotTop10Data
-    } = useModel(state => ({
+    } = useModel((state: State) => ({
         specialHotspotLoading: state.specialHotspotLoading,
         specialHotspotTop10Data: state.specialHotspotTop10Data,
         querySpecialHotspotTop10Data: state.querySpecialHotspotTop10Data

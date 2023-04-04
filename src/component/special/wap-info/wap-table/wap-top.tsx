@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react';
 import { Table } from 'antd';
-import { useModel } from '@/model';
+import { State, useModel } from '@/model';
 import { Protocol } from '@/schema/protocol';
 import { Wap } from '@/schema/wap';
 import { getTopColumns } from './column';
@@ -22,7 +22,7 @@ const WapTop: FC<WapTopProp> = ({ protocol }) => {
         specialWapLoading,
         specialWapTop10Data,
         querySpecialWapTop10Data
-    } = useModel(state => ({
+    } = useModel((state: State) => ({
         specialWapLoading: state.specialWapLoading,
         specialWapTop10Data: state.specialWapTop10Data,
         querySpecialWapTop10Data: state.querySpecialWapTop10Data

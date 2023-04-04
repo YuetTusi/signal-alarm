@@ -21,8 +21,10 @@ let sse: News;
 const Dashboard: FC<{}> = memo(() => {
     const navigator = useNavigate();
     const {
+        loginUserName,
         logout
     } = useModel(state => ({
+        loginUserName: state.loginUserName,
         logout: state.logout
     }));
 
@@ -49,7 +51,7 @@ const Dashboard: FC<{}> = memo(() => {
             await logout();
             await localforage.clear();
             sessionStorage.clear();
-            message.success('用户已登出');
+            message.success(`用户${loginUserName}已登出`);
             navigator('/');
         } catch (error) {
             console.warn(error);
@@ -105,7 +107,7 @@ const Dashboard: FC<{}> = memo(() => {
                     onClick={onLogoutClick}
                     type="primary">
                     <LogoutOutlined />
-                    <span>安全登出</span>
+                    <span>{`登出${loginUserName}`}</span>
                 </Button>
             </div>
             <div className="main-box">
@@ -124,6 +126,7 @@ const Dashboard: FC<{}> = memo(() => {
         </div>
         <div className="right-box">
             <WapInfo />
+
         </div>
     </DashboardBox>
 });

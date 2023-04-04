@@ -36,7 +36,7 @@ type SetState = StoreApi<State>['setState'];
 /**
  * 使用仓库model
  */
-const useModel = create(zustandLog((setState: SetState, getState: GetState) => ({
+const useModel = create<State>(zustandLog((setState: SetState, getState: GetState) => ({
 
     ...reading(setState, getState),
     ...login(setState, getState),
