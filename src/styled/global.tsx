@@ -34,8 +34,8 @@ export const GlobalStyle = createGlobalStyle`
 		height: 10px;
     }
 	::-webkit-scrollbar:horizontal{
-		width: 0;
-		height: 0;
+		width: 10px;
+		height: 10px;
 	}
     ::-webkit-scrollbar-track {
         -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);

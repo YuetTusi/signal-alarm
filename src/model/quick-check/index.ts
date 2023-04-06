@@ -1,5 +1,5 @@
-import { RequestResult } from '@/utility/http';
 import { quickCheck } from './quick-check';
+import { QuickCheckReport } from '@/schema/quick-check-report';
 
 interface QuickCheckState {
     /**
@@ -11,6 +11,14 @@ interface QuickCheckState {
      */
     startTime: string,
     /**
+     * 报告列表
+     */
+    quickCheckReportList: QuickCheckReport[],
+    /**
+     * 更新报告列表
+     */
+    setQuickCheckReportList: (list: QuickCheckReport[]) => void,
+    /**
      * 设置开始时间
      */
     setStartTime: (start: string) => void,
@@ -21,7 +29,11 @@ interface QuickCheckState {
     /**
      * 停止检测
      */
-    quickCheckStop: () => void
+    quickCheckStop: () => void,
+    /**
+     * 查询检查报告
+     */
+    queryQuickCheckReport: () => void
 }
 
 export type { QuickCheckState };

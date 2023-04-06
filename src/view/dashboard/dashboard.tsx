@@ -17,6 +17,7 @@ import { AlarmInfo } from '@/component/alarm';
 import {
     AlarmTypeChart, AlarmSiteTopChart, SpecialTypeChart, AlarmWeekChart
 } from '@/component/statis';
+import CheckReport from '@/component/check-report';
 import { SettingMenuAction } from "@/component/setting-menu/prop";
 import { DashboardBox } from "./styled/box";
 
@@ -160,6 +161,7 @@ const Dashboard: FC<{}> = memo(() => {
         </div>
         <div className="right-box">
             <WapInfo />
+            <CheckReport />
         </div>
     </DashboardBox>
 });
