@@ -7,6 +7,7 @@ specifiers:
   '@fortawesome/free-regular-svg-icons': ^6.3.0
   '@fortawesome/free-solid-svg-icons': ^6.3.0
   '@fortawesome/react-fontawesome': ^0.2.0
+  '@types/lodash': ^4.14.192
   '@types/node': ^18.14.6
   '@types/react': ^18.0.27
   '@types/react-dom': ^18.0.10
@@ -23,6 +24,7 @@ specifiers:
   electron-builder: ^23.6.0
   electron-log: 5.0.0-beta.19
   localforage: ^1.10.0
+  lodash: ^4.17.21
   react: ^18.2.0
   react-dom: ^18.2.0
   react-router-dom: ^6.8.2
@@ -42,6 +44,7 @@ dependencies:
   echarts: 5.4.1
   electron-log: 5.0.0-beta.19
   localforage: 1.10.0
+  lodash: 4.17.21
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-router-dom: 6.8.2_biqbaboplfbrettd7655fr4n2y
@@ -56,6 +59,7 @@ devDependencies:
   '@fortawesome/free-regular-svg-icons': 6.3.0
   '@fortawesome/free-solid-svg-icons': 6.3.0
   '@fortawesome/react-fontawesome': 0.2.0_d5rbrisxfyemehbvmdbryvgjte
+  '@types/lodash': 4.14.192
   '@types/node': 18.14.6
   '@types/react': 18.0.28
   '@types/react-dom': 18.0.11
@@ -893,6 +897,10 @@ packages:
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
     dependencies:
       '@types/node': 18.14.6
+    dev: true
+
+  /@types/lodash/4.14.192:
+    resolution: {integrity: sha512-km+Vyn3BYm5ytMO13k9KTp27O75rbQ0NFw+U//g+PX7VZyjCioXaRFisqSIJRECljcTv73G3i6BpglNGHgUQ5A==}
     dev: true
 
   /@types/minimatch/5.1.2:

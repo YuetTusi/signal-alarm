@@ -35,25 +35,25 @@ const Login: FC<{}> = () => {
         queryLoginUserInfo: state.queryLoginUserInfo
     }));
 
-    useEffect(() => {
-        (async () => {
-            try {
-                const [token, hash, user] = await Promise.all([
-                    localforage.getItem<string>(StorageKeys.Token),
-                    localforage.getItem<string>(StorageKeys.Hash),
-                    localforage.getItem<string>(StorageKeys.User),
-                ]);
-                if (token !== null && hash !== null && user !== null) {
-                    sessionStorage.setItem(StorageKeys.Token, token);
-                    sessionStorage.setItem(StorageKeys.Hash, hash);
-                    sessionStorage.setItem(StorageKeys.User, user);
-                    navigate('/dashboard');
-                }
-            } catch (error) {
-                console.warn(error);
-            }
-        })();
-    }, []);
+    // useEffect(() => {
+    //     (async () => {
+    //         try {
+    //             const [token, hash, user] = await Promise.all([
+    //                 localforage.getItem<string>(StorageKeys.Token),
+    //                 localforage.getItem<string>(StorageKeys.Hash),
+    //                 localforage.getItem<string>(StorageKeys.User),
+    //             ]);
+    //             if (token !== null && hash !== null && user !== null) {
+    //                 sessionStorage.setItem(StorageKeys.Token, token);
+    //                 sessionStorage.setItem(StorageKeys.Hash, hash);
+    //                 sessionStorage.setItem(StorageKeys.User, user);
+    //                 navigate('/dashboard');
+    //             }
+    //         } catch (error) {
+    //             console.warn(error);
+    //         }
+    //     })();
+    // }, []);
 
     /**
      * 登录
@@ -135,7 +135,7 @@ const Login: FC<{}> = () => {
                             label="密码">
                             <Password prefix={<KeyOutlined style={{ color: '#424242' }} />} />
                         </Item>
-                        <Item>
+                        {/* <Item>
                             <Row gutter={16}>
                                 <Col flex="none">
                                     <Checkbox
@@ -145,9 +145,8 @@ const Login: FC<{}> = () => {
                                         <label onClick={() => setLoginRemember(!loginRemember)}>记住密码</label>
                                     </Checkbox>
                                 </Col>
-                                {/* <Col flex={1}><label>记住密码</label></Col> */}
                             </Row>
-                        </Item>
+                        </Item> */}
                         <Item>
                             <Row gutter={24} style={{ marginTop: '1rem' }}>
                                 <Col span={12}>

@@ -9,6 +9,7 @@ import { alarmTypeStatis, AlarmTypeStatisState } from './alarm-type-statis';
 import { alarmSiteTopStatis, AlarmSiteTopStatisState } from './alarm-site-top-statis';
 import { specialTypeStatis, SpecialTypeStatisState } from './special-type-statis';
 import { alarmWeekStatis, AlarmWeekStatisState } from './alarm-week-statis';
+import { quickCheck, QuickCheckState } from './quick-check';
 import { login, LoginState } from './login';
 
 interface OtherState {
@@ -28,7 +29,8 @@ type State = OtherState
     & AlarmTypeStatisState
     & AlarmSiteTopStatisState
     & SpecialTypeStatisState
-    & AlarmWeekStatisState;
+    & AlarmWeekStatisState
+    & QuickCheckState;
 
 type GetState = StoreApi<State>['getState'];
 type SetState = StoreApi<State>['setState'];
@@ -47,7 +49,8 @@ const useModel = create<State>(zustandLog((setState: SetState, getState: GetStat
     ...alarmTypeStatis(setState, getState),
     ...alarmSiteTopStatis(setState, getState),
     ...specialTypeStatis(setState, getState),
-    ...alarmWeekStatis(setState, getState)
+    ...alarmWeekStatis(setState, getState),
+    ...quickCheck(setState, getState)
 }), false));
 
 export type { State, GetState, SetState };
