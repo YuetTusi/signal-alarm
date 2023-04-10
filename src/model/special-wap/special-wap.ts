@@ -1,4 +1,3 @@
-import fs from 'fs';
 import { message } from 'antd';
 import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';

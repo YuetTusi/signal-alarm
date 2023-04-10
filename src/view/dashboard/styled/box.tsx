@@ -33,4 +33,13 @@ export const DashboardBox = styled.div`
     &>.right-box{
         flex:none;
     }
+
+    .alarm-bg{
+        position: relative;
+        width: 100%;
+        height: 700px;
+        background-image: url("/src/assets/image/alarm-bg.jpg");
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
 `;

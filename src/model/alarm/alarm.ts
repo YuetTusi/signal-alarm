@@ -70,8 +70,9 @@ const alarm = (setState: SetState, _: GetState): AlarmState => ({
         try {
             const res = await request.get('/warn/msg/top');
             if (res === null) {
-                message.warning('查询失败')
+                message.warning('查询失败');
             } else if (res.code === 200) {
+                console.log(res.data);
                 setState({ alarmTop10Data: res.data });
             } else {
                 message.warning(`查询失败（${res.message ?? ''}）`)

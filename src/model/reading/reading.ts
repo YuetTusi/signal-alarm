@@ -1,6 +1,6 @@
 import { GetState, SetState } from "..";
 
-const reading = (setState: SetState, getState: GetState) => ({
+const reading = (setState: SetState, _: GetState) => ({
 
     reading: false,
 

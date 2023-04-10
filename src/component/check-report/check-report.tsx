@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { Button, Empty } from 'antd';
 import { useModel } from '@/model';
 import { DisplayPanel } from '@/component/panel';
@@ -19,9 +19,27 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
         queryQuickCheckReport: state.queryQuickCheckReport
     }));
 
+    const scrollRef = useRef<HTMLDivElement>(null);
+
     useEffect(() => {
         queryQuickCheckReport();
     }, []);
+
+    const onWheel = (event: WheelEvent) => {
+        event.preventDefault();
+        const { deltaY } = event;
+        scrollRef.current!.style.scrollBehavior = 'auto';
+        scrollRef.current!.scrollLeft += deltaY - 5;
+    };
+
+    useEffect(() => {
+        if (scrollRef.current !== null) {
+            scrollRef.current.addEventListener('wheel', onWheel);
+        }
+        return () => {
+            scrollRef.current?.removeEventListener('wheel', onWheel);
+        };
+    }, [scrollRef.current]);
 
     const renderTime = (value: number | null) => {
         if (value) {
@@ -31,9 +49,14 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
         }
     };
 
+    /**
+     * 生成报告时间差(秒)
+     * @param startTime 开始时间
+     * @param endTime 结束时间
+     */
     const renderDuring = (startTime: number | null, endTime: number | null) => {
         if (startTime && endTime) {
-            return dayjs(startTime).diff(endTime, 'seconds').toString();
+            return dayjs(endTime).diff(startTime, 'seconds').toString() + 's';
         } else {
             return '-';
         }
@@ -77,7 +100,7 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
                         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
                     </EmptyBox>
                     :
-                    <ScrollBox>
+                    <ScrollBox ref={scrollRef}>
                         {renderList()}
                     </ScrollBox>
             }

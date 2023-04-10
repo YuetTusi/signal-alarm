@@ -3,9 +3,6 @@ import http from 'http';
 import { helper } from '@/utility/helper';
 import { StorageKeys } from './storage-keys';
 
-
-
-
 /**
  * 封装HTTP请求
  */
@@ -136,7 +133,7 @@ class HttpRequest {
 
         let data = Buffer.alloc(0);
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, _) => {
             const req = http.get({
                 ...options,
                 headers: {
