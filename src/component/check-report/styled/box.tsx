@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import rw from '@/assets/image/rw.png';
 
 export const ScrollBox = styled.div`
 
@@ -36,7 +37,7 @@ export const ReportBox = styled.div`
             line-height: 32px;
             text-indent: 37px;
             color:${props => props.theme['colorInfo']};
-            background-image: url("/src/assets/image/rw.png");
+            background-image: url(${rw});
             background-repeat: no-repeat;
         }
     }

@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { FC, useEffect, useRef } from 'react';
+import { FC, useCallback, useEffect, useRef } from 'react';
 import { Button, Empty } from 'antd';
 import { useModel } from '@/model';
 import { DisplayPanel } from '@/component/panel';
@@ -25,12 +25,13 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
         queryQuickCheckReport();
     }, []);
 
-    const onWheel = (event: WheelEvent) => {
+    const onWheel = useCallback((event: WheelEvent) => {
         event.preventDefault();
-        const { deltaY } = event;
-        scrollRef.current!.style.scrollBehavior = 'auto';
-        scrollRef.current!.scrollLeft += deltaY - 5;
-    };
+        if (scrollRef.current) {
+            scrollRef.current!.style.scrollBehavior = 'auto';
+            scrollRef.current!.scrollLeft += event.deltaY - 5;
+        }
+    }, [scrollRef.current]);
 
     useEffect(() => {
         if (scrollRef.current !== null) {
@@ -62,31 +63,33 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
         }
     };
 
-    const renderList = () => quickCheckReportList.map((item, index) => <ReportBox key={`QCR_${index}`}>
-        <div className="r-title">
-            <span>{`报告编号${item.reportId ?? ''}`}</span>
-        </div>
-        <div className="info">
-            <ul>
-                <li>
-                    <label>开始时间</label>
-                    <span>{renderTime(item.startTime)}</span>
-                </li>
-                <li>
-                    <label>持续时间</label>
-                    <span>{renderDuring(item.startTime, item.endTime)}</span>
-                </li>
-                <li>
-                    <label>结束时间</label>
-                    <span>{renderTime(item.endTime)}</span>
-                </li>
-            </ul>
-        </div>
-        <div className="btn">
-            <Button type="primary">下载</Button>
-            <Button type="primary">查看</Button>
-        </div>
-    </ReportBox>);
+    const renderList = () =>
+        quickCheckReportList.map((item, index) =>
+            <ReportBox key={`QCR_${index}`}>
+                <div className="r-title">
+                    <span>{`报告编号${item.reportId ?? ''}`}</span>
+                </div>
+                <div className="info">
+                    <ul>
+                        <li>
+                            <label>开始时间</label>
+                            <span>{renderTime(item.startTime)}</span>
+                        </li>
+                        <li>
+                            <label>持续时间</label>
+                            <span>{renderDuring(item.startTime, item.endTime)}</span>
+                        </li>
+                        <li>
+                            <label>结束时间</label>
+                            <span>{renderTime(item.endTime)}</span>
+                        </li>
+                    </ul>
+                </div>
+                {/* <div className="btn">
+                    <Button type="primary">下载</Button>
+                    <Button type="primary">查看</Button>
+                </div> */}
+            </ReportBox>);
 
     return <DisplayPanel style={{ marginTop: '5px' }}>
         <div className="caption">

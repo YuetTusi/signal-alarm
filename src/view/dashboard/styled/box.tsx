@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import alarmBg from '@/assets/image/alarm-bg.jpg';
 
 export const DashboardBox = styled.div`
 
@@ -38,7 +39,7 @@ export const DashboardBox = styled.div`
         position: relative;
         width: 100%;
         height: 700px;
-        background-image: url("/src/assets/image/alarm-bg.jpg");
+        background-image: url(${alarmBg});
         background-repeat: no-repeat;
         background-size: 100% 100%;
     }

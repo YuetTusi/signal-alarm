@@ -72,7 +72,6 @@ const alarm = (setState: SetState, _: GetState): AlarmState => ({
             if (res === null) {
                 message.warning('查询失败');
             } else if (res.code === 200) {
-                console.log(res.data);
                 setState({ alarmTop10Data: res.data });
             } else {
                 message.warning(`查询失败（${res.message ?? ''}）`)
@@ -159,7 +158,6 @@ const alarm = (setState: SetState, _: GetState): AlarmState => ({
         }
         try {
             const res = await request.get(`/warn/msg/process${params}`);
-            console.log(res);
             if (res && res.code === 200) {
                 return true;
             } else {

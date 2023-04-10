@@ -37,7 +37,6 @@ const login = (setState: SetState, _: GetState): LoginState => ({
             const res = await request.get<{
                 name: string, userId: number, roles: string
             }>('/system/index/info');
-            console.log(res);
             return res;
         } catch (error) {
             throw error;

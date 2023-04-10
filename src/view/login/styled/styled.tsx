@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import loginBg from '@/assets/image/login-bg.jpg';
 
 export const LoginBox = styled.div`
 
@@ -57,7 +58,7 @@ export const BackgroundBox = styled.div`
     left:0;
     right:0;
     bottom: 0;
-    background-image: url("/src/assets/image/login-bg.jpg");
+    background-image: url(${loginBg});
     background-repeat: no-repeat;
     background-size: 100% 100%;
 `;

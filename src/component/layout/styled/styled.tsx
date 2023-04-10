@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import dashboardBg from '@/assets/image/dashboard-bg.jpg';
 
 export const LayoutBox = styled.div`
 
@@ -8,7 +9,7 @@ export const LayoutBox = styled.div`
     right:0;
     bottom:0;
 
-    background-image: url("/src/assets/image/dashboard-bg.jpg");
+    background-image: url(${dashboardBg});
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-position-y: 17px;

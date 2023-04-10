@@ -10,18 +10,18 @@ var mainWindow: BrowserWindow | null = null;
 app.whenReady()
     .then(() => {
         // #生产模式屏蔽快捷键（发布把注释放开）
-        if (!isDev) {
-            globalShortcut.register('Control+R', () => {
-                if (mainWindow && mainWindow.isFocused()) {
-                    return false;
-                }
-            });
-            globalShortcut.register('CommandOrControl+Shift+I', () => {
-                if (mainWindow && mainWindow.isFocused()) {
-                    return false;
-                }
-            });
-        }
+        // if (!isDev) {
+        //     globalShortcut.register('Control+R', () => {
+        //         if (mainWindow && mainWindow.isFocused()) {
+        //             return false;
+        //         }
+        //     });
+        //     globalShortcut.register('CommandOrControl+Shift+I', () => {
+        //         if (mainWindow && mainWindow.isFocused()) {
+        //             return false;
+        //         }
+        //     });
+        // }
     });
 
 app.on('second-instance', (event, commandLine, workingDirectory) => {
