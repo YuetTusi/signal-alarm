@@ -48,10 +48,11 @@ const Dashboard: FC<{}> = memo(() => {
     }));
 
     const onMessage = (event: MessageEvent<any>) => {
+        console.log('SSE message:', event);
         try {
             if (typeof event.data === 'string') {
                 const data = JSON.parse(event.data);
-                setPhoneAlarmData([...phoneAlarmData, data]);
+                setPhoneAlarmData([data]);
             }
         } catch (error) {
             console.log(`Parse JSON Error: ${event.data}`);

@@ -15,16 +15,16 @@ app.whenReady()
     .then(() => {
         // #生产模式屏蔽快捷键（发布把注释放开）
         if (!isDev) {
-            globalShortcut.register('Control+R', () => {
-                if (mainWindow && mainWindow.isFocused()) {
-                    return false;
-                }
-            });
-            globalShortcut.register('CommandOrControl+Shift+I', () => {
-                if (mainWindow && mainWindow.isFocused()) {
-                    return false;
-                }
-            });
+            // globalShortcut.register('Control+R', () => {
+            //     if (mainWindow && mainWindow.isFocused()) {
+            //         return false;
+            //     }
+            // });
+            // globalShortcut.register('CommandOrControl+Shift+I', () => {
+            //     if (mainWindow && mainWindow.isFocused()) {
+            //         return false;
+            //     }
+            // });
         }
     });
 

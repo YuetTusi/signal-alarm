@@ -1,3 +1,4 @@
+import { request } from "./http";
 import { StorageKeys } from "./storage-keys";
 
 
@@ -29,7 +30,10 @@ const instance = (onMessage: (this: EventSource, ev: MessageEvent<any>) => any) 
 
 const close = () => {
     if (source) {
+        const hash = sessionStorage.getItem(StorageKeys.Hash) ?? '';
+        console.log(`SSE close ${hash}`);
         source.close();
+        request.get(`/sse/close?hash=${hash}`);
         source = null;
     }
 };
