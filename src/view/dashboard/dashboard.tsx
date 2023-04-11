@@ -5,11 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Empty, Typography, message } from "antd";
 import {
     ThunderboltOutlined, LogoutOutlined, InteractionOutlined,
-    LoadingOutlined
+    LoadingOutlined, MobileOutlined
 } from '@ant-design/icons';
 import useModel from "@/model";
-import { instance, News } from "@/utility/news";
-import { StorageKeys } from "@/utility/storage-keys";
+import { instance, close } from '@/utility/sse';
+import { StorageKeys } from '@/utility/storage-keys';
 import { DisplayPanel } from '@/component/panel';
 import WapInfo from "@/component/special/wap-info";
 import { SettingMenu } from "@/component/setting-menu";
@@ -20,9 +20,10 @@ import {
 import CheckReport from '@/component/check-report';
 import { SettingMenuAction } from "@/component/setting-menu/prop";
 import { DashboardBox } from "./styled/box";
+import { request } from "@/utility/http";
 
-let sse: News;
 const { Text } = Typography;
+let sse: EventSource | null = null;
 
 const Dashboard: FC<{}> = memo(() => {
     const navigator = useNavigate();
@@ -31,30 +32,47 @@ const Dashboard: FC<{}> = memo(() => {
         logout,
         startTime,
         quickCheckLoading,
+        phoneAlarmData,
         quickCheckStart,
-        quickCheckStop
+        quickCheckStop,
+        setPhoneAlarmData
     } = useModel(state => ({
         loginUserName: state.loginUserName,
         logout: state.logout,
         startTime: state.startTime,
         quickCheckLoading: state.quickCheckLoading,
+        phoneAlarmData: state.phoneAlarmData,
         quickCheckStart: state.quickCheckStart,
-        quickCheckStop: state.quickCheckStop
+        quickCheckStop: state.quickCheckStop,
+        setPhoneAlarmData: state.setPhoneAlarmData
     }));
+
+    const onMessage = (event: MessageEvent<any>) => {
+        try {
+            if (typeof event.data === 'string') {
+                const data = JSON.parse(event.data);
+                setPhoneAlarmData([...phoneAlarmData, data]);
+            }
+        } catch (error) {
+            console.log(`Parse JSON Error: ${event.data}`);
+        }
+    };
 
     useEffect(() => {
 
-        const user = sessionStorage.getItem(StorageKeys.User);
         const userId = sessionStorage.getItem(StorageKeys.UserId);
         const hash = sessionStorage.getItem(StorageKeys.Hash);
-        if (user !== null && userId !== null && hash !== null) {
-            sse = instance();
-            sse.on('open', () => console.log('SSE 打开'));
-            sse.on('message', (event, data) => {
-                console.log(event);
-                console.log(data);
-            });
-            sse.on('closed', (info) => console.log(info));
+
+        if (userId !== null && hash !== null) {
+            sse = instance(onMessage);
+            request.post(`/sse/push-user`, { hash })
+                .then(res => console.log(res))
+                .catch(err => console.log(err));
+        }
+
+        return () => {
+            close();
+            setPhoneAlarmData([]);
         }
     }, []);
 
@@ -76,7 +94,7 @@ const Dashboard: FC<{}> = memo(() => {
     const onLogoutClick = async (event: MouseEvent) => {
         event.preventDefault();
         try {
-            await instance().close();
+            close();
             await logout();
             await localforage.clear();
             sessionStorage.clear();
@@ -86,6 +104,19 @@ const Dashboard: FC<{}> = memo(() => {
             console.warn(error);
         }
     };
+
+    const renderPhoneAlarm = () =>
+        phoneAlarmData.map(
+            (item, index) => <div className="phone-alarm" key={`PA_${index}`}>
+                <div className="icon">
+                    <MobileOutlined />
+                </div>
+                <div className="info">
+                    <div>协议名称：{item?.protocolName ?? '-'}</div>
+                    <div>设备地址：{item?.siteName ?? '-'}</div>
+                </div>
+            </div>
+        );
 
     const onMenuAction = (type: SettingMenuAction) => {
         switch (type) {
@@ -146,6 +177,9 @@ const Dashboard: FC<{}> = memo(() => {
                             <LogoutOutlined />
                             <span>{`登出${loginUserName}`}</span>
                         </Button>
+                    </div>
+                    <div className="phone-panel">
+                        {renderPhoneAlarm()}
                     </div>
                 </div>
                 {/* <DisplayPanel>

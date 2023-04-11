@@ -35,26 +35,6 @@ const Login: FC<{}> = () => {
         queryLoginUserInfo: state.queryLoginUserInfo
     }));
 
-    // useEffect(() => {
-    //     (async () => {
-    //         try {
-    //             const [token, hash, user] = await Promise.all([
-    //                 localforage.getItem<string>(StorageKeys.Token),
-    //                 localforage.getItem<string>(StorageKeys.Hash),
-    //                 localforage.getItem<string>(StorageKeys.User),
-    //             ]);
-    //             if (token !== null && hash !== null && user !== null) {
-    //                 sessionStorage.setItem(StorageKeys.Token, token);
-    //                 sessionStorage.setItem(StorageKeys.Hash, hash);
-    //                 sessionStorage.setItem(StorageKeys.User, user);
-    //                 navigate('/dashboard');
-    //             }
-    //         } catch (error) {
-    //             console.warn(error);
-    //         }
-    //     })();
-    // }, []);
-
     /**
      * 登录
      */
@@ -71,7 +51,6 @@ const Login: FC<{}> = () => {
             }
 
             if (ret.code === 200) {
-                message.success('登录成功');
                 sessionStorage.setItem(StorageKeys.Token, ret.data.token ?? '');
                 const res = await queryLoginUserInfo();
                 if (res !== null && res.code === 200) {
@@ -88,6 +67,7 @@ const Login: FC<{}> = () => {
                         localforage.setItem(StorageKeys.User, res.data.name);
                         localforage.setItem(StorageKeys.UserId, res.data.userId.toString());
                     }
+                    message.success('登录成功');
                     navigate('/dashboard');
                 } else {
                     message.warning(`登录失败（${res?.message ?? ''}）`);

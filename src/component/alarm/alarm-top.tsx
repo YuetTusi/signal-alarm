@@ -7,6 +7,8 @@ import { AlarmDetailModal } from './alarm-detail-modal';
 import { getTopColumns } from './column';
 import { ActionType, AlarmTopProp } from './prop';
 
+let timer: any = null;
+
 /**
  * 预警信息Top10
  */
@@ -31,6 +33,15 @@ const AlarmTop: FC<AlarmTopProp> = () => {
 
     useEffect(() => {
         queryAlarmTop10Data();
+        if (timer === null) {
+            timer = setInterval(() => {
+                queryAlarmTop10Data();
+            }, 1000 * 10);
+        }
+
+        return () => {
+            clearInterval(timer);
+        }
     }, []);
 
     /**

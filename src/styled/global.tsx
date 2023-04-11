@@ -27,6 +27,9 @@ export const GlobalStyle = createGlobalStyle`
     .ant-modal-mask,.ant-modal-wrap{
         top:22px !important;
     }
+    .ant-tabs-nav-more{
+        color:#fff !important;
+    }
 
     //Webkit滚动条样式
     ::-webkit-scrollbar {

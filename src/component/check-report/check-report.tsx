@@ -67,7 +67,7 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
         quickCheckReportList.map((item, index) =>
             <ReportBox key={`QCR_${index}`}>
                 <div className="r-title">
-                    <span>{`报告编号${item.reportId ?? ''}`}</span>
+                    <span>{`报告${item.reportId ?? ''}`}</span>
                 </div>
                 <div className="info">
                     <ul>

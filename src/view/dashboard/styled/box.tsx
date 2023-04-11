@@ -43,4 +43,53 @@ export const DashboardBox = styled.div`
         background-repeat: no-repeat;
         background-size: 100% 100%;
     }
+
+    .phone-panel{
+        padding: 0 30px;
+    }
+
+    .phone-alarm{
+        position: relative;
+        display: inline-flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        background-color: #3b3b6f;
+        color:#fff8de;
+        margin:0 40px 20px 0;
+        padding: 5px 5px;
+        box-shadow: inset 0 0 3px 3px #7877c7;
+        border-radius: ${props => props.theme['borderRadius']}px;
+        &>.icon{
+            position: relative;
+            left: -23px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background-color: #3b3b6f;
+            color:#ee545c;
+            font-size:2rem;
+            box-shadow: inset 0 0 3px 3px #7877c7;
+            transform: rotate(45deg);
+            &>.anticon{
+                transform: rotate(-45deg);
+            }
+        }
+        &>.info{
+            padding-right:10px;
+            div{
+                &:first-child{
+                    color:#fff8de;
+                    padding: 2px 0;
+                }
+                &:last-child{
+                    color:#ee545c;
+                    padding: 2px 0;
+                }
+            }
+        }
+    }
 `;

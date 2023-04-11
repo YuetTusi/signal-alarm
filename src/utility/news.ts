@@ -15,30 +15,29 @@ var handle: News | null = null;
  */
 class News extends EventEmitter {
 
-    private source: EventSource;
+    private source: EventSource | null = null;
     private dst: string = '';
     private userId: string = '';
     private hash: string = '';
 
-    constructor(url?: string) {
+    constructor(userId: string, hash: string, url?: string) {
 
         super();
         const dst = url ?? SSE_URL;
-        const userId = sessionStorage.getItem(StorageKeys.UserId);
-        const hash = sessionStorage.getItem(StorageKeys.Hash);
         if (userId === null || hash === null) {
             throw new Error('用户未登录或未知哈希值');
+        } else {
+            this.dst = dst;
+            this.userId = userId!;
+            this.hash = hash!;
+            console.log(`${dst}/sse/connect?userId=${userId}&hash=${hash}`);
+            this.source = new EventSource(`${dst}/sse/connect?userId=${userId}&hash=${hash}`);
+            this.source.addEventListener('open', (event) => {
+                super.emit('open', event);
+            });
+            this.source.addEventListener('message', this.message);
+            this.source.addEventListener('error', (error) => super.emit('error', error));
         }
-        this.dst = dst;
-        this.userId = userId!;
-        this.hash = hash!;
-        console.log(`${dst}/sse/connect?userId=${userId}&hash=${hash}`);
-        this.source = new EventSource(`${dst}/sse/connect?userId=${userId}&hash=${hash}`);
-        this.source.addEventListener('open', (event) => {
-            super.emit('open', event);
-        });
-        this.source.addEventListener('message', this.message);
-        this.source.addEventListener('error', (error) => super.emit('error', error));
     }
 
     message(event: MessageEvent) {
@@ -46,6 +45,7 @@ class News extends EventEmitter {
     }
     async pushUser() {
         try {
+            console.log(`${this.dst}/sse/push-user`);
             const res = await request.post(`${this.dst}/sse/push-user`, {
                 userId: this.userId,
                 hash: this.hash,
@@ -72,9 +72,9 @@ class News extends EventEmitter {
     }
 }
 
-function instance(): News {
+function instance(userId: string, hash: string): News {
     if (handle === null) {
-        handle = new News();
+        handle = new News(userId, hash);
     }
     return handle;
 }
