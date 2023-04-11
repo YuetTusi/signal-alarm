@@ -1,5 +1,5 @@
 import localforage from 'localforage';
-import { FC, MouseEvent, useState, useEffect } from "react";
+import { FC, MouseEvent, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { UserOutlined, ReloadOutlined, LoadingOutlined, KeyOutlined } from '@ant-design/icons';
 import { Col, Row, Input, Button, Checkbox, Form, message } from 'antd';
@@ -15,7 +15,6 @@ const { Item, useForm } = Form;
 const { Password } = Input;
 
 const Login: FC<{}> = () => {
-
     const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
     const [formRef] = useForm<FormValue>();

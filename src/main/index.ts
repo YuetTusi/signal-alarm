@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { app, BrowserWindow, globalShortcut } from 'electron';
+import { app, BrowserWindow, globalShortcut, ipcMain, IpcMainEvent } from 'electron';
 import { port } from '../../config/port';
 import { bindHandle } from './bind';
 
@@ -69,6 +69,29 @@ app.on('ready', () => {
     }
     bindHandle(mainWindow);
 });
+
+//退出应用
+ipcMain.on('do-close', (_: IpcMainEvent) => {
+    //mainWindow通知退出程序
+    if (mainWindow) {
+        mainWindow.destroy();
+    }
+
+    app.exit(0);
+});
+
+/**
+ * 重启应用
+ */
+ipcMain.on('do-relaunch', () => {
+    app.relaunch();
+    globalShortcut.unregisterAll();
+    if (mainWindow) {
+        mainWindow.destroy();
+    }
+    app.exit(0);
+});
+
 
 app.on('window-all-closed', () => {
     if (mainWindow) {

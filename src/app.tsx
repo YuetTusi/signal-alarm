@@ -5,6 +5,7 @@ import localforage from 'localforage';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from '@/styled/global';
 import { ViewRouter } from '@/router';
+import Crash from '@/component/crash';
 import { ConfigProvider, App as AntdApp, Empty, theme } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
 import { blue } from '@/theme/blue';
@@ -31,12 +32,14 @@ const App = () => <ConfigProvider
     }
     locale={zhCN}
     componentSize="small">
-    <AntdApp>
-        <ThemeProvider theme={blue}>
-            <GlobalStyle />
-            <ViewRouter />
-        </ThemeProvider>
-    </AntdApp>
+    <Crash>
+        <AntdApp>
+            <ThemeProvider theme={blue}>
+                <GlobalStyle />
+                <ViewRouter />
+            </ThemeProvider>
+        </AntdApp>
+    </Crash>
 </ConfigProvider>;
 
 export { App };
