@@ -1,15 +1,12 @@
-import localforage from "localforage";
 import debounce from 'lodash/debounce';
 import { FC, memo, useEffect, MouseEvent } from "react";
-import { useNavigate } from 'react-router-dom';
-import { Button, Typography, message } from "antd";
+import { Button, Typography } from "antd";
 import {
-    ThunderboltOutlined, LogoutOutlined,
-    LoadingOutlined, MobileOutlined, InteractionOutlined
+    ThunderboltOutlined, LoadingOutlined, MobileOutlined
 } from '@ant-design/icons';
 import useModel from "@/model";
 // import { request } from "@/utility/http";
-import { instance, close } from '@/utility/sse';
+import { instance, closeSse } from '@/utility/sse';
 import { StorageKeys } from '@/utility/storage-keys';
 import WapInfo from "@/component/special/wap-info";
 import { AlarmInfo } from '@/component/alarm';
@@ -17,17 +14,14 @@ import {
     AlarmTypeChart, AlarmSiteTopChart, SpecialTypeChart, AlarmWeekChart
 } from '@/component/statis';
 import CheckReport from '@/component/check-report';
-import { SettingMenuAction } from "@/component/setting-menu/prop";
+// import { SettingMenuAction } from "@/component/setting-menu/prop";
 import { DashboardBox } from "./styled/box";
 
 const { Text } = Typography;
 let sse: EventSource | null = null;
 
 const Dashboard: FC<{}> = memo(() => {
-    const navigator = useNavigate();
     const {
-        loginUserName,
-        logout,
         startTime,
         quickCheckLoading,
         phoneAlarmData,
@@ -35,8 +29,6 @@ const Dashboard: FC<{}> = memo(() => {
         quickCheckStop,
         setPhoneAlarmData
     } = useModel(state => ({
-        loginUserName: state.loginUserName,
-        logout: state.logout,
         startTime: state.startTime,
         quickCheckLoading: state.quickCheckLoading,
         phoneAlarmData: state.phoneAlarmData,
@@ -72,7 +64,7 @@ const Dashboard: FC<{}> = memo(() => {
         }
 
         return () => {
-            close();
+            closeSse();
             setPhoneAlarmData([]);
         }
     }, []);
@@ -92,20 +84,6 @@ const Dashboard: FC<{}> = memo(() => {
         }
     }, 1000, { leading: true, trailing: false });
 
-    const onLogoutClick = async (event: MouseEvent) => {
-        event.preventDefault();
-        try {
-            close();
-            await logout();
-            await localforage.clear();
-            sessionStorage.clear();
-            message.success(`用户${loginUserName}已登出`);
-            navigator('/');
-        } catch (error) {
-            console.warn(error);
-        }
-    };
-
     const renderPhoneAlarm = () =>
         phoneAlarmData.map(
             (item, index) => <div className="phone-alarm" key={`PA_${index}`}>
@@ -119,20 +97,20 @@ const Dashboard: FC<{}> = memo(() => {
             </div>
         );
 
-    const onMenuAction = (type: SettingMenuAction) => {
-        switch (type) {
-            case SettingMenuAction.Device:
-                break;
-            case SettingMenuAction.Network:
-                break;
-            case SettingMenuAction.ModifyPassword:
-                // setPasswordModalOpen(true);
-                break;
-            default:
-                console.warn(type);
-                break;
-        }
-    };
+    // const onMenuAction = (type: SettingMenuAction) => {
+    //     switch (type) {
+    //         case SettingMenuAction.Device:
+    //             break;
+    //         case SettingMenuAction.Network:
+    //             break;
+    //         case SettingMenuAction.ModifyPassword:
+    //             // setPasswordModalOpen(true);
+    //             break;
+    //         default:
+    //             console.warn(type);
+    //             break;
+    //     }
+    // };
 
     return <DashboardBox>
         <div className="left-box">
@@ -162,20 +140,6 @@ const Dashboard: FC<{}> = memo(() => {
                             type="primary">
                             {quickCheckLoading ? <LoadingOutlined /> : <ThunderboltOutlined />}
                             <span>{startTime === '' ? '快速检测' : '停止快速检测'}</span>
-                        </Button>
-                        <Button
-                            onClick={() => { }}
-                            disabled={quickCheckLoading}
-                            type="primary">
-                            <InteractionOutlined />
-                            <span>恢复出厂</span>
-                        </Button>
-                        <span style={{ textAlign: 'center', padding: "0 5px", color: '#5e5e5e' }}>|</span>
-                        <Button
-                            onClick={onLogoutClick}
-                            type="primary">
-                            <LogoutOutlined />
-                            <span>{`登出${loginUserName}`}</span>
                         </Button>
                     </div>
                     <div className="phone-panel">

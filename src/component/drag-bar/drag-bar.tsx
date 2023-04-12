@@ -3,7 +3,7 @@ import { FC, PropsWithChildren, memo, useCallback, MouseEvent } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWindowMaximize, faWindowMinimize, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { App } from 'antd';
-import { close } from '@/utility/sse';
+import { closeSse } from '@/utility/sse';
 import { DragBarBox } from './styled/styled';
 import { DragBarProp } from './prop';
 
@@ -20,7 +20,7 @@ const DragBar: FC<PropsWithChildren<DragBarProp>> = memo(({ children }) => {
         event.preventDefault();
         modal.confirm({
             onOk() {
-                close();
+                closeSse();
                 ipcRenderer.send('close');
             },
             centered: true,

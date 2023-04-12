@@ -29,7 +29,7 @@ const instance = (onMessage: (this: EventSource, ev: MessageEvent<any>) => any) 
     return source;
 };
 
-const close = () => {
+const closeSse = () => {
     if (source) {
         const hash = sessionStorage.getItem(StorageKeys.Hash) ?? '';
         console.log(`SSE close ${hash}`);
@@ -39,4 +39,4 @@ const close = () => {
     }
 };
 
-export { instance, close };
+export { instance, closeSse };
