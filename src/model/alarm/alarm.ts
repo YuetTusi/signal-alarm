@@ -154,7 +154,7 @@ const alarm = (setState: SetState, _: GetState): AlarmState => ({
         let params = `?id=${id}&status=${status}`;
 
         if (!helper.isNullOrUndefined(remark)) {
-            params += `&remark=${remark}`;
+            params += `&remark=${window.encodeURIComponent(remark!)}`;
         }
         try {
             const res = await request.get(`/warn/msg/process${params}`);
