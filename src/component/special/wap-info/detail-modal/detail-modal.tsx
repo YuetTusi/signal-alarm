@@ -6,6 +6,7 @@ import WapTable from '../wap-table';
 import HotspotTable from '../hotspot-table';
 import TerminalTable from '../terminal-table';
 import { DetailModalProp } from './prop';
+import { TableBox } from './styled/box';
 
 /**
  * 专项检查详情框
@@ -73,7 +74,9 @@ const DetailModel: FC<DetailModalProp> = ({ open, protocol, onCancel }) => {
         maskClosable={false}
         forceRender={true}
     >
-        {renderTable()}
+        <TableBox>
+            {renderTable()}
+        </TableBox>
     </Modal>
 };
 
