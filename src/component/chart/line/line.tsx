@@ -55,6 +55,7 @@ const Line: FC<LineProp> = ({ data, days, serieName }) => {
                 },
                 tooltip: {
                     trigger: 'item',
+                    position: 'right'
                     // formatter: '{a} <br/>{b} : {c} ({d}%)'
                 },
                 toolbox: {

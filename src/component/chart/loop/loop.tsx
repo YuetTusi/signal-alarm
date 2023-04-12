@@ -49,6 +49,7 @@ const Loop: FC<LoopProp> = ({ data, serieName }) => {
             myChart.setOption({
                 tooltip: {
                     trigger: 'item',
+                    position: 'right'
                     // formatter: '{a} <br/>{b} : {c} ({d}%)'
                 },
                 toolbox: {
