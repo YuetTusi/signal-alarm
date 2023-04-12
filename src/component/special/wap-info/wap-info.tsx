@@ -1,4 +1,5 @@
 import { FC, useState } from 'react';
+import { DoubleRightOutlined } from '@ant-design/icons';
 import { Tabs } from 'antd';
 import { DisplayPanel } from '@/component/panel';
 import { getProtocolLabel, Protocol } from '@/schema/protocol';
@@ -44,7 +45,7 @@ const toTabItem = () =>
         }, [] as any[]).concat([
             //拼上`其他`为保证是最后一个页签
             {
-                key: Protocol.Others,
+                key: Protocol.Others.toString(),
                 label: getProtocolLabel(Protocol.Others),
                 children: <WapTop protocol={Protocol.Others} />
             }
@@ -61,7 +62,7 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
     const [detailModalOpen, setDetailModalOpen] = useState<boolean>(false);
     const [activeKey, setActiveKey] = useState<string>(Protocol.All.toString());
 
-    const onTabChange = (tabKey: string) => setActiveKey(tabKey);
+    const onTabChange = (tabKey: string) => setActiveKey(tabKey.toString());
 
     return <WapInfoBox>
         <DisplayPanel>
@@ -78,6 +79,7 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
                     activeKey={activeKey}
                     defaultActiveKey={Protocol.All.toString()}
                     destroyInactiveTabPane={false}
+                    moreIcon={<DoubleRightOutlined />}
                     type="card" />
             </div>
         </DisplayPanel>
