@@ -122,7 +122,6 @@ const AlarmTop: FC<AlarmTopProp> = () => {
             dataSource={alarmTop10Data}
             loading={alarmTop10Loading}
             pagination={false}
-            scroll={{ y: 150 }}
             rowKey="id"
         />
         <ProcessModal
