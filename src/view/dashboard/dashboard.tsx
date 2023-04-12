@@ -2,17 +2,16 @@ import localforage from "localforage";
 import debounce from 'lodash/debounce';
 import { FC, memo, useEffect, MouseEvent } from "react";
 import { useNavigate } from 'react-router-dom';
-import { Button, Empty, Typography, message } from "antd";
+import { Button, Typography, message } from "antd";
 import {
-    ThunderboltOutlined, LogoutOutlined, InteractionOutlined,
-    LoadingOutlined, MobileOutlined
+    ThunderboltOutlined, LogoutOutlined,
+    LoadingOutlined, MobileOutlined, InteractionOutlined
 } from '@ant-design/icons';
 import useModel from "@/model";
+// import { request } from "@/utility/http";
 import { instance, close } from '@/utility/sse';
 import { StorageKeys } from '@/utility/storage-keys';
-import { DisplayPanel } from '@/component/panel';
 import WapInfo from "@/component/special/wap-info";
-import { SettingMenu } from "@/component/setting-menu";
 import { AlarmInfo } from '@/component/alarm';
 import {
     AlarmTypeChart, AlarmSiteTopChart, SpecialTypeChart, AlarmWeekChart
@@ -20,7 +19,6 @@ import {
 import CheckReport from '@/component/check-report';
 import { SettingMenuAction } from "@/component/setting-menu/prop";
 import { DashboardBox } from "./styled/box";
-import { request } from "@/utility/http";
 
 const { Text } = Typography;
 let sse: EventSource | null = null;
@@ -52,7 +50,9 @@ const Dashboard: FC<{}> = memo(() => {
         try {
             if (typeof event.data === 'string') {
                 const data = JSON.parse(event.data);
-                setPhoneAlarmData([data]);
+                if (data.hash) {
+                    setPhoneAlarmData([data]);
+                }
             }
         } catch (error) {
             console.log(`Parse JSON Error: ${event.data}`);
@@ -66,9 +66,9 @@ const Dashboard: FC<{}> = memo(() => {
 
         if (userId !== null && hash !== null) {
             sse = instance(onMessage);
-            request.post(`/sse/push-user`, { hash })
-                .then(res => console.log(res))
-                .catch(err => console.log(err));
+            // request.post(`/sse/push-user`, { hash })
+            //     .then(res => console.log(res))
+            //     .catch(err => console.log(err));
         }
 
         return () => {
@@ -121,8 +121,8 @@ const Dashboard: FC<{}> = memo(() => {
 
     const onMenuAction = (type: SettingMenuAction) => {
         switch (type) {
-            case SettingMenuAction.Sensitivity:
-            case SettingMenuAction.Camera:
+            case SettingMenuAction.Device:
+                break;
             case SettingMenuAction.Network:
                 break;
             case SettingMenuAction.ModifyPassword:
@@ -163,14 +163,13 @@ const Dashboard: FC<{}> = memo(() => {
                             {quickCheckLoading ? <LoadingOutlined /> : <ThunderboltOutlined />}
                             <span>{startTime === '' ? '快速检测' : '停止快速检测'}</span>
                         </Button>
-                        {/* <Button
-    onClick={() => { }}
-    disabled={quickCheckLoading}
-    type="primary">
-    <InteractionOutlined />
-    <span>恢复出厂</span>
-</Button>
-<SettingMenu onMenuAction={onMenuAction} /> */}
+                        <Button
+                            onClick={() => { }}
+                            disabled={quickCheckLoading}
+                            type="primary">
+                            <InteractionOutlined />
+                            <span>恢复出厂</span>
+                        </Button>
                         <span style={{ textAlign: 'center', padding: "0 5px", color: '#5e5e5e' }}>|</span>
                         <Button
                             onClick={onLogoutClick}
@@ -183,14 +182,6 @@ const Dashboard: FC<{}> = memo(() => {
                         {renderPhoneAlarm()}
                     </div>
                 </div>
-                {/* <DisplayPanel>
-                    <div className="caption">
-                        无线环境长时检测
-                    </div>
-                    <div className="content">
-                        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                    </div>
-                </DisplayPanel> */}
             </div>
             <div className="bottom-box">
                 <AlarmInfo />

@@ -36,7 +36,7 @@ const AlarmTop: FC<AlarmTopProp> = () => {
         if (timer === null) {
             timer = setInterval(() => {
                 queryAlarmTop10Data();
-            }, 1000 * 10);
+            }, 1000 * 20);
         }
 
         return () => {

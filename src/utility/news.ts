@@ -4,7 +4,8 @@ import { request } from './http';
 import { StorageKeys } from './storage-keys';
 
 const { EventEmitter } = events;
-const { SSE_URL } = helper;
+// const { SSE_URL } = helper;
+const { ip, port } = helper.getFetchIp();
 
 var handle: News | null = null;
 
@@ -23,7 +24,7 @@ class News extends EventEmitter {
     constructor(userId: string, hash: string, url?: string) {
 
         super();
-        const dst = url ?? SSE_URL;
+        const dst = url ?? `http://${ip}:${port}`;
         if (userId === null || hash === null) {
             throw new Error('用户未登录或未知哈希值');
         } else {

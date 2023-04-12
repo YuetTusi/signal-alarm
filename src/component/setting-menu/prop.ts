@@ -1,17 +1,13 @@
 export enum SettingMenuAction {
 
     /**
-     * 灵敏度
+     * 设备管理
      */
-    Sensitivity,
+    Device,
     /**
      * 网络
      */
     Network,
-    /**
-     * 摄像头
-     */
-    Camera,
     /**
      * 改密码
      */

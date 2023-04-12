@@ -1,21 +1,31 @@
+import path from 'path';
+import electron from 'electron';
 import localforage from 'localforage';
 import { FC, MouseEvent, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import { UserOutlined, ReloadOutlined, LoadingOutlined, KeyOutlined } from '@ant-design/icons';
-import { Col, Row, Input, Button, Checkbox, Form, message } from 'antd';
+import { UserOutlined, ReloadOutlined, LoadingOutlined, KeyOutlined, SettingOutlined, CheckCircleFilled } from '@ant-design/icons';
+import { Col, Row, Input, Button, Checkbox, Form, message, App } from 'antd';
 import { useModel } from "@/model";
 import { helper } from '@/utility/helper';
 import { StorageKeys } from '@/utility/storage-keys';
 import DragBar from '@/component/drag-bar';
 import Reading from '@/component/reading';
+import NetworkModal from '@/component/network-modal';
 import { BackgroundBox, LoginBox, LoginOuterBox } from "./styled/styled";
 import { FormValue } from "./prop";
 
+
+const cwd = process.cwd();
+const { join } = path;
+const { ipcRenderer } = electron;
+const ipJson = helper.IS_DEV ? join(cwd, './ip.json') : join(cwd, 'resources/ip.json');
 const { Item, useForm } = Form;
 const { Password } = Input;
 
 const Login: FC<{}> = () => {
     const [loading, setLoading] = useState<boolean>(false);
+    const [networkModalOpen, setNetworkModalOpen] = useState<boolean>(false);
+    const { modal } = App.useApp();
     const navigate = useNavigate();
     const [formRef] = useForm<FormValue>();
     const {
@@ -85,10 +95,50 @@ const Login: FC<{}> = () => {
         }
     };
 
+    const onNetworkModalOk = async (ip: string, port: number) => {
+        try {
+            const success = await helper.writeJson(ipJson, { ip, port });
+            if (success) {
+                setNetworkModalOpen(false);
+                modal.confirm({
+                    onOk() {
+                        ipcRenderer.send('do-relaunch');
+                    },
+                    icon: <CheckCircleFilled style={{ color: "#52c41a" }} />,
+                    title: '成功',
+                    content: 'IP地址更成功，请重启生效新配置',
+                    okText: '重启',
+                    cancelText: '取消',
+                    centered: true
+                });
+            } else {
+                modal.warning({
+                    title: '失败',
+                    content: 'IP地址更新失败',
+                    okText: '确定'
+                });
+            }
+        } catch (error) {
+            modal.warning({
+                title: '失败',
+                content: `IP地址更新失败(${error.message})`,
+                okText: '确定'
+            });
+        }
+    };
+
     return <>
         <DragBar>信号哨兵长时检测系统</DragBar>
         <Reading />
         <BackgroundBox>
+            <div className="setting-box">
+                <Button
+                    onClick={() => setNetworkModalOpen(true)}
+                    type="link"
+                    title="网络IP设置">
+                    <SettingOutlined />
+                </Button>
+            </div>
             <LoginOuterBox>
                 <LoginBox>
                     <h3>用户登录</h3>
@@ -157,6 +207,10 @@ const Login: FC<{}> = () => {
                 </LoginBox>
             </LoginOuterBox>
         </BackgroundBox>
+        <NetworkModal
+            open={networkModalOpen}
+            onCancel={() => setNetworkModalOpen(false)}
+            onOk={onNetworkModalOk} />
     </>
 }
 

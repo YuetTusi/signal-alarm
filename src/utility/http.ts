@@ -3,6 +3,8 @@ import http from 'http';
 import { helper } from '@/utility/helper';
 import { StorageKeys } from './storage-keys';
 
+const { ip, port } = helper.getFetchIp();
+
 /**
  * 封装HTTP请求
  */
@@ -11,7 +13,7 @@ class HttpRequest {
     private _baseUrl = ''
 
     constructor() {
-        this._baseUrl = 'http://58.48.76.202:18800';
+        this._baseUrl = `http://${ip}:${port}`;
     }
 
     _getFetchUrl(requestUrl: string) {
@@ -35,6 +37,7 @@ class HttpRequest {
                 host: options.hostname,
                 port: options.port,
                 path: options.path,
+                timeout: 1000 * 30,
                 method,
                 headers: {
                     'Content-Type': 'application/json;charset=utf8',
@@ -58,7 +61,7 @@ class HttpRequest {
                 });
                 res.on('error', err => reject(err));
             });
-            req.on('error', (e) => console.log(e));
+            req.on('error', (e) => reject(e));
             if (parameters !== undefined) {
                 req.write(JSON.stringify(parameters));
             }

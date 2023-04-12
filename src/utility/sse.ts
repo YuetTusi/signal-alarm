@@ -1,7 +1,8 @@
+import { helper } from './helper';
 import { request } from "./http";
 import { StorageKeys } from "./storage-keys";
 
-
+const { port, ip } = helper.getFetchIp();
 let source: EventSource | null = null;
 
 const instance = (onMessage: (this: EventSource, ev: MessageEvent<any>) => any) => {
@@ -11,7 +12,7 @@ const instance = (onMessage: (this: EventSource, ev: MessageEvent<any>) => any) 
 
     if (source === null) {
         source = new EventSource(
-            `http://58.48.76.202:18800/sse/connect?userId=${userId}&hash=${hash}`
+            `http://${ip}:${port}/sse/connect?userId=${userId}&hash=${hash}`
         );
 
         source.addEventListener('open', () => {

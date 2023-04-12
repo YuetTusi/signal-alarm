@@ -61,4 +61,10 @@ export const BackgroundBox = styled.div`
     background-image: url(${loginBg});
     background-repeat: no-repeat;
     background-size: 100% 100%;
+
+    .setting-box{
+        position: absolute;
+        top:10px;
+        right:10px;
+    }
 `;

@@ -29,6 +29,12 @@ export const LayoutBox = styled.div`
         }
     }
 
+    .banner{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+    }
     .context-box{
         position: absolute;
         top:75px;

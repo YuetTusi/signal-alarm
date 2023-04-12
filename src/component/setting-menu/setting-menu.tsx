@@ -11,22 +11,19 @@ const SettingMenu: FC<SettingMenuProp> = ({ onMenuAction }) => <Dropdown
         items: [
             {
                 key: 'SM_0',
-                label: <a onClick={() => onMenuAction(SettingMenuAction.Sensitivity)}>灵敏度设置</a>
+                label: <a onClick={() => onMenuAction(SettingMenuAction.Device)}>设备管理</a>
             },
             {
                 key: 'SM_1',
-                label: <a onClick={() => onMenuAction(SettingMenuAction.Network)}>网络设置</a>
+                label: <a onClick={() => onMenuAction(SettingMenuAction.Network)}>IP设置</a>
             },
             {
                 key: 'SM_2',
-                label: <a onClick={() => onMenuAction(SettingMenuAction.Camera)}>摄像头黑白名单</ a>
-            },
-            {
-                key: 'SM_3',
                 label: <a onClick={() => onMenuAction(SettingMenuAction.ModifyPassword)}>修改密码</a>
             }
         ]
-    }} trigger={['click']}>
+    }}
+    trigger={['click']}>
     <Button
         type="primary">
         <SettingOutlined />
