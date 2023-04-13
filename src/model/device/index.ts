@@ -1,5 +1,6 @@
 import { ComDevice } from "@/schema/com-device";
 import { device } from './device';
+import { RequestResult } from "@/utility/http";
 
 interface DeviceState {
 
@@ -33,7 +34,17 @@ interface DeviceState {
      * @param pageSize 页尺寸
      * @param condition 条件
      */
-    queryDeviceData: (pageIndex: number, pageSize: number, condition?: Record<string, any>) => void
+    queryDeviceData: (pageIndex: number, pageSize: number, condition?: Record<string, any>) => void,
+    /**
+     * 添加设备
+     * @param payload 数据
+     * @returns 
+     */
+    addDevice: (payload: ComDevice) => Promise<RequestResult<any> | null>,
+    /**
+     * 删除设备
+     */
+    deleteDevice: (id: string) => Promise<RequestResult<any> | null>,
 }
 
 export type { DeviceState };

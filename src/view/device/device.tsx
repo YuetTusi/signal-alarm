@@ -1,12 +1,13 @@
-import { FC, useEffect, MouseEvent } from 'react';
+import { FC, useEffect, useState, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Input, Button, Select, Form, Table } from 'antd';
+import { App, Input, Button, Select, Form, Table, message } from 'antd';
 import { useModel } from '@/model';
 import { helper } from '@/utility/helper';
-import { getColumns } from './column';
-import { ActionType, DeviceProp, FormValue } from './prop';
 import { ComDevice, DeviceState } from '@/schema/com-device';
+import { AddModal } from './add-modal';
+import { getColumns } from './column';
 import { DeviceBox, SearchBar, TableBox } from './styled/box';
+import { ActionType, DeviceProp, FormValue } from './prop';
 
 const { Item, useForm } = Form;
 const { Option } = Select;
@@ -17,7 +18,9 @@ const { Option } = Select;
 const Device: FC<DeviceProp> = () => {
 
     const navitagte = useNavigate();
+    const { modal } = App.useApp();
     const [formRef] = useForm<FormValue>();
+    const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
 
     const {
         deviceData,
@@ -25,7 +28,9 @@ const Device: FC<DeviceProp> = () => {
         devicePageIndex,
         devicePageSize,
         deviceTotal,
-        queryDeviceData
+        queryDeviceData,
+        addDevice,
+        deleteDevice
     } = useModel(state => ({
         deviceData: state.deviceData,
         deviceLoading: state.deviceLoading,
@@ -33,6 +38,8 @@ const Device: FC<DeviceProp> = () => {
         devicePageSize: state.devicePageSize,
         deviceTotal: state.deviceTotal,
         queryDeviceData: state.queryDeviceData,
+        addDevice: state.addDevice,
+        deleteDevice: state.deleteDevice
     }));
 
     useEffect(() => {
@@ -74,7 +81,61 @@ const Device: FC<DeviceProp> = () => {
      * @param data 行数据
      */
     const rowClickHandle = (action: ActionType, data: ComDevice) => {
-        console.log(action, data);
+        switch (action) {
+            case ActionType.Delete:
+                modal.confirm({
+                    async onOk() {
+                        message.destroy();
+                        try {
+                            const res = await deleteDevice(data.id.toString());
+                            if (res === null) {
+                                message.warning('删除失败');
+                            } else if (res.code === 200) {
+                                await queryDeviceData(1, helper.PAGE_SIZE);
+                                message.success('删除成功');
+                            } else {
+                                message.warning(`删除失败(${res.message})`);
+                            }
+                        } catch (error) {
+                            message.warning(`删除失败(${error.message})`);
+                        }
+                    },
+                    centered: true,
+                    title: '删除',
+                    content: `确认删除「${data.deviceName ?? ''}」？`,
+                    okText: '是',
+                    cancelText: '否'
+                });
+                break;
+            default:
+                console.log(action);
+                break;
+        }
+    };
+
+    /**
+     * 添加保存
+     * @param data 
+     */
+    const onAddSave = async (data: ComDevice) => {
+
+        message.destroy();
+        try {
+            const res = await addDevice(data);
+            console.log(res);
+            if (res === null) {
+                message.warning('添加失败');
+            } else if (res.code === 200) {
+                setAddModalOpen(false);
+                formRef.resetFields();
+                await queryDeviceData(1, helper.PAGE_SIZE);
+                message.success('添加成功');
+            } else {
+                message.warning(`添加失败(${res.message})`);
+            }
+        } catch (error) {
+            message.warning(error.message);
+        }
     };
 
     return <DeviceBox>
@@ -110,7 +171,11 @@ const Device: FC<DeviceProp> = () => {
                 </Form>
             </div>
             <div>
-                <Button type="primary">添加设备</Button>
+                <Button
+                    onClick={() => setAddModalOpen(true)}
+                    type="primary">
+                    添加设备
+                </Button>
             </div>
         </SearchBar>
         <TableBox>
@@ -127,6 +192,10 @@ const Device: FC<DeviceProp> = () => {
                 }}
             />
         </TableBox>
+        <AddModal
+            open={addModalOpen}
+            onOk={onAddSave}
+            onCancel={() => setAddModalOpen(false)} />
     </DeviceBox>;
 };
 

@@ -1,6 +1,8 @@
+import dayjs from 'dayjs';
 import { message } from 'antd';
 import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';
+import { ComDevice } from '@/schema/com-device';
 import { GetState, SetState } from '..';
 import { DeviceState } from './index';
 
@@ -74,6 +76,34 @@ const device = (setState: SetState, _: GetState): DeviceState => ({
             message.warning(`查询失败（${error.message ?? ''}）`);
         } finally {
             setState({ deviceLoading: false });
+        }
+    },
+    /**
+     * 保存设备
+     * @param payload 数据
+     * @returns 
+     */
+    addDevice: async (payload: ComDevice) => {
+        let next = { ...payload };
+        try {
+            next.createTime = next.updateTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
+            next.config = '';
+            next.isDeleted = 0;
+            const res = await request.post('/devops/device/save', next);
+            return res;
+        } catch (error) {
+            throw error;
+        }
+    },
+    /**
+     * 删除设备
+     */
+    deleteDevice: async (id: string) => {
+        try {
+            const res = await request.del(`/devops/device/remove/${id}`);
+            return res;
+        } catch (error) {
+            throw error;
         }
     }
 });
