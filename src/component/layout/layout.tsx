@@ -54,7 +54,9 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
         <DragBar />
         <Reading />
         <div className="banner">
-            <Button type="primary">
+            <Button
+                onClick={() => navigator('/device')}
+                type="primary">
                 <SettingOutlined />
                 <span>设备管理</span>
             </Button>
