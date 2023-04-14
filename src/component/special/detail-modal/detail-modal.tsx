@@ -5,8 +5,8 @@ import { useModel } from '@/model';
 import WapTable from '../wap-info/wap-table';
 import HotspotTable from '../hotspot-info/hotspot-table';
 import TerminalTable from '../terminal-info/terminal-table';
-import { DetailModalProp } from './prop';
 import { TableBox } from './styled/box';
+import { DetailModalProp } from './prop';
 
 /**
  * 专项检查详情框

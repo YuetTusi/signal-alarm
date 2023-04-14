@@ -129,6 +129,7 @@ const AlarmTable: FC<AlarmTopProp> = () => {
             }}
             dataSource={alarmData}
             loading={alarmLoading}
+            scroll={{ x: 'max-content' }}
             rowKey="id"
         />
     </AlarmTableBox>;

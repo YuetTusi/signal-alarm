@@ -7,6 +7,15 @@ const { env, resourcesPath } = process;
 const isDev = env['NODE_ENV'] === 'development';
 var mainWindow: BrowserWindow | null = null;
 
+app.commandLine.appendSwitch('no-sandbox');
+app.commandLine.appendSwitch('disable-gpu');
+app.commandLine.appendSwitch('disable-gpu-compositing');
+app.commandLine.appendSwitch('disable-gpu-rasterization');
+app.commandLine.appendSwitch('disable-gpu-sandbox');
+app.commandLine.appendSwitch('disable-software-rasterizer');
+app.commandLine.appendSwitch('--no-sandbox');
+app.disableHardwareAcceleration();
+
 if (!app.requestSingleInstanceLock()) {
     app.quit();
 }
