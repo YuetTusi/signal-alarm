@@ -5,9 +5,11 @@ import { useModel } from '@/model';
 import { helper } from '@/utility/helper';
 import { ComDevice, DeviceState } from '@/schema/com-device';
 import { AddModal } from './add-modal';
+import { SetModal } from './set-modal';
 import { getColumns } from './column';
 import { DeviceBox, SearchBar, TableBox } from './styled/box';
 import { ActionType, DeviceProp, FormValue } from './prop';
+import { SetFormValue } from './set-modal/prop';
 
 const { Item, useForm } = Form;
 const { Option } = Select;
@@ -21,7 +23,9 @@ const Device: FC<DeviceProp> = () => {
     const { modal } = App.useApp();
     const [formRef] = useForm<FormValue>();
     const editData = useRef<ComDevice>();
+    const setData = useRef<ComDevice>();
     const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
+    const [setModalOpen, setSetModalOpen] = useState<boolean>(false);
 
     const {
         deviceData,
@@ -32,7 +36,8 @@ const Device: FC<DeviceProp> = () => {
         queryDeviceData,
         addDevice,
         deleteDevice,
-        updateDevice
+        updateDevice,
+        setDevice
     } = useModel(state => ({
         deviceData: state.deviceData,
         deviceLoading: state.deviceLoading,
@@ -42,7 +47,8 @@ const Device: FC<DeviceProp> = () => {
         queryDeviceData: state.queryDeviceData,
         addDevice: state.addDevice,
         deleteDevice: state.deleteDevice,
-        updateDevice: state.updateDevice
+        updateDevice: state.updateDevice,
+        setDevice: state.setDevice
     }));
 
     useEffect(() => {
@@ -113,6 +119,9 @@ const Device: FC<DeviceProp> = () => {
                 editData.current = data;
                 setAddModalOpen(true);
                 break;
+            case ActionType.Set:
+                setData.current = data;
+                setSetModalOpen(true);
             default:
                 console.log(action);
                 break;
@@ -157,6 +166,29 @@ const Device: FC<DeviceProp> = () => {
             message.warning(error.message);
         }
     };
+
+    /**
+     * 下发
+     * @param values 表单
+     */
+    const onSet = async ({ su }: SetFormValue) => {
+        message.destroy();
+        if (setData.current) {
+            try {
+                const res = await setDevice(setData.current, su);
+                if (res !== null && res.code === 200) {
+                    await queryDeviceData(1, helper.PAGE_SIZE);
+                    setSetModalOpen(false);
+                    setData.current = undefined;
+                    message.success('下发成功');
+                } else {
+                    message.warning(`下发失败(${res?.message ?? ''})`);
+                }
+            } catch (error) {
+                message.warning(`下发失败(${error.message})`);
+            }
+        }
+    }
 
     return <DeviceBox>
         <SearchBar>
@@ -220,6 +252,15 @@ const Device: FC<DeviceProp> = () => {
                 editData.current = undefined;
                 setAddModalOpen(false);
             }} />
+        <SetModal
+            open={setModalOpen}
+            data={setData.current!}
+            onOk={onSet}
+            onCancel={() => {
+                setData.current = undefined;
+                setSetModalOpen(false);
+            }}
+        />
     </DeviceBox>;
 };
 

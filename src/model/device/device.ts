@@ -119,6 +119,23 @@ const device = (setState: SetState, _: GetState): DeviceState => ({
         } catch (error) {
             throw error;
         }
+    },
+    /**
+     * 下发配置
+     * @param data 设备数据
+     * @param su 配置内容
+     */
+    setDevice: async (data: ComDevice, su: string) => {
+        const param = {
+            deviceId: data.deviceId,
+            su
+        };
+        try {
+            const res = await request.post('/devops/device/set', param);
+            return res;
+        } catch (error) {
+            throw error;
+        }
     }
 });
 

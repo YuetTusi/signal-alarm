@@ -49,7 +49,13 @@ interface DeviceState {
      * 编辑设备
      * @param payload 设备
      */
-    updateDevice: (payload: ComDevice) => Promise<RequestResult<any> | null>
+    updateDevice: (payload: ComDevice) => Promise<RequestResult<any> | null>,
+    /**
+     * 下发配置
+     * @param data 设备数据
+     * @param su 配置内容
+     */
+    setDevice: (data: ComDevice, su: string) => Promise<RequestResult<any> | null>
 }
 
 export type { DeviceState };
