@@ -9,6 +9,8 @@ import useModel from "@/model";
 import { instance, closeSse } from '@/utility/sse';
 import { StorageKeys } from '@/utility/storage-keys';
 import WapInfo from "@/component/special/wap-info";
+import TerminalInfo from "@/component/special/terminal-info";
+import HotspotInfo from '@/component/special/hotspot-info';
 import { AlarmInfo } from '@/component/alarm';
 import {
     AlarmTypeChart, AlarmSiteTopChart, SpecialTypeChart, AlarmWeekChart
@@ -153,6 +155,8 @@ const Dashboard: FC<{}> = memo(() => {
         </div>
         <div className="right-box">
             <WapInfo />
+            <TerminalInfo />
+            <HotspotInfo />
             <CheckReport />
         </div>
     </DashboardBox>

@@ -2,9 +2,9 @@ import { FC, MouseEvent, useEffect } from 'react';
 import { Button, Modal } from 'antd';
 import { Protocol } from '@/schema/protocol';
 import { useModel } from '@/model';
-import WapTable from '../wap-table';
-import HotspotTable from '../hotspot-table';
-import TerminalTable from '../terminal-table';
+import WapTable from '../wap-info/wap-table';
+import HotspotTable from '../hotspot-info/hotspot-table';
+import TerminalTable from '../terminal-info/terminal-table';
 import { DetailModalProp } from './prop';
 import { TableBox } from './styled/box';
 
@@ -48,6 +48,7 @@ const DetailModel: FC<DetailModalProp> = ({ open, protocol, onCancel }) => {
     };
 
     const renderTable = () => {
+        console.log(protocol);
         switch (protocol) {
             case Protocol.WiFi24G:
             case Protocol.WiFi58G:

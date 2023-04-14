@@ -5,9 +5,7 @@ import { DisplayPanel } from '@/component/panel';
 import { getProtocolLabel, Protocol } from '@/schema/protocol';
 import WapList from './wap-list';
 import { WapTop } from './wap-table';
-import TerminalList from './terminal-list';
-import HotspotList from './hotspot-list';
-import DetailModal from './detail-modal';
+import DetailModal from '../detail-modal';
 import { WapInfoBox } from './styled/style';
 import { WapInfoProp } from './prop';
 
@@ -18,18 +16,18 @@ const toTabItem = () =>
             switch (v) {
                 case Protocol.WiFi24G:
                 case Protocol.WiFi58G:
-                    acc.push({
-                        key: v.toString(),
-                        label: getProtocolLabel(v as any),
-                        children: <HotspotList protocol={v} />
-                    });
+                    // acc.push({
+                    //     key: v.toString(),
+                    //     label: getProtocolLabel(v as any),
+                    //     children: <HotspotList protocol={v} />
+                    // });
                     break;
                 case Protocol.Terminal:
-                    acc.push({
-                        key: v.toString(),
-                        label: getProtocolLabel(v as any),
-                        children: <TerminalList />
-                    });
+                // acc.push({
+                //     key: v.toString(),
+                //     label: getProtocolLabel(v as any),
+                //     children: <TerminalList />
+                // });
                 case Protocol.Others:
                     //其他跳过，最后追加以保证是页签是最后一个
                     break;

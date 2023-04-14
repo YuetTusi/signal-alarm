@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { FC, useEffect, MouseEvent } from 'react';
 import { Form, Button, DatePicker } from 'antd';
-import { SearchBarBox } from '../styled/style';
+import { SearchBarBox } from '../styled/box';
 import { SearchBarProp, SearchFormValue } from './prop';
 
 const { Item, useForm } = Form;
