@@ -1,8 +1,7 @@
-import { FC, useEffect, useState, MouseEvent } from 'react';
+import { FC, useEffect, useState, useRef, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { App, Input, Button, Select, Form, Table, message } from 'antd';
 import { useModel } from '@/model';
-import { request } from '@/utility/http';
 import { helper } from '@/utility/helper';
 import { ComDevice, DeviceState } from '@/schema/com-device';
 import { AddModal } from './add-modal';
@@ -21,6 +20,7 @@ const Device: FC<DeviceProp> = () => {
     const navitagte = useNavigate();
     const { modal } = App.useApp();
     const [formRef] = useForm<FormValue>();
+    const editData = useRef<ComDevice>();
     const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
 
     const {
@@ -31,7 +31,8 @@ const Device: FC<DeviceProp> = () => {
         deviceTotal,
         queryDeviceData,
         addDevice,
-        deleteDevice
+        deleteDevice,
+        updateDevice
     } = useModel(state => ({
         deviceData: state.deviceData,
         deviceLoading: state.deviceLoading,
@@ -40,7 +41,8 @@ const Device: FC<DeviceProp> = () => {
         deviceTotal: state.deviceTotal,
         queryDeviceData: state.queryDeviceData,
         addDevice: state.addDevice,
-        deleteDevice: state.deleteDevice
+        deleteDevice: state.deleteDevice,
+        updateDevice: state.updateDevice
     }));
 
     useEffect(() => {
@@ -55,7 +57,6 @@ const Device: FC<DeviceProp> = () => {
         event.preventDefault();
         const { getFieldsValue } = formRef;
         const values = getFieldsValue();
-        console.log(values);
         queryDeviceData(1, helper.PAGE_SIZE, values);
     };
 
@@ -108,6 +109,10 @@ const Device: FC<DeviceProp> = () => {
                     cancelText: '否'
                 });
                 break;
+            case ActionType.Edit:
+                editData.current = data;
+                setAddModalOpen(true);
+                break;
             default:
                 console.log(action);
                 break;
@@ -115,24 +120,38 @@ const Device: FC<DeviceProp> = () => {
     };
 
     /**
-     * 添加保存
+     * 添加/编辑保存
      * @param data 
      */
-    const onAddSave = async (data: ComDevice) => {
+    const onSave = async (data: ComDevice) => {
 
         message.destroy();
         try {
-            const res = await addDevice(data);
-            console.log(res);
-            if (res === null) {
-                message.warning('添加失败');
-            } else if (res.code === 200) {
-                setAddModalOpen(false);
-                formRef.resetFields();
-                await queryDeviceData(1, helper.PAGE_SIZE);
-                message.success('添加成功');
+            if (editData.current === undefined) {
+                const res = await addDevice(data);
+                if (res === null) {
+                    message.warning('添加失败');
+                } else if (res.code === 200) {
+                    setAddModalOpen(false);
+                    formRef.resetFields();
+                    await queryDeviceData(1, helper.PAGE_SIZE);
+                    message.success('添加成功');
+                } else {
+                    message.warning(`添加失败(${res.message})`);
+                }
             } else {
-                message.warning(`添加失败(${res.message})`);
+                const res = await updateDevice(data);
+                if (res === null) {
+                    message.warning('编辑失败');
+                } else if (res.code === 200) {
+                    setAddModalOpen(false);
+                    formRef.resetFields();
+                    editData.current = undefined;
+                    await queryDeviceData(1, helper.PAGE_SIZE);
+                    message.success('编辑成功');
+                } else {
+                    message.warning(`编辑失败(${res.message})`);
+                }
             }
         } catch (error) {
             message.warning(error.message);
@@ -172,11 +191,6 @@ const Device: FC<DeviceProp> = () => {
                 </Form>
             </div>
             <div>
-                <Button onClick={() => {
-                    request.get(`/devops/device/1/1000000000000000000`).then(res => console.log(res));
-                }}>
-                    list
-                </Button>
                 <Button
                     onClick={() => setAddModalOpen(true)}
                     type="primary">
@@ -200,8 +214,12 @@ const Device: FC<DeviceProp> = () => {
         </TableBox>
         <AddModal
             open={addModalOpen}
-            onOk={onAddSave}
-            onCancel={() => setAddModalOpen(false)} />
+            data={editData.current}
+            onOk={onSave}
+            onCancel={() => {
+                editData.current = undefined;
+                setAddModalOpen(false);
+            }} />
     </DeviceBox>;
 };
 

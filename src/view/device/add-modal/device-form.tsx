@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Button, Form, Input, Select } from 'antd';
 import { IP } from '@/utility/regex';
 import { ComDevice } from '@/schema/com-device';
@@ -49,6 +49,16 @@ const deviceIdExist = async (deviceId: string, id?: number) => {
  */
 const DeviceForm: FC<DeviceFormProp> = ({ data, formRef }) => {
 
+    const { setFieldValue, setFieldsValue } = formRef;
+
+    useEffect(() => {
+        if (data) {
+            setFieldsValue(data);
+        } else {
+            setFieldValue('status', 1);
+        }
+    }, [data]);
+
     return <Form
         form={formRef}
         layout="horizontal"
@@ -59,14 +69,13 @@ const DeviceForm: FC<DeviceFormProp> = ({ data, formRef }) => {
                 () => ({
                     validator(_, value) {
                         if (!helper.isNullOrUndefined(value)) {
-                            return deviceIdExist(value);
+                            return deviceIdExist(value, data?.id);
                         } else {
                             return Promise.resolve();
                         }
                     },
                 }),
             ]}
-            initialValue={data?.deviceId}
             name="deviceId"
             label="设备ID">
             <Input />
@@ -76,7 +85,6 @@ const DeviceForm: FC<DeviceFormProp> = ({ data, formRef }) => {
                 { required: true, message: '请填写设备IP' },
                 { pattern: IP, message: '请填写合法IP地址' }
             ]}
-            initialValue={data?.deviceIp}
             name="deviceIp"
             label="设备IP">
             <Input />
@@ -85,7 +93,6 @@ const DeviceForm: FC<DeviceFormProp> = ({ data, formRef }) => {
             rules={[
                 { required: true, message: '请填写设备名称' }
             ]}
-            initialValue={data?.deviceName}
             name="deviceName"
             label="设备名称">
             <Input />
@@ -94,7 +101,6 @@ const DeviceForm: FC<DeviceFormProp> = ({ data, formRef }) => {
             rules={[
                 { required: true, message: '请填写场所名称' }
             ]}
-            initialValue={data?.siteName}
             name="siteName"
             label="场所名称">
             <Input />
@@ -103,7 +109,6 @@ const DeviceForm: FC<DeviceFormProp> = ({ data, formRef }) => {
             rules={[
                 { required: true, message: '请选择状态' }
             ]}
-            initialValue={data?.status ?? 1}
             name="status"
             label="状态">
             <Select>

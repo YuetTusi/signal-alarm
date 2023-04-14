@@ -8,11 +8,10 @@ import { AddModalProp } from './prop';
 const { useForm } = Form;
 
 const AddModal: FC<AddModalProp> = ({
-    open, onOk, onCancel
+    open, data, onOk, onCancel
 }) => {
 
     const [formRef] = useForm<ComDevice>();
-
     /**
      * 确定Click
      */
@@ -21,7 +20,11 @@ const AddModal: FC<AddModalProp> = ({
         const { validateFields } = formRef;
         try {
             const values = await validateFields();
-            onOk(values);
+            if (data) {
+                onOk({ ...data, ...values });
+            } else {
+                onOk(values);
+            }
         } catch (error) {
             console.warn(error);
         }
@@ -55,14 +58,16 @@ const AddModal: FC<AddModalProp> = ({
             onCancel={onCancelClick}
             open={open}
             width={500}
-            title="添加设备"
+            title={data === undefined ? '添加设备' : '编辑设备'}
             getContainer="#app"
             forceRender={true}
             destroyOnClose={true}
             maskClosable={false}
             centered={true}>
             <FormBox>
-                <DeviceForm formRef={formRef} />
+                <DeviceForm
+                    formRef={formRef}
+                    data={data} />
             </FormBox>
         </Modal>
     </AddModalBox>

@@ -6,7 +6,10 @@ export interface AddModalProp {
      * 打开/关闭
      */
     open: boolean,
-
+    /**
+     * 编辑数据（为空添加）
+     */
+    data?: ComDevice
     /**
      * 确定
      */

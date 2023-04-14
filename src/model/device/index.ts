@@ -45,6 +45,11 @@ interface DeviceState {
      * 删除设备
      */
     deleteDevice: (id: string) => Promise<RequestResult<any> | null>,
+    /**
+     * 编辑设备
+     * @param payload 设备
+     */
+    updateDevice: (payload: ComDevice) => Promise<RequestResult<any> | null>
 }
 
 export type { DeviceState };

@@ -105,6 +105,20 @@ const device = (setState: SetState, _: GetState): DeviceState => ({
         } catch (error) {
             throw error;
         }
+    },
+    /**
+     * 编辑设备
+     * @param payload 设备
+     */
+    updateDevice: async (payload: ComDevice) => {
+        let next = { ...payload };
+        try {
+            next.updateTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
+            const res = await request.put('/devops/device/update', next);
+            return res;
+        } catch (error) {
+            throw error;
+        }
     }
 });
 
