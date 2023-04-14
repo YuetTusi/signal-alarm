@@ -1,5 +1,6 @@
 import { FC, useState } from 'react';
 import { DisplayPanel } from '@/component/panel';
+import { ScrollPanel } from '@/component/panel/panel';
 import { Protocol } from '@/schema/protocol';
 import TerminalList from './terminal-list';
 import DetailModal from '../detail-modal';
@@ -21,7 +22,9 @@ const TerminalInfo: FC<{}> = () => {
                     style={{ color: '#fff' }}>详细</a>
             </div>
             <div className="content">
-                <TerminalList />
+                <ScrollPanel>
+                    <TerminalList />
+                </ScrollPanel>
             </div>
         </DisplayPanel>
         <DetailModal

@@ -121,7 +121,7 @@ const AlarmTop: FC<AlarmTopProp> = () => {
             // }}
             dataSource={alarmTop10Data}
             loading={alarmTop10Loading}
-            pagination={false}
+            pagination={{ pageSize: 5 }}
             rowKey="id"
         />
         <ProcessModal

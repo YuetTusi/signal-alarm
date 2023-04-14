@@ -2,6 +2,7 @@ import { FC, useState } from 'react';
 import { DoubleRightOutlined } from '@ant-design/icons';
 import { Tabs } from 'antd';
 import { DisplayPanel } from '@/component/panel';
+import { ScrollPanel } from '@/component/panel/panel';
 import { getProtocolLabel, Protocol } from '@/schema/protocol';
 import WapList from './wap-list';
 import { WapTop } from './wap-table';
@@ -16,18 +17,7 @@ const toTabItem = () =>
             switch (v) {
                 case Protocol.WiFi24G:
                 case Protocol.WiFi58G:
-                    // acc.push({
-                    //     key: v.toString(),
-                    //     label: getProtocolLabel(v as any),
-                    //     children: <HotspotList protocol={v} />
-                    // });
-                    break;
                 case Protocol.Terminal:
-                // acc.push({
-                //     key: v.toString(),
-                //     label: getProtocolLabel(v as any),
-                //     children: <TerminalList />
-                // });
                 case Protocol.Others:
                     //其他跳过，最后追加以保证是页签是最后一个
                     break;
@@ -35,7 +25,9 @@ const toTabItem = () =>
                     acc.push({
                         key: v.toString(),
                         label: getProtocolLabel(v as any),
-                        children: <WapList protocol={v as Protocol} />
+                        children: <ScrollPanel>
+                            <WapList protocol={v as Protocol} />
+                        </ScrollPanel>
                     });
                     break;
             }
@@ -45,7 +37,9 @@ const toTabItem = () =>
             {
                 key: Protocol.Others.toString(),
                 label: getProtocolLabel(Protocol.Others),
-                children: <WapTop protocol={Protocol.Others} />
+                children: <ScrollPanel>
+                    <WapTop protocol={Protocol.Others} />
+                </ScrollPanel>
             }
         ]);
 

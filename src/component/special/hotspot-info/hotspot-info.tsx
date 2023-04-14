@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import { Tabs } from "antd";
 import { DoubleRightOutlined } from "@ant-design/icons";
 import { Protocol, getProtocolLabel } from "@/schema/protocol";
-import { DisplayPanel } from "@/component/panel";
+import { DisplayPanel, ScrollPanel } from "@/component/panel";
 import HotspotList from './hotspot-list';
 import DetailModal from "../detail-modal";
 import { HotspotInfoBox } from "./styled/box";
@@ -11,11 +11,15 @@ const toTabItem = () => [
     {
         key: Protocol.WiFi24G.toString(),
         label: getProtocolLabel(Protocol.WiFi24G),
-        children: <HotspotList protocol={Protocol.WiFi24G} />
+        children: <ScrollPanel>
+            <HotspotList protocol={Protocol.WiFi24G} />
+        </ScrollPanel>
     }, {
         key: Protocol.WiFi58G.toString(),
         label: getProtocolLabel(Protocol.WiFi58G),
-        children: <HotspotList protocol={Protocol.WiFi58G} />
+        children: <ScrollPanel>
+            <HotspotList protocol={Protocol.WiFi58G} />
+        </ScrollPanel>
     }
 ] as any[];
 

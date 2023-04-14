@@ -48,7 +48,6 @@ const DetailModel: FC<DetailModalProp> = ({ open, protocol, onCancel }) => {
     };
 
     const renderTable = () => {
-        console.log(protocol);
         switch (protocol) {
             case Protocol.WiFi24G:
             case Protocol.WiFi58G:

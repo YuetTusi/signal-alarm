@@ -42,3 +42,11 @@ export const DisplayPanel = styled(BoxPanel)`
         border-top-right-radius:${(props) => `${props.theme['borderRadius']}px`};
     }
 `;
+
+export const ScrollPanel = styled.div<{ height?: number }>`
+
+    display: block;
+    height: ${props => props.height ?? 200}px;
+    width: auto;
+    overflow-y: auto;
+`;
