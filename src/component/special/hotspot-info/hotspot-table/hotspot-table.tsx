@@ -5,7 +5,7 @@ import electron, { OpenDialogReturnValue } from 'electron';
 import { FC, useEffect } from 'react';
 import { App, Divider, message, Table } from 'antd';
 import { useModel } from '@/model';
-import { Wap } from '@/schema/wap';
+import { Hotspot } from '@/schema/hotspot';
 import { helper } from '@/utility/helper';
 import { SearchBar } from './search-bar';
 import { getColumns } from './column';
@@ -113,7 +113,7 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
     return <>
         <SearchBar onExport={onExport} onSearch={onSearch} />
         <Divider />
-        <Table<Wap>
+        <Table<Hotspot>
             columns={getColumns()}
             dataSource={specialHotspotData}
             loading={specialHotspotLoading}

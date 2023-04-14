@@ -1,4 +1,4 @@
-import { Wap } from "@/schema/wap";
+import { Hotspot } from "@/schema/hotspot";
 import { specialHotspot } from './special-hotspot';
 
 /**
@@ -9,11 +9,11 @@ interface SpecialHotspotState {
     /**
      * Top10数据
      */
-    specialHotspotTop10Data: Wap[],
+    specialHotspotTop10Data: Hotspot[],
     /**
      * 分页数据
      */
-    specialHotspotData: Wap[],
+    specialHotspotData: Hotspot[],
     /**
      * 当前页
      */

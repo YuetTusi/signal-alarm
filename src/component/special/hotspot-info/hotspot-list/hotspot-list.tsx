@@ -37,7 +37,7 @@ const HotspotList: FC<HotspotListProp> = ({ protocol }) => {
             ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
             : data.map((item, index) => <div className="list-row" key={`WL_${index}`}>
                 <div className="list-row-txt">
-                    <div>{getProtocolLabel(item.protocolType)}</div>
+                    <div>{getProtocolLabel(item.protocolType)} {item.ssid}</div>
                     <div>{item?.siteName ?? ''}</div>
                 </div>
                 <div className="list-row-val">

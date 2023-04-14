@@ -1,9 +1,9 @@
 import { Progress } from 'antd';
 import { ColumnsType } from 'antd/es/table';
-import { Wap } from '@/schema/wap';
+import { Hotspot } from '@/schema/hotspot';
 import { getProtocolLabel } from '@/schema/protocol';
 
-const getColumns = (): ColumnsType<Wap> => {
+const getColumns = (): ColumnsType<Hotspot> => {
     return [{
         title: '类型',
         key: 'protocolType',
@@ -11,6 +11,10 @@ const getColumns = (): ColumnsType<Wap> => {
         render: (val: any) => {
             return getProtocolLabel(val);
         }
+    }, {
+        title: '热点',
+        key: 'ssid',
+        dataIndex: 'ssid',
     }, {
         title: 'APID',
         key: 'apId',
@@ -56,7 +60,7 @@ const getColumns = (): ColumnsType<Wap> => {
     }];
 };
 
-const getTopColumns = (): ColumnsType<Wap> => {
+const getTopColumns = (): ColumnsType<Hotspot> => {
     return [{
         title: 'APID',
         key: 'apId',
