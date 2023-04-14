@@ -2,6 +2,7 @@ import { FC, useEffect, useState, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { App, Input, Button, Select, Form, Table, message } from 'antd';
 import { useModel } from '@/model';
+import { request } from '@/utility/http';
 import { helper } from '@/utility/helper';
 import { ComDevice, DeviceState } from '@/schema/com-device';
 import { AddModal } from './add-modal';
@@ -171,6 +172,11 @@ const Device: FC<DeviceProp> = () => {
                 </Form>
             </div>
             <div>
+                <Button onClick={() => {
+                    request.get(`/devops/device/1/1000000000000000000`).then(res => console.log(res));
+                }}>
+                    list
+                </Button>
                 <Button
                     onClick={() => setAddModalOpen(true)}
                     type="primary">

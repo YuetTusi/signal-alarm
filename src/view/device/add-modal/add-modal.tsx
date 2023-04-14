@@ -2,8 +2,8 @@ import { FC, MouseEvent } from 'react';
 import { Button, Form, Modal } from 'antd';
 import { ComDevice } from '@/schema/com-device';
 import { DeviceForm } from './device-form';
-import { AddModalProp } from './prop';
 import { AddModalBox, FormBox } from './styled/box';
+import { AddModalProp } from './prop';
 
 const { useForm } = Form;
 
