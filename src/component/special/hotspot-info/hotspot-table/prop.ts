@@ -2,6 +2,10 @@ import { Dayjs } from "dayjs";
 import { Protocol } from "@/schema/protocol";
 
 export interface HotspotTableProp {
+    /**
+     * 刷新
+     */
+    force?: boolean
 }
 
 export interface HotspotTopProp {
@@ -10,6 +14,10 @@ export interface HotspotTopProp {
 
 export interface SearchBarProp {
 
+    /**
+     * 刷新
+     */
+    force?: boolean
     /**
      * 查询
      * @param beginTime 起始时间

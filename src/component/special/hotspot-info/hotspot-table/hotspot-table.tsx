@@ -18,13 +18,15 @@ const { join } = path;
 /**
  * 专项检测热点数据
  */
-const HotspotTable: FC<HotspotTableProp> = ({ }) => {
+const HotspotTable: FC<HotspotTableProp> = ({ force }) => {
 
     const { modal } = App.useApp();
 
     useEffect(() => {
-        querySpecialHotspotData(1, helper.PAGE_SIZE);
-    }, []);
+        if (force) {
+            querySpecialHotspotData(1, helper.PAGE_SIZE);
+        }
+    }, [force]);
 
     const {
         specialHotspotPageIndex,
@@ -111,7 +113,10 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
     };
 
     return <>
-        <SearchBar onExport={onExport} onSearch={onSearch} />
+        <SearchBar
+            force={force}
+            onExport={onExport}
+            onSearch={onSearch} />
         <Divider />
         <Table<Hotspot>
             columns={getColumns()}
@@ -123,12 +128,14 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
                 current: specialHotspotPageIndex,
                 pageSize: specialHotspotPageSize
             }}
+            scroll={{ x: 'max-content' }}
             rowKey="id"
         />
     </>
 };
 
 HotspotTable.defaultProps = {
+    force: false
 };
 
 export { HotspotTable };

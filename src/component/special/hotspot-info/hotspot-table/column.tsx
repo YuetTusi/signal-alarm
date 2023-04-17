@@ -57,6 +57,12 @@ const getColumns = (): ColumnsType<Hotspot> => {
         title: '设备地址',
         key: 'siteName',
         dataIndex: 'siteName',
+    }, {
+        title: '时间',
+        key: 'createTime',
+        dataIndex: 'createTime',
+        align: 'center',
+        width: 150
     }];
 };
 

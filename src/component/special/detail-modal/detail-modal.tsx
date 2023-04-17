@@ -51,7 +51,7 @@ const DetailModel: FC<DetailModalProp> = ({ open, protocol, onCancel }) => {
         switch (protocol) {
             case Protocol.WiFi24G:
             case Protocol.WiFi58G:
-                return <HotspotTable />;
+                return <HotspotTable force={open} />;
             case Protocol.Terminal:
                 return <TerminalTable force={open} />;
             default:
