@@ -25,23 +25,6 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
         queryQuickCheckReport();
     }, []);
 
-    const onWheel = useCallback((event: WheelEvent) => {
-        event.preventDefault();
-        if (scrollRef.current) {
-            scrollRef.current!.style.scrollBehavior = 'auto';
-            scrollRef.current!.scrollLeft += event.deltaY - 5;
-        }
-    }, [scrollRef.current]);
-
-    useEffect(() => {
-        if (scrollRef.current !== null) {
-            scrollRef.current.addEventListener('wheel', onWheel);
-        }
-        return () => {
-            scrollRef.current?.removeEventListener('wheel', onWheel);
-        };
-    }, [scrollRef.current]);
-
     const renderTime = (value: number | null) => {
         if (value) {
             return dayjs(value).format('YYYY-MM-DD HH:mm:ss');

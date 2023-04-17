@@ -5,10 +5,11 @@ export const ScrollBox = styled.div`
 
     box-sizing: border-box;
     display: flex;
-    width: 400px;
+    flex-direction: column;
+    width: auto;
+    height: 172px;
     padding: 10px;
-    overflow-x: auto;
-    flex-wrap: nowrap;
+    overflow-y: auto;
 `;
 
 export const EmptyBox = styled.div`
@@ -22,11 +23,11 @@ export const ReportBox = styled.div`
 
     border:1px solid #2189c8;
     box-shadow: inset 1px 1px 10px 5px #2189c8;
-    margin: 0 10px 0 0;
+    margin-bottom: 10px;
     padding: 20px;
-    width:180px;
+    width:auto;
     &:last-child{
-        margin-right: 0;
+        margin-bottom: 0;
     }
     &>.r-title{
         height: 32px;

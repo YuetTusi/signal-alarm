@@ -4,6 +4,7 @@ import { State, useModel } from '@/model';
 import { getProtocolLabel } from '@/schema/protocol';
 import { ListBox } from './styled/box';
 import { HotspotListProp } from './prop';
+import { helper } from '@/utility/helper';
 
 /**
  * 专项数据（终端）Top10
@@ -38,7 +39,7 @@ const HotspotList: FC<HotspotListProp> = ({ protocol }) => {
             : data.map((item, index) => <div className="list-row" key={`WL_${index}`}>
                 <div className="list-row-txt">
                     <div>{getProtocolLabel(item.protocolType)} {item.ssid}</div>
-                    <div>{item?.siteName ?? ''}</div>
+                    <div>{helper.isNullOrUndefined(item?.siteName) || item.siteName === '' ? '-' : item.siteName}</div>
                 </div>
                 <div className="list-row-val">
                     <div>强度值：{item.rssi}</div>

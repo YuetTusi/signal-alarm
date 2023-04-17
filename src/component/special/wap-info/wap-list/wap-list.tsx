@@ -4,6 +4,7 @@ import { useModel } from '@/model';
 import { Protocol } from '@/schema/protocol';
 import { ListBox } from './styled/box';
 import { WapTopProp } from './prop';
+import { helper } from '@/utility/helper';
 
 /**
  * 专项数据（摄像头，手机信号等）Top10
@@ -42,8 +43,8 @@ const WapList: FC<WapTopProp> = ({ protocol }) => {
             : data.map(
                 (item, index) => <div className="list-row" key={`WL_${index}`}>
                     <div className="list-row-txt">
-                        <div>{item.protocolName}</div>
-                        <div>{item?.siteName ?? ''}</div>
+                        <div>{helper.isNullOrUndefined(item?.protocolName) || item.protocolName === '' ? '-' : item.protocolName}</div>
+                        <div>{item?.siteName ?? '-'}</div>
                     </div>
                     <div className="list-row-val">
                         <div>强度值：{item.rssi}</div>

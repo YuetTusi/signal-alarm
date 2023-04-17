@@ -66,6 +66,7 @@ const DeviceForm: FC<DeviceFormProp> = ({ data, formRef }) => {
         <Item
             rules={[
                 { required: true, message: '请填写设备ID' },
+                { pattern: /^\w+$/, message: '数字，英文，下划线' },
                 () => ({
                     validator(_, value) {
                         if (!helper.isNullOrUndefined(value)) {
@@ -78,7 +79,7 @@ const DeviceForm: FC<DeviceFormProp> = ({ data, formRef }) => {
             ]}
             name="deviceId"
             label="设备ID">
-            <Input />
+            <Input placeholder="数字，英文，下划线；不可重复" />
         </Item>
         <Item
             rules={[
@@ -87,7 +88,7 @@ const DeviceForm: FC<DeviceFormProp> = ({ data, formRef }) => {
             ]}
             name="deviceIp"
             label="设备IP">
-            <Input />
+            <Input placeholder="IP地址，如127.0.0.1" />
         </Item>
         <Item
             rules={[

@@ -5,7 +5,6 @@ import { DisplayPanel } from '@/component/panel';
 import { ScrollPanel } from '@/component/panel/panel';
 import { getProtocolLabel, Protocol } from '@/schema/protocol';
 import WapList from './wap-list';
-import { WapTop } from './wap-table';
 import DetailModal from '../detail-modal';
 import { WapInfoBox } from './styled/style';
 import { WapInfoProp } from './prop';
@@ -38,7 +37,8 @@ const toTabItem = () =>
                 key: Protocol.Others.toString(),
                 label: getProtocolLabel(Protocol.Others),
                 children: <ScrollPanel>
-                    <WapTop protocol={Protocol.Others} />
+                    {/* <WapTop protocol={Protocol.Others} /> */}
+                    <WapList protocol={Protocol.Others} />
                 </ScrollPanel>
             }
         ]);
