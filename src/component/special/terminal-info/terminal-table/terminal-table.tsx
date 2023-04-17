@@ -18,13 +18,15 @@ const { join } = path;
 /**
  * 专项检测终端数据
  */
-const TerminalTable: FC<TerminalTableProp> = ({ }) => {
+const TerminalTable: FC<TerminalTableProp> = ({ force }) => {
 
     const { modal } = App.useApp();
 
     useEffect(() => {
-        querySpecialTerminalData(1, helper.PAGE_SIZE);
-    }, []);
+        if (force) {
+            querySpecialTerminalData(1, helper.PAGE_SIZE);
+        }
+    }, [force]);
 
     const {
         specialTerminalPageIndex,
@@ -104,7 +106,10 @@ const TerminalTable: FC<TerminalTableProp> = ({ }) => {
     };
 
     return <>
-        <SearchBar onExport={onExport} onSearch={onSearch} />
+        <SearchBar
+            force={force}
+            onExport={onExport}
+            onSearch={onSearch} />
         <Divider />
         <Table<Wap>
             columns={getColumns()}
@@ -116,6 +121,7 @@ const TerminalTable: FC<TerminalTableProp> = ({ }) => {
                 current: specialTerminalPageIndex,
                 pageSize: specialTerminalPageSize
             }}
+            scroll={{ x: 'max-content' }}
             rowKey="id"
         />
     </>

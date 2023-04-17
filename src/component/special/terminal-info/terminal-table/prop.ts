@@ -1,11 +1,20 @@
 import { Dayjs } from "dayjs";
 
-export interface TerminalTableProp { }
+export interface TerminalTableProp {
+    /**
+     * 刷新
+     */
+    force?: boolean
+}
 
 export interface TerminalTopProp { }
 
 export interface SearchBarProp {
 
+    /**
+     * 刷新
+     */
+    force?: boolean
     /**
      * 查询
      * @param beginTime 起始时间

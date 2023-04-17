@@ -57,6 +57,12 @@ const getColumns = (): ColumnsType<Wap> => {
         key: 'rssi',
         dataIndex: 'rssi',
         width: 60
+    }, {
+        title: '时间',
+        key: 'createTime',
+        dataIndex: 'createTime',
+        align: 'center',
+        width: 150
     }];
 };
 
