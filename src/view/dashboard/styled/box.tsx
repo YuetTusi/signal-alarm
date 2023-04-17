@@ -45,7 +45,13 @@ export const DashboardBox = styled.div`
     }
 
     .phone-panel{
+        position: absolute;
+        top:45px;
+        left:0;
+        right:0;
+        bottom:0;
         padding: 0 30px;
+        overflow-y: auto;
     }
 
     .phone-alarm{
@@ -58,8 +64,25 @@ export const DashboardBox = styled.div`
         color:#fff8de;
         margin:0 40px 20px 0;
         padding: 5px 5px;
-        box-shadow: inset 0 0 3px 3px #7877c7;
+        box-shadow: inset 0 0 4px 4px #7877c7;
         border-radius: ${props => props.theme['borderRadius']}px;
+        animation-name: borderflash;
+        animation-duration: .7s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        &>.close{
+            display: none;
+            position: absolute;
+            top:-9px;
+            right:-9px;
+            font-size: 2rem;
+            color:#fff;
+        }
+        &:hover{
+            &>.close{
+                display: block;
+            }
+        }
         &>.icon{
             position: relative;
             left: -23px;
@@ -70,16 +93,24 @@ export const DashboardBox = styled.div`
             width: 36px;
             height: 36px;
             background-color: #3b3b6f;
-            color:#ee545c;
+            color:#7877c7;
             font-size:2rem;
             box-shadow: inset 0 0 3px 3px #7877c7;
             transform: rotate(45deg);
+            animation-name: borderflash;
+            animation-duration: .7s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
             &>.anticon{
+                animation-name: contentflash;
+                animation-duration: .7s;
+                animation-iteration-count: infinite;
                 transform: rotate(-45deg);
+                animation-timing-function: linear;
             }
         }
         &>.info{
-            padding-right:10px;
+            padding-right:24px;
             div{
                 &:first-child{
                     color:#fff8de;
@@ -90,6 +121,29 @@ export const DashboardBox = styled.div`
                     padding: 2px 0;
                 }
             }
+        }
+    }
+
+    @keyframes borderflash {
+        0% {
+            box-shadow: inset 0 0 4px 4px #7877c7;
+        }
+        50%{
+            box-shadow: inset 0 0 4px 4px #ee545c;
+        }
+        100% {
+            box-shadow: inset 0 0 4px 4px #7877c7;
+        }
+    }
+    @keyframes contentflash {
+        0% {
+            color: #7877c7;
+        }
+        50%{
+            color: #ee545c;
+        }
+        100% {
+            color: #7877c7;
         }
     }
 `;

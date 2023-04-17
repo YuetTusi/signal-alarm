@@ -128,7 +128,7 @@ const Login: FC<{}> = () => {
     };
 
     return <>
-        <DragBar>信号哨兵长时检测系统</DragBar>
+        <DragBar />
         <Reading />
         <BackgroundBox>
             <div className="setting-box">

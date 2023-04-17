@@ -2,12 +2,14 @@ import debounce from 'lodash/debounce';
 import { FC, memo, useEffect, MouseEvent } from "react";
 import { Button, Typography } from "antd";
 import {
-    ThunderboltOutlined, LoadingOutlined, MobileOutlined
+    ThunderboltOutlined, LoadingOutlined, MobileOutlined,
+    CloseSquareOutlined
 } from '@ant-design/icons';
 import useModel from "@/model";
-// import { request } from "@/utility/http";
+import { request } from "@/utility/http";
 import { instance, closeSse } from '@/utility/sse';
 import { StorageKeys } from '@/utility/storage-keys';
+import { PhoneAlarmInfo } from '@/schema/phone-alarm-info';
 import WapInfo from "@/component/special/wap-info";
 import TerminalInfo from "@/component/special/terminal-info";
 import HotspotInfo from '@/component/special/hotspot-info';
@@ -16,12 +18,15 @@ import {
     AlarmTypeChart, AlarmSiteTopChart, SpecialTypeChart, AlarmWeekChart
 } from '@/component/statis';
 import CheckReport from '@/component/check-report';
-// import { SettingMenuAction } from "@/component/setting-menu/prop";
 import { DashboardBox } from "./styled/box";
+import { helper } from '@/utility/helper';
 
 const { Text } = Typography;
 let sse: EventSource | null = null;
 
+/**
+ * 主页
+ */
 const Dashboard: FC<{}> = memo(() => {
     const {
         startTime,
@@ -29,23 +34,25 @@ const Dashboard: FC<{}> = memo(() => {
         phoneAlarmData,
         quickCheckStart,
         quickCheckStop,
-        setPhoneAlarmData
+        setPhoneAlarmData,
+        removePhoneAlarmData
     } = useModel(state => ({
         startTime: state.startTime,
         quickCheckLoading: state.quickCheckLoading,
         phoneAlarmData: state.phoneAlarmData,
         quickCheckStart: state.quickCheckStart,
         quickCheckStop: state.quickCheckStop,
-        setPhoneAlarmData: state.setPhoneAlarmData
+        setPhoneAlarmData: state.setPhoneAlarmData,
+        removePhoneAlarmData: state.removePhoneAlarmData
     }));
 
     const onMessage = (event: MessageEvent<any>) => {
         console.log('SSE message:', event);
         try {
             if (typeof event.data === 'string') {
-                const data = JSON.parse(event.data);
+                const data: PhoneAlarmInfo = JSON.parse(event.data);
                 if (data.hash) {
-                    setPhoneAlarmData([data]);
+                    setPhoneAlarmData([...phoneAlarmData, data]);
                 }
             }
         } catch (error) {
@@ -67,9 +74,14 @@ const Dashboard: FC<{}> = memo(() => {
 
         return () => {
             closeSse();
-            setPhoneAlarmData([]);
         }
     }, []);
+
+    /**
+     * 移除报警信息
+     */
+    const onPhoneAlarmDelete = (hash: string) =>
+        removePhoneAlarmData(hash);
 
     const onCheckClick = debounce(async (event: MouseEvent) => {
         event.preventDefault();
@@ -89,6 +101,13 @@ const Dashboard: FC<{}> = memo(() => {
     const renderPhoneAlarm = () =>
         phoneAlarmData.map(
             (item, index) => <div className="phone-alarm" key={`PA_${index}`}>
+                <Button
+                    onClick={() => onPhoneAlarmDelete(item.hash)}
+                    type="link"
+                    className="close"
+                    title="关闭">
+                    <CloseSquareOutlined />
+                </Button>
                 <div className="icon">
                     <MobileOutlined />
                 </div>
@@ -125,14 +144,6 @@ const Dashboard: FC<{}> = memo(() => {
             <div className="main-box">
                 <div className="alarm-bg">
                     <div className="setting-box">
-
-                        {/* <Button
-    onClick={() => {
-        sse.pushUser();
-    }}
-    type="link">
-    测试
-</Button> */}
                         <Text style={{ fontSize: '12px' }} type="success">
                             {startTime === '' ? '' : `开始时间：${startTime}`}
                         </Text>

@@ -9,7 +9,12 @@ interface PhoneAlarmState {
     /**
      * 接收推送
      */
-    setPhoneAlarmData: (payload: PhoneAlarmInfo[]) => void
+    setPhoneAlarmData: (payload: PhoneAlarmInfo[]) => void,
+    /**
+     * 移除手机数据
+     * @param hash 
+     */
+    removePhoneAlarmData: (hash: string) => void
 }
 
 export type { PhoneAlarmState };
