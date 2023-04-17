@@ -13,14 +13,14 @@ const SettingMenu: FC<SettingMenuProp> = ({ onMenuAction }) => <Dropdown
                 key: 'SM_0',
                 label: <a onClick={() => onMenuAction(SettingMenuAction.Device)}>设备管理</a>
             },
-            {
-                key: 'SM_1',
-                label: <a onClick={() => onMenuAction(SettingMenuAction.Network)}>IP设置</a>
-            },
-            {
-                key: 'SM_2',
-                label: <a onClick={() => onMenuAction(SettingMenuAction.ModifyPassword)}>修改密码</a>
-            }
+            // {
+            //     key: 'SM_1',
+            //     label: <a onClick={() => onMenuAction(SettingMenuAction.Network)}>IP设置</a>
+            // },
+            // {
+            //     key: 'SM_2',
+            //     label: <a onClick={() => onMenuAction(SettingMenuAction.ModifyPassword)}>修改密码</a>
+            // }
         ]
     }}
     trigger={['click']}>

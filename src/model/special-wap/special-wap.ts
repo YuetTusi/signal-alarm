@@ -3,6 +3,7 @@ import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';
 import { SpecialWapState } from '.';
 import { GetState, SetState } from '..';
+import { Wap } from '@/schema/wap';
 
 const specialWap = (setState: SetState, _: GetState): SpecialWapState => ({
 
@@ -27,11 +28,14 @@ const specialWap = (setState: SetState, _: GetState): SpecialWapState => ({
         message.destroy();
         setState({ specialWapLoading: true });
         try {
-            const res = await request.get('/spi/wap/new');
+            const res = await request.get<Wap[]>('/spi/wap/new');
             if (res === null) {
                 message.warning('查询失败')
             } else if (res.code === 200) {
-                setState({ specialWapTop10Data: res.data });
+                const sorted = !helper.isNullOrUndefined(res.data) && res.data.length > 0
+                    ? res.data.sort((a, b) => Number(b.rssi) - Number(a.rssi))
+                    : []; //按强度值降序
+                setState({ specialWapTop10Data: sorted });
             } else {
                 message.warning(`查询失败（${res.message ?? ''}）`)
             }
@@ -57,7 +61,10 @@ const specialWap = (setState: SetState, _: GetState): SpecialWapState => ({
             params = '?' + q.join('&');
         }
         try {
-            const res = await request.get(`/spi/wap/${pageIndex}/${pageSize}${params}`);
+            const res = await request.get<{
+                records: Wap[],
+                total: number
+            }>(`/spi/wap/${pageIndex}/${pageSize}${params}`);
             if (res === null) {
                 message.warning('查询失败')
             } else if (res.code === 200) {
@@ -89,7 +96,6 @@ const specialWap = (setState: SetState, _: GetState): SpecialWapState => ({
             params = params + '&' + q.join('&');
         }
         try {
-            console.log(`/spi/wap/export${params}`);
             const chunk = await request.attachment(`/spi/wap/export${params}`);
             return chunk;
         } catch (error) {

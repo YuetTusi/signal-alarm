@@ -3,6 +3,7 @@ import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';
 import { SpecialTerminalState } from '.';
 import { GetState, SetState } from '..';
+import { Wap } from '@/schema/wap';
 
 const specialTerminal = (setState: SetState, _: GetState): SpecialTerminalState => ({
 
@@ -57,11 +58,14 @@ const specialTerminal = (setState: SetState, _: GetState): SpecialTerminalState 
         message.destroy();
         setState({ specialTerminalLoading: true });
         try {
-            const res = await request.get('/spi/terminal/new');
+            const res = await request.get<Wap[]>('/spi/terminal/new');
             if (res === null) {
                 message.warning('查询失败')
             } else if (res.code === 200) {
-                setState({ specialTerminalTop10Data: res.data });
+                const sorted = !helper.isNullOrUndefined(res.data) && res.data.length > 0
+                    ? res.data.sort((a, b) => Number(b.rssi) - Number(a.rssi))
+                    : []; //按强度值降序
+                setState({ specialTerminalTop10Data: sorted });
             } else {
                 message.warning(`查询失败（${res.message ?? ''}）`)
             }

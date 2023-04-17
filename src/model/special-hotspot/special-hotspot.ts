@@ -1,6 +1,7 @@
+import { message } from 'antd';
 import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';
-import { message } from 'antd';
+import { Hotspot } from '@/schema/hotspot';
 import { SpecialHotspotState } from '.';
 import { GetState, SetState } from '..';
 
@@ -27,10 +28,13 @@ const specialHotspot = (setState: SetState, _: GetState): SpecialHotspotState =>
         message.destroy();
         setState({ specialHotspotLoading: true });
         try {
-            const res = await request.get('/spi/hotspot/new');
+            const res = await request.get<Hotspot[]>('/spi/hotspot/new');
             if (res === null) {
                 message.warning('查询失败')
             } else if (res.code === 200) {
+                const sorted = !helper.isNullOrUndefined(res.data) && res.data.length > 0
+                    ? res.data.sort((a, b) => Number(b.rssi) - Number(a.rssi))
+                    : []; //按强度值降序
                 setState({ specialHotspotTop10Data: res.data });
             } else {
                 message.warning(`查询失败（${res.message ?? ''}）`)
