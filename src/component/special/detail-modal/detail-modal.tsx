@@ -13,17 +13,17 @@ import { DetailModalProp } from './prop';
  */
 const DetailModel: FC<DetailModalProp> = ({ open, protocol, onCancel }) => {
 
-    useEffect(() => {
-        if (open) {
-            querySpecialWapTop10Data();
-        }
-    }, [open]);
+    // useEffect(() => {
+    //     if (open) {
+    //         querySpecialWapTop10Data();
+    //     }
+    // }, [open]);
 
-    const {
-        querySpecialWapTop10Data
-    } = useModel(state => ({
-        querySpecialWapTop10Data: state.querySpecialWapTop10Data
-    }));
+    // const {
+    //     querySpecialWapTop10Data
+    // } = useModel(state => ({
+    //     querySpecialWapTop10Data: state.querySpecialWapTop10Data
+    // }));
 
     // const onOkClick = (event: MouseEvent) => {
     //     event.preventDefault();
@@ -55,7 +55,7 @@ const DetailModel: FC<DetailModalProp> = ({ open, protocol, onCancel }) => {
             case Protocol.Terminal:
                 return <TerminalTable />;
             default:
-                return <WapTable />;
+                return <WapTable force={open} />;
         }
     }
 
@@ -66,7 +66,7 @@ const DetailModel: FC<DetailModalProp> = ({ open, protocol, onCancel }) => {
         ]}
         onCancel={onCancelClick}
         open={open}
-        width={1080}
+        width={1280}
         getContainer="#app"
         title={getTitle()}
         centered={true}

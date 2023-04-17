@@ -18,13 +18,15 @@ const { join } = path;
 /**
  * 专项检测分页数据
  */
-const WapTable: FC<WapTableProp> = ({ }) => {
+const WapTable: FC<WapTableProp> = ({ force }) => {
 
     const { modal } = App.useApp();
 
     useEffect(() => {
-        querySpecialWapData(1, helper.PAGE_SIZE);
-    }, []);
+        if (force) {
+            querySpecialWapData(1, helper.PAGE_SIZE);
+        }
+    }, [force]);
 
     const {
         specialWapLoading,
@@ -109,7 +111,10 @@ const WapTable: FC<WapTableProp> = ({ }) => {
     };
 
     return <>
-        <SearchBar onExport={onExport} onSearch={onSearch} />
+        <SearchBar
+            force={force}
+            onExport={onExport}
+            onSearch={onSearch} />
         <Divider />
         <Table<Wap>
             columns={getColumns()}
@@ -127,6 +132,7 @@ const WapTable: FC<WapTableProp> = ({ }) => {
 };
 
 WapTable.defaultProps = {
+    force: false
 };
 
 export { WapTable };

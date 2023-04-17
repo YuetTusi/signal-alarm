@@ -1,10 +1,18 @@
 import { Dayjs } from "dayjs";
 import { Protocol } from "@/schema/protocol";
 
-export interface WapTableProp { }
+export interface WapTableProp {
+    /**
+     * 是否刷新
+     */
+    force?: boolean
+}
 
 export interface SearchBarProp {
-
+    /**
+     * 是否刷新
+     */
+    force?: boolean,
     /**
      * 查询
      * @param beginTime 起始时间
