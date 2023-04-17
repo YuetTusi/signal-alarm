@@ -6,6 +6,8 @@ import { ListBox } from './styled/box';
 import { WapTopProp } from './prop';
 import { helper } from '@/utility/helper';
 
+let timer: any = null;
+
 /**
  * 专项数据（摄像头，手机信号等）Top10
  */
@@ -13,6 +15,15 @@ const WapList: FC<WapTopProp> = ({ protocol }) => {
 
     useEffect(() => {
         querySpecialWapTop10Data();
+        if (timer === null) {
+            timer = setInterval(() => {
+                querySpecialWapTop10Data();
+            }, 1000 * 20);
+        }
+
+        return () => {
+            clearInterval(timer);
+        }
     }, []);
 
     const {

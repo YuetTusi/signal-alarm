@@ -5,15 +5,25 @@ import { ListBox } from './styled/box';
 import { TerminalTopProp } from './prop';
 import { getProtocolLabel } from '@/schema/protocol';
 
+let timer: any = null;
+
 /**
  * 专项数据（终端）Top10
  */
 const TerminalList: FC<TerminalTopProp> = ({ }) => {
 
     useEffect(() => {
-        Promise.all([
-            querySpecialTerminalTop10Data(),
-        ]);
+
+        querySpecialTerminalTop10Data();
+        if (timer === null) {
+            timer = setInterval(() => {
+                querySpecialTerminalTop10Data();
+            }, 1000 * 20);
+        }
+
+        return () => {
+            clearInterval(timer);
+        }
     }, []);
 
     const {

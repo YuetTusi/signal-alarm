@@ -6,15 +6,25 @@ import { ListBox } from './styled/box';
 import { HotspotListProp } from './prop';
 import { helper } from '@/utility/helper';
 
+let timer: any = null;
+
 /**
  * 专项数据（终端）Top10
  */
 const HotspotList: FC<HotspotListProp> = ({ protocol }) => {
 
     useEffect(() => {
-        Promise.all([
-            querySpecialHotspotTop10Data(),
-        ]);
+
+        querySpecialHotspotTop10Data();
+        if (timer === null) {
+            timer = setInterval(() => {
+                querySpecialHotspotTop10Data();
+            }, 1000 * 20);
+        }
+
+        return () => {
+            clearInterval(timer);
+        }
     }, []);
 
     const {

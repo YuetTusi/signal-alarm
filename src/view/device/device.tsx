@@ -7,9 +7,9 @@ import { ComDevice, DeviceState } from '@/schema/com-device';
 import { AddModal } from './add-modal';
 import { SetModal } from './set-modal';
 import { getColumns } from './column';
+import { SetFormValue } from './set-modal/prop';
 import { DeviceBox, SearchBar, TableBox } from './styled/box';
 import { ActionType, DeviceProp, FormValue } from './prop';
-import { SetFormValue } from './set-modal/prop';
 
 const { Item, useForm } = Form;
 const { Option } = Select;
