@@ -29,6 +29,7 @@ class HttpRequest {
 
     _request<T = any>(fetchUrl: string, parameters?: Record<string, any>, method: string = 'POST'): Promise<null | RequestResult<T>> {
 
+        console.log(`${method} ${fetchUrl} Parameter:${parameters}`);
         const options = url.parse(this._getFetchUrl(fetchUrl));
         let data = '';
 
@@ -49,6 +50,7 @@ class HttpRequest {
                     data += chunk;
                 });
                 res.on('end', () => {
+                    console.log(`${method} ${fetchUrl} Response: ${data}`);
                     try {
                         if (data === '') {
                             resolve(null);
@@ -73,6 +75,7 @@ class HttpRequest {
      * @param fetchUrl URL
      */
     get<T = any>(fetchUrl: string): Promise<null | RequestResult<T>> {
+        console.log(`GET ${fetchUrl}`);
         const options = url.parse(this._getFetchUrl(fetchUrl));
         let data = '';
         return new Promise((resolve, reject) => {
@@ -88,6 +91,7 @@ class HttpRequest {
                     data += chunk;
                 });
                 res.on('end', () => {
+                    console.log(`GET ${fetchUrl} Response: ${data}`);
                     try {
                         if (helper.isNullOrUndefined(data) || data === '') {
                             resolve(null);
