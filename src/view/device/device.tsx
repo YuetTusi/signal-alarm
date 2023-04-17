@@ -141,26 +141,24 @@ const Device: FC<DeviceProp> = () => {
                 if (res === null) {
                     message.warning('添加失败');
                 } else if (res.code === 200) {
-                    setAddModalOpen(false);
-                    formRef.resetFields();
                     await queryDeviceData(1, helper.PAGE_SIZE);
                     message.success('添加成功');
                 } else {
                     message.warning(`添加失败(${res.message})`);
                 }
+                setAddModalOpen(false);
             } else {
                 const res = await updateDevice(data);
                 if (res === null) {
                     message.warning('编辑失败');
                 } else if (res.code === 200) {
-                    setAddModalOpen(false);
-                    formRef.resetFields();
                     editData.current = undefined;
                     await queryDeviceData(1, helper.PAGE_SIZE);
                     message.success('编辑成功');
                 } else {
                     message.warning(`编辑失败(${res.message})`);
                 }
+                setAddModalOpen(false);
             }
         } catch (error) {
             message.warning(error.message);

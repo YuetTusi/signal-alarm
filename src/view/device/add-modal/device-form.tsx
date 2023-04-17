@@ -61,6 +61,7 @@ const DeviceForm: FC<DeviceFormProp> = ({ data, formRef }) => {
 
     return <Form
         form={formRef}
+        preserve={false}
         layout="horizontal"
         {...formLayout}>
         <Item

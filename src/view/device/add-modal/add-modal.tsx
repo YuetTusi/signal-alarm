@@ -1,4 +1,4 @@
-import { FC, MouseEvent } from 'react';
+import { FC, MouseEvent, useEffect } from 'react';
 import { Button, Form, Modal } from 'antd';
 import { ComDevice } from '@/schema/com-device';
 import { DeviceForm } from './device-form';
@@ -12,6 +12,13 @@ const AddModal: FC<AddModalProp> = ({
 }) => {
 
     const [formRef] = useForm<ComDevice>();
+
+    useEffect(() => {
+        if (!open) {
+            formRef.resetFields();
+        }
+    }, [open]);
+
     /**
      * 确定Click
      */

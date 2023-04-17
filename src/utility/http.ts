@@ -29,7 +29,7 @@ class HttpRequest {
 
     _request<T = any>(fetchUrl: string, parameters?: Record<string, any>, method: string = 'POST'): Promise<null | RequestResult<T>> {
 
-        console.log(`${method} ${fetchUrl} Parameter:${parameters}`);
+        console.log(`${method} ${fetchUrl} Parameter:${JSON.stringify(parameters)}`);
         const options = url.parse(this._getFetchUrl(fetchUrl));
         let data = '';
 
