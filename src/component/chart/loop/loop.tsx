@@ -78,7 +78,7 @@ const Loop: FC<LoopProp> = ({ data, serieName }) => {
         ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
         : <ChartBox
             width={320}
-            height={200}
+            height={190}
             ref={chartDom} />;
 };
 
