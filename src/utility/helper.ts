@@ -4,7 +4,6 @@ import crypto from 'crypto';
 import dayjs from "dayjs";
 import memoize from 'lodash/memoize';
 import { v4 } from 'uuid';
-import log from 'electron-log';
 
 const { join } = path;
 const { access, readFile, writeFile } = fs.promises;
@@ -109,10 +108,10 @@ const helper = {
         try {
             const data = fs.readFileSync(ipJson, { encoding: 'utf-8' });
             const json = JSON.parse(data) as { ip: string, port: number };
-            log.info(`当前接口IP&端口:${json?.ip ?? FETCH_IP}:${json?.port ?? FETCH_PORT}`);
+            console.info(`当前接口IP&端口:${json?.ip ?? FETCH_IP}:${json?.port ?? FETCH_PORT}`);
             return { ip: json?.ip ?? FETCH_IP, port: json?.port ?? FETCH_PORT };
         } catch (error) {
-            log.error(`读取ip.json失败: ${error.message}, 使用默认IP配置`);
+            console.warn(`读取ip.json失败: ${error.message}, 使用默认IP配置`);
             return { ip: FETCH_IP, port: FETCH_PORT };
         }
     }),

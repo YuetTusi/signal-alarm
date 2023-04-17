@@ -1,4 +1,3 @@
-import log from 'electron-log';
 import path from 'path';
 import { FC, MouseEvent, useEffect } from 'react';
 import { Button, Modal, Form, Input } from 'antd';
@@ -39,7 +38,7 @@ const NetworkModal: FC<NetworkModalProp> = ({
                         });
                     }
                 } catch (error) {
-                    log.error(`读取ip.json失败:${error.message}`);
+                    console.error(`读取ip.json失败:${error.message}`);
                     setFieldsValue({
                         ip: FETCH_IP,
                         port: FETCH_PORT

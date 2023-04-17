@@ -22,7 +22,6 @@ specifiers:
   echarts: ^5.4.1
   electron: ^23.1.2
   electron-builder: ^23.6.0
-  electron-log: 5.0.0-beta.19
   localforage: ^1.10.0
   lodash: ^4.17.21
   react: ^18.2.0
@@ -42,7 +41,6 @@ dependencies:
   axios: 1.3.4
   dayjs: 1.11.7
   echarts: 5.4.1
-  electron-log: 5.0.0-beta.19
   localforage: 1.10.0
   lodash: 4.17.21
   react: 18.2.0
@@ -1734,11 +1732,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
-
-  /electron-log/5.0.0-beta.19:
-    resolution: {integrity: sha512-BN/0fDaSw3jpa3BXFQ2kASGmY1Vl4TShdBdozx75GB5MuTlDLMOZ15lfA9Aq592TXS88hC+jUeWqkmTgAH7irQ==}
-    engines: {electron: '>= 13', node: '>= 14'}
-    dev: false
 
   /electron-osx-sign/0.6.0:
     resolution: {integrity: sha512-+hiIEb2Xxk6eDKJ2FFlpofCnemCbjbT5jz+BKGpVBrRNT3kWTGs4DfNX6IzGwgi33hUcXF+kFs9JW+r6Wc1LRg==}
