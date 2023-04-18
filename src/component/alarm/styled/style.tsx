@@ -25,3 +25,15 @@ export const SearchBarBox = styled.div`
     align-items: center;
     margin-top: 20px;
 `;
+
+export const FixContentBox = styled.div`
+    height: 272px;
+    overflow-y: auto;
+    position: absolute;
+    top: 34px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+`;

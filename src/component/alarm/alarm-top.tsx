@@ -102,21 +102,21 @@ const AlarmTop: FC<AlarmTopProp> = () => {
     /**
      * 勾选行Change
      */
-    const onRowSelect = (selectedRowKeys: Key[], _: AlarmMsg[]) =>
-        setSelectedKeys(selectedRowKeys);
+    // const onRowSelect = (selectedRowKeys: Key[], _: AlarmMsg[]) =>
+    //     setSelectedKeys(selectedRowKeys);
 
     /**
      * 批量处理Click
      */
-    const onBatchProcessClick = (event: MouseEvent<HTMLElement>) => {
-        event.preventDefault();
-        message.destroy();
-        if (selectedKeys.length === 0) {
-            message.info('请选择预警信息');
-        } else {
-            console.log(selectedKeys);
-        }
-    };
+    // const onBatchProcessClick = (event: MouseEvent<HTMLElement>) => {
+    //     event.preventDefault();
+    //     message.destroy();
+    //     if (selectedKeys.length === 0) {
+    //         message.info('请选择预警信息');
+    //     } else {
+    //         console.log(selectedKeys);
+    //     }
+    // };
 
     return <>
         {/* <p>
