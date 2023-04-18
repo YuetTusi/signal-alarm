@@ -28,6 +28,7 @@ export const DashboardBox = styled.div`
 
         }
         &>.bottom-box{
+            position: relative;
             margin-top:5px;
         }
     }

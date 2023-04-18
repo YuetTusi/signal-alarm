@@ -2,9 +2,9 @@ import { FC, useEffect } from 'react';
 import { Empty, Spin } from 'antd';
 import { State, useModel } from '@/model';
 import { getProtocolLabel } from '@/schema/protocol';
+import { helper } from '@/utility/helper';
 import { ListBox } from './styled/box';
 import { HotspotListProp } from './prop';
-import { helper } from '@/utility/helper';
 
 let timer: any = null;
 
@@ -21,7 +21,6 @@ const HotspotList: FC<HotspotListProp> = ({ protocol }) => {
                 querySpecialHotspotTop10Data();
             }, 1000 * 20);
         }
-
         return () => {
             clearInterval(timer);
         }

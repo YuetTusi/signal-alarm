@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { DisplayPanel } from '@/component/panel';
 import { DetailModal } from './detail-modal';
 import { AlarmTop } from './alarm-top';
@@ -19,7 +19,15 @@ const AlarmInfo: FC<{}> = () => {
                     onClick={() => setDetailModalOpen(true)}
                     style={{ color: '#fff' }}>详细</a>
             </div>
-            <div className="content">
+            <div className="content" style={{
+                height: '272px',
+                overflowY: 'auto',
+                position: 'absolute',
+                top: '34px',
+                left: 0,
+                right: 0,
+                bottom: 0
+            }}>
                 <AlarmTop />
             </div>
         </DisplayPanel>

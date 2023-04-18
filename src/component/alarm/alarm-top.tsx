@@ -1,7 +1,10 @@
+import debounce from 'lodash/debounce';
+import electron from 'electron';
 import { FC, useEffect, useState, useRef, Key, MouseEvent } from 'react';
 import { Button, message, Table } from 'antd';
 import { AlarmMsg } from '@/schema/alarm-msg';
 import { useModel } from '@/model';
+import { useResize, useRerender } from '@/hook';
 import { ProcessModal } from './process-modal';
 import { AlarmDetailModal } from './alarm-detail-modal';
 import { getTopColumns } from './column';
@@ -43,6 +46,17 @@ const AlarmTop: FC<AlarmTopProp> = () => {
             clearInterval(timer);
         }
     }, []);
+
+    // const onResize = debounce((event: electron.IpcRendererEvent, rect: electron.Rectangle) => {
+    //     (async () => {
+    //         document.querySelector('#target')!.innerHTML = '';
+    //         await queryAlarmTop10Data();
+    //     })();
+
+    //     console.log('renderer');
+    // }, 100, { leading: true, trailing: false });
+
+    // useResize(onResize);
 
     /**
      * 处理预警消息
@@ -119,9 +133,12 @@ const AlarmTop: FC<AlarmTopProp> = () => {
             //     onChange: onRowSelect,
             //     selectedRowKeys: selectedKeys
             // }}
+            sticky={{
+                offsetHeader: 0
+            }}
             dataSource={alarmTop10Data}
             loading={alarmTop10Loading}
-            pagination={{ pageSize: 5 }}
+            pagination={false}
             rowKey="id"
         />
         <ProcessModal
