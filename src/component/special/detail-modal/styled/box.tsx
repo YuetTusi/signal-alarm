@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const TableBox = styled.div`
+export const ModalBox = styled.div`
 
-    height: 550px;
+    height: 565px;
 `;

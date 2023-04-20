@@ -30,6 +30,9 @@ export const GlobalStyle = createGlobalStyle`
     .ant-tabs-nav-more{
         color:#fff !important;
     }
+    .ant-tabs-tab{
+        padding: 6px 10px !important;
+    }
 
     //Webkit滚动条样式
     ::-webkit-scrollbar {

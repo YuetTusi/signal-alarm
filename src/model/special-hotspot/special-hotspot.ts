@@ -50,7 +50,9 @@ const specialHotspot = (setState: SetState, _: GetState): SpecialHotspotState =>
         message.destroy();
         setState({ specialHotspotLoading: true });
         let params = '';
-        if (!helper.isNullOrUndefined(condition)) {
+        if (helper.isNullOrUndefined(condition)) {
+            params = `?protocolTypes=${window.encodeURIComponent('8,9')}`;
+        } else {
             let q: string[] = [];
             if (condition?.beginTime) {
                 q.push(`createTimeBegin=${condition?.beginTime}`);
@@ -58,9 +60,10 @@ const specialHotspot = (setState: SetState, _: GetState): SpecialHotspotState =>
             if (condition?.endTime) {
                 q.push(`createTimeEnd=${condition?.endTime}`);
             }
-            params = '?' + q.join('&');
+            params = `?protocolTypes=${window.encodeURIComponent('8,9')}` + q.join('&');
         }
         try {
+            console.log(`/spi/hotspot/${pageIndex}/${pageSize}${params}`);
             const res = await request.get(`/spi/hotspot/${pageIndex}/${pageSize}${params}`);
             if (res === null) {
                 message.warning('查询失败')

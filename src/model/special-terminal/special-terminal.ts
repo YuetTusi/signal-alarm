@@ -94,7 +94,9 @@ const specialTerminal = (setState: SetState, _: GetState): SpecialTerminalState 
             if (condition?.endTime) {
                 q.push(`createTimeEnd=${condition?.endTime}`);
             }
-            params = '?' + q.join('&');
+            params = '?protocolTypes=&' + q.join('&');
+        } else {
+            params = '?protocolTypes='
         }
         try {
             const res = await request.get(`/spi/terminal/${pageIndex}/${pageSize}${params}`);
