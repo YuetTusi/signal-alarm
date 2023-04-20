@@ -7,7 +7,6 @@ import { GetState, SetState } from '..';
 
 const specialHotspot = (setState: SetState, _: GetState): SpecialHotspotState => ({
 
-    specialHotspotTop10Data: [],
     specialHotspotData: [],
     specialHotspotTotal: 0,
     specialHotspotPageIndex: 1,
@@ -23,27 +22,6 @@ const specialHotspot = (setState: SetState, _: GetState): SpecialHotspotState =>
             specialHotspotPageSize: pageSize,
             specialHotspotTotal: total
         });
-    },
-    async querySpecialHotspotTop10Data() {
-        message.destroy();
-        setState({ specialHotspotLoading: true });
-        try {
-            const res = await request.get<Hotspot[]>('/spi/hotspot/new');
-            if (res === null) {
-                message.warning('查询失败')
-            } else if (res.code === 200) {
-                const sorted = !helper.isNullOrUndefined(res.data) && res.data.length > 0
-                    ? res.data.sort((a, b) => Number(b.rssi) - Number(a.rssi))
-                    : []; //按强度值降序
-                setState({ specialHotspotTop10Data: res.data });
-            } else {
-                message.warning(`查询失败（${res.message ?? ''}）`)
-            }
-        } catch (error) {
-            throw error;
-        } finally {
-            setState({ specialHotspotLoading: false });
-        }
     },
     async querySpecialHotspotData(pageIndex: number, pageSize = helper.PAGE_SIZE, condition?: Record<string, any>) {
 

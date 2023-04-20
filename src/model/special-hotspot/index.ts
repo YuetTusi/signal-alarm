@@ -7,10 +7,6 @@ import { specialHotspot } from './special-hotspot';
 interface SpecialHotspotState {
 
     /**
-     * Top10数据
-     */
-    specialHotspotTop10Data: Hotspot[],
-    /**
      * 分页数据
      */
     specialHotspotData: Hotspot[],
@@ -42,11 +38,6 @@ interface SpecialHotspotState {
      * @param total 总数
      */
     setSpecialHotspotPage: (pageIndex: number, pageSize: number, total: number) => void,
-    /**
-     * 查询专项检查（热点）Top10数据
-     * @param protocal 类型
-     */
-    querySpecialHotspotTop10Data: () => void,
     /**
      * 查询专项检查（热点）分页数据
      * @param protocal 类型

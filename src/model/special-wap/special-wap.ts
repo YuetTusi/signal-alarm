@@ -1,13 +1,12 @@
 import { message } from 'antd';
 import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';
+import { Wap } from '@/schema/wap';
 import { SpecialWapState } from '.';
 import { GetState, SetState } from '..';
-import { Wap } from '@/schema/wap';
 
 const specialWap = (setState: SetState, _: GetState): SpecialWapState => ({
 
-    specialWapTop10Data: [],
     specialWapData: [],
     specialWapTotal: 0,
     specialWapPageIndex: 1,
@@ -23,27 +22,6 @@ const specialWap = (setState: SetState, _: GetState): SpecialWapState => ({
             specialWapPageSize: pageSize,
             specialWapTotal: total
         });
-    },
-    async querySpecialWapTop10Data() {
-        message.destroy();
-        setState({ specialWapLoading: true });
-        try {
-            const res = await request.get<Wap[]>('/spi/wap/new');
-            if (res === null) {
-                message.warning('查询失败')
-            } else if (res.code === 200) {
-                const sorted = !helper.isNullOrUndefined(res.data) && res.data.length > 0
-                    ? res.data.sort((a, b) => Number(b.rssi) - Number(a.rssi))
-                    : []; //按强度值降序
-                setState({ specialWapTop10Data: sorted });
-            } else {
-                message.warning(`查询失败（${res.message ?? ''}）`)
-            }
-        } catch (error) {
-            throw error;
-        } finally {
-            setState({ specialWapLoading: false });
-        }
     },
     async querySpecialWapData(pageIndex: number, pageSize = helper.PAGE_SIZE, condition?: Record<string, any>) {
 

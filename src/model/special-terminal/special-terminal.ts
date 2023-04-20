@@ -8,10 +8,6 @@ import { Wap } from '@/schema/wap';
 const specialTerminal = (setState: SetState, _: GetState): SpecialTerminalState => ({
 
     /**
-     * Top10数据
-     */
-    specialTerminalTop10Data: [],
-    /**
      * 分页数据
      */
     specialTerminalData: [],
@@ -50,30 +46,6 @@ const specialTerminal = (setState: SetState, _: GetState): SpecialTerminalState 
             specialTerminalPageSize: pageSize,
             specialTerminalTotal: total
         });
-    },
-    /**
-     * 查询专项检查（终端）Top10数据
-     */
-    async querySpecialTerminalTop10Data() {
-        message.destroy();
-        setState({ specialTerminalLoading: true });
-        try {
-            const res = await request.get<Wap[]>('/spi/terminal/new');
-            if (res === null) {
-                message.warning('查询失败')
-            } else if (res.code === 200) {
-                const sorted = !helper.isNullOrUndefined(res.data) && res.data.length > 0
-                    ? res.data.sort((a, b) => Number(b.rssi) - Number(a.rssi))
-                    : []; //按强度值降序
-                setState({ specialTerminalTop10Data: sorted });
-            } else {
-                message.warning(`查询失败（${res.message ?? ''}）`)
-            }
-        } catch (error) {
-            throw error;
-        } finally {
-            setState({ specialTerminalLoading: false });
-        }
     },
     /**
      * 查询专项检查（终端）分页数据

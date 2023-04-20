@@ -7,10 +7,6 @@ import { specialWap } from './special-wap';
 interface SpecialWapState {
 
     /**
-     * Top10数据
-     */
-    specialWapTop10Data: Wap[],
-    /**
      * 分页数据
      */
     specialWapData: Wap[],
@@ -42,10 +38,6 @@ interface SpecialWapState {
      * @param total 总数
      */
     setSpecialWapPage: (pageIndex: number, pageSize: number, total: number) => void,
-    /**
-     * 查询专项检查（摄像头，手机信号，其他等）Top10数据
-     */
-    querySpecialWapTop10Data: () => void,
     /**
      * 查询专项检查（摄像头，手机信号，其他等）分页数据
      * @param pageIndex 页码

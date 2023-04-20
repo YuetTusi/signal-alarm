@@ -7,10 +7,6 @@ import { specialTerminal } from './special-terminal';
 interface SpecialTerminalState {
 
     /**
-     * Top10数据
-     */
-    specialTerminalTop10Data: Wap[],
-    /**
      * 分页数据
      */
     specialTerminalData: Wap[],
@@ -42,10 +38,6 @@ interface SpecialTerminalState {
      * @param total 总数
      */
     setSpecialTerminalPage: (pageIndex: number, pageSize: number, total: number) => void,
-    /**
-     * 查询专项检查（终端）Top10数据
-     */
-    querySpecialTerminalTop10Data: () => void,
     /**
      * 查询专项检查（终端）分页数据
      */
