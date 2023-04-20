@@ -87,9 +87,10 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
      * @param beginTime 起始时间
      * @param endTime 结束时间
      */
-    const onExport = async (beginTime: Dayjs, endTime: Dayjs) => {
+    const onExport = async () => {
         message.destroy();
         const fileName = '专项数据_' + dayjs().format('YYYYMMDDHHmmss') + '.xlsx';
+        const condition = formRef.getFieldsValue();
         setReading(true);
         try {
             const { filePaths }: OpenDialogReturnValue = await ipcRenderer.invoke('open-dialog', {
@@ -98,8 +99,9 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
             });
             if (filePaths.length > 0) {
                 const data = await exportSpecialHotspotData(specialHotspotPageIndex, specialHotspotPageSize, {
-                    beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                    endTime: endTime.format('YYYY-MM-DD 23:59:59')
+                    beginTime: condition.beginTime.format('YYYY-MM-DD 00:00:00'),
+                    endTime: condition.endTime.format('YYYY-MM-DD 23:59:59'),
+                    protocolTypes: condition.type
                 });
                 await writeFile(join(filePaths[0], fileName), data);
                 modal.success({

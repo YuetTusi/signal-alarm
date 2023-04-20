@@ -94,6 +94,27 @@ const specialWap = (setState: SetState, _: GetState): SpecialWapState => ({
             if (condition?.endTime) {
                 q.push(`createTimeEnd=${condition?.endTime}`);
             }
+            if (condition?.protocolTypes) {
+                q.push(`protocolTypes=${encodeURIComponent(condition?.protocolTypes)}`);
+            } else {
+                q.push(`protocolTypes=${encodeURIComponent(helper.protocolToString([
+                    Protocol.ChinaMobileGSM,
+                    Protocol.ChinaUnicomGSM,
+                    Protocol.ChinaTelecomCDMA,
+                    Protocol.ChinaUnicomWCDMA,
+                    Protocol.ChinaMobileTDDLTE,
+                    Protocol.ChinaUnicomFDDLTE,
+                    Protocol.ChinaTelecomFDDLTE,
+                    Protocol.ChinaMobile5G,
+                    Protocol.ChinaUnicom5G,
+                    Protocol.ChinaBroadnet5G,
+                    Protocol.Camera,
+                    Protocol.Bluetooth50,
+                    Protocol.Detectaphone,
+                    Protocol.GPSLocator,
+                    Protocol.Others
+                ]))}`);
+            }
             params = params + '&' + q.join('&');
         }
         try {

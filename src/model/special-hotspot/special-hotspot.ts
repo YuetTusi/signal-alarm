@@ -76,6 +76,14 @@ const specialHotspot = (setState: SetState, _: GetState): SpecialHotspotState =>
             if (condition?.endTime) {
                 q.push(`createTimeEnd=${condition?.endTime}`);
             }
+            if (condition?.protocolTypes) {
+                q.push(`protocolTypes=${encodeURIComponent(condition?.protocolTypes)}`);
+            } else {
+                q.push(`protocolTypes=${encodeURIComponent(helper.protocolToString([
+                    Protocol.WiFi58G,
+                    Protocol.WiFi24G
+                ]))}`);
+            }
             params = params + '&' + q.join('&');
         }
         try {
