@@ -45,8 +45,9 @@ export const DisplayPanel = styled(BoxPanel)`
 
 export const ScrollPanel = styled.div<{ height?: number }>`
 
+    position: relative;
     display: block;
-    height: ${props => props.height ?? 158}px;
+    height: ${props => props.height ?? 525}px;
     width: auto;
     overflow-y: auto;
 `;

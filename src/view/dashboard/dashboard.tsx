@@ -19,7 +19,6 @@ import {
 } from '@/component/statis';
 import CheckReport from '@/component/check-report';
 import { DashboardBox } from "./styled/box";
-import { helper } from '@/utility/helper';
 
 const { Text } = Typography;
 let sse: EventSource | null = null;
@@ -166,8 +165,8 @@ const Dashboard: FC<{}> = memo(() => {
         </div>
         <div className="right-box">
             <WapInfo />
-            <TerminalInfo />
-            <HotspotInfo />
+            {/* <TerminalInfo />
+            <HotspotInfo /> */}
             <CheckReport />
         </div>
     </DashboardBox>

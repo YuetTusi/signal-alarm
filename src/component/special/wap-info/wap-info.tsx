@@ -1,47 +1,75 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { DoubleRightOutlined } from '@ant-design/icons';
-import { Tabs } from 'antd';
+import { Empty, Tabs, message } from 'antd';
 import { DisplayPanel } from '@/component/panel';
 import { ScrollPanel } from '@/component/panel/panel';
-import { getProtocolLabel, Protocol } from '@/schema/protocol';
-import WapList from './wap-list';
+import { Protocol } from '@/schema/protocol';
+import { SpecialBase } from '@/schema/special-base';
+import { useModel } from '@/model';
+import { TopList, TotalList } from '../top-list';
 import DetailModal from '../detail-modal';
-import { WapInfoBox } from './styled/style';
-import { WapInfoProp } from './prop';
+import { EmptyBox, WapInfoBox } from './styled/style';
+import { WapInfoProp, SpiTab } from './prop';
 
-const toTabItem = () =>
-    Object.entries(Protocol)
-        .filter(([_, v]) => (typeof v === 'number'))
-        .reduce<any[]>((acc, [_, v]) => {
-            switch (v) {
-                case Protocol.WiFi24G:
-                case Protocol.WiFi58G:
-                case Protocol.Terminal:
-                case Protocol.Others:
-                    //其他跳过，最后追加以保证是页签是最后一个
-                    break;
-                default:
-                    acc.push({
-                        key: v.toString(),
-                        label: getProtocolLabel(v as any),
-                        children: <ScrollPanel>
-                            <WapList protocol={v as Protocol} />
-                        </ScrollPanel>
-                    });
-                    break;
-            }
-            return acc;
-        }, [] as any[]).concat([
-            //拼上`其他`为保证是最后一个页签
-            {
-                key: Protocol.Others.toString(),
-                label: getProtocolLabel(Protocol.Others),
-                children: <ScrollPanel>
-                    {/* <WapTop protocol={Protocol.Others} /> */}
-                    <WapList protocol={Protocol.Others} />
-                </ScrollPanel>
-            }
-        ]);
+var timer: any = null;
+
+const toTabItem = (data: SpecialBase[], type: SpiTab, loading: boolean) => [{
+    key: SpiTab.All,
+    label: '全部',
+    children: <ScrollPanel>
+        <TotalList data={data} type={type} loading={loading} />
+    </ScrollPanel>
+}, {
+    key: SpiTab.Signal,
+    label: '手机信号',
+    children: <ScrollPanel>
+        {
+            data.length === 0
+                ? <EmptyBox><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></EmptyBox>
+                : <TopList data={data} type={type} loading={loading} />
+        }
+    </ScrollPanel>
+}, {
+    key: SpiTab.Hotspot,
+    label: '热点',
+    children: <ScrollPanel>
+        {
+            data.length === 0
+                ? <EmptyBox><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></EmptyBox>
+                : <TopList data={data} type={type} loading={loading} />
+        }
+    </ScrollPanel>
+}, {
+    key: SpiTab.Camera,
+    label: '摄像头',
+    children: <ScrollPanel>
+        {
+            data.length === 0
+                ? <EmptyBox><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></EmptyBox>
+                : <TopList data={data} type={type} loading={loading} />
+        }
+    </ScrollPanel>
+}, {
+    key: SpiTab.Terminal,
+    label: '终端',
+    children: <ScrollPanel>
+        {
+            data.length === 0
+                ? <EmptyBox><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></EmptyBox>
+                : <TopList data={data} type={type} loading={loading} />
+        }
+    </ScrollPanel>
+}, {
+    key: SpiTab.Others,
+    label: '其他',
+    children: <ScrollPanel>
+        {
+            data.length === 0
+                ? <EmptyBox><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></EmptyBox>
+                : <TopList data={data} type={type} loading={loading} />
+        }
+    </ScrollPanel>
+}];
 
 
 /**
@@ -52,7 +80,138 @@ const toTabItem = () =>
 const WapInfo: FC<WapInfoProp> = ({ }) => {
 
     const [detailModalOpen, setDetailModalOpen] = useState<boolean>(false);
-    const [activeKey, setActiveKey] = useState<string>(Protocol.All.toString());
+    const [activeKey, setActiveKey] = useState<string>(SpiTab.All);
+
+    const {
+        specialTopLoading,
+        specialWapTopData,
+        specialHotsportTopData,
+        specialTerminalTopData,
+        getAllTopData,
+        querySpecialWapTopData,
+        querySpecialHotspotTopData,
+        querySpecialTerminalTopData
+    } = useModel(state => ({
+        specialTopLoading: state.specialTopLoading,
+        specialWapTopData: state.specialWapTopData,
+        specialHotsportTopData: state.specialHotsportTopData,
+        specialTerminalTopData: state.specialTerminalTopData,
+        getAllTopData: state.getAllTopData,
+        querySpecialWapTopData: state.querySpecialWapTopData,
+        querySpecialHotspotTopData: state.querySpecialHotspotTopData,
+        querySpecialTerminalTopData: state.querySpecialTerminalTopData
+    }));
+
+    /**
+     * 并发查询3个接口数据（全部）
+     */
+    const queryAllTop = () => Promise.allSettled([
+        querySpecialWapTopData([
+            Protocol.ChinaMobileGSM,
+            Protocol.ChinaUnicomGSM,
+            Protocol.ChinaTelecomCDMA,
+            Protocol.ChinaUnicomWCDMA,
+            Protocol.ChinaMobileTDDLTE,
+            Protocol.ChinaUnicomFDDLTE,
+            Protocol.ChinaTelecomFDDLTE,
+            Protocol.ChinaMobile5G,
+            Protocol.ChinaUnicom5G,
+            Protocol.ChinaBroadnet5G,
+            Protocol.Camera,
+            Protocol.Bluetooth50,
+            Protocol.Detectaphone,
+            Protocol.GPSLocator,
+            Protocol.Others
+        ]),
+        querySpecialHotspotTopData([
+            Protocol.WiFi24G,
+            Protocol.WiFi58G
+        ]),
+        querySpecialTerminalTopData([])
+    ]);
+
+    const queryData = async (activeKey: string) => {
+        message.destroy();
+        try {
+            switch (activeKey) {
+                case SpiTab.All:
+                    await queryAllTop();
+                    break;
+                case SpiTab.Signal:
+                    await querySpecialWapTopData([
+                        Protocol.ChinaMobileGSM,
+                        Protocol.ChinaUnicomGSM,
+                        Protocol.ChinaTelecomCDMA,
+                        Protocol.ChinaUnicomWCDMA,
+                        Protocol.ChinaMobileTDDLTE,
+                        Protocol.ChinaUnicomFDDLTE,
+                        Protocol.ChinaTelecomFDDLTE,
+                        Protocol.ChinaMobile5G,
+                        Protocol.ChinaUnicom5G,
+                        Protocol.ChinaBroadnet5G
+                    ]);
+                    break;
+                case SpiTab.Hotspot:
+                    await querySpecialHotspotTopData([
+                        Protocol.WiFi24G,
+                        Protocol.WiFi58G
+                    ]);
+                    break;
+                case SpiTab.Camera:
+                    await querySpecialWapTopData([
+                        Protocol.Camera
+                    ]);
+                    break;
+                case SpiTab.Terminal:
+                    await querySpecialTerminalTopData([]);
+                    break;
+                case SpiTab.Others:
+                    await querySpecialWapTopData([
+                        Protocol.Bluetooth50,
+                        Protocol.Detectaphone,
+                        Protocol.GPSLocator,
+                        Protocol.Others
+                    ]);
+                    break;
+            }
+        } catch (error) {
+            message.warning(`查询失败,${error.message}`);
+        }
+    };
+
+    useEffect(() => {
+        queryData(activeKey);
+        if (timer === null) {
+            timer = setInterval(() => {
+                (() => {
+                    queryData(activeKey);
+                })();
+            }, 1000 * 10);
+        }
+        return () => {
+            if (timer !== null) {
+                clearInterval(timer);
+                timer = null;
+            }
+        }
+    }, [activeKey]);
+
+    const getData = (activeKey: string): SpecialBase[] => {
+        switch (activeKey) {
+            case SpiTab.All:
+                return getAllTopData();
+            case SpiTab.Signal:
+            case SpiTab.Camera:
+            case SpiTab.Others:
+                return specialWapTopData;
+            case SpiTab.Hotspot:
+                return specialHotsportTopData;
+            case SpiTab.Terminal:
+                return specialTerminalTopData;
+            default:
+                return [];
+        }
+    }
 
     const onTabChange = (tabKey: string) => setActiveKey(tabKey.toString());
 
@@ -67,9 +226,9 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
             <div className="content">
                 <Tabs
                     onChange={onTabChange}
-                    items={toTabItem()}
+                    items={toTabItem(getData(activeKey), activeKey as SpiTab, specialTopLoading)}
                     activeKey={activeKey}
-                    defaultActiveKey={Protocol.All.toString()}
+                    defaultActiveKey={SpiTab.All}
                     destroyInactiveTabPane={false}
                     moreIcon={<DoubleRightOutlined />}
                     type="card" />

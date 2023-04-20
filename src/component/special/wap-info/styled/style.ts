@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const WapInfoBox = styled.div`
 
+    position: relative;
     width: 400px;
 
     .ant-tabs-nav{
@@ -90,4 +91,16 @@ export const BallBox = styled.div`
         border-width: 3px;
         border-style: solid;
     }
+`;
+
+export const EmptyBox = styled.div`
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 `;

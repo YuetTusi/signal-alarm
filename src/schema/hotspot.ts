@@ -1,10 +1,9 @@
-import { BaseEntity } from './base-entity';
-import { Protocol } from './protocol';
+import { SpecialBase } from './special-base';
 
 /**
  * 专项检查（热点）数据
  */
-class Hotspot extends BaseEntity {
+class Hotspot extends SpecialBase {
 
     apId: string = ''
 
@@ -12,12 +11,6 @@ class Hotspot extends BaseEntity {
      * 热点名称
      */
     ssid: string = ''
-    /**
-     * 强度值
-     */
-    rssi: string = ''
-
-    protocolType: Protocol = Protocol.All
     /**
      * 设备id
      */
@@ -38,10 +31,6 @@ class Hotspot extends BaseEntity {
      * 下行流量
      */
     downStream: number = 0
-    /**
-     * 设备地址
-     */
-    siteName: string = ''
 };
 
 export { Hotspot };

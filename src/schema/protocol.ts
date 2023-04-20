@@ -131,6 +131,6 @@ export const getProtocolLabel = (value: Protocol) => {
         case Protocol.Terminal:
             return '终端';
         default:
-            return '';
+            return '-';
     }
 }

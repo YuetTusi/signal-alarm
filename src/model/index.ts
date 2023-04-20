@@ -13,6 +13,7 @@ import { quickCheck, QuickCheckState } from './quick-check';
 import { login, LoginState } from './login';
 import { phoneAlarm, PhoneAlarmState } from './phone-alarm';
 import { device, DeviceState } from './device';
+import { specialTop, SpecialTopState } from './special-top';
 
 interface OtherState {
     [stateName: string]: any
@@ -34,7 +35,8 @@ type State = OtherState
     & AlarmWeekStatisState
     & QuickCheckState
     & PhoneAlarmState
-    & DeviceState;
+    & DeviceState
+    & SpecialTopState;
 
 type GetState = StoreApi<State>['getState'];
 type SetState = StoreApi<State>['setState'];
@@ -56,7 +58,8 @@ const useModel = create<State>(zustandLog((setState: SetState, getState: GetStat
     ...alarmWeekStatis(setState, getState),
     ...quickCheck(setState, getState),
     ...phoneAlarm(setState, getState),
-    ...device(setState, getState)
+    ...device(setState, getState),
+    ...specialTop(setState, getState)
 }), false));
 
 export type { State, GetState, SetState };
