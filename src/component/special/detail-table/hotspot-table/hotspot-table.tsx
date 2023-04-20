@@ -3,17 +3,18 @@ import path from 'path';
 import dayjs, { Dayjs } from 'dayjs';
 import electron, { OpenDialogReturnValue } from 'electron';
 import { FC, useEffect } from 'react';
-import { App, message, Table } from 'antd';
+import { App, message, Form, Table } from 'antd';
 import { useModel } from '@/model';
 import { Hotspot } from '@/schema/hotspot';
 import { helper } from '@/utility/helper';
 import { SearchBar } from './search-bar';
 import { getColumns } from './column';
-import { HotspotTableProp } from './prop';
+import { HotspotTableProp, SearchFormValue } from './prop';
 
 const { ipcRenderer } = electron;
 const { writeFile } = fs.promises;
 const { join } = path;
+const { useForm } = Form;
 
 /**
  * 专项检测热点数据
@@ -21,6 +22,7 @@ const { join } = path;
 const HotspotTable: FC<HotspotTableProp> = ({ }) => {
 
     const { modal } = App.useApp();
+    const [formRef] = useForm<SearchFormValue>();
 
     const {
         specialHotspotPageIndex,
@@ -50,8 +52,13 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
      * 翻页Change
      */
     const onPageChange = async (pageIndex: number, pageSize: number) => {
+        const condition = formRef.getFieldsValue();
         try {
-            await querySpecialHotspotData(pageIndex, pageSize);
+            await querySpecialHotspotData(pageIndex, pageSize, {
+                beginTime: condition.beginTime.format('YYYY-MM-DD 00:00:00'),
+                endTime: condition.endTime.format('YYYY-MM-DD 23:59:59'),
+                protocolTypes: condition.type
+            });
         } catch (error) {
             console.log(error);
         }
@@ -62,11 +69,13 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
      * @param beginTime 起始时间
      * @param endTime 结束时间
      */
-    const onSearch = async (beginTime: Dayjs, endTime: Dayjs) => {
+    const onSearch = async () => {
+        const condition = formRef.getFieldsValue();
         try {
             await querySpecialHotspotData(1, helper.PAGE_SIZE, {
-                beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                endTime: endTime.format('YYYY-MM-DD 23:59:59')
+                beginTime: condition.beginTime.format('YYYY-MM-DD 00:00:00'),
+                endTime: condition.endTime.format('YYYY-MM-DD 23:59:59'),
+                protocolTypes: condition.type
             });
         } catch (error) {
             console.warn(error);
@@ -112,6 +121,7 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
 
     return <>
         <SearchBar
+            formRef={formRef}
             onExport={onExport}
             onSearch={onSearch} />
         <Table<Hotspot>

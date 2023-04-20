@@ -1,15 +1,16 @@
 import dayjs from 'dayjs';
 import { FC, useEffect, MouseEvent } from 'react';
-import { Form, Button, DatePicker } from 'antd';
+import { Form, Button, DatePicker, TreeSelect } from 'antd';
 import { useModel } from '@/model';
+import { Protocol } from '@/schema/protocol';
+import { helper } from '@/utility/helper';
 import { SearchBarBox } from './styled/box';
 import { SearchBarProp, SearchFormValue } from './prop';
+import { getTypeSelectSource } from './data-source';
 
-const { Item, useForm } = Form;
+const { Item } = Form;
 
-const SearchBar: FC<SearchBarProp> = ({ onSearch, onExport }) => {
-
-    const [formRef] = useForm<SearchFormValue>();
+const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
 
     const {
         specialHotspotTotal
@@ -20,19 +21,13 @@ const SearchBar: FC<SearchBarProp> = ({ onSearch, onExport }) => {
     useEffect(() => {
         formRef.setFieldsValue({
             beginTime: dayjs().add(-1, 'M'),
-            endTime: dayjs()
+            endTime: dayjs(),
+            type: helper.protocolToString([
+                Protocol.WiFi58G,
+                Protocol.WiFi24G
+            ])
         });
     }, []);
-
-    // useEffect(() => {
-    //     if (parentOpen) {
-    //         console.log('adfasdfsadf');
-    //         formRef.setFieldsValue({
-    //             beginTime: dayjs().add(-1, 'M'),
-    //             endTime: dayjs()
-    //         });
-    //     }
-    // }, [parentOpen, formRef]);
 
     /**
      * 查询Click
@@ -70,6 +65,16 @@ const SearchBar: FC<SearchBarProp> = ({ onSearch, onExport }) => {
                         allowClear={false}
                         inputReadOnly={true}
                         style={{ width: '120px' }} />
+                </Item>
+                <Item
+                    name="type"
+                    label="类型">
+                    <TreeSelect
+                        treeData={getTypeSelectSource()}
+                        treeDefaultExpandAll={true}
+                        treeLine={true}
+                        listHeight={520}
+                        style={{ width: '140px' }} />
                 </Item>
                 <Item>
                     <Button

@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';
-import { Hotspot } from '@/schema/hotspot';
+import { Protocol } from '@/schema/protocol';
 import { SpecialHotspotState } from '.';
 import { GetState, SetState } from '..';
 
@@ -29,16 +29,22 @@ const specialHotspot = (setState: SetState, _: GetState): SpecialHotspotState =>
         setState({ specialHotspotLoading: true });
         let params = '';
         if (helper.isNullOrUndefined(condition)) {
-            params = `?protocolTypes=${window.encodeURIComponent('8,9')}`;
+            params = `?protocolTypes=${encodeURIComponent(helper.protocolToString([
+                Protocol.WiFi24G,
+                Protocol.WiFi58G
+            ]))}`;
         } else {
             let q: string[] = [];
             if (condition?.beginTime) {
-                q.push(`createTimeBegin=${condition?.beginTime}`);
+                q.push(`createTimeBegin=${condition.beginTime}`);
             }
             if (condition?.endTime) {
-                q.push(`createTimeEnd=${condition?.endTime}`);
+                q.push(`createTimeEnd=${condition.endTime}`);
             }
-            params = `?protocolTypes=${window.encodeURIComponent('8,9')}` + q.join('&');
+            if (condition?.protocolTypes) {
+                q.push(`protocolTypes=${encodeURIComponent(condition.protocolTypes)}`);
+            }
+            params = '?' + q.join('&');
         }
         try {
             const res = await request.get(`/spi/hotspot/${pageIndex}/${pageSize}${params}`);

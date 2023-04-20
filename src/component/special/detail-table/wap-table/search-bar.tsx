@@ -89,6 +89,8 @@ const SearchBar: FC<SearchBarProp> = ({
                     <TreeSelect
                         treeData={getTypeSelectSource()}
                         treeDefaultExpandAll={true}
+                        treeLine={true}
+                        listHeight={520}
                         style={{ width: '220px' }} />
                 </Item>
                 <Item>

@@ -1,3 +1,4 @@
+import { FormInstance } from "antd";
 import { Dayjs } from "dayjs";
 
 export interface HotspotTableProp {
@@ -12,7 +13,11 @@ export interface SearchBarProp {
     /**
      * 父窗口打开
      */
-    parentOpen?: boolean
+    parentOpen?: boolean,
+    /**
+     * 表单引用
+     */
+    formRef: FormInstance<SearchFormValue>,
     /**
      * 查询
      * @param beginTime 起始时间
@@ -35,5 +40,9 @@ export interface SearchFormValue {
     /**
      * 结束时间
      */
-    endTime: Dayjs
+    endTime: Dayjs,
+    /**
+     * 类型
+     */
+    type: string
 }
