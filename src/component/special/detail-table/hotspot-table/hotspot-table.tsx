@@ -43,7 +43,6 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
     }));
 
     useEffect(() => {
-        console.log('query');
         querySpecialHotspotData(1, helper.PAGE_SIZE);
     }, []);
 

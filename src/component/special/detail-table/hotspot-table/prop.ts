@@ -1,19 +1,18 @@
 import { Dayjs } from "dayjs";
-import { Protocol } from "@/schema/protocol";
 
 export interface HotspotTableProp {
-}
-
-export interface HotspotTopProp {
-    protocol: Protocol
+    /**
+     * 父窗口打开
+     */
+    parentOpen?: boolean
 }
 
 export interface SearchBarProp {
 
     /**
-     * 刷新
+     * 父窗口打开
      */
-    force?: boolean
+    parentOpen?: boolean
     /**
      * 查询
      * @param beginTime 起始时间

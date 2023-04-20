@@ -6,5 +6,5 @@ export const SearchBarBox = styled.div`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-top: 20px;
+    margin-bottom: 14px;
 `;

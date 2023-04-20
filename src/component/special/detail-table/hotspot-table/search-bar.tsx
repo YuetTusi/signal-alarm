@@ -24,6 +24,16 @@ const SearchBar: FC<SearchBarProp> = ({ onSearch, onExport }) => {
         });
     }, []);
 
+    // useEffect(() => {
+    //     if (parentOpen) {
+    //         console.log('adfasdfsadf');
+    //         formRef.setFieldsValue({
+    //             beginTime: dayjs().add(-1, 'M'),
+    //             endTime: dayjs()
+    //         });
+    //     }
+    // }, [parentOpen, formRef]);
+
     /**
      * 查询Click
      */

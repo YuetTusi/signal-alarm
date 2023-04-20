@@ -4,6 +4,7 @@ import { request } from '@/utility/http';
 import { Wap } from '@/schema/wap';
 import { SpecialWapState } from '.';
 import { GetState, SetState } from '..';
+import { Protocol } from '@/schema/protocol';
 
 const specialWap = (setState: SetState, _: GetState): SpecialWapState => ({
 
@@ -28,17 +29,39 @@ const specialWap = (setState: SetState, _: GetState): SpecialWapState => ({
         message.destroy();
         setState({ specialWapLoading: true });
         let params = '';
-        if (!helper.isNullOrUndefined(condition)) {
+        if (helper.isNullOrUndefined(condition)) {
+            params = `?protocolTypes=${helper.protocolToString([
+                Protocol.ChinaMobileGSM,
+                Protocol.ChinaUnicomGSM,
+                Protocol.ChinaTelecomCDMA,
+                Protocol.ChinaUnicomWCDMA,
+                Protocol.ChinaMobileTDDLTE,
+                Protocol.ChinaUnicomFDDLTE,
+                Protocol.ChinaTelecomFDDLTE,
+                Protocol.ChinaMobile5G,
+                Protocol.ChinaUnicom5G,
+                Protocol.ChinaBroadnet5G,
+                Protocol.Camera,
+                Protocol.Bluetooth50,
+                Protocol.Detectaphone,
+                Protocol.GPSLocator,
+                Protocol.Others
+            ])}`;
+        } else {
             let q: string[] = [];
             if (condition?.beginTime) {
-                q.push(`createTimeBegin=${condition?.beginTime}`);
+                q.push(`createTimeBegin=${condition.beginTime}`);
             }
             if (condition?.endTime) {
-                q.push(`createTimeEnd=${condition?.endTime}`);
+                q.push(`createTimeEnd=${condition.endTime}`);
             }
-            params = '?' + q.join('&');
+            if (condition?.protocolTypes) {
+                q.push(`protocolTypes=${encodeURIComponent(condition.protocolTypes)}`);
+            }
+            params = `?` + q.join('&');
         }
         try {
+            console.log(`/spi/wap/${pageIndex}/${pageSize}${params}`);
             const res = await request.get<{
                 records: Wap[],
                 total: number

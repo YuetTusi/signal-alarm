@@ -6,13 +6,10 @@ import {
     CloseSquareOutlined
 } from '@ant-design/icons';
 import useModel from "@/model";
-import { request } from "@/utility/http";
 import { instance, closeSse } from '@/utility/sse';
 import { StorageKeys } from '@/utility/storage-keys';
 import { PhoneAlarmInfo } from '@/schema/phone-alarm-info';
 import WapInfo from "@/component/special/wap-info";
-import TerminalInfo from "@/component/special/terminal-info";
-import HotspotInfo from '@/component/special/hotspot-info';
 import { AlarmInfo } from '@/component/alarm';
 import {
     AlarmTypeChart, AlarmSiteTopChart, SpecialTypeChart, AlarmWeekChart
@@ -117,21 +114,6 @@ const Dashboard: FC<{}> = memo(() => {
             </div>
         );
 
-    // const onMenuAction = (type: SettingMenuAction) => {
-    //     switch (type) {
-    //         case SettingMenuAction.Device:
-    //             break;
-    //         case SettingMenuAction.Network:
-    //             break;
-    //         case SettingMenuAction.ModifyPassword:
-    //             // setPasswordModalOpen(true);
-    //             break;
-    //         default:
-    //             console.warn(type);
-    //             break;
-    //     }
-    // };
-
     return <DashboardBox>
         <div className="left-box">
             <AlarmSiteTopChart />
@@ -165,8 +147,6 @@ const Dashboard: FC<{}> = memo(() => {
         </div>
         <div className="right-box">
             <WapInfo />
-            {/* <TerminalInfo />
-            <HotspotInfo /> */}
             <CheckReport />
         </div>
     </DashboardBox>

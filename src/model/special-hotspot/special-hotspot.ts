@@ -41,7 +41,6 @@ const specialHotspot = (setState: SetState, _: GetState): SpecialHotspotState =>
             params = `?protocolTypes=${window.encodeURIComponent('8,9')}` + q.join('&');
         }
         try {
-            console.log(`/spi/hotspot/${pageIndex}/${pageSize}${params}`);
             const res = await request.get(`/spi/hotspot/${pageIndex}/${pageSize}${params}`);
             if (res === null) {
                 message.warning('查询失败')

@@ -4,6 +4,7 @@ import crypto from 'crypto';
 import dayjs from "dayjs";
 import memoize from 'lodash/memoize';
 import { v4 } from 'uuid';
+import { Protocol } from '@/schema/protocol';
 
 const { join } = path;
 const { access, readFile, writeFile } = fs.promises;
@@ -134,6 +135,9 @@ const helper = {
     md5(val: string) {
         const md5 = crypto.createHash('md5');
         return md5.update(val).digest('hex');
+    },
+    protocolToString(protocol: Protocol[]) {
+        return protocol.join(',');
     }
 };
 

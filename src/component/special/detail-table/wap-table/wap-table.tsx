@@ -3,28 +3,53 @@ import path from 'path';
 import dayjs, { Dayjs } from 'dayjs';
 import electron, { OpenDialogReturnValue } from 'electron';
 import { FC, useEffect } from 'react';
-import { App, Divider, message, Table } from 'antd';
+import { App, message, Form, Table } from 'antd';
 import { useModel } from '@/model';
 import { Wap } from '@/schema/wap';
 import { helper } from '@/utility/helper';
 import { SearchBar } from './search-bar';
 import { getColumns } from './column';
-import { WapTableProp } from './prop';
+import { SearchFormValue, WapTableProp } from './prop';
+import { Protocol } from '@/schema/protocol';
 
 const { ipcRenderer } = electron;
 const { writeFile } = fs.promises;
 const { join } = path;
+const { useForm } = Form;
 
 /**
  * 专项检测分页数据
  */
-const WapTable: FC<WapTableProp> = () => {
+const WapTable: FC<WapTableProp> = ({ parentOpen }) => {
 
     const { modal } = App.useApp();
+    const [formRef] = useForm<SearchFormValue>();
 
     useEffect(() => {
-        querySpecialWapData(1, helper.PAGE_SIZE);
-    }, []);
+        if (parentOpen) {
+            querySpecialWapData(1, helper.PAGE_SIZE, {
+                beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD 00:00:00'),
+                endTime: dayjs().format('YYYY-MM-DD 23:59:59'),
+                protocolTypes: helper.protocolToString([
+                    Protocol.ChinaMobileGSM,
+                    Protocol.ChinaUnicomGSM,
+                    Protocol.ChinaTelecomCDMA,
+                    Protocol.ChinaUnicomWCDMA,
+                    Protocol.ChinaMobileTDDLTE,
+                    Protocol.ChinaUnicomFDDLTE,
+                    Protocol.ChinaTelecomFDDLTE,
+                    Protocol.ChinaMobile5G,
+                    Protocol.ChinaUnicom5G,
+                    Protocol.ChinaBroadnet5G,
+                    Protocol.Camera,
+                    Protocol.Bluetooth50,
+                    Protocol.Detectaphone,
+                    Protocol.GPSLocator,
+                    Protocol.Others
+                ])
+            });
+        }
+    }, [parentOpen]);
 
     const {
         specialWapLoading,
@@ -50,8 +75,13 @@ const WapTable: FC<WapTableProp> = () => {
      * 翻页Change
      */
     const onPageChange = async (pageIndex: number, pageSize: number) => {
+        const condition = formRef.getFieldsValue();
         try {
-            await querySpecialWapData(pageIndex, pageSize);
+            await querySpecialWapData(pageIndex, pageSize, {
+                beginTime: condition.beginTime.format('YYYY-MM-DD 00:00:00'),
+                endTime: condition.endTime.format('YYYY-MM-DD 23:59:59'),
+                protocolTypes: condition.type
+            });
         } catch (error) {
             console.log(error);
         }
@@ -61,12 +91,15 @@ const WapTable: FC<WapTableProp> = () => {
      * 查询
      * @param beginTime 起始时间
      * @param endTime 结束时间
+     * @param type 类型
      */
-    const onSearch = async (beginTime: Dayjs, endTime: Dayjs) => {
+    const onSearch = async (beginTime: Dayjs, endTime: Dayjs, type: string) => {
+        const condition = formRef.getFieldsValue();
         try {
             await querySpecialWapData(1, helper.PAGE_SIZE, {
-                beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                endTime: endTime.format('YYYY-MM-DD 23:59:59')
+                beginTime: condition.beginTime.format('YYYY-MM-DD 00:00:00'),
+                endTime: condition.endTime.format('YYYY-MM-DD 23:59:59'),
+                protocolTypes: condition.type
             });
         } catch (error) {
             console.warn(error);
@@ -110,9 +143,10 @@ const WapTable: FC<WapTableProp> = () => {
 
     return <>
         <SearchBar
+            formRef={formRef}
+            parentOpen={parentOpen}
             onExport={onExport}
             onSearch={onSearch} />
-        <Divider />
         <Table<Wap>
             columns={getColumns()}
             dataSource={specialWapData}
@@ -129,7 +163,7 @@ const WapTable: FC<WapTableProp> = () => {
 };
 
 WapTable.defaultProps = {
-    force: false
+    parentOpen: false
 };
 
 export { WapTable };
