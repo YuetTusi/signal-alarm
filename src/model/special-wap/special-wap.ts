@@ -70,7 +70,7 @@ const specialWap = (setState: SetState, _: GetState): SpecialWapState => ({
                 message.warning('查询失败')
             } else if (res.code === 200) {
                 setState({
-                    specialWapData: res.data.records,
+                    specialWapData: res.data.records.sort((a, b) => Number(b.rssi) - Number(a.rssi)),
                     specialWapPageIndex: pageIndex,
                     specialWapPageSize: pageSize,
                     specialWapTotal: res.data.total

@@ -2,6 +2,7 @@ import { message } from 'antd';
 import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';
 import { Protocol } from '@/schema/protocol';
+import { Hotspot } from '@/schema/hotspot';
 import { SpecialHotspotState } from '.';
 import { GetState, SetState } from '..';
 
@@ -47,12 +48,15 @@ const specialHotspot = (setState: SetState, _: GetState): SpecialHotspotState =>
             params = '?' + q.join('&');
         }
         try {
-            const res = await request.get(`/spi/hotspot/${pageIndex}/${pageSize}${params}`);
+            const res = await request.get<{
+                records: Hotspot[],
+                total: number
+            }>(`/spi/hotspot/${pageIndex}/${pageSize}${params}`);
             if (res === null) {
                 message.warning('查询失败')
             } else if (res.code === 200) {
                 setState({
-                    specialHotspotData: res.data.records,
+                    specialHotspotData: res.data.records.sort((a, b) => Number(b.rssi) - Number(a.rssi)),
                     specialHotspotPageIndex: pageIndex,
                     specialHotspotPageSize: pageSize,
                     specialHotspotTotal: res.data.total

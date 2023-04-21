@@ -71,12 +71,16 @@ const specialTerminal = (setState: SetState, _: GetState): SpecialTerminalState 
             params = '?protocolTypes='
         }
         try {
-            const res = await request.get(`/spi/terminal/${pageIndex}/${pageSize}${params}`);
+            const res = await request.get<
+                {
+                    records: Wap[],
+                    total: number
+                }>(`/spi/terminal/${pageIndex}/${pageSize}${params}`);
             if (res === null) {
                 message.warning('查询失败')
             } else if (res.code === 200) {
                 setState({
-                    specialTerminalData: res.data.records,
+                    specialTerminalData: res.data.records.sort((a, b) => Number(b.rssi) - Number(a.rssi)),
                     specialTerminalPageIndex: pageIndex,
                     specialTerminalPageSize: pageSize,
                     specialTerminalTotal: res.data.total
@@ -101,14 +105,15 @@ const specialTerminal = (setState: SetState, _: GetState): SpecialTerminalState 
         if (!helper.isNullOrUndefined(condition)) {
             let q: string[] = [];
             if (condition?.beginTime) {
-                q.push(`createTimeBegin=${condition?.beginTime}`);
+                q.push(`createTimeBegin=${encodeURIComponent(condition?.beginTime)}`);
             }
             if (condition?.endTime) {
-                q.push(`createTimeEnd=${condition?.endTime}`);
+                q.push(`createTimeEnd=${encodeURIComponent(condition?.endTime)}`);
             }
-            params = params + '&' + q.join('&');
+            params = params + q.join('&');
         }
         try {
+            console.log(`/spi/terminal/export${params}`);
             const chunk = await request.attachment(`/spi/terminal/export${params}`);
             return chunk;
         } catch (error) {
