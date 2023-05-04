@@ -11,14 +11,14 @@ const getColumns = (): ColumnsType<AlarmMsg> => {
         key: 'protocol',
         dataIndex: 'protocol'
     }, {
-        title: '告警原因',
-        key: 'warnReason',
-        dataIndex: 'warnReason',
-    }, {
         title: '告警级别',
         key: 'warnLevel',
         dataIndex: 'warnLevel',
-        width: 80
+        width: 75
+    }, {
+        title: '告警原因',
+        key: 'warnReason',
+        dataIndex: 'warnReason',
     }, {
         title: '频点信息名称',
         key: 'arfcn',
@@ -26,7 +26,8 @@ const getColumns = (): ColumnsType<AlarmMsg> => {
     }, {
         title: '强度值',
         key: 'rssi',
-        dataIndex: 'rssi'
+        dataIndex: 'rssi',
+        width: 60
     }, {
         title: '状态',
         key: 'status',
@@ -69,6 +70,11 @@ const getTopColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => {
         title: '类型',
         key: 'protocol',
         dataIndex: 'protocol'
+    }, {
+        title: '告警级别',
+        key: 'warnLevel',
+        dataIndex: 'warnLevel',
+        width: 75
     }, {
         title: '告警原因',
         key: 'warnReason',
