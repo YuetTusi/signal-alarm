@@ -10,6 +10,7 @@ import DragBar from '../drag-bar';
 import { SettingMenu } from "../setting-menu";
 import { LayoutBox } from './styled/styled';
 import { SettingMenuAction } from '../setting-menu/prop';
+import { StorageKeys } from '@/utility/storage-keys';
 
 const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
 
@@ -55,19 +56,25 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
         <DragBar />
         <Reading />
         <div className="banner">
-            <SettingMenu onMenuAction={onMenuAction} />
-            {/* <Button
+            <div>
+                用户: {sessionStorage.getItem(StorageKeys.User)}
+            </div>
+            <div>
+                <SettingMenu onMenuAction={onMenuAction} />
+                {/* <Button
                 onClick={() => navigator('/device')}
                 type="primary">
                 <SettingOutlined />
                 <span>设备管理</span>
-            </Button> */}
-            <Button
-                onClick={onLogoutClick}
-                type="primary">
-                <LogoutOutlined />
-                <span>登出</span>
-            </Button>
+                </Button> */}
+                <Button
+                    onClick={onLogoutClick}
+                    type="primary"
+                    style={{ marginLeft: '5px' }}>
+                    <LogoutOutlined />
+                    <span>登出</span>
+                </Button>
+            </div>
         </div>
         <div className="context-box">
             {children}

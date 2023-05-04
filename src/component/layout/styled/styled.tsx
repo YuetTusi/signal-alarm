@@ -32,13 +32,18 @@ export const LayoutBox = styled.div`
         width: 100%;
         height: 69px;
         flex-direction: row;
-        justify-content: flex-end;
+        justify-content: space-between;
         background: url(${bannerBg}) center no-repeat,
                     url(${bannerRepeat}) repeat-x;
-        &>.ant-btn{
+        &>div{
             position: relative;
             top:32px;
-            margin-right: 5px;
+            &:first-child{
+                padding-left: 5px;
+            }
+            &:last-child{
+                padding-right: 5px;
+            }
         }
     }
     .context-box{
