@@ -5,12 +5,12 @@ import { SettingOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Button, message } from 'antd';
 import { useModel } from '@/model';
 import { closeSse } from '@/utility/sse';
+import { StorageKeys } from '@/utility/storage-keys';
 import Reading from '../reading';
 import DragBar from '../drag-bar';
 import { SettingMenu } from "../setting-menu";
 import { LayoutBox } from './styled/styled';
 import { SettingMenuAction } from '../setting-menu/prop';
-import { StorageKeys } from '@/utility/storage-keys';
 
 const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
 

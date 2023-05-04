@@ -5,6 +5,9 @@ const { ipcRenderer } = electron;
 
 type HandleType = (event: electron.IpcRendererEvent, rect: electron.Rectangle) => void;
 
+/**
+ * 窗口大小改变hook
+ */
 const useResize = (handle: HandleType) => {
 
     useEffect(() => {

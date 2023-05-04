@@ -10,6 +10,7 @@ import { helper } from '@/utility/helper';
 import { SearchBar } from './search-bar';
 import { getColumns } from './column';
 import { HotspotTableProp, SearchFormValue } from './prop';
+import { Protocol } from '@/schema/protocol';
 
 const { ipcRenderer } = electron;
 const { writeFile } = fs.promises;
@@ -45,7 +46,15 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
     }));
 
     useEffect(() => {
-        querySpecialHotspotData(1, helper.PAGE_SIZE);
+        querySpecialHotspotData(
+            1,
+            helper.PAGE_SIZE,
+            {
+                beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD 00:00:00'),
+                endTime: dayjs().format('YYYY-MM-DD 23:59:59'),
+                protocolTypes: [Protocol.WiFi24G, Protocol.WiFi58G].join(',')
+            }
+        );
     }, []);
 
     /**

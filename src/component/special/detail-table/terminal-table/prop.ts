@@ -1,3 +1,4 @@
+import { FormInstance } from "antd";
 import { Dayjs } from "dayjs";
 
 export interface TerminalTableProp {
@@ -8,10 +9,15 @@ export interface TerminalTableProp {
 }
 
 export interface SearchBarProp {
+
     /**
     * 父窗口打开
     */
-    parentOpen?: boolean
+    parentOpen?: boolean,
+    /**
+     * 表单引用
+     */
+    formRef: FormInstance<SearchFormValue>,
     /**
      * 查询
      * @param beginTime 起始时间

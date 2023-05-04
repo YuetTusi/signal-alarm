@@ -4,12 +4,13 @@ import dayjs, { Dayjs } from 'dayjs';
 import electron, { OpenDialogReturnValue } from 'electron';
 import { FC, useEffect } from 'react';
 import { App, message, Table } from 'antd';
+import { useForm } from 'antd/es/form/Form';
 import { useModel } from '@/model';
 import { Wap } from '@/schema/wap';
 import { helper } from '@/utility/helper';
 import { SearchBar } from './search-bar';
 import { getColumns } from './column';
-import { TerminalTableProp } from './prop';
+import { SearchFormValue, TerminalTableProp } from './prop';
 
 const { ipcRenderer } = electron;
 const { writeFile } = fs.promises;
@@ -21,9 +22,13 @@ const { join } = path;
 const TerminalTable: FC<TerminalTableProp> = () => {
 
     const { modal } = App.useApp();
+    const [formRef] = useForm<SearchFormValue>();
 
     useEffect(() => {
-        querySpecialTerminalData(1, helper.PAGE_SIZE);
+        querySpecialTerminalData(1, helper.PAGE_SIZE, {
+            beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD 00:00:00'),
+            endTime: dayjs().format('YYYY-MM-DD 23:59:59')
+        });
     }, []);
 
     const {
@@ -48,10 +53,14 @@ const TerminalTable: FC<TerminalTableProp> = () => {
      * 翻页Change
      */
     const onPageChange = async (pageIndex: number, pageSize: number) => {
+        const { beginTime, endTime } = formRef.getFieldsValue();
         try {
-            await querySpecialTerminalData(pageIndex, pageSize);
+            await querySpecialTerminalData(pageIndex, pageSize, {
+                beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
+                endTime: endTime.format('YYYY-MM-DD 23:59:59')
+            });
         } catch (error) {
-            console.log(error);
+            console.warn(error);
         }
     };
 
@@ -105,6 +114,7 @@ const TerminalTable: FC<TerminalTableProp> = () => {
 
     return <>
         <SearchBar
+            formRef={formRef}
             onExport={onExport}
             onSearch={onSearch} />
         <Table<Wap>

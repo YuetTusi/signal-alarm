@@ -1,15 +1,13 @@
 import dayjs from 'dayjs';
 import { FC, useEffect, MouseEvent } from 'react';
-import { Form, Button, DatePicker, TreeSelect } from 'antd';
+import { Form, Button, DatePicker } from 'antd';
 import { useModel } from '@/model';
 import { SearchBarBox } from './styled/box';
-import { SearchBarProp, SearchFormValue } from './prop';
+import { SearchBarProp } from './prop';
 
-const { Item, useForm } = Form;
+const { Item } = Form;
 
-const SearchBar: FC<SearchBarProp> = ({ onSearch, onExport }) => {
-
-    const [formRef] = useForm<SearchFormValue>();
+const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
 
     const {
         specialTerminalTotal
@@ -24,14 +22,6 @@ const SearchBar: FC<SearchBarProp> = ({ onSearch, onExport }) => {
         });
     }, []);
 
-    // useEffect(() => {
-    //     if (parentOpen) {
-    //         formRef.setFieldsValue({
-    //             beginTime: dayjs().add(-1, 'M'),
-    //             endTime: dayjs()
-    //         });
-    //     }
-    // }, [parentOpen, formRef]);
     /**
      * 查询Click
      */

@@ -3,9 +3,13 @@ import electron from 'electron';
 import localforage from 'localforage';
 import { FC, MouseEvent, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import { UserOutlined, ReloadOutlined, LoadingOutlined, KeyOutlined, SettingOutlined, CheckCircleFilled } from '@ant-design/icons';
+import {
+    UserOutlined, ReloadOutlined, LoadingOutlined,
+    KeyOutlined, SettingOutlined, CheckCircleFilled
+} from '@ant-design/icons';
 import { Col, Row, Input, Button, Checkbox, Form, message, App } from 'antd';
 import { useModel } from "@/model";
+import { useUnmount } from '@/hook';
 import { helper } from '@/utility/helper';
 import { StorageKeys } from '@/utility/storage-keys';
 import DragBar from '@/component/drag-bar';
@@ -43,6 +47,8 @@ const Login: FC<{}> = () => {
         loginByNamePassword: state.loginByNamePassword,
         queryLoginUserInfo: state.queryLoginUserInfo
     }));
+
+    useUnmount(() => console.clear());
 
     /**
      * 登录

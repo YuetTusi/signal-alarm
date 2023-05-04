@@ -1,15 +1,15 @@
 import { FC, useEffect } from 'react';
 import { Table } from 'antd';
 import { State, useModel } from '@/model';
-import { Wap } from '@/schema/wap';
 import { getTopColumns } from './column';
-import { HotspotTopProp } from './prop';
+import { HotspotTableProp } from './prop';
+import { Hotspot } from '@/schema/hotspot';
 
 
 /**
  * 专项数据（热点）Top10
  */
-const HotspotTop: FC<HotspotTopProp> = ({ protocol }) => {
+const HotspotTop: FC<HotspotTableProp> = ({ }) => {
 
     useEffect(() => {
         Promise.all([
@@ -27,12 +27,9 @@ const HotspotTop: FC<HotspotTopProp> = ({ protocol }) => {
         querySpecialHotspotTop10Data: state.querySpecialHotspotTop10Data
     }));
 
-    const filterData = () =>
-        specialHotspotTop10Data.filter(item => item.protocolType === protocol);
-
-    return <Table<Wap>
+    return <Table<Hotspot>
         columns={getTopColumns()}
-        dataSource={filterData()}
+        dataSource={specialHotspotTop10Data}
         loading={specialHotspotLoading}
         pagination={false}
         bordered={false}
