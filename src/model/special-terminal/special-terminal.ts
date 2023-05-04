@@ -66,11 +66,13 @@ const specialTerminal = (setState: SetState, _: GetState): SpecialTerminalState 
             if (condition?.endTime) {
                 q.push(`createTimeEnd=${condition?.endTime}`);
             }
-            params = '?protocolTypes=&' + q.join('&');
+            params = '?protocolTypes=8,9&' + q.join('&');
         } else {
-            params = '?protocolTypes='
+            params = '?protocolTypes=8,9'
         }
         try {
+            console.clear();
+            console.log(`/spi/terminal/${pageIndex}/${pageSize}${params}`);
             const res = await request.get<
                 {
                     records: Wap[],

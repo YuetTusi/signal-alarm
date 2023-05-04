@@ -78,6 +78,7 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
     },
     /**
      * 查询终端Top10数据
+     * # 终端Top10的protocolTypes参数固定传8,9
      */
     async querySpecialTerminalTopData(type: Protocol[]) {
         setState({ specialTopLoading: true });

@@ -127,7 +127,10 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
             Protocol.WiFi24G,
             Protocol.WiFi58G
         ]),
-        querySpecialTerminalTopData([])
+        querySpecialTerminalTopData([
+            Protocol.WiFi24G,
+            Protocol.WiFi58G
+        ])
     ]);
 
     const queryData = async (activeKey: string) => {
@@ -163,7 +166,10 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
                     ]);
                     break;
                 case SpiTab.Terminal:
-                    await querySpecialTerminalTopData([]);
+                    await querySpecialTerminalTopData([
+                        Protocol.WiFi24G,
+                        Protocol.WiFi58G
+                    ]);
                     break;
                 case SpiTab.Others:
                     await querySpecialWapTopData([

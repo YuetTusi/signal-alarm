@@ -37,7 +37,7 @@ const DetailModel: FC<DetailModalProp> = ({ open, protocol, onCancel }) => {
                 items={[
                     {
                         key: DetailTab.Wap,
-                        label: '手机信号',
+                        label: '制式信号',
                         children: <WapTable parentOpen={open} />
                     }, {
                         key: DetailTab.Hotspot,
