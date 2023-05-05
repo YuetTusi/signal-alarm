@@ -140,7 +140,8 @@ class HttpRequest {
 
         let data = Buffer.alloc(0);
 
-        return new Promise((resolve, _) => {
+        return new Promise((resolve, reject) => {
+
             const req = http.get({
                 ...options,
                 headers: {
@@ -152,6 +153,9 @@ class HttpRequest {
                 });
                 res.on('end', () => {
                     resolve(data);
+                });
+                res.on('error', (error) => {
+                    reject(error);
                 });
             });
             req.end();

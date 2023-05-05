@@ -7,7 +7,7 @@ export const ScrollBox = styled.div`
     display: flex;
     flex-direction: column;
     width: auto;
-    height: 250px;
+    height: 277px;
     padding: 10px;
     overflow-y: auto;
 `;

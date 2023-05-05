@@ -1,5 +1,8 @@
 import { BaseEntity } from './base-entity';
 
+/**
+ * 检测报告
+ */
 class QuickCheckReport extends BaseEntity {
 
     /**
@@ -11,17 +14,17 @@ class QuickCheckReport extends BaseEntity {
      */
     taskId: string = ''
     /**
-     * 开始时间
+     * 开始时间(unix时间戳)
      */
     startTime: number | null = null
     /**
-     * 结束时间
+     * 结束时间(unix时间戳)
      */
     endTime: number | null = null
-
-    constructor() {
-        super();
-    }
+    /**
+     * 报告PDF下载地址
+     */
+    url: string = ''
 }
 
 export { QuickCheckReport };

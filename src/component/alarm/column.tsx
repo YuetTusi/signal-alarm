@@ -86,8 +86,8 @@ const getTopColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => {
     },
     {
         title: '时间',
-        key: 'updateTime',
-        dataIndex: 'updateTime',
+        key: 'createTime',
+        dataIndex: 'createTime',
         align: 'center',
         width: 150,
     }, {
@@ -96,22 +96,18 @@ const getTopColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => {
         dataIndex: 'read',
         align: 'center',
         width: 50,
-        render: (val: any, record) => {
-            return <a onClick={() => {
-                handle(ActionType.Process, record);
-            }}>处理</a>;
-        }
+        render: (val: any, record) => <a onClick={() => {
+            handle(ActionType.Process, record);
+        }}>处理</a>
     }, {
         title: '详情',
         key: 'detail',
         dataIndex: 'detail',
         align: 'center',
         width: 50,
-        render: (val: any, record) => {
-            return <a onClick={() => {
-                handle(ActionType.Detail, record);
-            }}>详情</a>;
-        }
+        render: (val: any, record) => <a onClick={() => {
+            handle(ActionType.Detail, record);
+        }}>详情</a>
     }];
 };
 

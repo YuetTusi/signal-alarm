@@ -30,6 +30,7 @@ const Dashboard: FC<{}> = memo(() => {
         phoneAlarmData,
         quickCheckStart,
         quickCheckStop,
+        queryQuickCheckReport,
         setPhoneAlarmData,
         removePhoneAlarmData
     } = useModel(state => ({
@@ -38,6 +39,7 @@ const Dashboard: FC<{}> = memo(() => {
         phoneAlarmData: state.phoneAlarmData,
         quickCheckStart: state.quickCheckStart,
         quickCheckStop: state.quickCheckStop,
+        queryQuickCheckReport: state.queryQuickCheckReport,
         setPhoneAlarmData: state.setPhoneAlarmData,
         removePhoneAlarmData: state.removePhoneAlarmData
     }));
@@ -88,6 +90,7 @@ const Dashboard: FC<{}> = memo(() => {
             } else {
                 //停止
                 await quickCheckStop();
+                await queryQuickCheckReport();
             }
         } catch (error) {
             console.warn(error);
@@ -125,7 +128,7 @@ const Dashboard: FC<{}> = memo(() => {
             <div className="main-box">
                 <div className="alarm-bg">
                     <div className="setting-box">
-                        <Text style={{ fontSize: '12px' }} type="success">
+                        <Text style={{ fontSize: '12px', marginRight: '10px' }} type="success">
                             {startTime === '' ? '' : `开始时间：${startTime}`}
                         </Text>
                         <Button

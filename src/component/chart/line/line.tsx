@@ -16,8 +16,8 @@ import {
 import { LabelLayout, UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 import { helper } from '@/utility/helper';
+import { ChartBox, EmptyBox } from './styled/box';
 import { LineProp } from './prop';
-import { ChartBox } from './styled/box';
 
 // 注册必须的组件
 echarts.use([
@@ -96,7 +96,9 @@ const Line: FC<LineProp> = ({ data, days, serieName }) => {
     }, [data, serieName]);
 
     return helper.isNullOrUndefined(data) || data.length === 0
-        ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+        ? <EmptyBox>
+            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+        </EmptyBox>
         : <ChartBox
             width={320}
             height={190}

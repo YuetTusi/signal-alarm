@@ -7,6 +7,10 @@ type ActionHandle = (action: ActionType, record: ComDevice) => void;
 
 const getColumns = (handle: ActionHandle): ColumnsType<ComDevice> => {
     return [{
+        title: '设备名称',
+        key: 'deviceName',
+        dataIndex: 'deviceName'
+    }, {
         title: '设备ID',
         key: 'deviceId',
         dataIndex: 'deviceId'
@@ -15,10 +19,6 @@ const getColumns = (handle: ActionHandle): ColumnsType<ComDevice> => {
         key: 'deviceIp',
         dataIndex: 'deviceIp',
         width: 130
-    }, {
-        title: '设备名称',
-        key: 'deviceName',
-        dataIndex: 'deviceName'
     }, {
         title: '场所名称',
         key: 'siteName',

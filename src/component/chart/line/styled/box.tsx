@@ -12,3 +12,12 @@ export const ChartBox = styled.div<{
     justify-content:center;
     align-items:center;
 `;
+
+export const EmptyBox = styled.div`
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 190px;
+`;

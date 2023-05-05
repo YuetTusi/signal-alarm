@@ -1,10 +1,17 @@
+import fs from 'fs';
+import path from 'path';
 import dayjs from 'dayjs';
-import { FC, useCallback, useEffect, useRef } from 'react';
-import { Button, Empty } from 'antd';
+import electron, { OpenDialogReturnValue } from 'electron';
+import { FC, useEffect, useRef, useState } from 'react';
+import { App, Button, Empty, Spin } from 'antd';
 import { useModel } from '@/model';
+import { request } from '@/utility/http';
 import { DisplayPanel } from '@/component/panel';
+import { QuickCheckReport } from '@/schema/quick-check-report';
 import { EmptyBox, ReportBox, ScrollBox } from './styled/box';
 import { CheckReportProp } from './prop';
+
+const { ipcRenderer } = electron;
 
 /**
  * 检测报告
@@ -12,18 +19,53 @@ import { CheckReportProp } from './prop';
 const CheckReport: FC<CheckReportProp> = ({ }) => {
 
     const {
+        quickCheckLoading,
         quickCheckReportList,
         queryQuickCheckReport
     } = useModel((state) => ({
+        quickCheckLoading: state.quickCheckLoading,
         quickCheckReportList: state.quickCheckReportList,
         queryQuickCheckReport: state.queryQuickCheckReport
     }));
 
+    const { modal } = App.useApp();
     const scrollRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         queryQuickCheckReport();
     }, []);
+
+    /**
+     * 下载Click
+     */
+    const onDownloadClick = async ({ url }: QuickCheckReport) => {
+
+        try {
+            const { filePaths }: OpenDialogReturnValue = await ipcRenderer.invoke('open-dialog', {
+                title: '选择存储目录',
+                properties: ['openDirectory']
+            });
+            if (filePaths.length > 0) {
+                const fileName = path.basename(url, '.pdf');
+                const chunk = await request.attachment(url);
+                await fs.promises.writeFile(path.join(filePaths[0], fileName + '.pdf'), chunk);
+                modal.success({
+                    title: '导出成功',
+                    content: `数据文件「${fileName}」已保存在${filePaths[0]}`,
+                    centered: true,
+                    okText: '确定'
+                });
+            }
+        } catch (error) {
+            console.warn(error);
+            modal.warning({
+                title: '导出失败',
+                content: error.message,
+                centered: true,
+                okText: '确定'
+            });
+        }
+    };
 
     const renderTime = (value: number | null) => {
         if (value) {
@@ -40,7 +82,8 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
      */
     const renderDuring = (startTime: number | null, endTime: number | null) => {
         if (startTime && endTime) {
-            return dayjs(endTime).diff(startTime, 'seconds').toString() + 's';
+            const diff = dayjs(endTime).diff(startTime, 'seconds');
+            return diff < 1 ? '1s' : diff.toString() + 's';
         } else {
             return '-';
         }
@@ -68,10 +111,13 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
                         </li>
                     </ul>
                 </div>
-                {/* <div className="btn">
-                    <Button type="primary">下载</Button>
-                    <Button type="primary">查看</Button>
-                </div> */}
+                <div className="btn">
+                    <Button
+                        onClick={() => onDownloadClick(item)}
+                        type="primary"
+                        style={{ width: '120px' }}>下载</Button>
+                    {/* <Button onClick={() => onPreviewClick(item)} type="primary">查看</Button> */}
+                </div>
             </ReportBox>);
 
     return <DisplayPanel style={{ marginTop: '5px' }}>
@@ -79,17 +125,19 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
             检查报告
         </div>
         <div className="content">
-            {
-                quickCheckReportList.length === 0
-                    ?
-                    <EmptyBox>
-                        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                    </EmptyBox>
-                    :
-                    <ScrollBox ref={scrollRef}>
-                        {renderList()}
-                    </ScrollBox>
-            }
+            <Spin spinning={quickCheckLoading} tip="加载中">
+                {
+                    quickCheckReportList.length === 0
+                        ?
+                        <EmptyBox>
+                            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                        </EmptyBox>
+                        :
+                        <ScrollBox ref={scrollRef}>
+                            {renderList()}
+                        </ScrollBox>
+                }
+            </Spin>
         </div>
     </DisplayPanel>;
 };

@@ -7,6 +7,10 @@ interface QuickCheckState {
      */
     quickCheckLoading: boolean,
     /**
+     * 检测任务id
+     */
+    quickCheckTaskId: string,
+    /**
      * 开始时间
      */
     startTime: string,
@@ -15,9 +19,17 @@ interface QuickCheckState {
      */
     quickCheckReportList: QuickCheckReport[],
     /**
+     * 设置检测报告加载状态
+     */
+    setQuickCheckLoading: (loading: boolean) => void,
+    /**
      * 更新报告列表
      */
     setQuickCheckReportList: (list: QuickCheckReport[]) => void,
+    /**
+     * 设置检测任务id
+     */
+    setQuickCheckTaskId: (id: string) => void,
     /**
      * 设置开始时间
      */

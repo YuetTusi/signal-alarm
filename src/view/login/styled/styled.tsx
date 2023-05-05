@@ -45,6 +45,7 @@ export const LoginOuterBox = styled.div`
     margin-left: -195px;
     border:1px solid #3775a8;
     border-radius: 2px;
+    box-shadow:0px 1px 10px 10px rgb(55, 117, 168, 50%);
     background-color: rgba(32,71,136,0.5);
     height:auto;
     width: 400px;
