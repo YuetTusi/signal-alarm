@@ -1,5 +1,6 @@
 import { Dayjs } from "dayjs";
 import { AlarmMsg } from "@/schema/alarm-msg";
+import { FormInstance } from "antd";
 
 export interface AlarmTopProp { }
 
@@ -53,6 +54,10 @@ export interface AlarmDetailModalProp {
 
 export interface SearchBarProp {
 
+    /**
+     * 表单实例 
+     */
+    formRef: FormInstance<SearchFormValue>,
     /**
      * 查询
      * @param beginTime 起始时间

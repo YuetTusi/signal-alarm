@@ -2,13 +2,11 @@ import dayjs from 'dayjs';
 import { FC, useEffect, MouseEvent } from 'react';
 import { Form, Button, DatePicker, Select } from 'antd';
 import { SearchBarBox } from './styled/style';
-import { SearchBarProp, SearchFormValue } from './prop';
+import { SearchBarProp } from './prop';
 
-const { Item, useForm } = Form;
+const { Item } = Form;
 
-const SearchBar: FC<SearchBarProp> = ({ onSearch, onExport }) => {
-
-    const [formRef] = useForm<SearchFormValue>();
+const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
 
     useEffect(() => {
         formRef.setFieldsValue({

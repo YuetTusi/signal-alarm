@@ -3,18 +3,19 @@ import path from 'path';
 import electron, { OpenDialogReturnValue } from 'electron';
 import dayjs, { Dayjs } from 'dayjs';
 import { FC, useEffect } from 'react';
-import { App, Divider, message, Table } from 'antd';
+import { App, Divider, Form, message, Table } from 'antd';
 import useModel from '@/model';
 import { AlarmMsg } from '@/schema/alarm-msg';
 import { helper } from '@/utility/helper';
 import { SearchBar } from './search-bar';
 import { getColumns } from './column';
-import { AlarmTopProp } from './prop';
+import { AlarmTopProp, SearchFormValue } from './prop';
 import { AlarmTableBox } from './styled/style';
 
 const { join } = path;
 const { writeFile } = fs.promises;
 const { ipcRenderer } = electron;
+const { useForm } = Form;
 
 /**
  * 预警信息分页
@@ -22,6 +23,7 @@ const { ipcRenderer } = electron;
 const AlarmTable: FC<AlarmTopProp> = () => {
 
     const { modal } = App.useApp();
+    const [formRef] = useForm<SearchFormValue>();
 
     const {
         alarmLoading,
@@ -44,7 +46,12 @@ const AlarmTable: FC<AlarmTopProp> = () => {
     }));
 
     useEffect(() => {
-        queryAlarmData(1, helper.PAGE_SIZE);
+        const { beginTime, endTime, status } = formRef.getFieldsValue();
+        queryAlarmData(1, helper.PAGE_SIZE, {
+            beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
+            endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+            status
+        });
     }, []);
 
 
@@ -109,15 +116,23 @@ const AlarmTable: FC<AlarmTopProp> = () => {
      * @param pageSize 页尺寸
      */
     const onPageChange = async (pageIndex: number, pageSize: number) => {
+        const { beginTime, endTime, status } = formRef.getFieldsValue();
         try {
-            queryAlarmData(pageIndex, pageSize);
+            queryAlarmData(pageIndex, pageSize, {
+                beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
+                endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+                status
+            });
         } catch (error) {
             console.warn(error);
         }
     };
 
     return <AlarmTableBox>
-        <SearchBar onExport={onExport} onSearch={onSearch} />
+        <SearchBar
+            formRef={formRef}
+            onExport={onExport}
+            onSearch={onSearch} />
         <Divider />
         <Table<AlarmMsg>
             columns={getColumns()}

@@ -5,6 +5,7 @@ import { getProtocolLabel } from '@/schema/protocol';
 import { ContentLabel } from './content-label';
 import { ListBox } from './styled/box';
 import { TopListProp } from './prop';
+import Signal from '@/component/signal';
 
 
 /**
@@ -19,7 +20,7 @@ const TopList: FC<TopListProp> = ({ data, type, loading }) => {
                 <div>{helper.isNullOrUndefined(item?.siteName) || item?.siteName === '' ? '-' : item?.siteName}</div>
             </div>
             <div className="list-row-val">
-                <div>强度值：{item.rssi}</div>
+                <div><Signal value={Number(item.rssi)} /></div>
                 <div>{getProtocolLabel(item.protocolType)}</div>
             </div>
         </div>);

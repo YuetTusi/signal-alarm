@@ -1,4 +1,3 @@
-import { Progress } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { Wap } from '@/schema/wap';
 import { getProtocolLabel } from '@/schema/protocol';
