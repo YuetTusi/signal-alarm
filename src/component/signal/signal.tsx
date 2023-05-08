@@ -12,7 +12,7 @@ const Signal: FC<SignalProp> = ({ value, min, max }) => {
         const dom: ReactElement[] = [];
         const rate = value / (max! - min!);
         for (let i = 0; i < 5; i++) {
-            dom.push(<i className={rate * 10 / 2 > i ? 'green' : 'gray'} />);
+            dom.push(<i className={rate * 10 / 2 > i ? 'active' : 'gray'} key={`Signal_${i}`} />);
         }
         return dom;
     };

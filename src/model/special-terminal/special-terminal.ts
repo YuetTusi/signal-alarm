@@ -103,7 +103,7 @@ const specialTerminal = (setState: SetState, _: GetState): SpecialTerminalState 
      * @param condition 条件
      */
     async exportSpecialTerminalData(pageIndex: number, pageSize = helper.PAGE_SIZE, condition?: Record<string, any>) {
-        let params = `?page=${pageIndex}&limit=${pageSize}`;
+        let params = `?protocolTypes=8,9&page=${pageIndex}&limit=${pageSize}`;
         if (!helper.isNullOrUndefined(condition)) {
             let q: string[] = [];
             if (condition?.beginTime) {

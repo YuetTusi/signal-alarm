@@ -5,12 +5,13 @@ export const SignalBox = styled.div`
     flex-direction: row;
     &>i{
         display: inline-block;
-        width: 4px;
+        width: 6px;
         height: 10px;
-        margin:0 1px;
+        margin-left: 1px;
+        border-radius: 1px;
 
-        &.green{
-            background-color: #1cb6f8;
+        &.active{
+            background-color: #00efef;
         }
         &.gray{
             background-color: #666666;

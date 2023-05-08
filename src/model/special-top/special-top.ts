@@ -42,7 +42,6 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
         const params = type.join(',');
         try {
             const res = await request.get<SpecialBase[]>(`/spi/wap/new?protocolTypes=${params}`)
-            console.log(res);
 
             if (res !== null && res.code === 200) {
                 setState({
@@ -63,7 +62,6 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
         const params = type.join(',');
         try {
             const res = await request.get<SpecialBase[]>(`/spi/hotspot/new?protocolTypes=${params}`)
-            console.log(res);
 
             if (res !== null && res.code === 200) {
                 setState({

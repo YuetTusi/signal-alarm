@@ -52,7 +52,6 @@ class News extends EventEmitter {
                 hash: this.hash,
                 message: ''
             });
-            console.log(res);
         } catch (error) {
             throw error;
         }
