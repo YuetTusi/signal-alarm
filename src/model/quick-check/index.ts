@@ -7,6 +7,10 @@ interface QuickCheckState {
      */
     quickCheckLoading: boolean,
     /**
+     * 查询报告等待
+     */
+    quickCheckReportLoading: boolean,
+    /**
      * 检测任务id
      */
     quickCheckTaskId: string,
@@ -22,6 +26,10 @@ interface QuickCheckState {
      * 设置检测报告加载状态
      */
     setQuickCheckLoading: (loading: boolean) => void,
+    /**
+     * 设置查询报告等待状态
+     */
+    setQuickCheckReportLoading: (loading: boolean) => void,
     /**
      * 更新报告列表
      */

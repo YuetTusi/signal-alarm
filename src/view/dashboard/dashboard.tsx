@@ -28,6 +28,7 @@ const Dashboard: FC<{}> = memo(() => {
         startTime,
         quickCheckLoading,
         phoneAlarmData,
+        setQuickCheckLoading,
         quickCheckStart,
         quickCheckStop,
         queryQuickCheckReport,
@@ -37,6 +38,7 @@ const Dashboard: FC<{}> = memo(() => {
         startTime: state.startTime,
         quickCheckLoading: state.quickCheckLoading,
         phoneAlarmData: state.phoneAlarmData,
+        setQuickCheckLoading: state.setQuickCheckLoading,
         quickCheckStart: state.quickCheckStart,
         quickCheckStop: state.quickCheckStop,
         queryQuickCheckReport: state.queryQuickCheckReport,
@@ -83,6 +85,7 @@ const Dashboard: FC<{}> = memo(() => {
 
     const onCheckClick = debounce(async (event: MouseEvent) => {
         event.preventDefault();
+        setQuickCheckLoading(true);
         try {
             if (startTime === '') {
                 //开始
@@ -94,6 +97,8 @@ const Dashboard: FC<{}> = memo(() => {
             }
         } catch (error) {
             console.warn(error);
+        } finally {
+            setQuickCheckLoading(false);
         }
     }, 1000, { leading: true, trailing: false });
 

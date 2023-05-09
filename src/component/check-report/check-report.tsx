@@ -1,8 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 import dayjs from 'dayjs';
+import debounce from 'lodash/debounce';
 import electron, { OpenDialogReturnValue } from 'electron';
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef } from 'react';
+import { DownloadOutlined } from '@ant-design/icons';
 import { App, Button, Empty, Spin } from 'antd';
 import { useModel } from '@/model';
 import { request } from '@/utility/http';
@@ -19,11 +21,11 @@ const { ipcRenderer } = electron;
 const CheckReport: FC<CheckReportProp> = ({ }) => {
 
     const {
-        quickCheckLoading,
+        quickCheckReportLoading,
         quickCheckReportList,
         queryQuickCheckReport
     } = useModel((state) => ({
-        quickCheckLoading: state.quickCheckLoading,
+        quickCheckReportLoading: state.quickCheckReportLoading,
         quickCheckReportList: state.quickCheckReportList,
         queryQuickCheckReport: state.queryQuickCheckReport
     }));
@@ -38,7 +40,7 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
     /**
      * 下载Click
      */
-    const onDownloadClick = async ({ url }: QuickCheckReport) => {
+    const onDownloadClick = debounce(async ({ url }: QuickCheckReport) => {
 
         try {
             const { filePaths }: OpenDialogReturnValue = await ipcRenderer.invoke('open-dialog', {
@@ -65,7 +67,7 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
                 okText: '确定'
             });
         }
-    };
+    }, 1000, { leading: true, trailing: false });
 
     const renderTime = (value: number | null) => {
         if (value) {
@@ -115,7 +117,10 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
                     <Button
                         onClick={() => onDownloadClick(item)}
                         type="primary"
-                        style={{ width: '120px' }}>下载</Button>
+                        style={{ width: '120px' }}>
+                        <DownloadOutlined />
+                        <span>下载报告</span>
+                    </Button>
                     {/* <Button onClick={() => onPreviewClick(item)} type="primary">查看</Button> */}
                 </div>
             </ReportBox>);
@@ -125,7 +130,7 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
             检查报告
         </div>
         <div className="content">
-            <Spin spinning={quickCheckLoading} tip="加载中">
+            <Spin spinning={quickCheckReportLoading} tip="加载中">
                 {
                     quickCheckReportList.length === 0
                         ?

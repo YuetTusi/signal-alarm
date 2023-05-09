@@ -112,7 +112,7 @@ const Login: FC<{}> = () => {
                     },
                     icon: <CheckCircleFilled style={{ color: "#52c41a" }} />,
                     title: '成功',
-                    content: 'IP地址更成功，请重启生效新配置',
+                    content: '网络IP更新成功，请重启生效新配置',
                     okText: '重启',
                     cancelText: '取消',
                     centered: true
@@ -120,7 +120,7 @@ const Login: FC<{}> = () => {
             } else {
                 modal.warning({
                     title: '失败',
-                    content: 'IP地址更新失败',
+                    content: '更新失败',
                     okText: '确定'
                 });
             }

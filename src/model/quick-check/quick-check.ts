@@ -11,6 +11,10 @@ const quickCheck = (setState: SetState, getState: GetState): QuickCheckState => 
      */
     quickCheckLoading: false,
     /**
+     * 查询报告等待
+     */
+    quickCheckReportLoading: false,
+    /**
      * 检测任务id
      */
     quickCheckTaskId: '',
@@ -27,6 +31,12 @@ const quickCheck = (setState: SetState, getState: GetState): QuickCheckState => 
      */
     setQuickCheckLoading(loading: boolean) {
         setState({ quickCheckLoading: loading });
+    },
+    /**
+     * 设置查询报告等待状态
+     */
+    setQuickCheckReportLoading: (loading: boolean) => {
+        setState({ quickCheckReportLoading: loading });
     },
     /**
      * 设置检测任务id
@@ -84,7 +94,7 @@ const quickCheck = (setState: SetState, getState: GetState): QuickCheckState => 
      * 查询检查报告
      */
     async queryQuickCheckReport() {
-        setState({ quickCheckLoading: true });
+        setState({ quickCheckReportLoading: true });
         try {
             const res = await request.get<QuickCheckReport[]>('/check/list');
             console.log(res);
@@ -94,7 +104,7 @@ const quickCheck = (setState: SetState, getState: GetState): QuickCheckState => 
         } catch (error) {
             throw error;
         } finally {
-            setState({ quickCheckLoading: false });
+            setState({ quickCheckReportLoading: false });
         }
     }
 });
