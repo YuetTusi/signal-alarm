@@ -7,9 +7,14 @@ interface PhoneAlarmState {
      */
     phoneAlarmData: PhoneAlarmInfo[],
     /**
-     * 接收推送
+     * 更新
      */
     setPhoneAlarmData: (payload: PhoneAlarmInfo[]) => void,
+    /**
+     * 追加报警信息
+     * @param payload 推送数据
+     */
+    appendPhoneAlarmData: (payload: PhoneAlarmInfo) => void,
     /**
      * 移除手机数据
      * @param hash 

@@ -14,6 +14,7 @@ import { EmptyBox, ReportBox, ScrollBox } from './styled/box';
 import { CheckReportProp } from './prop';
 
 const { ipcRenderer } = electron;
+const { writeFile } = fs.promises;
 
 /**
  * 检测报告
@@ -50,7 +51,7 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
             if (filePaths.length > 0) {
                 const fileName = path.basename(url, '.pdf');
                 const chunk = await request.attachment(url);
-                await fs.promises.writeFile(path.join(filePaths[0], fileName + '.pdf'), chunk);
+                await writeFile(path.join(filePaths[0], fileName + '.pdf'), chunk);
                 modal.success({
                     title: '导出成功',
                     content: `数据文件「${fileName}」已保存在${filePaths[0]}`,

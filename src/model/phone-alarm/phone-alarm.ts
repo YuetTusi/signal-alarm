@@ -15,13 +15,21 @@ const phoneAlarm = (setState: SetState, getState: GetState): PhoneAlarmState => 
         setState({ phoneAlarmData: payload });
     },
     /**
-     * 移除手机数据
-     * @param hash 
+     * 追加报警信息
+     * @param payload 推送数据
      */
-    removePhoneAlarmData: (hash: string) => {
+    appendPhoneAlarmData: (payload: PhoneAlarmInfo) => {
+        const { phoneAlarmData } = getState();
+        setState({ phoneAlarmData: [...phoneAlarmData, payload] });
+    },
+    /**
+     * 移除手机数据
+     * @param id 
+     */
+    removePhoneAlarmData: (id: string) => {
         const { phoneAlarmData } = getState();
         setState({
-            phoneAlarmData: phoneAlarmData.filter(item => item.hash !== hash)
+            phoneAlarmData: phoneAlarmData.filter(item => item.id !== id)
         });
     }
 });

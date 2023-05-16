@@ -7,6 +7,10 @@
 
 class PhoneAlarmInfo {
     /**
+     * 唯一id(前端用)
+     */
+    public id: string = ''
+    /**
      * hash值
      */
     public hash: string = ''

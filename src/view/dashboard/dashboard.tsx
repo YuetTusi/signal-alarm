@@ -6,6 +6,7 @@ import {
     CloseSquareOutlined
 } from '@ant-design/icons';
 import useModel from "@/model";
+import { helper } from '@/utility/helper';
 import { instance, closeSse } from '@/utility/sse';
 import { StorageKeys } from '@/utility/storage-keys';
 import { PhoneAlarmInfo } from '@/schema/phone-alarm-info';
@@ -32,7 +33,7 @@ const Dashboard: FC<{}> = memo(() => {
         quickCheckStart,
         quickCheckStop,
         queryQuickCheckReport,
-        setPhoneAlarmData,
+        appendPhoneAlarmData,
         removePhoneAlarmData
     } = useModel(state => ({
         startTime: state.startTime,
@@ -42,7 +43,7 @@ const Dashboard: FC<{}> = memo(() => {
         quickCheckStart: state.quickCheckStart,
         quickCheckStop: state.quickCheckStop,
         queryQuickCheckReport: state.queryQuickCheckReport,
-        setPhoneAlarmData: state.setPhoneAlarmData,
+        appendPhoneAlarmData: state.appendPhoneAlarmData,
         removePhoneAlarmData: state.removePhoneAlarmData
     }));
 
@@ -52,7 +53,10 @@ const Dashboard: FC<{}> = memo(() => {
             if (typeof event.data === 'string') {
                 const data: PhoneAlarmInfo = JSON.parse(event.data);
                 if (data.hash) {
-                    setPhoneAlarmData([...phoneAlarmData, data]);
+                    appendPhoneAlarmData({
+                        ...data,
+                        id: helper.nextId()
+                    });
                 }
             }
         } catch (error) {
@@ -67,9 +71,11 @@ const Dashboard: FC<{}> = memo(() => {
 
         if (userId !== null && hash !== null) {
             sse = instance(onMessage);
-            // request.post(`/sse/push-user`, { hash })
-            //     .then(res => console.log(res))
-            //     .catch(err => console.log(err));
+            // setInterval(() => {
+            //     request.post(`/sse/push-user`, { hash })
+            //         .then(res => console.log(res))
+            //         .catch(err => console.log(err));
+            // }, 3000);
         }
 
         return () => {
@@ -80,8 +86,8 @@ const Dashboard: FC<{}> = memo(() => {
     /**
      * 移除报警信息
      */
-    const onPhoneAlarmDelete = (hash: string) =>
-        removePhoneAlarmData(hash);
+    const onPhoneAlarmDelete = (id: string) =>
+        removePhoneAlarmData(id);
 
     const onCheckClick = debounce(async (event: MouseEvent) => {
         event.preventDefault();
@@ -106,7 +112,7 @@ const Dashboard: FC<{}> = memo(() => {
         phoneAlarmData.map(
             (item, index) => <div className="phone-alarm" key={`PA_${index}`}>
                 <Button
-                    onClick={() => onPhoneAlarmDelete(item.hash)}
+                    onClick={() => onPhoneAlarmDelete(item.id)}
                     type="link"
                     className="close"
                     title="关闭">

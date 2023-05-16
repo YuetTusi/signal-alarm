@@ -51,7 +51,7 @@ export const DashboardBox = styled.div`
         left:0;
         right:0;
         bottom:0;
-        padding: 0 30px;
+        padding: 0 15px;
         overflow-y: auto;
     }
 
@@ -63,8 +63,8 @@ export const DashboardBox = styled.div`
         align-items: center;
         background-color: #3b3b6f;
         color:#fff8de;
-        margin:0 40px 20px 0;
-        padding: 5px 5px;
+        margin:0 20px 20px 20px;
+        padding: 5px 6px;
         box-shadow: inset 0 0 4px 4px #7877c7;
         border-radius: ${props => props.theme['borderRadius']}px;
         animation-name: borderflash;

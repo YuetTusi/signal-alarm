@@ -7,7 +7,7 @@ import {
     UserOutlined, ReloadOutlined, LoadingOutlined,
     KeyOutlined, SettingOutlined, CheckCircleFilled
 } from '@ant-design/icons';
-import { Col, Row, Input, Button, Checkbox, Form, message, App } from 'antd';
+import { Col, Row, Input, Button, Form, message, App } from 'antd';
 import { useModel } from "@/model";
 import { useUnmount } from '@/hook';
 import { helper } from '@/utility/helper';
@@ -15,16 +15,20 @@ import { StorageKeys } from '@/utility/storage-keys';
 import DragBar from '@/component/drag-bar';
 import Reading from '@/component/reading';
 import NetworkModal from '@/component/network-modal';
-import { BackgroundBox, LoginBox, LoginOuterBox } from "./styled/styled";
+import {
+    BackgroundBox, LoginBox, LoginOuterBox
+} from "./styled/styled";
 import { FormValue } from "./prop";
 
 
 const cwd = process.cwd();
 const { join } = path;
 const { ipcRenderer } = electron;
-const ipJson = helper.IS_DEV ? join(cwd, './ip.json') : join(cwd, 'resources/ip.json');
 const { Item, useForm } = Form;
 const { Password } = Input;
+const ipJson = helper.IS_DEV
+    ? join(cwd, './ip.json')
+    : join(cwd, 'resources/ip.json');
 
 const Login: FC<{}> = () => {
     const [loading, setLoading] = useState<boolean>(false);
