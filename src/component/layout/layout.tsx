@@ -12,6 +12,9 @@ import { SettingMenu } from "../setting-menu";
 import { LayoutBox } from './styled/styled';
 import { SettingMenuAction } from '../setting-menu/prop';
 
+/**
+ * 布局页
+ */
 const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
 
     const navigator = useNavigate();

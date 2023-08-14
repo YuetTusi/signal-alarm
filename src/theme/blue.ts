@@ -1,5 +1,6 @@
 import { AliasToken } from "antd/es/theme/interface";
 
+//蓝色主题
 export const blue: Partial<AliasToken> = {
     borderRadius: 2,
     colorPrimary: '#085ffc',

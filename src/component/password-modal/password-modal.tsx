@@ -6,6 +6,9 @@ import { PasswordModalProp, FormValue } from './prop';
 const { useForm, Item } = Form;
 const { Password } = Input;
 
+/**
+ * 密码修改Modal
+ */
 const PasswordModal: FC<PasswordModalProp> = ({ open, onOk, onCancel }) => {
 
     const [formRef] = useForm<FormValue>();

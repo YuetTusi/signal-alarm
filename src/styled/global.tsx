@@ -1,5 +1,8 @@
 import { createGlobalStyle } from 'styled-components';
 
+/**
+ * 全局公共样式
+ */
 export const GlobalStyle = createGlobalStyle`
 
     html{
@@ -24,6 +27,7 @@ export const GlobalStyle = createGlobalStyle`
         font-family: "Microsoft YaHei","NSimSun","Arial";
         background-color: #02002f;
     }
+    //重写部分antd样式
     .ant-modal-mask,.ant-modal-wrap{
         top:22px !important;
     }

@@ -1,11 +1,11 @@
 import { FC, useEffect, useState } from 'react';
 import { DoubleRightOutlined } from '@ant-design/icons';
 import { Empty, Tabs, message } from 'antd';
+import { useModel } from '@/model';
 import { DisplayPanel } from '@/component/panel';
 import { ScrollPanel } from '@/component/panel/panel';
 import { Protocol } from '@/schema/protocol';
 import { SpecialBase } from '@/schema/special-base';
-import { useModel } from '@/model';
 import { TopList, TotalList } from '../top-list';
 import DetailModal from '../detail-modal';
 import { EmptyBox, WapInfoBox } from './styled/style';
@@ -13,6 +13,12 @@ import { WapInfoProp, SpiTab } from './prop';
 
 var timer: any = null;
 
+/**
+ * 数据转TabItem
+ * @param data 专项检查数据
+ * @param type 标签页枚举
+ * @param loading 加载中
+ */
 const toTabItem = (data: SpecialBase[], type: SpiTab, loading: boolean) => [{
     key: SpiTab.All,
     label: '全部',
@@ -74,8 +80,6 @@ const toTabItem = (data: SpecialBase[], type: SpiTab, loading: boolean) => [{
 
 /**
  * 专项检查数据（摄像头，手机信号，其他等）
- * @param param0 
- * @returns 
  */
 const WapInfo: FC<WapInfoProp> = ({ }) => {
 

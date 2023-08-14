@@ -7,7 +7,9 @@ export const Panel = styled.div`
     padding: 0;
 `;
 
-
+/**
+ * 基础面板
+ */
 export const BoxPanel = styled(Panel) <{
     margin?: number,
     padding?: number
@@ -25,6 +27,9 @@ export const BoxPanel = styled(Panel) <{
     }
 `;
 
+/**
+ * 面板（带标题，滚动）
+ */
 export const DisplayPanel = styled(BoxPanel)`
 
     border:1px solid #141c67;

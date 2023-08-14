@@ -80,7 +80,7 @@ const Dashboard: FC<{}> = memo(() => {
 
         return () => {
             closeSse();
-        }
+        };
     }, []);
 
     /**
@@ -98,8 +98,12 @@ const Dashboard: FC<{}> = memo(() => {
                 await quickCheckStart();
             } else {
                 //停止
-                await quickCheckStop();
-                await queryQuickCheckReport();
+                await Promise.all([
+                    quickCheckStop(),
+                    queryQuickCheckReport()
+                ]);
+                // await quickCheckStop();
+                // await queryQuickCheckReport();
             }
         } catch (error) {
             console.warn(error);

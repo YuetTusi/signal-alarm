@@ -5,6 +5,9 @@ import Login from '@/view/login';
 import Dashboard from '@/view/dashboard';
 import Device from '@/view/device';
 
+/**
+ * 路由定义 
+ */
 export const ViewRouter: FC<{}> = () => <Router>
     <Routes>
         <Route

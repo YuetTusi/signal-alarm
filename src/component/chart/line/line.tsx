@@ -86,7 +86,7 @@ const Line: FC<LineProp> = ({ data, days, serieName }) => {
                 ],
                 dataZoom: [
                     {
-                        show: true,
+                        show: false,
                         type: "slider",
                         showDetail: false
                     }

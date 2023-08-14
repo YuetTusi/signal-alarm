@@ -61,7 +61,7 @@ const specialWap = (setState: SetState, _: GetState): SpecialWapState => ({
             params = `?` + q.join('&');
         }
         try {
-            console.log(`/spi/wap/${pageIndex}/${pageSize}${params}`);
+            // console.log(`/spi/wap/${pageIndex}/${pageSize}${params}`);
             const res = await request.get<{
                 records: Wap[],
                 total: number

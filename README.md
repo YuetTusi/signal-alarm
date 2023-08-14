@@ -28,3 +28,7 @@ pnpm dev
 | --------------- | -------- |
 | `pnpm run dev`  | 开发     |
 | `pnpm run dist` | 生产打包 |
+
+## 测试用户
+
+admin/111111

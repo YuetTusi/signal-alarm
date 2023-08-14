@@ -29,7 +29,7 @@ class HttpRequest {
 
     _request<T = any>(fetchUrl: string, parameters?: Record<string, any>, method: string = 'POST'): Promise<null | RequestResult<T>> {
 
-        // console.log(`${method} ${fetchUrl} Parameter:${JSON.stringify(parameters)}`);
+        console.log(`${method} ${fetchUrl} Parameter:${JSON.stringify(parameters)}`);
         const options = url.parse(this._getFetchUrl(fetchUrl));
         let data = '';
 
@@ -75,7 +75,7 @@ class HttpRequest {
      * @param fetchUrl URL
      */
     get<T = any>(fetchUrl: string): Promise<null | RequestResult<T>> {
-        // console.log(`GET ${fetchUrl}`);
+        console.log(`GET ${fetchUrl}`);
         const options = url.parse(this._getFetchUrl(fetchUrl));
         let data = '';
         return new Promise((resolve, reject) => {
@@ -102,7 +102,9 @@ class HttpRequest {
                         reject(error);
                     }
                 });
-                res.on('error', err => reject(err));
+                res.on('error', err => {
+                    reject(err);
+                });
             });
             req.end();
         });
