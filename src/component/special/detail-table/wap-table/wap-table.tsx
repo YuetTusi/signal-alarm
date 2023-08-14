@@ -94,12 +94,13 @@ const WapTable: FC<WapTableProp> = ({ parentOpen }) => {
      * @param type 类型
      */
     const onSearch = async (beginTime: Dayjs, endTime: Dayjs, type: string) => {
-        const condition = formRef.getFieldsValue();
+        console.clear();
+        console.log(type);
         try {
             await querySpecialWapData(1, helper.PAGE_SIZE, {
-                beginTime: condition.beginTime.format('YYYY-MM-DD 00:00:00'),
-                endTime: condition.endTime.format('YYYY-MM-DD 23:59:59'),
-                protocolTypes: condition.type
+                beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
+                endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+                protocolTypes: type
             });
         } catch (error) {
             console.warn(error);

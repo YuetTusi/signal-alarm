@@ -1,12 +1,14 @@
 import { SpecialBase } from './special-base';
 
 /**
- * 专项检查（热点）数据
+ * 专项检查（终端）数据
  */
-class Hotspot extends SpecialBase {
+class Terminal extends SpecialBase {
 
     apId: string = ''
-
+    apMac: string = ''
+    captureTime: string = ''
+    type: any
     /**
      * 热点名称
      */
@@ -22,7 +24,7 @@ class Hotspot extends SpecialBase {
     /**
      * 厂商
      */
-    org: string | null = null
+    org: null | string = null
     /**
      * 频点号
      */
@@ -37,4 +39,4 @@ class Hotspot extends SpecialBase {
     downStream: number = 0
 };
 
-export { Hotspot };
+export { Terminal };

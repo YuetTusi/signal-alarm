@@ -1,12 +1,8 @@
 import { Protocol } from "@/schema/protocol";
-import { helper } from "@/utility/helper";
 
 export const getTypeSelectSource = () => [
     {
-        value: helper.protocolToString([
-            Protocol.WiFi58G,
-            Protocol.WiFi24G
-        ]),
+        value: 'all',
         title: '全部',
         children: [
             {

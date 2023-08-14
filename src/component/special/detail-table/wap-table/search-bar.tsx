@@ -25,23 +25,7 @@ const SearchBar: FC<SearchBarProp> = ({
             formRef.setFieldsValue({
                 beginTime: dayjs().add(-1, 'M'),
                 endTime: dayjs(),
-                type: helper.protocolToString([
-                    Protocol.ChinaMobileGSM,
-                    Protocol.ChinaUnicomGSM,
-                    Protocol.ChinaTelecomCDMA,
-                    Protocol.ChinaUnicomWCDMA,
-                    Protocol.ChinaMobileTDDLTE,
-                    Protocol.ChinaUnicomFDDLTE,
-                    Protocol.ChinaTelecomFDDLTE,
-                    Protocol.ChinaMobile5G,
-                    Protocol.ChinaUnicom5G,
-                    Protocol.ChinaBroadnet5G,
-                    Protocol.Camera,
-                    Protocol.Bluetooth50,
-                    Protocol.Detectaphone,
-                    Protocol.GPSLocator,
-                    Protocol.Others
-                ])
+                type: 'all'
             });
         }
     }, [parentOpen, formRef]);
@@ -52,7 +36,45 @@ const SearchBar: FC<SearchBarProp> = ({
     const onSubmitClick = (event: MouseEvent) => {
         event.preventDefault();
         const { beginTime, endTime, type } = formRef.getFieldsValue();
-        onSearch(beginTime, endTime, type);
+        switch (type) {
+            case 'all':
+                onSearch(beginTime, endTime, helper.protocolToString([
+                    Protocol.ChinaMobileGSM,
+                    Protocol.ChinaUnicomGSM,
+                    Protocol.ChinaTelecomCDMA,
+                    Protocol.ChinaUnicomWCDMA,
+                    Protocol.ChinaMobileTDDLTE,
+                    Protocol.ChinaUnicomFDDLTE,
+                    Protocol.ChinaTelecomFDDLTE,
+                    Protocol.ChinaMobile5G,
+                    Protocol.ChinaUnicom5G,
+                    Protocol.ChinaBroadnet5G,
+                    Protocol.ChinaTelecom5G,
+                    Protocol.GPSLocator
+                ]));
+                break;
+            case 'signal':
+                onSearch(beginTime, endTime, helper.protocolToString([
+                    Protocol.ChinaMobileGSM,
+                    Protocol.ChinaUnicomGSM,
+                    Protocol.ChinaTelecomCDMA,
+                    Protocol.ChinaUnicomWCDMA,
+                    Protocol.ChinaMobileTDDLTE,
+                    Protocol.ChinaUnicomFDDLTE,
+                    Protocol.ChinaTelecomFDDLTE,
+                    Protocol.ChinaMobile5G,
+                    Protocol.ChinaUnicom5G,
+                    Protocol.ChinaBroadnet5G,
+                    Protocol.ChinaTelecom5G,
+                ]));
+                break;
+            case 'others':
+                onSearch(beginTime, endTime, helper.protocolToString([Protocol.GPSLocator]));
+                break;
+            default:
+                onSearch(beginTime, endTime, type);
+                break;
+        }
     };
 
     /**

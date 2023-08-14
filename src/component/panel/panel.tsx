@@ -56,3 +56,13 @@ export const ScrollPanel = styled.div<{ height?: number }>`
     width: auto;
     overflow-y: auto;
 `;
+
+/**
+ * 不换行文本
+ */
+export const NoWarpLabel = styled.div<{ width?: number }>`
+    width: ${(props) => props.width ?? 100}px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+`;

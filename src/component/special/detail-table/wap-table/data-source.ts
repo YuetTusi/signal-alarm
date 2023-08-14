@@ -3,38 +3,11 @@ import { helper } from "@/utility/helper";
 
 export const getTypeSelectSource = () => [
     {
-        value: helper.protocolToString([
-            Protocol.ChinaMobileGSM,
-            Protocol.ChinaUnicomGSM,
-            Protocol.ChinaTelecomCDMA,
-            Protocol.ChinaUnicomWCDMA,
-            Protocol.ChinaMobileTDDLTE,
-            Protocol.ChinaUnicomFDDLTE,
-            Protocol.ChinaTelecomFDDLTE,
-            Protocol.ChinaMobile5G,
-            Protocol.ChinaUnicom5G,
-            Protocol.ChinaBroadnet5G,
-            Protocol.Camera,
-            Protocol.Bluetooth50,
-            Protocol.Detectaphone,
-            Protocol.GPSLocator,
-            Protocol.Others
-        ]),
+        value: 'all',
         title: '全部',
         children: [
             {
-                value: helper.protocolToString([
-                    Protocol.ChinaMobileGSM,
-                    Protocol.ChinaUnicomGSM,
-                    Protocol.ChinaTelecomCDMA,
-                    Protocol.ChinaUnicomWCDMA,
-                    Protocol.ChinaMobileTDDLTE,
-                    Protocol.ChinaUnicomFDDLTE,
-                    Protocol.ChinaTelecomFDDLTE,
-                    Protocol.ChinaMobile5G,
-                    Protocol.ChinaUnicom5G,
-                    Protocol.ChinaBroadnet5G
-                ]),
+                value: 'signal',
                 title: '手机信号',
                 children: [
                     {
@@ -67,34 +40,19 @@ export const getTypeSelectSource = () => [
                     }, {
                         value: Protocol.ChinaBroadnet5G,
                         title: '中国广电5G'
+                    }, {
+                        value: Protocol.ChinaTelecom5G,
+                        title: '中国电信5G'
                     }
                 ]
-            }, {
-                value: helper.protocolToString([
-                    Protocol.Camera
-                ]),
-                title: '摄像头'
-            }, {
-                value: helper.protocolToString([
-                    Protocol.Bluetooth50,
-                    Protocol.Detectaphone,
-                    Protocol.GPSLocator,
-                    Protocol.Others
-                ]),
+            },
+            {
+                value: 'others',
                 title: '其他',
                 children: [
                     {
-                        value: Protocol.Bluetooth50,
-                        title: '蓝牙5.0'
-                    }, {
-                        value: Protocol.Detectaphone,
-                        title: '窃听器'
-                    }, {
-                        value: Protocol.GPSLocator,
+                        value: helper.protocolToString([Protocol.GPSLocator]),
                         title: 'GPS定位器'
-                    }, {
-                        value: Protocol.Others,
-                        title: '其他'
                     }
                 ]
             }

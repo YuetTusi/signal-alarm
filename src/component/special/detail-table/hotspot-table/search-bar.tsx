@@ -5,8 +5,8 @@ import { useModel } from '@/model';
 import { Protocol } from '@/schema/protocol';
 import { helper } from '@/utility/helper';
 import { SearchBarBox } from './styled/box';
-import { SearchBarProp, SearchFormValue } from './prop';
 import { getTypeSelectSource } from './data-source';
+import { SearchBarProp } from './prop';
 
 const { Item } = Form;
 
@@ -22,10 +22,7 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
         formRef.setFieldsValue({
             beginTime: dayjs().add(-1, 'M'),
             endTime: dayjs(),
-            type: helper.protocolToString([
-                Protocol.WiFi58G,
-                Protocol.WiFi24G
-            ])
+            type: 'all'
         });
     }, []);
 
@@ -34,8 +31,18 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
      */
     const onSubmitClick = (event: MouseEvent) => {
         event.preventDefault();
-        const { beginTime, endTime } = formRef.getFieldsValue();
-        onSearch(beginTime, endTime);
+        const { beginTime, endTime, type } = formRef.getFieldsValue();
+        switch (type) {
+            case 'all':
+                onSearch(beginTime, endTime, helper.protocolToString([
+                    Protocol.WiFi58G,
+                    Protocol.WiFi24G
+                ]));
+                break;
+            default:
+                onSearch(beginTime, endTime, type);
+                break;
+        }
     };
 
     /**

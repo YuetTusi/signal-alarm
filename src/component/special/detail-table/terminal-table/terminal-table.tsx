@@ -7,6 +7,7 @@ import { App, message, Table } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { useModel } from '@/model';
 import { Wap } from '@/schema/wap';
+import { Protocol } from '@/schema/protocol';
 import { helper } from '@/utility/helper';
 import { SearchBar } from './search-bar';
 import { getColumns } from './column';
@@ -27,7 +28,12 @@ const TerminalTable: FC<TerminalTableProp> = () => {
     useEffect(() => {
         querySpecialTerminalData(1, helper.PAGE_SIZE, {
             beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD 00:00:00'),
-            endTime: dayjs().format('YYYY-MM-DD 23:59:59')
+            endTime: dayjs().format('YYYY-MM-DD 23:59:59'),
+            type: helper.protocolToString([
+                Protocol.WiFi24G,
+                Protocol.WiFi58G,
+                Protocol.Bluetooth50
+            ])
         });
     }, []);
 
@@ -68,12 +74,14 @@ const TerminalTable: FC<TerminalTableProp> = () => {
      * 查询
      * @param beginTime 起始时间
      * @param endTime 结束时间
+     * @param type 枚举
      */
-    const onSearch = async (beginTime: Dayjs, endTime: Dayjs) => {
+    const onSearch = async (beginTime: Dayjs, endTime: Dayjs, type: string) => {
         try {
             await querySpecialTerminalData(1, helper.PAGE_SIZE, {
                 beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                endTime: endTime.format('YYYY-MM-DD 23:59:59')
+                endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+                type
             });
         } catch (error) {
             console.warn(error);

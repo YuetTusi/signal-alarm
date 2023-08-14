@@ -1,7 +1,10 @@
 import dayjs from 'dayjs';
 import { FC, useEffect, MouseEvent } from 'react';
-import { Form, Button, DatePicker } from 'antd';
+import { Form, Button, DatePicker, TreeSelect } from 'antd';
 import { useModel } from '@/model';
+import { helper } from "@/utility/helper";
+import { Protocol } from '@/schema/protocol';
+import { getTypeSelectSource } from './data-source';
 import { SearchBarBox } from './styled/box';
 import { SearchBarProp } from './prop';
 
@@ -18,7 +21,8 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
     useEffect(() => {
         formRef.setFieldsValue({
             beginTime: dayjs().add(-1, 'M'),
-            endTime: dayjs()
+            endTime: dayjs(),
+            type: 'all'
         });
     }, []);
 
@@ -27,8 +31,30 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
      */
     const onSubmitClick = (event: MouseEvent) => {
         event.preventDefault();
-        const { beginTime, endTime } = formRef.getFieldsValue();
-        onSearch(beginTime, endTime);
+        const { beginTime, endTime, type } = formRef.getFieldsValue();
+        switch (type) {
+            case 'all':
+                onSearch(beginTime, endTime, helper.protocolToString([
+                    Protocol.WiFi24G,
+                    Protocol.WiFi58G,
+                    Protocol.Bluetooth50
+                ]));
+                break;
+            case 'hotspot':
+                onSearch(beginTime, endTime, helper.protocolToString([
+                    Protocol.WiFi24G,
+                    Protocol.WiFi58G
+                ]));
+                break;
+            case 'others':
+                onSearch(beginTime, endTime, helper.protocolToString([
+                    Protocol.Bluetooth50
+                ]));
+                break;
+            default:
+                onSearch(beginTime, endTime, type);
+                break;
+        }
     };
 
     /**
@@ -58,6 +84,16 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
                         allowClear={false}
                         inputReadOnly={true}
                         style={{ width: '120px' }} />
+                </Item>
+                <Item
+                    name="type"
+                    label="类型">
+                    <TreeSelect
+                        treeData={getTypeSelectSource()}
+                        treeDefaultExpandAll={true}
+                        treeLine={true}
+                        listHeight={520}
+                        style={{ width: '160px' }} />
                 </Item>
                 <Item>
                     <Button

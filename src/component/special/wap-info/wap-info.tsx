@@ -6,7 +6,7 @@ import { DisplayPanel } from '@/component/panel';
 import { ScrollPanel } from '@/component/panel/panel';
 import { Protocol } from '@/schema/protocol';
 import { SpecialBase } from '@/schema/special-base';
-import { TopList, TotalList } from '../top-list';
+import { TopList, TerminalList, HotspotList, TotalList } from '../top-list';
 import DetailModal from '../detail-modal';
 import { EmptyBox, WapInfoBox } from './styled/style';
 import { WapInfoProp, SpiTab } from './prop';
@@ -42,7 +42,7 @@ const toTabItem = (data: SpecialBase[], type: SpiTab, loading: boolean) => [{
         {
             data.length === 0
                 ? <EmptyBox><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></EmptyBox>
-                : <TopList data={data} type={type} loading={loading} />
+                : <HotspotList data={data} type={type} loading={loading} />
         }
     </ScrollPanel>
 }, {
@@ -62,7 +62,7 @@ const toTabItem = (data: SpecialBase[], type: SpiTab, loading: boolean) => [{
         {
             data.length === 0
                 ? <EmptyBox><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></EmptyBox>
-                : <TopList data={data} type={type} loading={loading} />
+                : <TerminalList data={data} type={type} loading={loading} />
         }
     </ScrollPanel>
 }, {
@@ -228,7 +228,7 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
     return <WapInfoBox>
         <DisplayPanel>
             <div className="caption">
-                <span>专项检查</span>
+                <span>专项检查Top10</span>
                 <a
                     onClick={() => setDetailModalOpen(true)}
                     style={{ color: '#fff' }}>详细</a>

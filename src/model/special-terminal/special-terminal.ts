@@ -1,9 +1,10 @@
 import { message } from 'antd';
 import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';
+import { Wap } from '@/schema/wap';
+import { Protocol } from '@/schema/protocol';
 import { SpecialTerminalState } from '.';
 import { GetState, SetState } from '..';
-import { Wap } from '@/schema/wap';
 
 const specialTerminal = (setState: SetState, _: GetState): SpecialTerminalState => ({
 
@@ -66,13 +67,18 @@ const specialTerminal = (setState: SetState, _: GetState): SpecialTerminalState 
             if (condition?.endTime) {
                 q.push(`createTimeEnd=${condition?.endTime}`);
             }
-            params = '?protocolTypes=8,9&' + q.join('&');
+            if (condition?.type) {
+                q.push(`protocolTypes=${encodeURIComponent(condition?.type)}`);
+            }
+            params = '?' + q.join('&');
         } else {
-            params = '?protocolTypes=8,9'
+            params = '?protocolTypes=' + helper.protocolToString([
+                Protocol.WiFi24G,
+                Protocol.WiFi58G,
+                Protocol.Bluetooth50
+            ])
         }
         try {
-            console.clear();
-            console.log(`/spi/terminal/${pageIndex}/${pageSize}${params}`);
             const res = await request.get<
                 {
                     records: Wap[],
@@ -103,7 +109,7 @@ const specialTerminal = (setState: SetState, _: GetState): SpecialTerminalState 
      * @param condition 条件
      */
     async exportSpecialTerminalData(pageIndex: number, pageSize = helper.PAGE_SIZE, condition?: Record<string, any>) {
-        let params = `?protocolTypes=8,9&page=${pageIndex}&limit=${pageSize}`;
+        let params = '';
         if (!helper.isNullOrUndefined(condition)) {
             let q: string[] = [];
             if (condition?.beginTime) {
@@ -112,7 +118,16 @@ const specialTerminal = (setState: SetState, _: GetState): SpecialTerminalState 
             if (condition?.endTime) {
                 q.push(`createTimeEnd=${encodeURIComponent(condition?.endTime)}`);
             }
-            params = params + q.join('&');
+            if (condition?.type) {
+                q.push(`protocolTypes=${encodeURIComponent(condition?.type)}`);
+            }
+            params = `?page=${pageIndex}&limit=${pageSize}&` + q.join('&');
+        } else {
+            params = `?protocolTypes=${helper.protocolToString([
+                Protocol.WiFi24G,
+                Protocol.WiFi58G,
+                Protocol.Bluetooth50
+            ])}`
         }
         try {
             console.log(`/spi/terminal/export${params}`);

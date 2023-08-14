@@ -1,22 +1,32 @@
 import { FC } from 'react';
 import { Spin } from 'antd';
 import { helper } from '@/utility/helper';
-// import Signal from '@/component/signal';
+import { NoWarpLabel } from '@/component/panel/panel';
+import { Hotspot } from '@/schema/hotspot';
 import { getProtocolLabel } from '@/schema/protocol';
-import { ContentLabel } from './content-label';
 import { ListBox } from './styled/box';
 import { TopListProp } from './prop';
 
-
 /**
- * Top10列表组件
+ * 热点Top10列表组件
  */
-const TopList: FC<TopListProp> = ({ data, type, loading }) => {
+const HotspotList: FC<TopListProp> = ({ data, type, loading }) => {
+
+    /**
+     * 渲染广商名称
+     */
+    const renderOrg = (item: Hotspot) => {
+        if (helper.isNullOrUndefined(item?.org)) {
+            return ''
+        } else {
+            return `(${item.org})`
+        }
+    }
 
     const renderList = () => data.map(
         (item, index) => <div className="list-row" key={`WL_${index}`}>
             <div className="list-row-txt">
-                <ContentLabel type={type} data={item} />
+                <NoWarpLabel width={300}>{`${(item as Hotspot)?.mac ?? '-'} ${renderOrg(item as Hotspot)}`}</NoWarpLabel>
                 <div>{helper.isNullOrUndefined(item?.siteName) || item?.siteName === '' ? '-' : item?.siteName}</div>
             </div>
             <div className="list-row-val">
@@ -32,9 +42,9 @@ const TopList: FC<TopListProp> = ({ data, type, loading }) => {
     </Spin>
 };
 
-TopList.defaultProps = {
+HotspotList.defaultProps = {
     data: [],
     loading: false
 };
 
-export { TopList };
+export { HotspotList };

@@ -52,7 +52,10 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
             {
                 beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD 00:00:00'),
                 endTime: dayjs().format('YYYY-MM-DD 23:59:59'),
-                protocolTypes: [Protocol.WiFi24G, Protocol.WiFi58G].join(',')
+                protocolTypes: helper.protocolToString([
+                    Protocol.WiFi58G,
+                    Protocol.WiFi24G
+                ])
             }
         );
     }, []);
@@ -78,13 +81,12 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
      * @param beginTime 起始时间
      * @param endTime 结束时间
      */
-    const onSearch = async () => {
-        const condition = formRef.getFieldsValue();
+    const onSearch = async (beginTime: Dayjs, endTime: Dayjs, type: string) => {
         try {
             await querySpecialHotspotData(1, helper.PAGE_SIZE, {
-                beginTime: condition.beginTime.format('YYYY-MM-DD 00:00:00'),
-                endTime: condition.endTime.format('YYYY-MM-DD 23:59:59'),
-                protocolTypes: condition.type
+                beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
+                endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+                protocolTypes: type
             });
         } catch (error) {
             console.warn(error);
