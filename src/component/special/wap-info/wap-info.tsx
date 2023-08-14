@@ -27,7 +27,7 @@ const toTabItem = (data: SpecialBase[], type: SpiTab, loading: boolean) => [{
     </ScrollPanel>
 }, {
     key: SpiTab.Signal,
-    label: '手机信号',
+    label: '制式信号',
     children: <ScrollPanel>
         {
             data.length === 0
@@ -155,7 +155,9 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
                         Protocol.ChinaTelecomFDDLTE,
                         Protocol.ChinaMobile5G,
                         Protocol.ChinaUnicom5G,
-                        Protocol.ChinaBroadnet5G
+                        Protocol.ChinaBroadnet5G,
+                        Protocol.ChinaTelecom5G,
+                        Protocol.GPSLocator
                     ]);
                     break;
                 case SpiTab.Hotspot:
