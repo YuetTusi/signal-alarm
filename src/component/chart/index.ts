@@ -1,5 +1,6 @@
+import { Bar } from './bar';
 import { Loop } from './loop';
 import { Rose } from './rose';
 import { Line } from './line';
 
-export { Loop, Rose, Line };
+export { Bar, Loop, Rose, Line };

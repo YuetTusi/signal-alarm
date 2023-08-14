@@ -1,7 +1,7 @@
 
 import { FC, useEffect } from 'react';
 import useModel from '@/model';
-import { Loop } from '@/component/chart';
+import { Bar } from '@/component/chart';
 import { DisplayPanel } from '../panel';
 
 /**
@@ -21,16 +21,13 @@ const AlarmSiteTopChart: FC<{}> = () => {
         queryAlarmSiteTopStatisData();
     }, []);
 
-    const convertData = () =>
-        alarmSiteTopStatisData.map(item => ({
-            name: item.siteName,
-            value: Number.parseInt(item.num)
-        }));
-
     return <DisplayPanel>
         <div className="caption">告警场所Top10</div>
         <div className="content">
-            <Loop serieName="告警场所Top10" data={convertData()} />
+            <Bar
+                serieName="告警场所Top10"
+                xData={alarmSiteTopStatisData.map(item => item.siteName)}
+                yData={alarmSiteTopStatisData.map(item => Number(item.num))} />
         </div>
     </DisplayPanel>;
 };
