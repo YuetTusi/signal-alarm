@@ -66,11 +66,25 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
     const onPageChange = async (pageIndex: number, pageSize: number) => {
         const condition = formRef.getFieldsValue();
         try {
-            await querySpecialHotspotData(pageIndex, pageSize, {
-                beginTime: condition.beginTime.format('YYYY-MM-DD 00:00:00'),
-                endTime: condition.endTime.format('YYYY-MM-DD 23:59:59'),
-                protocolTypes: condition.type
-            });
+            switch (condition.type) {
+                case 'all':
+                    await querySpecialHotspotData(pageIndex, pageSize, {
+                        beginTime: condition.beginTime.format('YYYY-MM-DD 00:00:00'),
+                        endTime: condition.endTime.format('YYYY-MM-DD 23:59:59'),
+                        protocolTypes: helper.protocolToString([
+                            Protocol.WiFi58G,
+                            Protocol.WiFi24G
+                        ])
+                    });
+                    break;
+                default:
+                    await querySpecialHotspotData(pageIndex, pageSize, {
+                        beginTime: condition.beginTime.format('YYYY-MM-DD 00:00:00'),
+                        endTime: condition.endTime.format('YYYY-MM-DD 23:59:59'),
+                        protocolTypes: condition.type
+                    });
+                    break;
+            }
         } catch (error) {
             console.log(error);
         }

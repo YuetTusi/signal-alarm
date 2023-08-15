@@ -1,12 +1,19 @@
 import dayjs from 'dayjs';
 import { FC, useEffect, MouseEvent } from 'react';
 import { Form, Button, DatePicker, Select } from 'antd';
+import useModel from '@/model';
 import { SearchBarBox } from './styled/style';
 import { SearchBarProp } from './prop';
 
 const { Item } = Form;
 
 const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
+
+    const {
+        alarmTotal
+    } = useModel(state => ({
+        alarmTotal: state.alarmTotal
+    }));
 
     useEffect(() => {
         formRef.setFieldsValue({
@@ -79,6 +86,7 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
         <div>
             <Button
                 onClick={onExportClick}
+                disabled={alarmTotal === 0}
                 type="primary">导出</Button>
         </div>
     </SearchBarBox>

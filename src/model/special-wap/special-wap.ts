@@ -27,6 +27,9 @@ const specialWap = (setState: SetState, _: GetState): SpecialWapState => ({
     async querySpecialWapData(pageIndex: number, pageSize = helper.PAGE_SIZE, condition?: Record<string, any>) {
 
         message.destroy();
+        console.log(pageIndex);
+        console.log(pageSize);
+        console.log(condition);
         setState({ specialWapLoading: true });
         let params = '';
         if (helper.isNullOrUndefined(condition)) {

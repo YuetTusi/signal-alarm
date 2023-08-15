@@ -24,7 +24,7 @@ const DetailModel: FC<DetailModalProp> = ({ open, protocol, onCancel }) => {
         ]}
         onCancel={onCancelClick}
         open={open}
-        width={1280}
+        width={1330}
         getContainer="#app"
         title="专项检查详情"
         centered={true}

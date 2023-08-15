@@ -3,13 +3,12 @@ import { Table } from 'antd';
 import { useModel } from '@/model';
 import { Wap } from '@/schema/wap';
 import { getTopColumns } from './column';
-import { TerminalTopProp } from './prop';
 
 
 /**
  * 专项数据（终端）Top10
  */
-const TerminalTop: FC<TerminalTopProp> = () => {
+const TerminalTop: FC<{}> = () => {
 
     useEffect(() => {
         Promise.all([

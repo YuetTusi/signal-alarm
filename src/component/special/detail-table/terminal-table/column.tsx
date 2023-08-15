@@ -17,6 +17,10 @@ const getColumns = (): ColumnsType<Wap> => {
             key: 'staName',
             dataIndex: 'staName',
         }, {
+            title: '厂商',
+            key: 'org',
+            dataIndex: 'org',
+        }, {
             title: '设备ID',
             key: 'deviceId',
             dataIndex: 'deviceId',
@@ -38,16 +42,6 @@ const getColumns = (): ColumnsType<Wap> => {
             title: 'MAC地址',
             key: 'mac',
             dataIndex: 'mac'
-        },
-        {
-            title: '上行流量',
-            key: 'upStream',
-            dataIndex: 'upStream',
-        },
-        {
-            title: '下行流量',
-            key: 'downStream',
-            dataIndex: 'downStream',
         },
         {
             title: '强度值',

@@ -59,12 +59,47 @@ const TerminalTable: FC<TerminalTableProp> = () => {
      * 翻页Change
      */
     const onPageChange = async (pageIndex: number, pageSize: number) => {
-        const { beginTime, endTime } = formRef.getFieldsValue();
+        const { beginTime, endTime, type } = formRef.getFieldsValue();
         try {
-            await querySpecialTerminalData(pageIndex, pageSize, {
-                beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                endTime: endTime.format('YYYY-MM-DD 23:59:59')
-            });
+            switch (type) {
+                case 'all':
+                    await querySpecialTerminalData(pageIndex, pageSize, {
+                        beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
+                        endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+                        type: helper.protocolToString([
+                            Protocol.WiFi24G,
+                            Protocol.WiFi58G,
+                            Protocol.Bluetooth50
+                        ])
+                    });
+                    break;
+                case 'hotspot':
+                    await querySpecialTerminalData(pageIndex, pageSize, {
+                        beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
+                        endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+                        type: helper.protocolToString([
+                            Protocol.WiFi24G,
+                            Protocol.WiFi58G
+                        ])
+                    });
+                    break;
+                case 'others':
+                    await querySpecialTerminalData(pageIndex, pageSize, {
+                        beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
+                        endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+                        type: helper.protocolToString([
+                            Protocol.Bluetooth50
+                        ])
+                    });
+                    break;
+                default:
+                    await querySpecialTerminalData(pageIndex, pageSize, {
+                        beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
+                        endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+                        type
+                    });
+                    break;
+            }
         } catch (error) {
             console.warn(error);
         }

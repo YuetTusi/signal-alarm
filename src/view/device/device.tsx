@@ -238,7 +238,8 @@ const Device: FC<DeviceProp> = () => {
                     onChange: onPageChange,
                     current: devicePageIndex,
                     pageSize: devicePageSize,
-                    total: deviceTotal
+                    total: deviceTotal,
+                    showSizeChanger: false
                 }}
             />
         </TableBox>

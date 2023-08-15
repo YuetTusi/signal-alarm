@@ -52,20 +52,18 @@ const Bar: FC<BarProp> = ({ xData, yData, serieName }) => {
                     show: false
                 },
                 tooltip: {
-                    trigger: 'item',
-                    position: 'right'
-                    // formatter: '{a} <br/>{b} : {c} ({d}%)'
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    },
+                    position: ([x, y]: number[]) => [x + 40, y]
                 },
                 toolbox: {
-                    show: false,
-                    feature: {
-                        mark: { show: true },
-                        saveAsImage: { show: false }
-                    }
+                    show: false
                 },
                 xAxis: {
                     type: 'category',
-                    data: xData
+                    data: xData,
                 },
                 yAxis: {
                     type: 'value',

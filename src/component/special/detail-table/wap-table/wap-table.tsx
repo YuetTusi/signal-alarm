@@ -77,11 +77,61 @@ const WapTable: FC<WapTableProp> = ({ parentOpen }) => {
     const onPageChange = async (pageIndex: number, pageSize: number) => {
         const condition = formRef.getFieldsValue();
         try {
-            await querySpecialWapData(pageIndex, pageSize, {
-                beginTime: condition.beginTime.format('YYYY-MM-DD 00:00:00'),
-                endTime: condition.endTime.format('YYYY-MM-DD 23:59:59'),
-                protocolTypes: condition.type
-            });
+            switch (condition.type) {
+                case 'all':
+                    await querySpecialWapData(pageIndex, pageSize, {
+                        beginTime: condition.beginTime.format('YYYY-MM-DD 00:00:00'),
+                        endTime: condition.endTime.format('YYYY-MM-DD 23:59:59'),
+                        protocolTypes: helper.protocolToString([
+                            Protocol.ChinaMobileGSM,
+                            Protocol.ChinaUnicomGSM,
+                            Protocol.ChinaTelecomCDMA,
+                            Protocol.ChinaUnicomWCDMA,
+                            Protocol.ChinaMobileTDDLTE,
+                            Protocol.ChinaUnicomFDDLTE,
+                            Protocol.ChinaTelecomFDDLTE,
+                            Protocol.ChinaMobile5G,
+                            Protocol.ChinaUnicom5G,
+                            Protocol.ChinaBroadnet5G,
+                            Protocol.ChinaTelecom5G,
+                            Protocol.GPSLocator
+                        ])
+                    });
+                    break;
+                case 'signal':
+                    await querySpecialWapData(pageIndex, pageSize, {
+                        beginTime: condition.beginTime.format('YYYY-MM-DD 00:00:00'),
+                        endTime: condition.endTime.format('YYYY-MM-DD 23:59:59'),
+                        protocolTypes: helper.protocolToString([
+                            Protocol.ChinaMobileGSM,
+                            Protocol.ChinaUnicomGSM,
+                            Protocol.ChinaTelecomCDMA,
+                            Protocol.ChinaUnicomWCDMA,
+                            Protocol.ChinaMobileTDDLTE,
+                            Protocol.ChinaUnicomFDDLTE,
+                            Protocol.ChinaTelecomFDDLTE,
+                            Protocol.ChinaMobile5G,
+                            Protocol.ChinaUnicom5G,
+                            Protocol.ChinaBroadnet5G,
+                            Protocol.ChinaTelecom5G,
+                        ])
+                    });
+                    break;
+                case 'others':
+                    await querySpecialWapData(pageIndex, pageSize, {
+                        beginTime: condition.beginTime.format('YYYY-MM-DD 00:00:00'),
+                        endTime: condition.endTime.format('YYYY-MM-DD 23:59:59'),
+                        protocolTypes: helper.protocolToString([Protocol.GPSLocator])
+                    });
+                    break;
+                default:
+                    await querySpecialWapData(pageIndex, pageSize, {
+                        beginTime: condition.beginTime.format('YYYY-MM-DD 00:00:00'),
+                        endTime: condition.endTime.format('YYYY-MM-DD 23:59:59'),
+                        protocolTypes: condition.type
+                    });
+                    break;
+            }
         } catch (error) {
             console.log(error);
         }
@@ -158,7 +208,8 @@ const WapTable: FC<WapTableProp> = ({ parentOpen }) => {
                 onChange: onPageChange,
                 total: specialWapTotal,
                 current: specialWapPageIndex,
-                pageSize: specialWapPageSize
+                pageSize: specialWapPageSize,
+                showSizeChanger: false
             }}
             rowKey="id"
         />

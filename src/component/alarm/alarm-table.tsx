@@ -140,7 +140,8 @@ const AlarmTable: FC<AlarmTopProp> = () => {
                 onChange: onPageChange,
                 current: alarmPageIndex,
                 pageSize: alarmPageSize,
-                total: alarmTotal
+                total: alarmTotal,
+                showSizeChanger: false
             }}
             dataSource={alarmData}
             loading={alarmLoading}
