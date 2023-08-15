@@ -11,6 +11,7 @@ import { SearchBar } from './search-bar';
 import { getColumns } from './column';
 import { HotspotTableProp, SearchFormValue } from './prop';
 import { Protocol } from '@/schema/protocol';
+import { getTypes } from './data-source';
 
 const { ipcRenderer } = electron;
 const { writeFile } = fs.promises;
@@ -64,27 +65,14 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
      * 翻页Change
      */
     const onPageChange = async (pageIndex: number, pageSize: number) => {
-        const condition = formRef.getFieldsValue();
+        const { beginTime, endTime, type } = formRef.getFieldsValue();
         try {
-            switch (condition.type) {
-                case 'all':
-                    await querySpecialHotspotData(pageIndex, pageSize, {
-                        beginTime: condition.beginTime.format('YYYY-MM-DD 00:00:00'),
-                        endTime: condition.endTime.format('YYYY-MM-DD 23:59:59'),
-                        protocolTypes: helper.protocolToString([
-                            Protocol.WiFi58G,
-                            Protocol.WiFi24G
-                        ])
-                    });
-                    break;
-                default:
-                    await querySpecialHotspotData(pageIndex, pageSize, {
-                        beginTime: condition.beginTime.format('YYYY-MM-DD 00:00:00'),
-                        endTime: condition.endTime.format('YYYY-MM-DD 23:59:59'),
-                        protocolTypes: condition.type
-                    });
-                    break;
-            }
+            await querySpecialHotspotData(pageIndex, pageSize, {
+                beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
+                endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+                protocolTypes: getTypes(type)
+            });
+
         } catch (error) {
             console.log(error);
         }
@@ -126,7 +114,7 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
                 const data = await exportSpecialHotspotData(specialHotspotPageIndex, specialHotspotPageSize, {
                     beginTime: condition.beginTime.format('YYYY-MM-DD 00:00:00'),
                     endTime: condition.endTime.format('YYYY-MM-DD 23:59:59'),
-                    protocolTypes: condition.type
+                    protocolTypes: getTypes(condition.type)
                 });
                 await writeFile(join(filePaths[0], fileName), data);
                 modal.success({
