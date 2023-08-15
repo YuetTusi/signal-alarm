@@ -17,6 +17,10 @@ interface SpecialTopState {
      */
     specialTerminalTopData: SpecialBase[],
     /**
+     * 窃听器Top10数据
+     */
+    specialWiretapTopData: SpecialBase[],
+    /**
      * 加载状态
      */
     specialTopLoading: boolean,
@@ -35,7 +39,11 @@ interface SpecialTopState {
     /**
      * 查询终端Top10数据
      */
-    querySpecialTerminalTopData: (type: Protocol[]) => void
+    querySpecialTerminalTopData: (type: Protocol[]) => void,
+    /**
+     * 查询窃听器Top10数据
+     */
+    querySpecialWiretapTopData: (type: Protocol[]) => void
 }
 
 export type { SpecialTopState };

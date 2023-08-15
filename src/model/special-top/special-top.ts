@@ -18,6 +18,10 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
      */
     specialTerminalTopData: [],
     /**
+     * 窃听器Top10数据
+     */
+    specialWiretapTopData: [],
+    /**
      * 加载状态
      */
     specialTopLoading: false,
@@ -87,6 +91,26 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
             if (res !== null && res.code === 200) {
                 setState({
                     specialTerminalTopData: res.data.sort((a, b) => Number(b.rssi) - Number(a.rssi))
+                });
+            }
+        } catch (error) {
+            throw error;
+        } finally {
+            setState({ specialTopLoading: false });
+        }
+    },
+    /**
+     * 查询窃听器Top10数据
+     */
+    async querySpecialWiretapTopData(type: Protocol[]) {
+        setState({ specialTopLoading: true });
+        const params = type.join(',');
+        try {
+            const res = await request.get<SpecialBase[]>(`/spi/terminal/new?protocolTypes=${params}`)
+
+            if (res !== null && res.code === 200) {
+                setState({
+                    specialWiretapTopData: res.data.sort((a, b) => Number(b.rssi) - Number(a.rssi))
                 });
             }
         } catch (error) {

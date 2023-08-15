@@ -1,4 +1,3 @@
-import { Wap } from "@/schema/wap";
 
 export interface WapInfoProp {
 
@@ -24,6 +23,10 @@ export enum SpiTab {
      * 摄像头
      */
     Camera = 'camera',
+    /**
+     * 窃听器
+     */
+    Wiretap = 'wiretap',
     /**
      * 终端
      */

@@ -17,6 +17,7 @@ const ContentLabel: FC<{ type: SpiTab, data: SpecialBase }> = ({ type, data }) =
                     : (data as any)?.protocolName;
             case SpiTab.Signal:
             case SpiTab.Camera:
+            case SpiTab.Wiretap:
             case SpiTab.Others:
                 return helper.isNullOrUndefined((data as any)?.protocolName) || (data as any)?.protocolName === ''
                     ? '-'

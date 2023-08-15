@@ -6,7 +6,7 @@ import { DisplayPanel } from '@/component/panel';
 import { ScrollPanel } from '@/component/panel/panel';
 import { Protocol } from '@/schema/protocol';
 import { SpecialBase } from '@/schema/special-base';
-import { TopList, TerminalList, HotspotList, TotalList } from '../top-list';
+import { TopList, TerminalList, HotspotList, TotalList, WiretapList } from '../top-list';
 import DetailModal from '../detail-modal';
 import { EmptyBox, WapInfoBox } from './styled/style';
 import { WapInfoProp, SpiTab } from './prop';
@@ -56,6 +56,16 @@ const toTabItem = (data: SpecialBase[], type: SpiTab, loading: boolean) => [{
         }
     </ScrollPanel>
 }, {
+    key: SpiTab.Wiretap,
+    label: '窃听器',
+    children: <ScrollPanel>
+        {
+            data.length === 0
+                ? <EmptyBox><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></EmptyBox>
+                : <WiretapList data={data} type={type} loading={loading} />
+        }
+    </ScrollPanel>
+}, {
     key: SpiTab.Terminal,
     label: '终端',
     children: <ScrollPanel>
@@ -91,19 +101,23 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
         specialWapTopData,
         specialHotsportTopData,
         specialTerminalTopData,
+        specialWiretapTopData,
         getAllTopData,
         querySpecialWapTopData,
         querySpecialHotspotTopData,
-        querySpecialTerminalTopData
+        querySpecialTerminalTopData,
+        querySpecialWiretapTopData
     } = useModel(state => ({
         specialTopLoading: state.specialTopLoading,
         specialWapTopData: state.specialWapTopData,
         specialHotsportTopData: state.specialHotsportTopData,
         specialTerminalTopData: state.specialTerminalTopData,
+        specialWiretapTopData: state.specialWiretapTopData,
         getAllTopData: state.getAllTopData,
         querySpecialWapTopData: state.querySpecialWapTopData,
         querySpecialHotspotTopData: state.querySpecialHotspotTopData,
-        querySpecialTerminalTopData: state.querySpecialTerminalTopData
+        querySpecialTerminalTopData: state.querySpecialTerminalTopData,
+        querySpecialWiretapTopData: state.querySpecialWiretapTopData
     }));
 
     /**
@@ -133,7 +147,11 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
         ]),
         querySpecialTerminalTopData([
             Protocol.WiFi24G,
-            Protocol.WiFi58G
+            Protocol.WiFi58G,
+            Protocol.Bluetooth50
+        ]),
+        querySpecialWiretapTopData([
+            Protocol.Detectaphone
         ])
     ]);
 
@@ -174,7 +192,13 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
                 case SpiTab.Terminal:
                     await querySpecialTerminalTopData([
                         Protocol.WiFi24G,
-                        Protocol.WiFi58G
+                        Protocol.WiFi58G,
+                        Protocol.Bluetooth50
+                    ]);
+                    break;
+                case SpiTab.Wiretap:
+                    await querySpecialWiretapTopData([
+                        Protocol.Detectaphone
                     ]);
                     break;
                 case SpiTab.Others:
@@ -220,6 +244,8 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
                 return specialHotsportTopData;
             case SpiTab.Terminal:
                 return specialTerminalTopData;
+            case SpiTab.Wiretap:
+                return specialWiretapTopData;
             default:
                 return [];
         }
