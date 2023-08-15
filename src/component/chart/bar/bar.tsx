@@ -64,12 +64,22 @@ const Bar: FC<BarProp> = ({ xData, yData, serieName }) => {
                 xAxis: {
                     type: 'category',
                     data: xData,
+                    axisLabel: {
+                        // rotate: 45,
+                        width: 60,
+                        overflow: 'truncate',
+                        interval: 0
+                    }
                 },
                 yAxis: {
                     type: 'value',
                     axisLabel: {
-                        inside: true
+                        inside: true,
+                        formatter: function (value: string) {
+                            return value + '';
+                        }
                     },
+                    offset: 32,
                     splitNumber: 2
                 },
                 series: [

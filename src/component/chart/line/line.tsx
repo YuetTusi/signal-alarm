@@ -72,8 +72,12 @@ const Line: FC<LineProp> = ({ data, days, serieName }) => {
                 yAxis: {
                     type: 'value',
                     axisLabel: {
-                        inside: true
+                        inside: true,
+                        formatter: function (value: string) {
+                            return value + '';
+                        }
                     },
+                    offset: 32,
                     splitNumber: 2
                 },
                 series: [
