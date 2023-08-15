@@ -6,11 +6,12 @@ import { FC, useEffect } from 'react';
 import { App, message, Form, Table } from 'antd';
 import { useModel } from '@/model';
 import { Wap } from '@/schema/wap';
+import { Protocol } from '@/schema/protocol';
 import { helper } from '@/utility/helper';
+import { getTypes } from './data-source';
 import { SearchBar } from './search-bar';
 import { getColumns } from './column';
 import { SearchFormValue, WapTableProp } from './prop';
-import { Protocol } from '@/schema/protocol';
 
 const { ipcRenderer } = electron;
 const { writeFile } = fs.promises;
@@ -41,11 +42,8 @@ const WapTable: FC<WapTableProp> = ({ parentOpen }) => {
                     Protocol.ChinaMobile5G,
                     Protocol.ChinaUnicom5G,
                     Protocol.ChinaBroadnet5G,
-                    Protocol.Camera,
-                    Protocol.Bluetooth50,
-                    Protocol.Detectaphone,
-                    Protocol.GPSLocator,
-                    Protocol.Others
+                    Protocol.ChinaTelecom5G,
+                    Protocol.GPSLocator
                 ])
             });
         }
@@ -77,61 +75,11 @@ const WapTable: FC<WapTableProp> = ({ parentOpen }) => {
     const onPageChange = async (pageIndex: number, pageSize: number) => {
         const condition = formRef.getFieldsValue();
         try {
-            switch (condition.type) {
-                case 'all':
-                    await querySpecialWapData(pageIndex, pageSize, {
-                        beginTime: condition.beginTime.format('YYYY-MM-DD 00:00:00'),
-                        endTime: condition.endTime.format('YYYY-MM-DD 23:59:59'),
-                        protocolTypes: helper.protocolToString([
-                            Protocol.ChinaMobileGSM,
-                            Protocol.ChinaUnicomGSM,
-                            Protocol.ChinaTelecomCDMA,
-                            Protocol.ChinaUnicomWCDMA,
-                            Protocol.ChinaMobileTDDLTE,
-                            Protocol.ChinaUnicomFDDLTE,
-                            Protocol.ChinaTelecomFDDLTE,
-                            Protocol.ChinaMobile5G,
-                            Protocol.ChinaUnicom5G,
-                            Protocol.ChinaBroadnet5G,
-                            Protocol.ChinaTelecom5G,
-                            Protocol.GPSLocator
-                        ])
-                    });
-                    break;
-                case 'signal':
-                    await querySpecialWapData(pageIndex, pageSize, {
-                        beginTime: condition.beginTime.format('YYYY-MM-DD 00:00:00'),
-                        endTime: condition.endTime.format('YYYY-MM-DD 23:59:59'),
-                        protocolTypes: helper.protocolToString([
-                            Protocol.ChinaMobileGSM,
-                            Protocol.ChinaUnicomGSM,
-                            Protocol.ChinaTelecomCDMA,
-                            Protocol.ChinaUnicomWCDMA,
-                            Protocol.ChinaMobileTDDLTE,
-                            Protocol.ChinaUnicomFDDLTE,
-                            Protocol.ChinaTelecomFDDLTE,
-                            Protocol.ChinaMobile5G,
-                            Protocol.ChinaUnicom5G,
-                            Protocol.ChinaBroadnet5G,
-                            Protocol.ChinaTelecom5G,
-                        ])
-                    });
-                    break;
-                case 'others':
-                    await querySpecialWapData(pageIndex, pageSize, {
-                        beginTime: condition.beginTime.format('YYYY-MM-DD 00:00:00'),
-                        endTime: condition.endTime.format('YYYY-MM-DD 23:59:59'),
-                        protocolTypes: helper.protocolToString([Protocol.GPSLocator])
-                    });
-                    break;
-                default:
-                    await querySpecialWapData(pageIndex, pageSize, {
-                        beginTime: condition.beginTime.format('YYYY-MM-DD 00:00:00'),
-                        endTime: condition.endTime.format('YYYY-MM-DD 23:59:59'),
-                        protocolTypes: condition.type
-                    });
-                    break;
-            }
+            await querySpecialWapData(pageIndex, pageSize, {
+                beginTime: condition.beginTime.format('YYYY-MM-DD 00:00:00'),
+                endTime: condition.endTime.format('YYYY-MM-DD 23:59:59'),
+                protocolTypes: getTypes(condition.type)
+            });
         } catch (error) {
             console.log(error);
         }
@@ -162,10 +110,9 @@ const WapTable: FC<WapTableProp> = ({ parentOpen }) => {
      * @param beginTime 起始时间
      * @param endTime 结束时间
      */
-    const onExport = async () => {
+    const onExport = async (beginTime: Dayjs, endTime: Dayjs, type: string) => {
         message.destroy();
         const fileName = '专项数据_' + dayjs().format('YYYYMMDDHHmmss') + '.xlsx';
-        const condition = formRef.getFieldsValue();
         setReading(true);
         try {
             const { filePaths }: OpenDialogReturnValue = await ipcRenderer.invoke('open-dialog', {
@@ -174,9 +121,9 @@ const WapTable: FC<WapTableProp> = ({ parentOpen }) => {
             });
             if (filePaths.length > 0) {
                 const data = await exportSpecialWapData(specialWapPageIndex, specialWapPageSize, {
-                    beginTime: condition.beginTime.format('YYYY-MM-DD 00:00:00'),
-                    endTime: condition.endTime.format('YYYY-MM-DD 23:59:59'),
-                    protocolTypes: condition.type
+                    beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
+                    endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+                    protocolTypes: type
                 });
                 await writeFile(join(filePaths[0], fileName), data);
                 modal.success({

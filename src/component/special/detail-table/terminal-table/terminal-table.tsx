@@ -11,6 +11,7 @@ import { Protocol } from '@/schema/protocol';
 import { helper } from '@/utility/helper';
 import { SearchBar } from './search-bar';
 import { getColumns } from './column';
+import { getTypes } from './data-source';
 import { SearchFormValue, TerminalTableProp } from './prop';
 
 const { ipcRenderer } = electron;
@@ -61,45 +62,11 @@ const TerminalTable: FC<TerminalTableProp> = () => {
     const onPageChange = async (pageIndex: number, pageSize: number) => {
         const { beginTime, endTime, type } = formRef.getFieldsValue();
         try {
-            switch (type) {
-                case 'all':
-                    await querySpecialTerminalData(pageIndex, pageSize, {
-                        beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                        endTime: endTime.format('YYYY-MM-DD 23:59:59'),
-                        type: helper.protocolToString([
-                            Protocol.WiFi24G,
-                            Protocol.WiFi58G,
-                            Protocol.Bluetooth50
-                        ])
-                    });
-                    break;
-                case 'hotspot':
-                    await querySpecialTerminalData(pageIndex, pageSize, {
-                        beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                        endTime: endTime.format('YYYY-MM-DD 23:59:59'),
-                        type: helper.protocolToString([
-                            Protocol.WiFi24G,
-                            Protocol.WiFi58G
-                        ])
-                    });
-                    break;
-                case 'others':
-                    await querySpecialTerminalData(pageIndex, pageSize, {
-                        beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                        endTime: endTime.format('YYYY-MM-DD 23:59:59'),
-                        type: helper.protocolToString([
-                            Protocol.Bluetooth50
-                        ])
-                    });
-                    break;
-                default:
-                    await querySpecialTerminalData(pageIndex, pageSize, {
-                        beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                        endTime: endTime.format('YYYY-MM-DD 23:59:59'),
-                        type
-                    });
-                    break;
-            }
+            await querySpecialTerminalData(pageIndex, pageSize, {
+                beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
+                endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+                type: getTypes(type)
+            });
         } catch (error) {
             console.warn(error);
         }
@@ -128,7 +95,7 @@ const TerminalTable: FC<TerminalTableProp> = () => {
      * @param beginTime 起始时间
      * @param endTime 结束时间
      */
-    const onExport = async (beginTime: Dayjs, endTime: Dayjs) => {
+    const onExport = async (beginTime: Dayjs, endTime: Dayjs, type: string) => {
         message.destroy();
         const fileName = '专项数据_' + dayjs().format('YYYYMMDDHHmmss') + '.xlsx';
         try {
@@ -139,7 +106,8 @@ const TerminalTable: FC<TerminalTableProp> = () => {
             if (filePaths.length > 0) {
                 const data = await exportSpecialTerminalData(specialTerminalPageIndex, specialTerminalPageSize, {
                     beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                    endTime: endTime.format('YYYY-MM-DD 23:59:59')
+                    endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+                    type: getTypes(type)
                 });
                 await writeFile(join(filePaths[0], fileName), data);
                 modal.success({

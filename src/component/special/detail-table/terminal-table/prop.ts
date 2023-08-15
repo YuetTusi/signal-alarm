@@ -30,7 +30,7 @@ export interface SearchBarProp {
      * @param beginTime 起始时间
      * @param endTime 结束时间
      */
-    onExport: (beginTime: Dayjs, endTime: Dayjs) => void
+    onExport: (beginTime: Dayjs, endTime: Dayjs, type: string) => void
 }
 
 export interface SearchFormValue {

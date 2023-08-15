@@ -5,7 +5,7 @@ import useModel from '@/model';
 import { helper } from '@/utility/helper';
 import { Protocol } from '@/schema/protocol';
 import { SearchBarBox } from './styled/box';
-import { getTypeSelectSource } from './data-source';
+import { getTypeSelectSource, getTypes } from './data-source';
 import { SearchBarProp } from './prop';
 
 const { Item } = Form;
@@ -36,45 +36,7 @@ const SearchBar: FC<SearchBarProp> = ({
     const onSubmitClick = (event: MouseEvent) => {
         event.preventDefault();
         const { beginTime, endTime, type } = formRef.getFieldsValue();
-        switch (type) {
-            case 'all':
-                onSearch(beginTime, endTime, helper.protocolToString([
-                    Protocol.ChinaMobileGSM,
-                    Protocol.ChinaUnicomGSM,
-                    Protocol.ChinaTelecomCDMA,
-                    Protocol.ChinaUnicomWCDMA,
-                    Protocol.ChinaMobileTDDLTE,
-                    Protocol.ChinaUnicomFDDLTE,
-                    Protocol.ChinaTelecomFDDLTE,
-                    Protocol.ChinaMobile5G,
-                    Protocol.ChinaUnicom5G,
-                    Protocol.ChinaBroadnet5G,
-                    Protocol.ChinaTelecom5G,
-                    Protocol.GPSLocator
-                ]));
-                break;
-            case 'signal':
-                onSearch(beginTime, endTime, helper.protocolToString([
-                    Protocol.ChinaMobileGSM,
-                    Protocol.ChinaUnicomGSM,
-                    Protocol.ChinaTelecomCDMA,
-                    Protocol.ChinaUnicomWCDMA,
-                    Protocol.ChinaMobileTDDLTE,
-                    Protocol.ChinaUnicomFDDLTE,
-                    Protocol.ChinaTelecomFDDLTE,
-                    Protocol.ChinaMobile5G,
-                    Protocol.ChinaUnicom5G,
-                    Protocol.ChinaBroadnet5G,
-                    Protocol.ChinaTelecom5G,
-                ]));
-                break;
-            case 'others':
-                onSearch(beginTime, endTime, helper.protocolToString([Protocol.GPSLocator]));
-                break;
-            default:
-                onSearch(beginTime, endTime, type);
-                break;
-        }
+        onSearch(beginTime, endTime, getTypes(type));
     };
 
     /**
@@ -82,8 +44,8 @@ const SearchBar: FC<SearchBarProp> = ({
      */
     const onExportClick = (event: MouseEvent) => {
         event.preventDefault();
-        const { beginTime, endTime } = formRef.getFieldsValue();
-        onExport(beginTime, endTime);
+        const { beginTime, endTime, type } = formRef.getFieldsValue();
+        onExport(beginTime, endTime, getTypes(type));
     };
 
     return <SearchBarBox>

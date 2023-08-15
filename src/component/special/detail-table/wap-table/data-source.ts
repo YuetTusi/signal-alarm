@@ -59,3 +59,45 @@ export const getTypeSelectSource = () => [
         ]
     }
 ];
+
+/**
+ * 返回对应树节点的枚举字串（多个用逗号分割）
+ * @param type 树节点值
+ */
+export const getTypes = (type: string) => {
+    switch (type) {
+        case 'all':
+            return helper.protocolToString([
+                Protocol.ChinaMobileGSM,
+                Protocol.ChinaUnicomGSM,
+                Protocol.ChinaTelecomCDMA,
+                Protocol.ChinaUnicomWCDMA,
+                Protocol.ChinaMobileTDDLTE,
+                Protocol.ChinaUnicomFDDLTE,
+                Protocol.ChinaTelecomFDDLTE,
+                Protocol.ChinaMobile5G,
+                Protocol.ChinaUnicom5G,
+                Protocol.ChinaBroadnet5G,
+                Protocol.ChinaTelecom5G,
+                Protocol.GPSLocator
+            ]);
+        case 'signal':
+            return helper.protocolToString([
+                Protocol.ChinaMobileGSM,
+                Protocol.ChinaUnicomGSM,
+                Protocol.ChinaTelecomCDMA,
+                Protocol.ChinaUnicomWCDMA,
+                Protocol.ChinaMobileTDDLTE,
+                Protocol.ChinaUnicomFDDLTE,
+                Protocol.ChinaTelecomFDDLTE,
+                Protocol.ChinaMobile5G,
+                Protocol.ChinaUnicom5G,
+                Protocol.ChinaBroadnet5G,
+                Protocol.ChinaTelecom5G,
+            ]);
+        case 'others':
+            return helper.protocolToString([Protocol.GPSLocator]);
+        default:
+            return type;
+    }
+};
