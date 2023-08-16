@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+// import url from 'url';
 import dayjs from 'dayjs';
 import debounce from 'lodash/debounce';
 import electron, { OpenDialogReturnValue } from 'electron';
@@ -12,6 +13,7 @@ import { DisplayPanel } from '@/component/panel';
 import { QuickCheckReport } from '@/schema/quick-check-report';
 import { EmptyBox, ReportBox, ScrollBox } from './styled/box';
 import { CheckReportProp } from './prop';
+import { helper } from '@/utility/helper';
 
 const { ipcRenderer } = electron;
 const { writeFile } = fs.promises;
@@ -41,20 +43,22 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
     /**
      * 下载Click
      */
-    const onDownloadClick = debounce(async ({ url }: QuickCheckReport) => {
+    const onDownloadClick = debounce(async (report: QuickCheckReport) => {
 
         try {
-            const { filePaths }: OpenDialogReturnValue = await ipcRenderer.invoke('open-dialog', {
-                title: '选择存储目录',
-                properties: ['openDirectory']
-            });
+            const { filePaths }: OpenDialogReturnValue = await ipcRenderer
+                .invoke('open-dialog', {
+                    title: '选择存储目录',
+                    properties: ['openDirectory']
+                });
             if (filePaths.length > 0) {
-                const fileName = path.basename(url, '.pdf');
-                const chunk = await request.attachment(url);
+                // const options = url.parse(report.url);
+                const fileName = path.basename(report.url, '.pdf');
+                const chunk = await request.attachment(report.url);
                 await writeFile(path.join(filePaths[0], fileName + '.pdf'), chunk);
                 modal.success({
                     title: '导出成功',
-                    content: `数据文件「${fileName}」已保存在${filePaths[0]}`,
+                    content: `报告「${fileName}」已保存在${filePaths[0]}`,
                     centered: true,
                     okText: '确定'
                 });
@@ -118,6 +122,7 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
                     <Button
                         onClick={() => onDownloadClick(item)}
                         type="primary"
+                        disabled={helper.isNullOrUndefined(item?.url)}
                         style={{ width: '120px' }}>
                         <DownloadOutlined />
                         <span>下载报告</span>

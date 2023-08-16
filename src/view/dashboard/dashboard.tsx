@@ -70,7 +70,7 @@ const Dashboard: FC<{}> = memo(() => {
         const hash = sessionStorage.getItem(StorageKeys.Hash);
 
         if (userId !== null && hash !== null) {
-            sse = instance(onMessage);
+            // sse = instance(onMessage);
             // setInterval(() => {
             //     request.post(`/sse/push-user`, { hash })
             //         .then(res => console.log(res))

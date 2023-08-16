@@ -8,7 +8,7 @@ let source: EventSource | null = null;
 const instance = (onMessage: (this: EventSource, ev: MessageEvent<any>) => any) => {
 
     const userId = sessionStorage.getItem(StorageKeys.UserId)!;
-    const hash = sessionStorage.getItem(StorageKeys.Hash)!;
+    const hash = sessionStorage.getItem(StorageKeys.MsgKey)!;
 
     if (source === null) {
         source = new EventSource(

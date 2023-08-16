@@ -76,15 +76,18 @@ const Login: FC<{}> = () => {
                     setLoginUserName(res.data.name);
                     setLoginUserId(res.data.userId.toString());
                     const userHash = helper.md5(res.data.userId.toString());
+                    const msgKey = helper.md5(res.data.userId.toString() + new Date().getTime());
                     sessionStorage.setItem(StorageKeys.Hash, userHash);
                     sessionStorage.setItem(StorageKeys.User, res.data.name);
                     sessionStorage.setItem(StorageKeys.UserId, res.data.userId.toString());
+                    sessionStorage.setItem(StorageKeys.MsgKey, msgKey);
                     if (loginRemember) {
                         //如果记住登录状态，将token写入localStorage
                         localforage.setItem(StorageKeys.Token, ret.data.token ?? '');
                         localforage.setItem(StorageKeys.Hash, userHash);
                         localforage.setItem(StorageKeys.User, res.data.name);
                         localforage.setItem(StorageKeys.UserId, res.data.userId.toString());
+                        sessionStorage.setItem(StorageKeys.MsgKey, msgKey);
                     }
                     message.success('登录成功');
                     navigate('/dashboard');

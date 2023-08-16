@@ -15,5 +15,9 @@ export const StorageKeys = {
     /**
      * 用户ID
      */
-    UserId: 'uid'
+    UserId: 'uid',
+    /**
+     * SSE Hash值
+     */
+    MsgKey: 'mkey'
 }
