@@ -17,6 +17,7 @@ import {
 } from '@/component/statis';
 import CheckReport from '@/component/check-report';
 import { DashboardBox } from "./styled/box";
+// import { request } from '@/utility/http';
 
 const { Text } = Typography;
 let sse: EventSource | null = null;
@@ -67,15 +68,17 @@ const Dashboard: FC<{}> = memo(() => {
     useEffect(() => {
 
         const userId = sessionStorage.getItem(StorageKeys.UserId);
-        const hash = sessionStorage.getItem(StorageKeys.Hash);
+        const hash = sessionStorage.getItem(StorageKeys.MsgKey);
 
         if (userId !== null && hash !== null) {
             sse = instance(onMessage);
             // setInterval(() => {
+            //     console.clear();
+            //     console.log('/sse/push-user');
             //     request.post(`/sse/push-user`, { hash })
             //         .then(res => console.log(res))
             //         .catch(err => console.log(err));
-            // }, 3000);
+            // }, 10000);
         }
 
         return () => {

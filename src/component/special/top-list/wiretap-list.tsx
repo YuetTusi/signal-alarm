@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Spin } from 'antd';
 import { helper } from '@/utility/helper';
-import { Hotspot } from '@/schema/hotspot';
+// import { Hotspot } from '@/schema/hotspot';
 import { getProtocolLabel } from '@/schema/protocol';
 import { ContentLabel } from './content-label';
 import { ListBox } from './styled/box';
@@ -15,13 +15,13 @@ const WiretapList: FC<TopListProp> = ({ data, type, loading }) => {
     /**
      * 渲染广商名称
      */
-    const renderOrg = (item: Hotspot) => {
-        if (helper.isNullOrUndefined(item?.org)) {
-            return ''
-        } else {
-            return `(${item.org})`
-        }
-    }
+    // const renderOrg = (item: Hotspot) => {
+    //     if (helper.isNullOrUndefined(item?.org)) {
+    //         return ''
+    //     } else {
+    //         return `(${item.org})`
+    //     }
+    // };
 
     const renderList = () => data.map(
         (item, index) => <div className="list-row" key={`WL_${index}`}>

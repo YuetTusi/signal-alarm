@@ -8,6 +8,7 @@ import { closeSse } from '@/utility/sse';
 import { StorageKeys } from '@/utility/storage-keys';
 import Reading from '../reading';
 import DragBar from '../drag-bar';
+import Voice from '../voice';
 import { SettingMenu } from "../setting-menu";
 import { LayoutBox } from './styled/styled';
 import { SettingMenuAction } from '../setting-menu/prop';
@@ -73,6 +74,7 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
 
     return <LayoutBox>
         <DragBar />
+        <Voice />
         <Reading />
         <div className="banner">
             <div>
