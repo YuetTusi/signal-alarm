@@ -70,7 +70,7 @@ export const ReportBox = styled.div`
     }
     &>.btn{
         margin-top: 10px;
-        padding: 10px 0;
+        padding-top:10px;
         text-align: center;
         .ant-btn{
             margin: 0 4px;
