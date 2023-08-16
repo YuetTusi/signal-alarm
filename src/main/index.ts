@@ -1,8 +1,10 @@
+import { access, writeFile } from 'fs/promises';
 import { join } from 'path';
 import { app, BrowserWindow, globalShortcut, ipcMain, IpcMainEvent } from 'electron';
 import { port } from '../../config/port';
 import { bindHandle } from './bind';
 
+const cwd = process.cwd();
 const { env, resourcesPath } = process;
 const isDev = env['NODE_ENV'] === 'development';
 var mainWindow: BrowserWindow | null = null;
@@ -20,22 +22,29 @@ if (!app.requestSingleInstanceLock()) {
     app.quit();
 }
 
-app.whenReady()
-    .then(() => {
-        // #生产模式屏蔽快捷键（发布把注释放开）
-        if (!isDev) {
-            // globalShortcut.register('Control+R', () => {
-            //     if (mainWindow && mainWindow.isFocused()) {
-            //         return false;
-            //     }
-            // });
-            // globalShortcut.register('CommandOrControl+Shift+I', () => {
-            //     if (mainWindow && mainWindow.isFocused()) {
-            //         return false;
-            //     }
-            // });
+(async () => {
+    await app.whenReady();
+    if (!isDev) {
+        // globalShortcut.register('Control+R', () => {
+        //     if (mainWindow && mainWindow.isFocused()) {
+        //         return false;
+        //     }
+        // });
+        // globalShortcut.register('CommandOrControl+Shift+I', () => {
+        //     if (mainWindow && mainWindow.isFocused()) {
+        //         return false;
+        //     }
+        // });
+        try {
+            await access(join(cwd, './resources/ip.json'));
+        } catch (error) {
+            await writeFile(
+                join(cwd, './resources/ip.json'),
+                JSON.stringify({ ip: '58.48.76.202', port: 18800 }),
+                { encoding: 'utf-8' });
         }
-    });
+    }
+})();
 
 app.on('second-instance', (event, commandLine, workingDirectory) => {
     //单例应用

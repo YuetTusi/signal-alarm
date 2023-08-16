@@ -26,7 +26,7 @@ const TerminalList: FC<TopListProp> = ({ data, loading }) => {
     const renderList = () => data.map(
         (item, index) => <div className="list-row" key={`WL_${index}`}>
             <div className="list-row-txt">
-                <NoWarpLabel width={300}>{`${(item as Terminal)?.mac ?? '-'} ${renderOrg(item as Terminal)}`}</NoWarpLabel>
+                <NoWarpLabel width={340}>{`${(item as Terminal)?.mac ?? '-'} ${renderOrg(item as Terminal)}`}</NoWarpLabel>
                 <div>{helper.isNullOrUndefined(item?.siteName) || item?.siteName === '' ? '-' : item?.siteName}</div>
             </div>
             <div className="list-row-val">
