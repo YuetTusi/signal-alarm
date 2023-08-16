@@ -74,7 +74,7 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
 
     return <LayoutBox>
         <DragBar />
-        <Voice />
+        {/* <Voice /> */}
         <Reading />
         <div className="banner">
             <div>

@@ -97,7 +97,6 @@ const quickCheck = (setState: SetState, getState: GetState): QuickCheckState => 
         setState({ quickCheckReportLoading: true });
         try {
             const res = await request.get<QuickCheckReport[]>('/check/list');
-            console.log(res);
             if (res !== null && res.code === 200) {
                 setState({ quickCheckReportList: res.data ?? [] });
             }

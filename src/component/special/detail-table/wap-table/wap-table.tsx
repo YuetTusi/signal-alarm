@@ -92,8 +92,6 @@ const WapTable: FC<WapTableProp> = ({ parentOpen }) => {
      * @param type 类型
      */
     const onSearch = async (beginTime: Dayjs, endTime: Dayjs, type: string) => {
-        console.clear();
-        console.log(type);
         try {
             await querySpecialWapData(1, helper.PAGE_SIZE, {
                 beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),

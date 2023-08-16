@@ -27,9 +27,6 @@ const specialWap = (setState: SetState, _: GetState): SpecialWapState => ({
     async querySpecialWapData(pageIndex: number, pageSize = helper.PAGE_SIZE, condition?: Record<string, any>) {
 
         message.destroy();
-        console.log(pageIndex);
-        console.log(pageSize);
-        console.log(condition);
         setState({ specialWapLoading: true });
         let params = '';
         if (helper.isNullOrUndefined(condition)) {
@@ -64,7 +61,6 @@ const specialWap = (setState: SetState, _: GetState): SpecialWapState => ({
             params = `?` + q.join('&');
         }
         try {
-            // console.log(`/spi/wap/${pageIndex}/${pageSize}${params}`);
             const res = await request.get<{
                 records: Wap[],
                 total: number
@@ -72,6 +68,7 @@ const specialWap = (setState: SetState, _: GetState): SpecialWapState => ({
             if (res === null) {
                 message.warning('查询失败')
             } else if (res.code === 200) {
+                console.log(res.data);
                 setState({
                     specialWapData: res.data.records.sort((a, b) => Number(b.rssi) - Number(a.rssi)),
                     specialWapPageIndex: pageIndex,
