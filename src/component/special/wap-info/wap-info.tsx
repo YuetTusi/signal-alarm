@@ -186,7 +186,7 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
                     ]);
                     break;
                 case SpiTab.Camera:
-                    await querySpecialWapTopData([
+                    await querySpecialTerminalTopData([
                         Protocol.Camera
                     ]);
                     break;

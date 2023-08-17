@@ -106,7 +106,7 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
         setState({ specialTopLoading: true });
         const params = type.join(',');
         try {
-            const res = await request.get<SpecialBase[]>(`/spi/terminal/new?protocolTypes=${params}`)
+            const res = await request.get<SpecialBase[]>(`/spi/wap/new?protocolTypes=${params}`)
 
             if (res !== null && res.code === 200) {
                 setState({
