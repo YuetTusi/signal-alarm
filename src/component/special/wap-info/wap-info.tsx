@@ -135,6 +135,7 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
             Protocol.ChinaMobile5G,
             Protocol.ChinaUnicom5G,
             Protocol.ChinaBroadnet5G,
+            Protocol.ChinaTelecom5G,
             Protocol.Camera,
             Protocol.Bluetooth50,
             Protocol.Detectaphone,
