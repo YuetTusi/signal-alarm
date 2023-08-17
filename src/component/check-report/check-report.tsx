@@ -84,7 +84,7 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
                 const chunk = await request.attachment(report.url);
                 await writeFile(path.join(filePaths[0], fileName + '.pdf'), chunk);
                 modal.success({
-                    title: '导出成功',
+                    title: '下载成功',
                     content: `报告「${fileName}」已保存在${filePaths[0]}`,
                     centered: true,
                     okText: '确定'
@@ -93,7 +93,7 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
         } catch (error) {
             console.warn(error);
             modal.warning({
-                title: '导出失败',
+                title: '下载失败',
                 content: error.message,
                 centered: true,
                 okText: '确定'

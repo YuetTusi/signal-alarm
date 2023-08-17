@@ -68,7 +68,6 @@ const specialWap = (setState: SetState, _: GetState): SpecialWapState => ({
             if (res === null) {
                 message.warning('查询失败')
             } else if (res.code === 200) {
-                console.log(res.data);
                 setState({
                     specialWapData: res.data.records.sort((a, b) => Number(b.rssi) - Number(a.rssi)),
                     specialWapPageIndex: pageIndex,

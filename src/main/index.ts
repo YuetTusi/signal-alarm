@@ -94,13 +94,39 @@ app.on('ready', () => {
     bindHandle(mainWindow);
 });
 
+//窗口最小化
+ipcMain.on('minimize', (event: IpcMainEvent) => {
+    event.preventDefault();
+    mainWindow!.minimize();
+});
+
+//窗口最大化
+ipcMain.on('maximize', (event: IpcMainEvent) => {
+
+    event.preventDefault();
+    mainWindow!.isMaximized() ? mainWindow!.restore() : mainWindow!.maximize();
+});
+
+//窗口关闭
+ipcMain.on('close', (event: IpcMainEvent) => {
+    event.preventDefault();
+    if (reportWindow) {
+        reportWindow.close();
+    }
+    if (mainWindow) {
+        mainWindow.close();
+    }
+});
 //退出应用
 ipcMain.on('do-close', (_: IpcMainEvent) => {
     //mainWindow通知退出程序
+    if (reportWindow) {
+        reportWindow.close();
+        reportWindow.destroy();
+    }
     if (mainWindow) {
         mainWindow.destroy();
     }
-
     app.exit(0);
 });
 
@@ -143,7 +169,6 @@ ipcMain.on('report', (_: IpcMainEvent, fileName: string) => {
         });
         reportWindow.setMenu(null);
         reportWindow.loadFile(join(cwd, '_tmp', fileName));
-        reportWindow.webContents.openDevTools();
     } else {
         console.log('reload');
 
@@ -152,9 +177,12 @@ ipcMain.on('report', (_: IpcMainEvent, fileName: string) => {
 });
 
 app.on('window-all-closed', () => {
+    if (reportWindow) {
+        reportWindow.destroy();
+        reportWindow = null;
+    }
     if (mainWindow) {
         mainWindow.destroy();
     }
-
     app.exit(0);
 });
