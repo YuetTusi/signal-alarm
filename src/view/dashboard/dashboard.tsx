@@ -17,7 +17,7 @@ import {
 } from '@/component/statis';
 import CheckReport from '@/component/check-report';
 import { DashboardBox } from "./styled/box";
-// import { request } from '@/utility/http';
+import { request } from '@/utility/http';
 
 const { Text } = Typography;
 let sse: EventSource | null = null;
@@ -71,14 +71,14 @@ const Dashboard: FC<{}> = memo(() => {
         const hash = sessionStorage.getItem(StorageKeys.MsgKey);
 
         if (userId !== null && hash !== null) {
-            sse = instance(onMessage);
-            // setInterval(() => {
+            // sse = instance(onMessage);
+            // setTimeout(() => {
             //     console.clear();
             //     console.log('/sse/push-user');
             //     request.post(`/sse/push-user`, { hash })
             //         .then(res => console.log(res))
             //         .catch(err => console.log(err));
-            // }, 10000);
+            // }, 3000);
         }
 
         return () => {
@@ -117,22 +117,35 @@ const Dashboard: FC<{}> = memo(() => {
 
     const renderPhoneAlarm = () =>
         phoneAlarmData.map(
-            (item, index) => <div className="phone-alarm" key={`PA_${index}`}>
-                <Button
-                    onClick={() => onPhoneAlarmDelete(item.id)}
-                    type="link"
-                    className="close"
-                    title="关闭">
-                    <CloseSquareOutlined />
-                </Button>
-                <div className="icon">
-                    <MobileOutlined />
-                </div>
-                <div className="info">
-                    <div>协议名称：{item?.protocolName ?? '-'}</div>
-                    <div>设备地址：{item?.siteName ?? '-'}</div>
-                </div>
-            </div>
+            (item, index) => {
+                let data: Record<string, any> = {};
+                try {
+                    data = JSON.parse(item.message);
+                } catch (error) {
+                    console.warn('推送message转换JSON失败', error.message);
+                }
+                return <div className="phone-alarm" key={`PA_${index}`}>
+                    <Button
+                        onClick={() => onPhoneAlarmDelete(item.id)}
+                        type="link"
+                        className="close"
+                        title="关闭">
+                        <CloseSquareOutlined />
+                    </Button>
+                    <div className="icon">
+                        <MobileOutlined />
+                    </div>
+                    <div className="info">
+                        <div>协议类型：{data?.protocol ?? '-'}</div>
+                        <div>强度：{data?.rssi ?? '-'}</div>
+                        <div>设备ID：{data?.deviceId ?? '-'}</div>
+                        <div>频点信息：{data?.arfcn ?? '-'}</div>
+                        <div>告警级别：{data?.warnLevel ?? '-'}</div>
+                        <div>告警原因：{data?.warnReason ?? '-'}</div>
+                        <div>采集时间：{data?.captureTime ?? '-'}</div>
+                    </div>
+                </div>;
+            }
         );
 
     return <DashboardBox>

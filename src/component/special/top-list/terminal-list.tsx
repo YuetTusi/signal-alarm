@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { Spin } from 'antd';
 import { helper } from '@/utility/helper';
 import { NoWarpLabel } from '@/component/panel/panel';
+import Signal from '@/component/signal';
 import { Terminal } from '@/schema/terminal';
 import { getProtocolLabel } from '@/schema/protocol';
 import { ListBox } from './styled/box';
@@ -30,7 +31,7 @@ const TerminalList: FC<TopListProp> = ({ data, loading }) => {
                 <div>{helper.isNullOrUndefined(item?.siteName) || item?.siteName === '' ? '-' : item?.siteName}</div>
             </div>
             <div className="list-row-val">
-                <div>强度：{item.rssi}</div>
+                <div><Signal value={Number(item?.rssi)} max={0} min={-100} /></div>
                 <div>{getProtocolLabel(item.protocolType)}</div>
             </div>
         </div>);

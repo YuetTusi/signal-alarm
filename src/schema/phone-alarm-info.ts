@@ -15,17 +15,13 @@ class PhoneAlarmInfo {
      */
     public hash: string = ''
     /**
-     * 设备Id
+     * UserID
      */
-    public deviceId?: string
+    public userId: string = ''
     /**
-     * 地址
+     * 消息（JSON格式串）
      */
-    public siteName?: string
-    /**
-     * 协议名称
-     */
-    public protocolName?: string
+    public message: string = ''
 }
 
 export { PhoneAlarmInfo };

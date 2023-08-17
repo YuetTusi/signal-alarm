@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Spin } from 'antd';
 import { helper } from '@/utility/helper';
-// import Signal from '@/component/signal';
+import Signal from '@/component/signal';
 import { getProtocolLabel } from '@/schema/protocol';
 import { ContentLabel } from './content-label';
 import { ListBox } from './styled/box';
@@ -20,7 +20,7 @@ const TopList: FC<TopListProp> = ({ data, type, loading }) => {
                 <div>{helper.isNullOrUndefined(item?.siteName) || item?.siteName === '' ? '-' : item?.siteName}</div>
             </div>
             <div className="list-row-val">
-                <div>强度：{item.rssi}</div>
+                <div><Signal value={Number(item?.rssi)} max={0} min={-100} /></div>
                 <div>{getProtocolLabel(item.protocolType)}</div>
             </div>
         </div>);
