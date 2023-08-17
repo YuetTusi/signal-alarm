@@ -1,4 +1,4 @@
-import { access, writeFile } from 'fs/promises';
+import { access, writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 import { app, BrowserWindow, globalShortcut, ipcMain, IpcMainEvent } from 'electron';
 import { port } from '../../config/port';
@@ -8,6 +8,7 @@ const cwd = process.cwd();
 const { env, resourcesPath } = process;
 const isDev = env['NODE_ENV'] === 'development';
 var mainWindow: BrowserWindow | null = null;
+var reportWindow: BrowserWindow | null = null;
 
 app.commandLine.appendSwitch('no-sandbox');
 app.commandLine.appendSwitch('disable-gpu');
@@ -42,6 +43,11 @@ if (!app.requestSingleInstanceLock()) {
                 join(cwd, './resources/ip.json'),
                 JSON.stringify({ ip: '58.48.76.202', port: 18800 }),
                 { encoding: 'utf-8' });
+        }
+        try {
+            await access(join(cwd, './_tmp'));
+        } catch (error) {
+            await mkdir(join(cwd, './_tmp'));
         }
     }
 })();
@@ -107,9 +113,43 @@ ipcMain.on('do-relaunch', () => {
     if (mainWindow) {
         mainWindow.destroy();
     }
+    if (reportWindow) {
+        reportWindow.destroy();
+    }
     app.exit(0);
 });
 
+ipcMain.on('report', (_: IpcMainEvent, fileName: string) => {
+    if (reportWindow === null) {
+        reportWindow = new BrowserWindow({
+            title: '查看报告',
+            width: 1440,
+            height: 900,
+            minHeight: 800,
+            minWidth: 1440,
+            show: true,
+            webPreferences: {
+                javascript: true,
+                nodeIntegration: true,
+                contextIsolation: false,
+                webSecurity: false
+            }
+        });
+        reportWindow.once('closed', () => {
+            if (reportWindow) {
+                reportWindow.destroy();
+            }
+            reportWindow = null;
+        });
+        reportWindow.setMenu(null);
+        reportWindow.loadFile(join(cwd, '_tmp', fileName));
+        reportWindow.webContents.openDevTools();
+    } else {
+        console.log('reload');
+
+        reportWindow.loadFile(join(cwd, '_tmp', fileName));
+    }
+});
 
 app.on('window-all-closed', () => {
     if (mainWindow) {

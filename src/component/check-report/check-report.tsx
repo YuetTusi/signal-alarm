@@ -4,8 +4,8 @@ import path from 'path';
 import dayjs from 'dayjs';
 import debounce from 'lodash/debounce';
 import electron, { OpenDialogReturnValue } from 'electron';
-import { FC, useEffect, useRef } from 'react';
-import { DownloadOutlined } from '@ant-design/icons';
+import { FC, useEffect, useRef, useState } from 'react';
+import { DownloadOutlined, SearchOutlined, LoadingOutlined } from '@ant-design/icons';
 import { App, Button, Empty, Spin } from 'antd';
 import { useModel } from '@/model';
 import { request } from '@/utility/http';
@@ -15,8 +15,9 @@ import { EmptyBox, ReportBox, ScrollBox } from './styled/box';
 import { CheckReportProp } from './prop';
 import { helper } from '@/utility/helper';
 
+const cwd = process.cwd();
 const { ipcRenderer } = electron;
-const { writeFile } = fs.promises;
+const { mkdir, writeFile } = fs.promises;
 
 /**
  * 检测报告
@@ -33,12 +34,38 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
         queryQuickCheckReport: state.queryQuickCheckReport
     }));
 
+    const [loading, setLoading] = useState<boolean>(false);
     const { modal } = App.useApp();
     const scrollRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         queryQuickCheckReport();
     }, []);
+
+    /**
+     * 浏览报告Click
+     */
+    const onPreviewClick = async (report: QuickCheckReport) => {
+        setLoading(true);
+        const fileName = path.basename(report.url, '.pdf');
+        try {
+            const exist = await helper.existFile(path.join(cwd, './_tmp'));
+            if (!exist) {
+                await mkdir(path.join(cwd, './_tmp'));
+            }
+            const chunk = await request.attachment(report.url);
+            await writeFile(path.join(cwd, '_tmp', fileName + '.pdf'), chunk);
+            ipcRenderer.send('report', fileName + '.pdf');
+        } catch (error) {
+            modal.warning({
+                title: '失败',
+                content: '加载报告失败',
+                okText: '确定'
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
 
     /**
      * 下载Click
@@ -120,14 +147,19 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
                 </div>
                 <div className="btn">
                     <Button
+                        onClick={() => onPreviewClick(item)}
+                        disabled={helper.isNullOrUndefined(item?.url) || loading}
+                        type="primary">
+                        {loading ? <LoadingOutlined /> : <SearchOutlined />}
+                        <span>查看</span>
+                    </Button>
+                    <Button
                         onClick={() => onDownloadClick(item)}
                         type="primary"
-                        disabled={helper.isNullOrUndefined(item?.url)}
-                        style={{ width: '120px' }}>
+                        disabled={helper.isNullOrUndefined(item?.url)}>
                         <DownloadOutlined />
-                        <span>下载报告</span>
+                        <span>下载</span>
                     </Button>
-                    {/* <Button onClick={() => onPreviewClick(item)} type="primary">查看</Button> */}
                 </div>
             </ReportBox>);
 

@@ -14,10 +14,7 @@ const DetailModal: FC<DetailModalProp> = ({ open, onCancel }) => {
     };
 
     return <Modal
-        footer={[
-            <Button onClick={onCancelClick} type="default" key="ADM_0">取消</Button>
-            // <Button onClick={onOkClick} type="primary" key="SDM_1">确定</Button>
-        ]}
+        footer={null}
         onCancel={onCancelClick}
         open={open}
         title="预警信息详细"
@@ -25,7 +22,7 @@ const DetailModal: FC<DetailModalProp> = ({ open, onCancel }) => {
         centered={true}
         destroyOnClose={true}
         maskClosable={false}
-        width={1280}
+        width={1360}
     >
         <AlarmTable />
     </Modal>

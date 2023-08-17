@@ -141,11 +141,11 @@ const AlarmTable: FC<AlarmTopProp> = () => {
                 current: alarmPageIndex,
                 pageSize: alarmPageSize,
                 total: alarmTotal,
-                showSizeChanger: false
+                showSizeChanger: true
             }}
             dataSource={alarmData}
             loading={alarmLoading}
-            scroll={{ x: 'max-content' }}
+            scroll={{ x: 'max-content', y: 390 }}
             rowKey="id"
         />
     </AlarmTableBox>;

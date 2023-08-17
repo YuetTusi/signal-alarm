@@ -9,7 +9,8 @@ const getColumns = (): ColumnsType<AlarmMsg> => {
     return [{
         title: '类型',
         key: 'protocol',
-        dataIndex: 'protocol'
+        dataIndex: 'protocol',
+        width: 140
     }, {
         title: '告警级别',
         key: 'warnLevel',
@@ -19,10 +20,12 @@ const getColumns = (): ColumnsType<AlarmMsg> => {
         title: '告警原因',
         key: 'warnReason',
         dataIndex: 'warnReason',
+        width: 150
     }, {
         title: '频点信息名称',
         key: 'arfcn',
-        dataIndex: 'arfcn'
+        dataIndex: 'arfcn',
+        width: 120
     }, {
         title: '强度值',
         key: 'rssi',
@@ -45,23 +48,25 @@ const getColumns = (): ColumnsType<AlarmMsg> => {
             }
         }
     }, {
-        title: '处理记录',
-        key: 'remark',
-        dataIndex: 'remark'
-    }, {
         title: '设备ID',
         key: 'deviceId',
-        dataIndex: 'deviceId'
+        dataIndex: 'deviceId',
+        width: 120
     }, {
         title: '设备地址',
         key: 'siteName',
-        dataIndex: 'siteName'
+        dataIndex: 'siteName',
+        width: 160
     }, {
         title: '时间',
         key: 'createTime',
         dataIndex: 'createTime',
         align: 'center',
         width: 150,
+    }, {
+        title: '处理记录',
+        key: 'remark',
+        dataIndex: 'remark'
     }];
 };
 

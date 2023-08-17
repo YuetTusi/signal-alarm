@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import localforage from 'localforage';
 import { useNavigate } from 'react-router-dom';
 import { FC, PropsWithChildren, MouseEvent } from 'react';
@@ -12,6 +14,9 @@ import Voice from '../voice';
 import { SettingMenu } from "../setting-menu";
 import { LayoutBox } from './styled/styled';
 import { SettingMenuAction } from '../setting-menu/prop';
+
+const cwd = process.cwd();
+const { rm } = fs.promises;
 
 /**
  * 布局页
@@ -37,6 +42,7 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
             onOk: async () => {
                 try {
                     closeSse();
+                    await rm(path.join(cwd, './_tmp'), { recursive: true });
                     await logout();
                     await localforage.clear();
                     sessionStorage.clear();

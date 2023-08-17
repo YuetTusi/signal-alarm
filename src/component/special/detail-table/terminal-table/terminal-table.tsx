@@ -136,7 +136,8 @@ const TerminalTable: FC<TerminalTableProp> = () => {
                 onChange: onPageChange,
                 total: specialTerminalTotal,
                 current: specialTerminalPageIndex,
-                pageSize: specialTerminalPageSize
+                pageSize: specialTerminalPageSize,
+                showSizeChanger: false
             }}
             scroll={{ x: 'max-content' }}
             rowKey="id"

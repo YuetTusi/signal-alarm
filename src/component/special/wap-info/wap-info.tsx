@@ -259,7 +259,7 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
                 <span>专项检查Top10</span>
                 <a
                     onClick={() => setDetailModalOpen(true)}
-                    style={{ color: '#fff' }}>详细</a>
+                    style={{ color: '#fff' }}>更多</a>
             </div>
             <div className="content">
                 <Tabs

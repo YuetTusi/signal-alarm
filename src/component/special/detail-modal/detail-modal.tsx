@@ -19,9 +19,7 @@ const DetailModel: FC<DetailModalProp> = ({ open, protocol, onCancel }) => {
     };
 
     return <Modal
-        footer={[
-            <Button onClick={onCancelClick} type="default" key="SDM_0">取消</Button>
-        ]}
+        footer={null}
         onCancel={onCancelClick}
         open={open}
         width={1330}

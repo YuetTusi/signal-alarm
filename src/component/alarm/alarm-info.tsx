@@ -17,7 +17,7 @@ const AlarmInfo: FC<{}> = () => {
                 <span>预警信息</span>
                 <a
                     onClick={() => setDetailModalOpen(true)}
-                    style={{ color: '#fff' }}>详细</a>
+                    style={{ color: '#fff' }}>更多</a>
             </div>
             <FixContentBox>
                 <AlarmTop />
