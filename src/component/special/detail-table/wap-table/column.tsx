@@ -30,8 +30,8 @@ export const getColumns = (): ColumnsType<Wap> => {
         width: 60
     }, {
         title: '时间',
-        key: 'updateTime',
-        dataIndex: 'updateTime',
+        key: 'captureTime',
+        dataIndex: 'captureTime',
         align: 'center',
         width: 150
     }];

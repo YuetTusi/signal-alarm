@@ -58,8 +58,8 @@ const getColumns = (): ColumnsType<Hotspot> => {
         dataIndex: 'siteName',
     }, {
         title: '时间',
-        key: 'updateTime',
-        dataIndex: 'updateTime',
+        key: 'captureTime',
+        dataIndex: 'captureTime',
         align: 'center',
         width: 150
     }];

@@ -204,9 +204,6 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
                     break;
                 case SpiTab.Others:
                     await querySpecialWapTopData([
-                        Protocol.Bluetooth50,
-                        Protocol.Detectaphone,
-                        Protocol.GPSLocator,
                         Protocol.Others
                     ]);
                     break;
