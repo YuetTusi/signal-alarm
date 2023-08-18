@@ -1,6 +1,13 @@
 import { FC, MouseEvent, useState } from 'react';
 import { Modal, Tabs } from 'antd';
-import { WapTable, HotspotTable, TerminalTable, WiretapTable, OthersTable } from '../detail-table';
+import {
+    WapTable,
+    HotspotTable,
+    TerminalTable,
+    CameraTable,
+    WiretapTable,
+    OthersTable
+} from '../detail-table';
 import { ModalBox } from './styled/box';
 import { DetailModalProp, DetailTab } from './prop';
 
@@ -43,7 +50,7 @@ const DetailModel: FC<DetailModalProp> = ({ open, protocol, onCancel }) => {
                     }, {
                         key: DetailTab.Camera,
                         label: '摄像头',
-                        children: <div></div>
+                        children: <CameraTable parentOpen={open} />
                     }, {
                         key: DetailTab.Wiretap,
                         label: '窃听器',
