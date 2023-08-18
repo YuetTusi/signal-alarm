@@ -2,8 +2,6 @@ import dayjs from 'dayjs';
 import { FC, useEffect, MouseEvent } from 'react';
 import { Form, Button, DatePicker, TreeSelect } from 'antd';
 import { useModel } from '@/model';
-import { Protocol } from '@/schema/protocol';
-import { helper } from '@/utility/helper';
 import { SearchBarBox } from './styled/box';
 import { getTypeSelectSource, getTypes } from './data-source';
 import { SearchBarProp } from './prop';

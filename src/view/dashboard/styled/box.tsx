@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import alarmBg from '@/assets/image/alarm-bg.jpg';
+import alarmBg from '@/assets/image/alarm-bg.gif';
 
 export const DashboardBox = styled.div`
 

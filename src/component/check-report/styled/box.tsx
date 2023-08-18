@@ -77,3 +77,18 @@ export const ReportBox = styled.div`
         }
     }
 `;
+
+export const ModalBox = styled.div`
+
+    height: 565px;
+`;
+
+export const SearchBarBox = styled.div`
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    margin-top: 20px;
+`;

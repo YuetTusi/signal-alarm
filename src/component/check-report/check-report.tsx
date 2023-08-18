@@ -8,12 +8,13 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { DownloadOutlined, SearchOutlined, LoadingOutlined } from '@ant-design/icons';
 import { App, Button, Empty, Spin } from 'antd';
 import { useModel } from '@/model';
+import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';
 import { DisplayPanel } from '@/component/panel';
 import { QuickCheckReport } from '@/schema/quick-check-report';
+import { ReportDetailModal } from './report-detail-modal';
 import { EmptyBox, ReportBox, ScrollBox } from './styled/box';
 import { CheckReportProp } from './prop';
-import { helper } from '@/utility/helper';
 
 const cwd = process.cwd();
 const { ipcRenderer } = electron;
@@ -35,6 +36,7 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
     }));
 
     const [loading, setLoading] = useState<boolean>(false);
+    const [reportDetailModalOpen, setReportDetailModalOpen] = useState<boolean>(false);
     const { modal } = App.useApp();
     const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -165,7 +167,10 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
 
     return <DisplayPanel style={{ marginTop: '5px' }}>
         <div className="caption">
-            检查报告
+            <span>检查报告</span>
+            <a
+                onClick={() => setReportDetailModalOpen(true)}
+                style={{ color: '#fff' }}>更多</a>
         </div>
         <div className="content">
             <Spin spinning={quickCheckReportLoading} tip="加载中">
@@ -182,6 +187,9 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
                 }
             </Spin>
         </div>
+        <ReportDetailModal
+            onCancel={() => setReportDetailModalOpen(false)}
+            open={reportDetailModalOpen} />
     </DisplayPanel>;
 };
 
