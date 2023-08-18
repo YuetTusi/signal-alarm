@@ -1,10 +1,7 @@
 import { FC } from 'react';
 import { Spin } from 'antd';
-import { helper } from '@/utility/helper';
-import { NoWarpLabel } from '@/component/panel/panel';
-import Signal from '@/component/signal';
 import { Hotspot } from '@/schema/hotspot';
-import { getProtocolLabel } from '@/schema/protocol';
+import { Wifi } from './wifi';
 import { ListBox } from './styled/box';
 import { TopListProp } from './prop';
 
@@ -13,27 +10,9 @@ import { TopListProp } from './prop';
  */
 const HotspotList: FC<TopListProp> = ({ data, type, loading }) => {
 
-    /**
-     * 渲染广商名称
-     */
-    const renderOrg = (item: Hotspot) => {
-        if (helper.isNullOrUndefined(item?.org)) {
-            return ''
-        } else {
-            return `(${item.org})`
-        }
-    }
-
     const renderList = () => data.map(
         (item, index) => <div className="list-row" key={`WL_${index}`}>
-            <div className="list-row-txt">
-                <NoWarpLabel width={340}>{`${(item as Hotspot)?.mac ?? '-'} ${renderOrg(item as Hotspot)}`}</NoWarpLabel>
-                <div>{helper.isNullOrUndefined(item?.siteName) || item?.siteName === '' ? '-' : item?.siteName}</div>
-            </div>
-            <div className="list-row-val">
-                <div><Signal value={Number(item?.rssi)} max={0} min={-100} /></div>
-                <div>{getProtocolLabel(item.protocolType)}</div>
-            </div>
+            <Wifi data={item as Hotspot} />
         </div>);
 
     return <Spin tip="加载中" spinning={loading}>

@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import wifi24 from '@/assets/image/wifi24.png';
+import wifi58 from '@/assets/image/wifi58.png';
 
 export const ListBox = styled.div`
 
@@ -6,8 +8,6 @@ export const ListBox = styled.div`
     padding:4px;
 
     &>.list-row{
-        display: flex;
-        flex-direction: row;
         font-size: 1.2rem;
         padding: 4px 5px;
         border:1px solid #01aff8;
@@ -35,16 +35,44 @@ export const ListBox = styled.div`
             background: linear-gradient(0deg, rgba(154,155,113,1) 0%, rgba(61,63,50,0.7987570028011204) 40%, rgba(61,63,50,1) 60%, rgba(154,155,113,1) 100%);
         }
 
-        &>.list-row-txt{
-            flex:1;
+        &>.inner-row{
             display: flex;
-            flex-direction: column;
-        }   
-        &>.list-row-val{
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-end;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            &>.list-row-txt{
+                flex:1;
+                display: flex;
+                flex-direction: column;
+                &>div{
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                }
+            }   
+            &>.list-row-val{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-end;
+            }
         }
     }
 `;
+
+export const Icon = styled.i`
+    display: inline-block;
+    width: 52px;
+    height: 14px;
+    margin-right: 5px;
+    background-repeat: no-repeat;
+    background-size: contain;
+`;
+
+export const Wifi24 = styled(Icon)`
+   background-image: url(${wifi24});
+`;
+
+export const Wifi58 = styled(Icon)`
+    background-image: url(${wifi58});
+`

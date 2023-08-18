@@ -18,6 +18,10 @@ class SpecialBase extends BaseEntity {
      * 强度值
      */
     rssi: string = ''
+    /**
+     * 采集时间
+     */
+    captureTime: string = ''
 }
 
 export { SpecialBase };

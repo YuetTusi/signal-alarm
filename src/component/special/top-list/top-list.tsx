@@ -15,13 +15,21 @@ const TopList: FC<TopListProp> = ({ data, type, loading }) => {
 
     const renderList = () => data.map(
         (item, index) => <div className="list-row" key={`WL_${index}`}>
-            <div className="list-row-txt">
-                <ContentLabel type={type} data={item} />
-                <div>{helper.isNullOrUndefined(item?.siteName) || item?.siteName === '' ? '-' : item?.siteName}</div>
+            <div className="inner-row">
+                <div className="list-row-txt">
+                    <ContentLabel type={type} data={item} />
+                </div>
+                <div className="list-row-val">
+                    <Signal value={Number(item?.rssi)} max={0} min={-100} />
+                </div>
             </div>
-            <div className="list-row-val">
-                <div><Signal value={Number(item?.rssi)} max={0} min={-100} /></div>
-                <div>{getProtocolLabel(item.protocolType)}</div>
+            <div className="inner-row">
+                <div className="list-row-txt">
+                    {helper.isNullOrUndefined(item?.siteName) || item?.siteName === '' ? '-' : item?.siteName}
+                </div>
+                <div className="list-row-val">
+                    {getProtocolLabel(item.protocolType)}
+                </div>
             </div>
         </div>);
 
