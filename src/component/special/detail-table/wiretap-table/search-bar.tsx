@@ -10,9 +10,9 @@ const { Item } = Form;
 const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
 
     const {
-        specialOthersTotal
+        specialWiretapTotal
     } = useModel(state => ({
-        specialOthersTotal: state.specialOthersTotal
+        specialWiretapTotal: state.specialWiretapTotal
     }));
 
     useEffect(() => {
@@ -69,7 +69,7 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
         <div>
             <Button
                 onClick={onExportClick}
-                disabled={specialOthersTotal === 0}
+                disabled={specialWiretapTotal === 0}
                 type="primary">导出</Button>
         </div>
     </SearchBarBox>

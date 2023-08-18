@@ -4,6 +4,7 @@ import { reading, ReadingState } from './reading';
 import { specialWap, SpecialWapState } from './special-wap';
 import { specialHotspot, SpecialHotspotState } from './special-hotspot';
 import { specialTerminal, SpecialTerminalState } from './special-terminal';
+import { specialWiretap, SpecialWiretapState } from './special-wiretap';
 import { specialOthers, SpecialOthersState } from './special-others';
 import { alarm, AlarmState } from './alarm';
 import { alarmTypeStatis, AlarmTypeStatisState } from './alarm-type-statis';
@@ -30,6 +31,7 @@ type State = OtherState
     & SpecialWapState
     & SpecialHotspotState
     & SpecialTerminalState
+    & SpecialWiretapState
     & SpecialOthersState
     & AlarmState
     & AlarmTypeStatisState
@@ -55,6 +57,7 @@ const useModel = create<State>(zustandLog((setState: SetState, getState: GetStat
     ...specialWap(setState, getState),
     ...specialHotspot(setState, getState),
     ...specialTerminal(setState, getState),
+    ...specialWiretap(setState, getState),
     ...specialOthers(setState, getState),
     ...alarm(setState, getState),
     ...alarmTypeStatis(setState, getState),
