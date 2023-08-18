@@ -1,7 +1,7 @@
 import { FC, MouseEvent, useState } from 'react';
 import { Button, Modal, Tabs } from 'antd';
 import { Protocol } from '@/schema/protocol';
-import { WapTable, HotspotTable, TerminalTable } from '../detail-table';
+import { WapTable, HotspotTable, TerminalTable, OthersTable } from '../detail-table';
 import { ModalBox } from './styled/box';
 import { DetailModalProp, DetailTab } from './prop';
 
@@ -42,9 +42,21 @@ const DetailModel: FC<DetailModalProp> = ({ open, protocol, onCancel }) => {
                         label: '热点',
                         children: <HotspotTable parentOpen={open} />
                     }, {
+                        key: DetailTab.Camera,
+                        label: '摄像头',
+                        children: <div></div>
+                    }, {
+                        key: DetailTab.Wiretap,
+                        label: '窃听器',
+                        children: <div></div>
+                    }, {
                         key: DetailTab.Terminal,
                         label: '终端',
                         children: <TerminalTable parentOpen={open} />
+                    }, {
+                        key: DetailTab.Others,
+                        label: '其他',
+                        children: <OthersTable parentOpen={open} />
                     }
                 ]}
                 activeKey={tabKey}

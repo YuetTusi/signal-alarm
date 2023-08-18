@@ -33,7 +33,19 @@ export enum DetailTab {
      */
     Hotspot = 'detail_hotspot',
     /**
+     * 摄像头
+     */
+    Camera = 'detail_camera',
+    /**
+     * 窃听器
+     */
+    Wiretap = 'detail_wiretap',
+    /**
      * 终端
      */
-    Terminal = 'detail_terminal'
+    Terminal = 'detail_terminal',
+    /**
+     * 其他
+     */
+    Others = 'others'
 }

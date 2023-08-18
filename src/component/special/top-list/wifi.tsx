@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { NoWarpLabel } from '@/component/panel/panel';
+import { helper } from '@/utility/helper';
 import Signal from '@/component/signal';
 import { Hotspot } from '@/schema/hotspot';
 import { Protocol } from '@/schema/protocol';
@@ -12,7 +13,12 @@ const Wifi: FC<{ data: Hotspot }> = ({ data }) => {
     return <>
         <div className="inner-row">
             <div className="list-row-txt">
-                <NoWarpLabel width={340}>{`${data?.mac ?? '-'} ${data?.org ?? ''}`}</NoWarpLabel>
+                <div>
+                    <NoWarpLabel width={360}>{
+                        `${data?.mac ?? '-'} ${helper.isNullOrUndefined(data?.org) ? '' : `（${data.org}）`}`
+                    }
+                    </NoWarpLabel>
+                </div>
             </div>
             <div className="list-row-val">
                 <Signal value={Number(data?.rssi)} max={0} min={-100} />
