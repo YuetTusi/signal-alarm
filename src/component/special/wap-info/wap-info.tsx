@@ -275,7 +275,7 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
         </DisplayPanel>
         <DetailModal
             open={detailModalOpen}
-            protocol={Number.parseInt(activeKey) as Protocol}
+            defaultTabKey={activeKey as SpiTab}
             onCancel={() => setDetailModalOpen(false)}
             onOk={() => setDetailModalOpen(false)} />
     </WapInfoBox>;

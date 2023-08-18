@@ -1,4 +1,4 @@
-import { FC, MouseEvent, useState } from 'react';
+import { FC, MouseEvent, useEffect, useState } from 'react';
 import { Modal, Tabs } from 'antd';
 import {
     WapTable,
@@ -9,18 +9,32 @@ import {
     OthersTable
 } from '../detail-table';
 import { ModalBox } from './styled/box';
-import { DetailModalProp, DetailTab } from './prop';
+import { SpiTab } from '../wap-info/prop';
+import { DetailModalProp } from './prop';
 
 /**
  * 专项检查详情框
  */
-const DetailModel: FC<DetailModalProp> = ({ open, protocol, onCancel }) => {
+const DetailModel: FC<DetailModalProp> = ({ open, defaultTabKey, onCancel }) => {
 
-    const [tabKey, setTabKey] = useState<string>(DetailTab.Wap);
+    const [tabKey, setTabKey] = useState<string>();
+
+    useEffect(() => {
+        if (open) {
+            switch (defaultTabKey) {
+                case SpiTab.All:
+                    setTabKey(SpiTab.Signal);
+                    break;
+                default:
+                    setTabKey(defaultTabKey);
+                    break;
+            }
+        }
+    }, [open, defaultTabKey]);
 
     const onCancelClick = (event: MouseEvent) => {
         event.preventDefault();
-        setTabKey(DetailTab.Wap);
+        setTabKey(SpiTab.Signal);
         onCancel();
     };
 
@@ -32,7 +46,7 @@ const DetailModel: FC<DetailModalProp> = ({ open, protocol, onCancel }) => {
         getContainer="#app"
         title="专项检查详情"
         centered={true}
-        destroyOnClose={true}
+        destroyOnClose={false}
         maskClosable={false}
         forceRender={true}
     >
@@ -40,33 +54,32 @@ const DetailModel: FC<DetailModalProp> = ({ open, protocol, onCancel }) => {
             <Tabs
                 items={[
                     {
-                        key: DetailTab.Wap,
+                        key: SpiTab.Signal,
                         label: '制式信号',
                         children: <WapTable parentOpen={open} />
                     }, {
-                        key: DetailTab.Hotspot,
+                        key: SpiTab.Hotspot,
                         label: '热点',
                         children: <HotspotTable parentOpen={open} />
                     }, {
-                        key: DetailTab.Camera,
+                        key: SpiTab.Camera,
                         label: '摄像头',
                         children: <CameraTable parentOpen={open} />
                     }, {
-                        key: DetailTab.Wiretap,
+                        key: SpiTab.Wiretap,
                         label: '窃听器',
                         children: <WiretapTable parentOpen={open} />
                     }, {
-                        key: DetailTab.Terminal,
+                        key: SpiTab.Terminal,
                         label: '终端',
                         children: <TerminalTable parentOpen={open} />
                     }, {
-                        key: DetailTab.Others,
+                        key: SpiTab.Others,
                         label: '其他',
                         children: <OthersTable parentOpen={open} />
                     }
                 ]}
                 activeKey={tabKey}
-                defaultActiveKey={DetailTab.Wap}
                 destroyInactiveTabPane={true}
                 onChange={(activeKey: string) => setTabKey(activeKey)}
             />

@@ -45,9 +45,9 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
         const hotspot = getState().specialHotsportTopData;
         const terminal = getState().specialTerminalTopData;
         const data = [...wap, ...hotspot, ...terminal]
-            .sort((a, b) => dayjs(a.captureTime, 'YYYY-MM-DD HH:mm:ss').isAfter(dayjs(b.captureTime, 'YYYY-MM-DD HH:mm:ss')) ? -1 : 1)
+            .sort((a, b) =>
+                dayjs(a.captureTime, 'YYYY-MM-DD HH:mm:ss').isAfter(dayjs(b.captureTime, 'YYYY-MM-DD HH:mm:ss')) ? -1 : 1)
             .slice(0, 10);
-        console.log(data);
         return data;
     },
     /**
@@ -62,7 +62,8 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
 
             if (res !== null && res.code === 200) {
                 setState({
-                    specialWapTopData: res.data.sort((a, b) => Number(b.rssi) - Number(a.rssi))
+                    specialWapTopData: res.data.sort((a, b) =>
+                        dayjs(a.captureTime, 'YYYY-MM-DD HH:mm:ss').isAfter(dayjs(b.captureTime, 'YYYY-MM-DD HH:mm:ss')) ? -1 : 1)
                 });
             }
         } catch (error) {
@@ -82,7 +83,8 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
 
             if (res !== null && res.code === 200) {
                 setState({
-                    specialHotsportTopData: res.data.sort((a, b) => Number(b.rssi) - Number(a.rssi))
+                    specialHotsportTopData: res.data.sort((a, b) =>
+                        dayjs(a.captureTime, 'YYYY-MM-DD HH:mm:ss').isAfter(dayjs(b.captureTime, 'YYYY-MM-DD HH:mm:ss')) ? -1 : 1)
                 });
             }
         } catch (error) {
@@ -101,7 +103,8 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
             const res = await request.get<SpecialBase[]>(`/spi/terminal/new?protocolTypes=${params}`)
             if (res !== null && res.code === 200) {
                 setState({
-                    specialTerminalTopData: res.data.sort((a, b) => Number(b.rssi) - Number(a.rssi))
+                    specialTerminalTopData: res.data.sort((a, b) =>
+                        dayjs(a.captureTime, 'YYYY-MM-DD HH:mm:ss').isAfter(dayjs(b.captureTime, 'YYYY-MM-DD HH:mm:ss')) ? -1 : 1)
                 });
             }
         } catch (error) {
@@ -121,7 +124,8 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
 
             if (res !== null && res.code === 200) {
                 setState({
-                    specialWiretapTopData: res.data.sort((a, b) => Number(b.rssi) - Number(a.rssi))
+                    specialWiretapTopData: res.data.sort((a, b) =>
+                        dayjs(a.captureTime, 'YYYY-MM-DD HH:mm:ss').isAfter(dayjs(b.captureTime, 'YYYY-MM-DD HH:mm:ss')) ? -1 : 1)
                 });
             }
         } catch (error) {
