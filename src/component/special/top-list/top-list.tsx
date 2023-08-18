@@ -28,7 +28,7 @@ const TopList: FC<TopListProp> = ({ data, type, loading }) => {
                     {helper.isNullOrUndefined(item?.siteName) || item?.siteName === '' ? '-' : item?.siteName}
                 </div>
                 <div className="list-row-val">
-                    {getProtocolLabel(item.protocolType)}
+                    {item.captureTime}
                 </div>
             </div>
         </div>);

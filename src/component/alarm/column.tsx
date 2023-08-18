@@ -59,8 +59,8 @@ const getColumns = (): ColumnsType<AlarmMsg> => {
         width: 160
     }, {
         title: '时间',
-        key: 'createTime',
-        dataIndex: 'createTime',
+        key: 'captureTime',
+        dataIndex: 'captureTime',
         align: 'center',
         width: 150,
     }, {
@@ -91,8 +91,8 @@ const getTopColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => {
     },
     {
         title: '时间',
-        key: 'createTime',
-        dataIndex: 'createTime',
+        key: 'captureTime',
+        dataIndex: 'captureTime',
         align: 'center',
         width: 150,
     }, {
