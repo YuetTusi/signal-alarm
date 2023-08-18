@@ -26,6 +26,17 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
      */
     specialTopLoading: false,
     /**
+     * 清空所有Top10数据
+     */
+    clearAllTopData() {
+        setState({
+            specialWapTopData: [],
+            specialHotsportTopData: [],
+            specialTerminalTopData: [],
+            specialWiretapTopData: []
+        });
+    },
+    /**
      * 返回全部Top10数据
      */
     getAllTopData() {
@@ -80,14 +91,12 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
     },
     /**
      * 查询终端Top10数据
-     * # 终端Top10的protocolTypes参数固定传8,9
      */
     async querySpecialTerminalTopData(type: Protocol[]) {
         setState({ specialTopLoading: true });
         const params = type.join(',');
         try {
             const res = await request.get<SpecialBase[]>(`/spi/terminal/new?protocolTypes=${params}`)
-
             if (res !== null && res.code === 200) {
                 setState({
                     specialTerminalTopData: res.data.sort((a, b) => Number(b.rssi) - Number(a.rssi))

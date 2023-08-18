@@ -102,6 +102,7 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
         specialHotsportTopData,
         specialTerminalTopData,
         specialWiretapTopData,
+        clearAllTopData,
         getAllTopData,
         querySpecialWapTopData,
         querySpecialHotspotTopData,
@@ -113,6 +114,7 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
         specialHotsportTopData: state.specialHotsportTopData,
         specialTerminalTopData: state.specialTerminalTopData,
         specialWiretapTopData: state.specialWiretapTopData,
+        clearAllTopData: state.clearAllTopData,
         getAllTopData: state.getAllTopData,
         querySpecialWapTopData: state.querySpecialWapTopData,
         querySpecialHotspotTopData: state.querySpecialHotspotTopData,
@@ -136,8 +138,6 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
             Protocol.ChinaUnicom5G,
             Protocol.ChinaBroadnet5G,
             Protocol.ChinaTelecom5G,
-            Protocol.Camera,
-            Protocol.Bluetooth50,
             Protocol.Detectaphone,
             Protocol.GPSLocator,
             Protocol.Others
@@ -249,7 +249,10 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
         }
     }
 
-    const onTabChange = (tabKey: string) => setActiveKey(tabKey.toString());
+    const onTabChange = (tabKey: string) => {
+        clearAllTopData();
+        setActiveKey(tabKey.toString());
+    };
 
     return <WapInfoBox>
         <DisplayPanel>

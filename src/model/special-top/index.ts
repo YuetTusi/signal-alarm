@@ -25,6 +25,10 @@ interface SpecialTopState {
      */
     specialTopLoading: boolean,
     /**
+     * 清空所有Top10数据
+     */
+    clearAllTopData: () => void,
+    /**
      * 返回全部Top10数据
      */
     getAllTopData: () => SpecialBase[],

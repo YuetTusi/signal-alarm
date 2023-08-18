@@ -2,7 +2,7 @@ import debounce from 'lodash/debounce';
 import { FC, memo, useEffect, MouseEvent } from "react";
 import { Button, Typography } from "antd";
 import {
-    ThunderboltOutlined, LoadingOutlined, MobileOutlined,
+    ClockCircleOutlined, LoadingOutlined, MobileOutlined,
     CloseSquareOutlined
 } from '@ant-design/icons';
 import useModel from "@/model";
@@ -166,8 +166,8 @@ const Dashboard: FC<{}> = memo(() => {
                             onClick={onCheckClick}
                             disabled={quickCheckLoading}
                             type="primary">
-                            {quickCheckLoading ? <LoadingOutlined /> : <ThunderboltOutlined />}
-                            <span>{startTime === '' ? '快速检测' : '停止快速检测'}</span>
+                            {quickCheckLoading ? <LoadingOutlined /> : <ClockCircleOutlined />}
+                            <span>{startTime === '' ? '长时检测' : '停止长时检测'}</span>
                         </Button>
                     </div>
                     <div className="phone-panel">
