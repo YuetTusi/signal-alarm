@@ -47,7 +47,7 @@ const specialWiretap = (setState: SetState, _: GetState): SpecialWiretapState =>
                 message.warning('查询失败')
             } else if (res.code === 200) {
                 setState({
-                    specialWiretapData: res.data.records.sort((a, b) => Number(b.rssi) - Number(a.rssi)),
+                    specialWiretapData: res.data.records,
                     specialWiretapPageIndex: pageIndex,
                     specialWiretapPageSize: pageSize,
                     specialWiretapTotal: res.data.total

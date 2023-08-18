@@ -88,7 +88,7 @@ const specialTerminal = (setState: SetState, _: GetState): SpecialTerminalState 
                 message.warning('查询失败')
             } else if (res.code === 200) {
                 setState({
-                    specialTerminalData: res.data.records.sort((a, b) => Number(b.rssi) - Number(a.rssi)),
+                    specialTerminalData: res.data.records,
                     specialTerminalPageIndex: pageIndex,
                     specialTerminalPageSize: pageSize,
                     specialTerminalTotal: res.data.total

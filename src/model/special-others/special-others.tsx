@@ -47,7 +47,7 @@ const specialOthers = (setState: SetState, _: GetState): SpecialOthersState => (
                 message.warning('查询失败')
             } else if (res.code === 200) {
                 setState({
-                    specialOthersData: res.data.records.sort((a, b) => Number(b.rssi) - Number(a.rssi)),
+                    specialOthersData: res.data.records,
                     specialOthersPageIndex: pageIndex,
                     specialOthersPageSize: pageSize,
                     specialOthersTotal: res.data.total

@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { Protocol } from '@/schema/protocol';
 import { GetState, SetState } from '..';
 import { SpecialTopState } from './index';
@@ -44,8 +45,9 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
         const hotspot = getState().specialHotsportTopData;
         const terminal = getState().specialTerminalTopData;
         const data = [...wap, ...hotspot, ...terminal]
-            .sort((a, b) => Number(b.rssi) - Number(a.rssi))
+            .sort((a, b) => dayjs(a.captureTime, 'YYYY-MM-DD HH:mm:ss').isAfter(dayjs(b.captureTime, 'YYYY-MM-DD HH:mm:ss')) ? -1 : 1)
             .slice(0, 10);
+        console.log(data);
         return data;
     },
     /**

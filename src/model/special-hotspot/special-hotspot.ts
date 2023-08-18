@@ -56,7 +56,7 @@ const specialHotspot = (setState: SetState, _: GetState): SpecialHotspotState =>
                 message.warning('查询失败')
             } else if (res.code === 200) {
                 setState({
-                    specialHotspotData: res.data.records.sort((a, b) => Number(b.rssi) - Number(a.rssi)),
+                    specialHotspotData: res.data.records,
                     specialHotspotPageIndex: pageIndex,
                     specialHotspotPageSize: pageSize,
                     specialHotspotTotal: res.data.total

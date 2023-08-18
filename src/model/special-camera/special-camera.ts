@@ -81,7 +81,7 @@ const specialCamera = (setState: SetState, _: GetState): SpecialCameraState => (
                 message.warning('查询失败')
             } else if (res.code === 200) {
                 setState({
-                    specialCameraData: res.data.records.sort((a, b) => Number(b.rssi) - Number(a.rssi)),
+                    specialCameraData: res.data.records,
                     specialCameraPageIndex: pageIndex,
                     specialCameraPageSize: pageSize,
                     specialCameraTotal: res.data.total
