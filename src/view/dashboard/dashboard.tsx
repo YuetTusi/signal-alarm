@@ -1,4 +1,6 @@
+import dayjs from 'dayjs';
 import debounce from 'lodash/debounce';
+import electron, { IpcRendererEvent } from 'electron';
 import { FC, memo, useEffect, MouseEvent } from "react";
 import { Button, Typography } from "antd";
 import {
@@ -17,8 +19,9 @@ import {
 } from '@/component/statis';
 import CheckReport from '@/component/check-report';
 import { DashboardBox } from "./styled/box";
-import { request } from '@/utility/http';
+// import { request } from '@/utility/http';
 
+const { ipcRenderer } = electron;
 const { Text } = Typography;
 let sse: EventSource | null = null;
 
@@ -56,7 +59,8 @@ const Dashboard: FC<{}> = memo(() => {
                 if (data.hash) {
                     appendPhoneAlarmData({
                         ...data,
-                        id: helper.nextId()
+                        id: helper.nextId(),
+                        receiveTime: new Date().getTime()
                     });
                 }
             }
@@ -69,22 +73,50 @@ const Dashboard: FC<{}> = memo(() => {
 
         const userId = sessionStorage.getItem(StorageKeys.UserId);
         const hash = sessionStorage.getItem(StorageKeys.MsgKey);
-
+        var i = 0;
         if (userId !== null && hash !== null) {
-            // sse = instance(onMessage);
+            sse = instance(onMessage);
             // setTimeout(() => {
-            //     console.clear();
-            //     console.log('/sse/push-user');
-            //     request.post(`/sse/push-user`, { hash })
+            //     request.post(`/sse/push-user`, {
+            //         hash,
+            //         userId: ++i,
+            //         message: "{\"arfcn\":1765.0,\"captureTime\":\"2023-08-16T15:00:05\",\"deviceId\":\"RS_177\",\"protocol\":\"中国电信FDD-LTE\",\"protocolType\":7,\"rssi\":-40,\"status\":0,\"warnLevel\":1,\"warnReason\":\"中国电信FDD\"}"
+            //     })
             //         .then(res => console.log(res))
             //         .catch(err => console.log(err));
-            // }, 3000);
+            // }, 1000 * 10);
         }
 
         return () => {
             closeSse();
         };
     }, []);
+
+    const alarmClean = (_: IpcRendererEvent) => {
+        const now = new Date().getTime();
+
+        const removeAlarms = phoneAlarmData.reduce((acc, current) => {
+            const sec = dayjs(now).diff(dayjs(current.receiveTime), 'second');
+            if (sec > 30) {
+                //清除掉30秒以上的报警消息
+                acc.push(current);
+            }
+            return acc;
+        }, [] as PhoneAlarmInfo[]);
+
+        removeAlarms.forEach(item => {
+            removePhoneAlarmData(item.id);
+        });
+    };
+
+    useEffect(() => {
+
+        ipcRenderer.on('alarm-clean', alarmClean);
+
+        return () => {
+            ipcRenderer.off('alarm-clean', alarmClean);
+        };
+    }, [alarmClean]);
 
     /**
      * 移除报警信息
@@ -101,12 +133,8 @@ const Dashboard: FC<{}> = memo(() => {
                 await quickCheckStart();
             } else {
                 //停止
-                await Promise.all([
-                    quickCheckStop(),
-                    queryQuickCheckReport()
-                ]);
-                // await quickCheckStop();
-                // await queryQuickCheckReport();
+                await quickCheckStop();
+                await queryQuickCheckReport();
             }
         } catch (error) {
             console.warn(error);
@@ -143,6 +171,7 @@ const Dashboard: FC<{}> = memo(() => {
                         <div>告警级别：{data?.warnLevel ?? '-'}</div>
                         <div>告警原因：{data?.warnReason ?? '-'}</div>
                         <div>采集时间：{data?.captureTime ?? '-'}</div>
+                        <div>采集时间：{item.receiveTime ?? '-'}</div>
                     </div>
                 </div>;
             }

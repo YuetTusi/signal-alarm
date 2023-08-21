@@ -11,6 +11,10 @@ class PhoneAlarmInfo {
      */
     public id: string = ''
     /**
+     * 接收时间（前端用于自动关闭）
+     */
+    public receiveTime: number = new Date().getTime()
+    /**
      * hash值
      */
     public hash: string = ''

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Timer</title>
+	</head>
+	<body>
+		<h6>Timer</h6>
+		<script type="text/javascript">
+			const { ipcRenderer } = require('electron');
+			(() => {
+				setInterval(() => {
+					ipcRenderer.send('alarm-clean');
+				}, 1000 * 5);
+			})();
+		</script>
+	</body>
+</html>

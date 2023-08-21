@@ -17,9 +17,9 @@ interface PhoneAlarmState {
     appendPhoneAlarmData: (payload: PhoneAlarmInfo) => void,
     /**
      * 移除手机数据
-     * @param hash 
+     * @param id 
      */
-    removePhoneAlarmData: (hash: string) => void
+    removePhoneAlarmData: (id: string) => void
 }
 
 export type { PhoneAlarmState };

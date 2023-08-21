@@ -67,6 +67,7 @@ export const DashboardBox = styled.div`
         padding: 5px 6px;
         box-shadow: inset 0 0 4px 4px #7877c7;
         border-radius: ${props => props.theme['borderRadius']}px;
+        opacity: 0.9;
         animation-name: borderflash;
         animation-duration: .7s;
         animation-iteration-count: infinite;
@@ -111,8 +112,11 @@ export const DashboardBox = styled.div`
             }
         }
         &>.info{
-            padding-right:24px;
             div{
+                width: 280px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
                 &:first-child{
                     color:#fff8de;
                     padding: 2px 0;

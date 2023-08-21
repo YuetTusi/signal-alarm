@@ -9,6 +9,7 @@ const { env, resourcesPath } = process;
 const isDev = env['NODE_ENV'] === 'development';
 var mainWindow: BrowserWindow | null = null;
 var reportWindow: BrowserWindow | null = null;
+var timerWindow: BrowserWindow | null = null;
 
 app.commandLine.appendSwitch('no-sandbox');
 app.commandLine.appendSwitch('disable-gpu');
@@ -81,17 +82,35 @@ app.on('ready', () => {
             webSecurity: false
         }
     });
+    timerWindow = new BrowserWindow({
+        title: 'timer',
+        width: 1440,
+        height: 900,
+        minHeight: 800,
+        minWidth: 1440,
+        show: false,
+        webPreferences: {
+            javascript: true,
+            nodeIntegration: true,
+            contextIsolation: false,
+            webSecurity: false
+        }
+    });
 
-    // mainWindow.setMenu(null);
+    mainWindow.setMenu(null);
     mainWindow.maximize();
 
     if (isDev) {
         mainWindow.loadURL(`http://127.0.0.1:${port.dev}/`);
         mainWindow.webContents.openDevTools();
+        timerWindow.loadFile('src/renderer/timer/timer.html');
+        timerWindow.webContents.openDevTools();
     } else {
         mainWindow.loadFile(join(resourcesPath, 'app.asar.unpacked/dist/index.html'));
+        timerWindow.loadFile(join(resourcesPath, 'app.asar.unpacked/dist/timer.html'));
     }
     bindHandle(mainWindow);
+
 });
 
 //窗口最小化
@@ -113,6 +132,9 @@ ipcMain.on('close', (event: IpcMainEvent) => {
     if (reportWindow) {
         reportWindow.close();
     }
+    if (timerWindow) {
+        timerWindow.close();
+    }
     if (mainWindow) {
         mainWindow.close();
     }
@@ -123,6 +145,10 @@ ipcMain.on('do-close', (_: IpcMainEvent) => {
     if (reportWindow) {
         reportWindow.close();
         reportWindow.destroy();
+    }
+    if (timerWindow) {
+        timerWindow.close();
+        timerWindow.destroy();
     }
     if (mainWindow) {
         mainWindow.destroy();
@@ -141,6 +167,9 @@ ipcMain.on('do-relaunch', () => {
     }
     if (reportWindow) {
         reportWindow.destroy();
+    }
+    if (timerWindow) {
+        timerWindow.destroy();
     }
     app.exit(0);
 });
@@ -170,9 +199,13 @@ ipcMain.on('report', (_: IpcMainEvent, fileName: string) => {
         reportWindow.setMenu(null);
         reportWindow.loadFile(join(cwd, '_tmp', fileName));
     } else {
-        console.log('reload');
-
         reportWindow.loadFile(join(cwd, '_tmp', fileName));
+    }
+});
+
+ipcMain.on('alarm-clean', (_: IpcMainEvent) => {
+    if (mainWindow) {
+        mainWindow.webContents.send('alarm-clean');
     }
 });
 
@@ -180,6 +213,10 @@ app.on('window-all-closed', () => {
     if (reportWindow) {
         reportWindow.destroy();
         reportWindow = null;
+    }
+    if (timerWindow) {
+        timerWindow.destroy();
+        timerWindow = null;
     }
     if (mainWindow) {
         mainWindow.destroy();
