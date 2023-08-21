@@ -1,16 +1,11 @@
-import debounce from 'lodash/debounce';
-import electron from 'electron';
-import { FC, useEffect, useState, useRef, Key, MouseEvent } from 'react';
-import { Button, message, Table } from 'antd';
+import { FC, useEffect, useState, useRef } from 'react';
+import { message, Table } from 'antd';
 import { AlarmMsg } from '@/schema/alarm-msg';
 import { useModel } from '@/model';
-import { useResize, useRerender } from '@/hook';
 import { ProcessModal } from './process-modal';
 import { AlarmDetailModal } from './alarm-detail-modal';
 import { getTopColumns } from './column';
 import { ActionType, AlarmTopProp } from './prop';
-
-let timer: any = null;
 
 /**
  * 预警信息Top10
@@ -35,15 +30,6 @@ const AlarmTop: FC<AlarmTopProp> = () => {
 
     useEffect(() => {
         queryAlarmTop10Data();
-        if (timer === null) {
-            timer = setInterval(() => {
-                queryAlarmTop10Data();
-            }, 1000 * 20);
-        }
-
-        return () => {
-            clearInterval(timer);
-        }
     }, []);
 
     // const onResize = debounce((event: electron.IpcRendererEvent, rect: electron.Rectangle) => {
@@ -98,40 +84,9 @@ const AlarmTop: FC<AlarmTopProp> = () => {
         }
     };
 
-    /**
-     * 勾选行Change
-     */
-    // const onRowSelect = (selectedRowKeys: Key[], _: AlarmMsg[]) =>
-    //     setSelectedKeys(selectedRowKeys);
-
-    /**
-     * 批量处理Click
-     */
-    // const onBatchProcessClick = (event: MouseEvent<HTMLElement>) => {
-    //     event.preventDefault();
-    //     message.destroy();
-    //     if (selectedKeys.length === 0) {
-    //         message.info('请选择预警信息');
-    //     } else {
-    //         console.log(selectedKeys);
-    //     }
-    // };
-
     return <>
-        {/* <p>
-            <Button
-                onClick={onBatchProcessClick}
-                type="link">
-                批量处理
-            </Button>
-        </p> */}
         <Table<AlarmMsg>
             columns={getTopColumns(actionHandle)}
-            // rowSelection={{
-            //     type: 'checkbox',
-            //     onChange: onRowSelect,
-            //     selectedRowKeys: selectedKeys
-            // }}
             sticky={{
                 offsetHeader: 0
             }}

@@ -23,10 +23,12 @@
 		"asarUnpack": [
 			"dist/assets/**/*",
 			"dist/src/main/**/*",
+			"src/renderer/timer/**/*",
 			"dist/index.html"
 		],
 		"files": [
 			"dist/**/*",
+			"src/renderer/timer/**/*",
 			"icon.png",
 			"package.json"
 		],

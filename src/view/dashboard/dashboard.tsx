@@ -36,6 +36,7 @@ const Dashboard: FC<{}> = memo(() => {
         setQuickCheckLoading,
         quickCheckStart,
         quickCheckStop,
+        queryAlarmTop10Data,
         queryQuickCheckReport,
         appendPhoneAlarmData,
         removePhoneAlarmData
@@ -46,6 +47,7 @@ const Dashboard: FC<{}> = memo(() => {
         setQuickCheckLoading: state.setQuickCheckLoading,
         quickCheckStart: state.quickCheckStart,
         quickCheckStop: state.quickCheckStop,
+        queryAlarmTop10Data: state.queryAlarmTop10Data,
         queryQuickCheckReport: state.queryQuickCheckReport,
         appendPhoneAlarmData: state.appendPhoneAlarmData,
         removePhoneAlarmData: state.removePhoneAlarmData
@@ -62,6 +64,7 @@ const Dashboard: FC<{}> = memo(() => {
                         id: helper.nextId(),
                         receiveTime: new Date().getTime()
                     });
+                    queryAlarmTop10Data();
                 }
             }
         } catch (error) {
@@ -73,13 +76,12 @@ const Dashboard: FC<{}> = memo(() => {
 
         const userId = sessionStorage.getItem(StorageKeys.UserId);
         const hash = sessionStorage.getItem(StorageKeys.MsgKey);
-        var i = 0;
         if (userId !== null && hash !== null) {
-            // sse = instance(onMessage);
-            // setTimeout(() => {
+            sse = instance(onMessage);
+            // setInterval(() => {
             //     request.post(`/sse/push-user`, {
             //         hash,
-            //         userId: ++i,
+            //         userId,
             //         message: "{\"arfcn\":1765.0,\"captureTime\":\"2023-08-16T15:00:05\",\"deviceId\":\"RS_177\",\"protocol\":\"中国电信FDD-LTE\",\"protocolType\":7,\"rssi\":-40,\"status\":0,\"warnLevel\":1,\"warnReason\":\"中国电信FDD\"}"
             //     })
             //         .then(res => console.log(res))
@@ -148,7 +150,11 @@ const Dashboard: FC<{}> = memo(() => {
             (item, index) => {
                 let data: Record<string, any> = {};
                 try {
-                    data = JSON.parse(item.message);
+                    if (typeof item.message === 'string') {
+                        data = JSON.parse(item.message);
+                    } else {
+                        data = item?.message ?? {};
+                    }
                 } catch (error) {
                     console.warn('推送message转换JSON失败', error.message);
                 }
@@ -171,7 +177,6 @@ const Dashboard: FC<{}> = memo(() => {
                         <div>告警级别：{data?.warnLevel ?? '-'}</div>
                         <div>告警原因：{data?.warnReason ?? '-'}</div>
                         <div>采集时间：{data?.captureTime ?? '-'}</div>
-                        <div>采集时间：{item.receiveTime ?? '-'}</div>
                     </div>
                 </div>;
             }

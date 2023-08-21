@@ -114,7 +114,7 @@ class HttpRequest {
      * @param parameters 参数
      */
     post<T = any>(fetchUrl: string, parameters?: Record<string, any>) {
-        // console.log(`POST ${fetchUrl}, 参数:${JSON.stringify(parameters)}`);
+        console.log(`POST ${fetchUrl}, 参数:${JSON.stringify(parameters)}`);
         return this._request<T>(fetchUrl, parameters, 'POST');
     }
     /**
@@ -123,7 +123,7 @@ class HttpRequest {
      * @param parameters 参数
      */
     put<T = any>(fetchUrl: string, parameters?: Record<string, any>) {
-        // console.log(`PUT ${fetchUrl}, 参数:${JSON.stringify(parameters)}`);
+        console.log(`PUT ${fetchUrl}, 参数:${JSON.stringify(parameters)}`);
         return this._request<T>(fetchUrl, parameters, 'PUT');
     }
     /**
@@ -132,7 +132,7 @@ class HttpRequest {
      * @param parameters 参数
      */
     del<T = any>(fetchUrl: string, parameters?: Record<string, any>) {
-        // console.log(`DELETE ${fetchUrl}, 参数:${JSON.stringify(parameters)}`);
+        console.log(`DELETE ${fetchUrl}, 参数:${JSON.stringify(parameters)}`);
         return this._request<T>(fetchUrl, parameters, 'DELETE');
     }
     /**

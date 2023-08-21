@@ -107,7 +107,7 @@ app.on('ready', () => {
         timerWindow.webContents.openDevTools();
     } else {
         mainWindow.loadFile(join(resourcesPath, 'app.asar.unpacked/dist/index.html'));
-        timerWindow.loadFile(join(resourcesPath, 'app.asar.unpacked/dist/timer.html'));
+        timerWindow.loadFile(join(resourcesPath, 'app.asar.unpacked/src/renderer/timer/timer.html'));
     }
     bindHandle(mainWindow);
 

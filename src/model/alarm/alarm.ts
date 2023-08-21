@@ -176,7 +176,6 @@ const alarm = (setState: SetState, _: GetState): AlarmState => ({
         if (!helper.isNullOrUndefined(remark)) {
             params += `&remark=${window.encodeURIComponent(remark!)}`;
         }
-        console.log(`/warn/msg/batchprocess${params}`);
         try {
             const res = await request.get(`/warn/msg/batchprocess${params}`);
             if (res && res.code === 200) {
