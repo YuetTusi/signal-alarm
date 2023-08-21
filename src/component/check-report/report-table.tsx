@@ -15,7 +15,7 @@ import { SearchFormValue } from './prop';
 
 const { useForm } = Form;
 const { ipcRenderer } = electron;
-const { mkdir, writeFile } = fs.promises;
+const { writeFile } = fs.promises;
 
 const ReportTable: FC<{}> = () => {
 
@@ -108,7 +108,8 @@ const ReportTable: FC<{}> = () => {
                 onChange: onPageChange,
                 current: checkReportPageIndex,
                 pageSize: checkReportPageSize,
-                total: checkReportTotal
+                total: checkReportTotal,
+                showSizeChanger: false
             }}
             columns={getColumns(onDownload)}
             dataSource={checkReportData}

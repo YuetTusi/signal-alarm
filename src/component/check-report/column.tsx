@@ -10,8 +10,9 @@ import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';
 
 const cwd = process.cwd();
+const { basename, join } = path;
 const { mkdir, writeFile } = fs.promises;
-const { ipcRenderer } = electron;
+const { shell } = electron;
 
 const getColumns = (onDownload: (report: QuickCheckReport) => void): ColumnsType<QuickCheckReport> => {
     return [{
@@ -19,15 +20,19 @@ const getColumns = (onDownload: (report: QuickCheckReport) => void): ColumnsType
         key: 'reportId',
         dataIndex: 'reportId',
         render: (val: string, record) => <Button onClick={async (event: MouseEvent<HTMLElement>) => {
-            const fileName = path.basename(record.url, '.pdf');
+            const fileName = basename(record.url, '.pdf');
             try {
                 const exist = await helper.existFile(path.join(cwd, './_tmp'));
                 if (!exist) {
-                    await mkdir(path.join(cwd, './_tmp'));
+                    await mkdir(join(cwd, './_tmp'));
                 }
                 const chunk = await request.attachment(record.url);
-                await writeFile(path.join(cwd, '_tmp', fileName + '.pdf'), chunk);
-                ipcRenderer.send('report', fileName + '.pdf');
+                const pdf = join(cwd, '_tmp', fileName + '.pdf');
+                await writeFile(pdf, chunk);
+                shell.openExternal(pdf, {
+                    activate: true
+                });
+                // ipcRenderer.send('report', fileName + '.pdf');
             } catch (error) {
                 message.destroy();
                 message.warning('查看报告失败');

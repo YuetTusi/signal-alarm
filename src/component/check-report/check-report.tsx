@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-// import url from 'url';
 import dayjs from 'dayjs';
 import debounce from 'lodash/debounce';
 import electron, { OpenDialogReturnValue } from 'electron';
@@ -17,7 +16,8 @@ import { EmptyBox, ReportBox, ScrollBox } from './styled/box';
 import { CheckReportProp } from './prop';
 
 const cwd = process.cwd();
-const { ipcRenderer } = electron;
+const { basename, join } = path;
+const { ipcRenderer, shell } = electron;
 const { mkdir, writeFile } = fs.promises;
 
 /**
@@ -49,15 +49,19 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
      */
     const onPreviewClick = async (report: QuickCheckReport) => {
         setLoading(true);
-        const fileName = path.basename(report.url, '.pdf');
+        const fileName = basename(report.url, '.pdf');
         try {
             const exist = await helper.existFile(path.join(cwd, './_tmp'));
             if (!exist) {
-                await mkdir(path.join(cwd, './_tmp'));
+                await mkdir(join(cwd, './_tmp'));
             }
             const chunk = await request.attachment(report.url);
-            await writeFile(path.join(cwd, '_tmp', fileName + '.pdf'), chunk);
-            ipcRenderer.send('report', fileName + '.pdf');
+            const pdf = join(cwd, '_tmp', fileName + '.pdf');
+            await writeFile(pdf, chunk);
+            shell.openExternal(pdf, {
+                activate: true
+            });
+            // ipcRenderer.send('report', fileName + '.pdf');
         } catch (error) {
             modal.warning({
                 title: '失败',
@@ -82,9 +86,9 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
                 });
             if (filePaths.length > 0) {
                 // const options = url.parse(report.url);
-                const fileName = path.basename(report.url, '.pdf');
+                const fileName = basename(report.url, '.pdf');
                 const chunk = await request.attachment(report.url);
-                await writeFile(path.join(filePaths[0], fileName + '.pdf'), chunk);
+                await writeFile(join(filePaths[0], fileName + '.pdf'), chunk);
                 modal.success({
                     title: '下载成功',
                     content: `报告「${fileName}」已保存在${filePaths[0]}`,
@@ -157,8 +161,8 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
                     </Button>
                     <Button
                         onClick={() => onDownloadClick(item)}
-                        type="primary"
-                        disabled={helper.isNullOrUndefined(item?.url)}>
+                        disabled={helper.isNullOrUndefined(item?.url)}
+                        type="primary">
                         <DownloadOutlined />
                         <span>下载</span>
                     </Button>

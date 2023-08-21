@@ -1,5 +1,5 @@
-import { access, writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
+import { access, writeFile, mkdir } from 'fs/promises';
 import { app, BrowserWindow, globalShortcut, ipcMain, IpcMainEvent } from 'electron';
 import { port } from '../../config/port';
 import { bindHandle } from './bind';
