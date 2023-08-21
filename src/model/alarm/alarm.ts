@@ -166,6 +166,27 @@ const alarm = (setState: SetState, _: GetState): AlarmState => ({
         } catch (error) {
             throw error;
         }
+    },
+    /**
+     * 批量处理预警信息
+     */
+    batchProcessAlarm: async (ids: number[], status: number, remark?: string) => {
+        let params = `?ids=${ids.join(',')}&status=${status}`;
+
+        if (!helper.isNullOrUndefined(remark)) {
+            params += `&remark=${window.encodeURIComponent(remark!)}`;
+        }
+        console.log(`/warn/msg/batchprocess${params}`);
+        try {
+            const res = await request.get(`/warn/msg/batchprocess${params}`);
+            if (res && res.code === 200) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (error) {
+            throw error;
+        }
     }
 });
 

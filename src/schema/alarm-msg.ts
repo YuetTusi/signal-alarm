@@ -43,6 +43,10 @@ class AlarmMsg extends BaseEntity {
      * 告警地址
      */
     siteName: null | string = null
+    /**
+     * 采集时间
+     */
+    captureTime: string = ''
 }
 
 export { AlarmMsg };

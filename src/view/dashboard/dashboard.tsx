@@ -75,7 +75,7 @@ const Dashboard: FC<{}> = memo(() => {
         const hash = sessionStorage.getItem(StorageKeys.MsgKey);
         var i = 0;
         if (userId !== null && hash !== null) {
-            sse = instance(onMessage);
+            // sse = instance(onMessage);
             // setTimeout(() => {
             //     request.post(`/sse/push-user`, {
             //         hash,

@@ -5,7 +5,7 @@ import { ActionType } from './prop';
 
 type ActionHandle = (action: ActionType, record: AlarmMsg) => void;
 
-const getColumns = (): ColumnsType<AlarmMsg> => {
+const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => {
     return [{
         title: '类型',
         key: 'protocol',
@@ -67,6 +67,30 @@ const getColumns = (): ColumnsType<AlarmMsg> => {
         title: '处理记录',
         key: 'remark',
         dataIndex: 'remark'
+    }, {
+        title: '处理',
+        key: 'read',
+        dataIndex: 'read',
+        align: 'center',
+        width: 60,
+        render: (val: any, record) => {
+            if (record.status === 0) {
+                return <a onClick={() => {
+                    handle(ActionType.Process, record);
+                }}>处理</a>
+            } else {
+                return <span style={{ color: '#707070', cursor: 'not-allowed' }}>已处理</span>
+            }
+        }
+    }, {
+        title: '详情',
+        key: 'detail',
+        dataIndex: 'detail',
+        align: 'center',
+        width: 60,
+        render: (val: any, record) => <a onClick={() => {
+            handle(ActionType.Detail, record);
+        }}>详情</a>
     }];
 };
 

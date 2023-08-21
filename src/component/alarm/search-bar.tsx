@@ -7,7 +7,7 @@ import { SearchBarProp } from './prop';
 
 const { Item } = Form;
 
-const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
+const SearchBar: FC<SearchBarProp> = ({ formRef, selectedKeys, onBatch, onSearch, onExport }) => {
 
     const {
         alarmTotal
@@ -30,6 +30,12 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
         event.preventDefault();
         const { beginTime, endTime, status } = formRef.getFieldsValue();
         onSearch(beginTime, endTime, status);
+    };
+
+    const onBatchClick = (event: MouseEvent) => {
+        event.preventDefault();
+        // console.log(selectedKeys);
+        onBatch(selectedKeys as number[], 1, '');
     };
 
     /**
@@ -84,6 +90,12 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
             </Form>
         </div>
         <div>
+            <Button
+                onClick={onBatchClick}
+                disabled={selectedKeys.length === 0}
+                type="primary">
+                批量处理
+            </Button>
             <Button
                 onClick={onExportClick}
                 disabled={alarmTotal === 0}

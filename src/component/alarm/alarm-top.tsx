@@ -20,7 +20,6 @@ const AlarmTop: FC<AlarmTopProp> = () => {
     const alarmData = useRef<AlarmMsg>();
     const [processModalOpen, setProcessModalOpen] = useState<boolean>(false);
     const [alarmDetailModalOpen, setAlarmDetailModalOpen] = useState<boolean>(false);
-    const [selectedKeys, setSelectedKeys] = useState<Key[]>([]);
 
     const {
         alarmTop10Loading,

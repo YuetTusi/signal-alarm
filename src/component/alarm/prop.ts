@@ -1,6 +1,7 @@
 import { Dayjs } from "dayjs";
 import { AlarmMsg } from "@/schema/alarm-msg";
 import { FormInstance } from "antd";
+import { Key } from "antd/es/table/interface";
 
 export interface AlarmTopProp { }
 
@@ -52,12 +53,40 @@ export interface AlarmDetailModalProp {
     onCancel: () => void
 }
 
+export interface BatchModalProp {
+
+    /**
+     * 打开
+     */
+    open: boolean,
+    /**
+     * 批量数据
+     */
+    data: AlarmMsg[],
+    /**
+     * 确定handle
+     */
+    onOk: (data: AlarmMsg[], remark?: string) => void,
+    /**
+     * 取消handle
+     */
+    onCancel: () => void
+}
+
 export interface SearchBarProp {
 
     /**
      * 表单实例 
      */
     formRef: FormInstance<SearchFormValue>,
+    /**
+     * 选中行
+     */
+    selectedKeys: Key[],
+    /**
+     * 批量处理
+     */
+    onBatch: (ids: number[], status: number, remark: string) => void,
     /**
      * 查询
      * @param beginTime 起始时间

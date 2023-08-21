@@ -68,6 +68,10 @@ interface AlarmState {
      * 处理预警信息
      */
     processAlarm: (id: number, status: number, remark?: string) => Promise<boolean>,
+    /**
+     * 批量处理预警信息
+     */
+    batchProcessAlarm: (ids: number[], status: number, remark?: string) => Promise<boolean>
 }
 
 export type { AlarmState };
