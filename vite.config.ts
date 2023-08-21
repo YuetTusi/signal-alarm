@@ -2,6 +2,7 @@ import { join } from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import optimizer from 'vite-plugin-optimizer';
+import inject from '@rollup/plugin-inject';
 import { libs } from './config/libs';
 import { port } from './config/port';
 
@@ -14,12 +15,24 @@ export default defineConfig({
     },
     extensions: ['.json', '.js', '.mjs', '.ts', '.tsx']
   },
+  build: {
+    rollupOptions: {
+      output: {
+        globals: {
+          jquery: 'jQuery'
+        }
+      }
+    }
+  },
   server: {
     port: port.dev,
     strictPort: false
   },
   plugins: [
     react(),
-    optimizer(libs)
+    optimizer(libs),
+    inject({
+      $: 'jquery',
+    })
   ],
 });

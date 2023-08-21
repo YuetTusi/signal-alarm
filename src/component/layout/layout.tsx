@@ -42,14 +42,17 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
             onOk: async () => {
                 try {
                     closeSse();
-                    await rm(path.join(cwd, './_tmp'), { recursive: true });
                     await logout();
                     await localforage.clear();
+                    await rm(path.join(cwd, './_tmp'), { recursive: true });
                     sessionStorage.clear();
                     message.success(`用户${loginUserName}已登出`);
                     navigator('/');
                 } catch (error) {
                     console.warn(error);
+                    sessionStorage.clear();
+                    message.success(`用户${loginUserName}已登出`);
+                    navigator('/');
                 }
             },
             centered: true,

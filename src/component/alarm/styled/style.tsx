@@ -28,7 +28,7 @@ export const SearchBarBox = styled.div`
 
 export const FixContentBox = styled.div`
     height: 272px;
-    overflow-y: auto;
+    overflow-y: hidden;
     position: absolute;
     top: 34px;
     left: 0;
