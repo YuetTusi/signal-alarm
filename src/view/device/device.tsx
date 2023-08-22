@@ -19,7 +19,7 @@ const { Option } = Select;
  */
 const Device: FC<DeviceProp> = () => {
 
-    const navitagte = useNavigate();
+    const navigate = useNavigate();
     const { modal } = App.useApp();
     const [formRef] = useForm<FormValue>();
     const editData = useRef<ComDevice>();
@@ -52,7 +52,6 @@ const Device: FC<DeviceProp> = () => {
     }));
 
     useEffect(() => {
-
         queryDeviceData(1, helper.PAGE_SIZE);
     }, []);
 
@@ -71,7 +70,7 @@ const Device: FC<DeviceProp> = () => {
      */
     const onGoBackClick = (event: MouseEvent) => {
         event.preventDefault();
-        navitagte('/dashboard');
+        navigate('/dashboard');
     };
 
     /**
@@ -80,7 +79,10 @@ const Device: FC<DeviceProp> = () => {
      * @param pageSize 页尺寸
      */
     const onPageChange = (pageIndex: number, pageSize: number = helper.PAGE_SIZE) => {
-        queryDeviceData(pageIndex, pageSize);
+        const { getFieldValue } = formRef;
+        queryDeviceData(pageIndex, pageSize, {
+            status: getFieldValue('status')
+        });
     };
 
     /**
