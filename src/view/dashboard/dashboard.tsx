@@ -23,7 +23,6 @@ import { DashboardBox } from "./styled/box";
 
 const { ipcRenderer } = electron;
 const { Text } = Typography;
-let sse: EventSource | null = null;
 
 /**
  * 主页
@@ -77,7 +76,7 @@ const Dashboard: FC<{}> = memo(() => {
         const userId = sessionStorage.getItem(StorageKeys.UserId);
         const hash = sessionStorage.getItem(StorageKeys.MsgKey);
         if (userId !== null && hash !== null) {
-            sse = instance(onMessage);
+            instance(onMessage);
             // setInterval(() => {
             //     request.post(`/sse/push-user`, {
             //         hash,
