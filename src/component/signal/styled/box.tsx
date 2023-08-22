@@ -6,7 +6,7 @@ export const SignalBox = styled.div`
     &>i{
         display: inline-block;
         width: 6px;
-        height: 10px;
+        height: 14px;
         margin-left: 1px;
         border-radius: 1px;
 
