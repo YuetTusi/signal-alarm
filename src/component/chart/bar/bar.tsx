@@ -66,7 +66,7 @@ const Bar: FC<BarProp> = ({ xData, yData, serieName }) => {
                     data: xData,
                     axisLabel: {
                         // rotate: 45,
-                        width: 60,
+                        width: xData.length > 4 ? 40 : 60,
                         overflow: 'truncate',
                         interval: 0
                     }
