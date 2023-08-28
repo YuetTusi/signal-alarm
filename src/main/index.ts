@@ -1,6 +1,6 @@
 import { join } from 'path';
-import { access, writeFile, mkdir } from 'fs/promises';
 import { app, BrowserWindow, globalShortcut, ipcMain, IpcMainEvent } from 'electron';
+import { init } from './init';
 import { port } from '../../config/port';
 import { bindHandle } from './bind';
 
@@ -26,31 +26,19 @@ if (!app.requestSingleInstanceLock()) {
 
 (async () => {
     await app.whenReady();
-    if (!isDev) {
-        // globalShortcut.register('Control+R', () => {
-        //     if (mainWindow && mainWindow.isFocused()) {
-        //         return false;
-        //     }
-        // });
-        // globalShortcut.register('CommandOrControl+Shift+I', () => {
-        //     if (mainWindow && mainWindow.isFocused()) {
-        //         return false;
-        //     }
-        // });
-        try {
-            await access(join(cwd, './resources/ip.json'));
-        } catch (error) {
-            await writeFile(
-                join(cwd, './resources/ip.json'),
-                JSON.stringify({ ip: '58.48.76.202', port: 18800 }),
-                { encoding: 'utf-8' });
-        }
-        try {
-            await access(join(cwd, './_tmp'));
-        } catch (error) {
-            await mkdir(join(cwd, './_tmp'));
-        }
-    }
+    await init(isDev);
+    // if (!isDev) {
+    //     globalShortcut.register('Control+R', () => {
+    //         if (mainWindow && mainWindow.isFocused()) {
+    //             return false;
+    //         }
+    //     });
+    //     globalShortcut.register('CommandOrControl+Shift+I', () => {
+    //         if (mainWindow && mainWindow.isFocused()) {
+    //             return false;
+    //         }
+    //     });
+    // }
 })();
 
 app.on('second-instance', (event, commandLine, workingDirectory) => {
