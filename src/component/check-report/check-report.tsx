@@ -63,6 +63,7 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
             });
             // ipcRenderer.send('report', fileName + '.pdf');
         } catch (error) {
+            helper.log(`打开pdf报告失败 @component/check-report/check-report:${error.message}`);
             modal.warning({
                 title: '失败',
                 content: '加载报告失败',

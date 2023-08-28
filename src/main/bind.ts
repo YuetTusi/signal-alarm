@@ -1,4 +1,5 @@
 import { BrowserWindow, IpcMainEvent, ipcMain, dialog } from 'electron';
+import { logger } from '../utility/log';
 
 /**
  * 绑定主进程handle
@@ -7,7 +8,12 @@ import { BrowserWindow, IpcMainEvent, ipcMain, dialog } from 'electron';
 const bindHandle = (win: BrowserWindow) => {
 
     //打开系统对话框
-    ipcMain.handle('open-dialog', (event, options) => dialog.showOpenDialog(options));
+    ipcMain.handle('open-dialog', (_, options) => dialog.showOpenDialog(options));
+
+    ipcMain.handle('log', (_, content: string, level: 'info' | 'debug' | 'warn' | 'error') => {
+
+        logger[level](content);
+    });
 };
 
 export { bindHandle };

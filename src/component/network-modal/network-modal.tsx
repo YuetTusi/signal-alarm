@@ -83,7 +83,7 @@ const NetworkModal: FC<NetworkModalProp> = ({
         maskClosable={false}
         destroyOnClose={true}
         width={400}
-        title="网络IP设置"
+        title="网络 IP 设置"
         getContainer="#app">
         <Form form={formRef} layout="vertical">
             <Item

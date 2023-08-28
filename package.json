@@ -57,6 +57,7 @@
 		"shorthash": "^0.0.2",
 		"styled-components": "^5.3.8",
 		"uuid": "^9.0.0",
+		"winston": "^3.10.0",
 		"zustand": "^4.3.6"
 	},
 	"devDependencies": {

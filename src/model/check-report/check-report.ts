@@ -70,7 +70,6 @@ const checkReport = (setState: SetState, _: GetState): CheckReportState => ({
                     records: QuickCheckReport[],
                     total: number
                 }>(`/check/${pageIndex}/${pageSize}${params}`);
-            console.log(`/check/${pageIndex}/${pageSize}${params}`);
             if (res === null) {
                 message.warning('查询失败')
             } else if (res.code === 200) {
@@ -85,6 +84,7 @@ const checkReport = (setState: SetState, _: GetState): CheckReportState => ({
                 message.warning(`查询失败（${res.message ?? ''}）`)
             }
         } catch (error) {
+            helper.log(`查询检查报告失败 @model/check-report/queryCheckReportData:${error.message}`, 'error');
             throw error;
         } finally {
             setState({ checkReportLoading: false });

@@ -1,3 +1,4 @@
+import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';
 import { GetState, SetState } from '..';
 import { LoginState } from '../login';
@@ -63,6 +64,7 @@ const login = (setState: SetState, _: GetState): LoginState => ({
         try {
             await request.post('/system/index/logout');
         } catch (error) {
+            helper.log(`登出失败:${error.message}`, 'error');
             throw error;
         }
     }

@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import crypto from 'crypto';
+import electron from 'electron';
 import dayjs from "dayjs";
 import memoize from 'lodash/memoize';
 import { v4 } from 'uuid';
@@ -9,6 +10,7 @@ import { Protocol } from '@/schema/protocol';
 const { join } = path;
 const { access, readFile, writeFile } = fs.promises;
 const cwd = process.cwd();
+const { ipcRenderer } = electron;
 
 /**
 * 接口默认IP
@@ -138,6 +140,14 @@ const helper = {
     },
     protocolToString(protocol: Protocol[]) {
         return protocol.join(',');
+    },
+    /**
+     * 写入日志
+     * @param value 日志内容 
+     * @param level 日志等级
+     */
+    log(value: string, level: 'info' | 'debug' | 'warn' | 'error' = 'info') {
+        ipcRenderer.invoke('log', value, level);
     }
 };
 

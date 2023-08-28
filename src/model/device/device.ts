@@ -73,6 +73,7 @@ const device = (setState: SetState, _: GetState): DeviceState => ({
                 message.warning(`查询失败（${res.message ?? ''}）`);
             }
         } catch (error) {
+            helper.log(`查询设备失败@model/device/queryDeviceData:${error.message}`, 'error');
             message.warning(`查询失败（${error.message ?? ''}）`);
         } finally {
             setState({ deviceLoading: false });
@@ -92,6 +93,7 @@ const device = (setState: SetState, _: GetState): DeviceState => ({
             const res = await request.post('/devops/device/save', next);
             return res;
         } catch (error) {
+            helper.log(`保存设备失败@model/device/addDevice:${error.message}`, 'error');
             throw error;
         }
     },
@@ -103,6 +105,7 @@ const device = (setState: SetState, _: GetState): DeviceState => ({
             const res = await request.del(`/devops/device/remove/${id}`);
             return res;
         } catch (error) {
+            helper.log(`删除设备失败@model/device/deleteDevice:${error.message}`, 'error');
             throw error;
         }
     },
@@ -117,6 +120,7 @@ const device = (setState: SetState, _: GetState): DeviceState => ({
             const res = await request.put('/devops/device/update', next);
             return res;
         } catch (error) {
+            helper.log(`编辑设备失败@model/device/deleteDevice:${error.message}`, 'error');
             throw error;
         }
     },
@@ -134,6 +138,7 @@ const device = (setState: SetState, _: GetState): DeviceState => ({
             const res = await request.post('/devops/device/set', param);
             return res;
         } catch (error) {
+            helper.log(`下发配置失败@model/device/setDevice:${error.message}`, 'error');
             throw error;
         }
     }

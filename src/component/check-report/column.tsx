@@ -19,7 +19,7 @@ const getColumns = (onDownload: (report: QuickCheckReport) => void): ColumnsType
         title: '报告ID',
         key: 'reportId',
         dataIndex: 'reportId',
-        render: (val: string, record) => <Button onClick={async (event: MouseEvent<HTMLElement>) => {
+        render: (val: string, record) => <Button onClick={async (_: MouseEvent<HTMLElement>) => {
             const fileName = basename(record.url, '.pdf');
             try {
                 const exist = await helper.existFile(path.join(cwd, './_tmp'));
@@ -34,6 +34,7 @@ const getColumns = (onDownload: (report: QuickCheckReport) => void): ColumnsType
                 });
                 // ipcRenderer.send('report', fileName + '.pdf');
             } catch (error) {
+                helper.log(`打开pdf报告失败 @component/check-report/column/getColumns:${error.message}`);
                 message.destroy();
                 message.warning('查看报告失败');
             }

@@ -5,8 +5,6 @@ const cwd = process.cwd();
 
 const init = async (isDev: boolean) => {
 
-    console.log('init-------------------------------------')
-
     if (!isDev) {
         try {
             await access(join(cwd, './resources/ip.json'));
