@@ -71,8 +71,14 @@ export const Icon = styled.i`
 
 export const Wifi24 = styled(Icon)`
    background-image: url(${wifi24});
+   &.disconnect{
+    filter:grayscale(1);
+    }
 `;
 
 export const Wifi58 = styled(Icon)`
     background-image: url(${wifi58});
+    &.disconnect{
+        filter:grayscale(1);
+    }
 `

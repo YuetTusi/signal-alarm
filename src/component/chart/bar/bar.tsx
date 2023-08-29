@@ -57,7 +57,7 @@ const Bar: FC<BarProp> = ({ xData, yData, serieName }) => {
                         type: 'shadow'
                     },
                     position: ([x, y]: number[]) => {
-                        const xPoint = x < 150 ? x : x - 150;
+                        const xPoint = x < 150 ? x : x - 160;
                         const yPoint = y < 150 ? y : y - 60;
                         return [xPoint, yPoint];
                     }
@@ -92,8 +92,8 @@ const Bar: FC<BarProp> = ({ xData, yData, serieName }) => {
                         label: {
                             show: true,
                             position: 'right',
-                            formatter({ name, value }: Record<string, any>) {
-                                return `${name}`;
+                            formatter({ name }: Record<string, any>) {
+                                return name;
                             }
                         }
                         // barWidth: 25
