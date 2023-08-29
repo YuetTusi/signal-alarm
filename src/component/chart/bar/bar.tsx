@@ -56,22 +56,16 @@ const Bar: FC<BarProp> = ({ xData, yData, serieName }) => {
                     axisPointer: {
                         type: 'shadow'
                     },
-                    position: ([x, y]: number[]) => [x + 40, y]
+                    position: ([x, y]: number[]) => {
+                        const xPoint = x < 150 ? x : x - 150;
+                        const yPoint = y < 150 ? y : y - 60;
+                        return [xPoint, yPoint];
+                    }
                 },
                 toolbox: {
                     show: false
                 },
                 xAxis: {
-                    type: 'category',
-                    data: xData,
-                    axisLabel: {
-                        // rotate: 45,
-                        width: xData.length > 4 ? 40 : 60,
-                        overflow: 'truncate',
-                        interval: 0
-                    }
-                },
-                yAxis: {
                     type: 'value',
                     axisLabel: {
                         inside: true,
@@ -82,13 +76,27 @@ const Bar: FC<BarProp> = ({ xData, yData, serieName }) => {
                     offset: 32,
                     splitNumber: 2
                 },
+                yAxis: {
+                    type: 'category',
+                    data: xData,
+                    axisLabel: {
+                        show: false
+                    }
+                },
                 series: [
                     {
                         name: serieName,
                         type: 'bar',
                         data: yData,
                         smooth: true,
-                        barWidth: 25
+                        label: {
+                            show: true,
+                            position: 'right',
+                            formatter({ name, value }: Record<string, any>) {
+                                return `${name}`;
+                            }
+                        }
+                        // barWidth: 25
                     }
                 ],
                 dataZoom: [
@@ -108,7 +116,7 @@ const Bar: FC<BarProp> = ({ xData, yData, serieName }) => {
         </EmptyBox>
         : <ChartBox
             width={320}
-            height={190}
+            height={260}
             ref={chartDom} />;
 };
 

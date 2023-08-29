@@ -14,9 +14,12 @@ const Wifi: FC<{ data: Hotspot }> = ({ data }) => {
         <div className="inner-row">
             <div className="list-row-txt">
                 <div>
-                    <NoWarpLabel width={360}>{
-                        `${data?.mac ?? '-'} ${helper.isNullOrUndefined(data?.org) ? '' : `（${data.org}）`}`
-                    }
+                    <NoWarpLabel
+                        title={`${data?.mac ?? '-'} ${helper.isNullOrUndefined(data?.org) ? '' : `（${data.org}）`}`}
+                        width={360}>
+                        {
+                            `${data?.mac ?? '-'} ${helper.isNullOrUndefined(data?.org) ? '' : `（${data.org}）`}`
+                        }
                     </NoWarpLabel>
                 </div>
             </div>
@@ -31,7 +34,7 @@ const Wifi: FC<{ data: Hotspot }> = ({ data }) => {
                         data.protocolType === Protocol.WiFi24G
                             ? <Wifi24 /> : <Wifi58 />
                     }
-                    <NoWarpLabel width={230}>
+                    <NoWarpLabel title={`${data?.ssid ?? ''}（${data?.siteName ?? '-'}）`} width={230}>
                         {`${data?.ssid ?? ''}（${data?.siteName ?? '-'}）`}
                     </NoWarpLabel>
                 </div>

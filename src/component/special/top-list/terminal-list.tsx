@@ -36,14 +36,20 @@ const TerminalList: FC<TopListProp> = ({ data, loading }) => {
                 return <>
                     <div className="inner-row">
                         <div className="list-row-txt">
-                            <NoWarpLabel width={340}>{`${(item as Terminal)?.mac ?? '-'} ${renderOrg(item as Terminal)}`}</NoWarpLabel>
+                            <NoWarpLabel
+                                title={`${(item as Terminal)?.mac ?? '-'} ${renderOrg(item as Terminal)}`}
+                                width={340}>
+                                {`${(item as Terminal)?.mac ?? '-'} ${renderOrg(item as Terminal)}`}
+                            </NoWarpLabel>
                         </div>
                         <div className="list-row-val">
                             <Signal value={Number(item?.rssi)} max={0} min={-100} />
                         </div>
                     </div>
                     <div className="inner-row">
-                        <div className="list-row-txt">
+                        <div
+                            title={`${getProtocolLabel(item.protocolType)} （${helper.isNullOrUndefined(item?.siteName) || item?.siteName === '' ? '-' : item?.siteName}）`}
+                            className="list-row-txt">
                             {`${getProtocolLabel(item.protocolType)} （${helper.isNullOrUndefined(item?.siteName) || item?.siteName === '' ? '-' : item?.siteName}）`}
                         </div>
                         <div className="list-row-val">
