@@ -79,10 +79,9 @@ const Device: FC<DeviceProp> = () => {
      * @param pageSize 页尺寸
      */
     const onPageChange = (pageIndex: number, pageSize: number = helper.PAGE_SIZE) => {
-        const { getFieldValue } = formRef;
-        queryDeviceData(pageIndex, pageSize, {
-            status: getFieldValue('status')
-        });
+        const { getFieldsValue } = formRef;
+        const values = getFieldsValue();
+        queryDeviceData(pageIndex, pageSize, values);
     };
 
     /**
