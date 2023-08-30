@@ -3,6 +3,7 @@ import { FC, PropsWithChildren, memo, useCallback, MouseEvent } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWindowMaximize, faWindowMinimize, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { App } from 'antd';
+import { useModel } from '@/model';
 import { closeSse } from '@/utility/sse';
 import { DragBarBox } from './styled/styled';
 import { DragBarProp } from './prop';
@@ -15,11 +16,13 @@ const { ipcRenderer } = electron;
 const DragBar: FC<PropsWithChildren<DragBarProp>> = memo(({ children }) => {
 
     const { modal } = App.useApp();
+    const setPhoneAlarmData = useModel(state => state.setPhoneAlarmData);
 
     const onExitClick = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
         event.preventDefault();
         modal.confirm({
             onOk() {
+                setPhoneAlarmData([]);
                 closeSse();
                 ipcRenderer.send('close');
             },

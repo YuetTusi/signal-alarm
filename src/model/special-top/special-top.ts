@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
 import { Protocol } from '@/schema/protocol';
-import { GetState, SetState } from '..';
-import { SpecialTopState } from './index';
 import { SpecialBase } from '@/schema/special-base';
 import { request } from '@/utility/http';
+import { SpecialTopState } from './index';
+import { GetState, SetState } from '..';
 
 const specialTop = (setState: SetState, getState: GetState): SpecialTopState => ({
     /**
@@ -46,7 +46,8 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
         const terminal = getState().specialTerminalTopData;
         const data = [...wap, ...hotspot, ...terminal]
             .sort((a, b) =>
-                dayjs(a.captureTime, 'YYYY-MM-DD HH:mm:ss').isAfter(dayjs(b.captureTime, 'YYYY-MM-DD HH:mm:ss')) ? -1 : 1)
+                dayjs(a.captureTime, 'YYYY-MM-DD HH:mm:ss')
+                    .isAfter(dayjs(b.captureTime, 'YYYY-MM-DD HH:mm:ss')) ? -1 : 1)
             .slice(0, 10);
         return data;
     },
@@ -63,7 +64,8 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
             if (res !== null && res.code === 200) {
                 setState({
                     specialWapTopData: res.data.sort((a, b) =>
-                        dayjs(a.captureTime, 'YYYY-MM-DD HH:mm:ss').isAfter(dayjs(b.captureTime, 'YYYY-MM-DD HH:mm:ss')) ? -1 : 1)
+                        dayjs(a.captureTime, 'YYYY-MM-DD HH:mm:ss')
+                            .isAfter(dayjs(b.captureTime, 'YYYY-MM-DD HH:mm:ss')) ? -1 : 1)
                 });
             }
         } catch (error) {

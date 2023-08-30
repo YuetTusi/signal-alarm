@@ -2,7 +2,6 @@ import { FC } from 'react';
 import { Spin } from 'antd';
 import { helper } from '@/utility/helper';
 import Signal from '@/component/signal';
-import { getProtocolLabel } from '@/schema/protocol';
 import { ContentLabel } from './content-label';
 import { ListBox } from './styled/box';
 import { TopListProp } from './prop';

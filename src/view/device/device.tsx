@@ -52,7 +52,7 @@ const Device: FC<DeviceProp> = () => {
     }));
 
     useEffect(() => {
-        queryDeviceData(1, helper.PAGE_SIZE);
+        queryDeviceData(1, 15);
     }, []);
 
     /**
@@ -62,7 +62,7 @@ const Device: FC<DeviceProp> = () => {
         event.preventDefault();
         const { getFieldsValue } = formRef;
         const values = getFieldsValue();
-        queryDeviceData(1, helper.PAGE_SIZE, values);
+        queryDeviceData(1, 15, values);
     };
 
     /**
@@ -78,7 +78,7 @@ const Device: FC<DeviceProp> = () => {
      * @param pageIndex 当前页
      * @param pageSize 页尺寸
      */
-    const onPageChange = (pageIndex: number, pageSize: number = helper.PAGE_SIZE) => {
+    const onPageChange = (pageIndex: number, pageSize: number = 15) => {
         const { getFieldsValue } = formRef;
         const values = getFieldsValue();
         queryDeviceData(pageIndex, pageSize, values);
@@ -100,7 +100,7 @@ const Device: FC<DeviceProp> = () => {
                             if (res === null) {
                                 message.warning('删除失败');
                             } else if (res.code === 200) {
-                                await queryDeviceData(1, helper.PAGE_SIZE);
+                                await queryDeviceData(1, 15);
                                 message.success('删除成功');
                             } else {
                                 message.warning(`删除失败(${res.message})`);
@@ -142,7 +142,7 @@ const Device: FC<DeviceProp> = () => {
                 if (res === null) {
                     message.warning('添加失败');
                 } else if (res.code === 200) {
-                    await queryDeviceData(1, helper.PAGE_SIZE);
+                    await queryDeviceData(1, 15);
                     message.success('添加成功');
                 } else {
                     message.warning(`添加失败(${res.message})`);
@@ -154,7 +154,7 @@ const Device: FC<DeviceProp> = () => {
                     message.warning('编辑失败');
                 } else if (res.code === 200) {
                     editData.current = undefined;
-                    await queryDeviceData(1, helper.PAGE_SIZE);
+                    await queryDeviceData(1, 15);
                     message.success('编辑成功');
                 } else {
                     message.warning(`编辑失败(${res.message})`);
@@ -176,7 +176,7 @@ const Device: FC<DeviceProp> = () => {
             try {
                 const res = await setDevice(setData.current, su);
                 if (res !== null && res.code === 200) {
-                    await queryDeviceData(1, helper.PAGE_SIZE);
+                    await queryDeviceData(1, 15);
                     setSetModalOpen(false);
                     setData.current = undefined;
                     message.success('下发成功');

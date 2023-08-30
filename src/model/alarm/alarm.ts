@@ -4,7 +4,6 @@ import { request } from '@/utility/http';
 import { GetState, SetState } from '..';
 import { AlarmState } from './index';
 
-
 const alarm = (setState: SetState, _: GetState): AlarmState => ({
     /**
      * Top10数据

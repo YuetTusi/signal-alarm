@@ -3,13 +3,12 @@ import { Spin } from 'antd';
 import { helper } from '@/utility/helper';
 import { NoWarpLabel } from '@/component/panel/panel';
 import Signal from '@/component/signal';
-import { Terminal } from '@/schema/terminal';
+import { Terminal as TerminalData } from '@/schema/terminal';
 import { Protocol, getProtocolLabel } from '@/schema/protocol';
 import { ListBox } from './styled/box';
 import { TopListProp } from './prop';
 import { SpecialBase } from '@/schema/special-base';
-import { Wifi } from './wifi';
-import { Hotspot } from '@/schema/hotspot';
+import { Terminal } from './terminal';
 
 /**
  * 终端Top10列表组件
@@ -19,7 +18,7 @@ const TerminalList: FC<TopListProp> = ({ data, loading }) => {
     /**
      * 渲染广商名称
      */
-    const renderOrg = (item: Terminal) => {
+    const renderOrg = (item: TerminalData) => {
         if (helper.isNullOrUndefined(item?.org)) {
             return ''
         } else {
@@ -31,15 +30,16 @@ const TerminalList: FC<TopListProp> = ({ data, loading }) => {
         switch (item.protocolType) {
             case Protocol.WiFi24G:
             case Protocol.WiFi58G:
-                return <Wifi data={item as Hotspot} />
+            case Protocol.Bluetooth50:
+                return <Terminal data={item as TerminalData} />
             default:
                 return <>
                     <div className="inner-row">
                         <div className="list-row-txt">
                             <NoWarpLabel
-                                title={`${(item as Terminal)?.mac ?? '-'} ${renderOrg(item as Terminal)}`}
+                                title={`${(item as TerminalData)?.mac ?? '-'} ${renderOrg(item as TerminalData)}`}
                                 width={340}>
-                                {`${(item as Terminal)?.mac ?? '-'} ${renderOrg(item as Terminal)}`}
+                                {`${(item as TerminalData)?.mac ?? '-'} ${renderOrg(item as TerminalData)}`}
                             </NoWarpLabel>
                         </div>
                         <div className="list-row-val">
