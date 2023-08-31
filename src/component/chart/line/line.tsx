@@ -54,9 +54,15 @@ const Line: FC<LineProp> = ({ data, days, serieName }) => {
                     show: false
                 },
                 tooltip: {
-                    trigger: 'item',
-                    position: 'right'
-                    // formatter: '{a} <br/>{b} : {c} ({d}%)'
+                    // trigger: 'item',
+                    // position: 'right',
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    },
+                    position: ([x, y]: number[]) => {
+                        return [x + 40, y - 20];
+                    }
                 },
                 toolbox: {
                     show: false,
