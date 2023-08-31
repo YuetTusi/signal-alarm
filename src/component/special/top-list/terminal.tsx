@@ -9,9 +9,13 @@ import { Terminal24, Terminal58, Bluethooth } from './styled/box';
 const renderIcon = (data: TerminalData) => {
     switch (data.protocolType) {
         case Protocol.WiFi24G:
-            return <Terminal24 />;
+            return <Terminal24
+                title={data.isConnect === 0 ? '设备未连接' : undefined}
+                className={data.isConnect === 0 ? 'disconnect' : undefined} />;
         case Protocol.WiFi58G:
-            return <Terminal58 />;
+            return <Terminal58
+                title={data.isConnect === 0 ? '设备未连接' : undefined}
+                className={data.isConnect === 0 ? 'disconnect' : undefined} />;
         case Protocol.Bluetooth50:
             return <Bluethooth />;
         default:
