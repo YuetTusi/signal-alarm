@@ -8,6 +8,12 @@ class Terminal extends SpecialBase {
     apId: string = ''
     apMac: string = ''
     captureTime: string = ''
+    /**
+     * 是终端数据
+     * 用于Top10全部列表的判断，因为终端与热点共用类型8,9
+     * 区别为接口不同
+     */
+    isTerminal: boolean = false
     type: any
     /**
      * 热点名称

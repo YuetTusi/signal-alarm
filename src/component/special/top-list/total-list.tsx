@@ -5,9 +5,11 @@ import { NoWarpLabel } from '@/component/panel/panel';
 import { Hotspot } from '@/schema/hotspot';
 import { SpecialBase } from '@/schema/special-base';
 import { Protocol, getProtocolLabel } from '@/schema/protocol';
+import { Terminal as TerminalData } from '@/schema/terminal';
 import Signal from '@/component/signal';
 import { ContentLabel } from './content-label';
 import { Wifi } from './wifi';
+import { Terminal } from './terminal';
 import { ListBox } from './styled/box';
 import { TotalListProp } from './prop';
 
@@ -20,7 +22,10 @@ const TotalList: FC<TotalListProp> = ({ data, type, loading }) => {
         switch (item.protocolType) {
             case Protocol.WiFi24G:
             case Protocol.WiFi58G:
-                return <Wifi data={item as Hotspot} />
+            case Protocol.Bluetooth50:
+                return (item as TerminalData).isTerminal
+                    ? <Terminal data={item as TerminalData} />
+                    : <Wifi data={item as Hotspot} />
             default:
                 return <>
                     <div className="inner-row">

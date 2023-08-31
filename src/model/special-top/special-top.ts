@@ -105,8 +105,11 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
             const res = await request.get<SpecialBase[]>(`/spi/terminal/new?protocolTypes=${params}`)
             if (res !== null && res.code === 200) {
                 setState({
-                    specialTerminalTopData: res.data.sort((a, b) =>
-                        dayjs(a.captureTime, 'YYYY-MM-DD HH:mm:ss').isAfter(dayjs(b.captureTime, 'YYYY-MM-DD HH:mm:ss')) ? -1 : 1)
+                    specialTerminalTopData: res.data
+                        .map(item => ({ ...item, isTerminal: true }))
+                        .sort((a, b) =>
+                            dayjs(a.captureTime, 'YYYY-MM-DD HH:mm:ss')
+                                .isAfter(dayjs(b.captureTime, 'YYYY-MM-DD HH:mm:ss')) ? -1 : 1)
                 });
             }
         } catch (error) {

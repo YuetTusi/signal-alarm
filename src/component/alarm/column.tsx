@@ -2,6 +2,7 @@ import { Tag } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { AlarmMsg } from '@/schema/alarm-msg';
 import { ActionType } from './prop';
+import { NoWarpLabel } from '../panel/panel';
 
 type ActionHandle = (action: ActionType, record: AlarmMsg) => void;
 
@@ -66,7 +67,8 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => {
     }, {
         title: '处理记录',
         key: 'remark',
-        dataIndex: 'remark'
+        dataIndex: 'remark',
+        render: (val) => <NoWarpLabel title={val}>{val}</NoWarpLabel>
     }, {
         title: '处理',
         key: 'read',
