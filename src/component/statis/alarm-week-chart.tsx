@@ -5,7 +5,7 @@ import { Line } from '@/component/chart';
 import { DisplayPanel } from '../panel';
 
 /**
- * 7天告警数量统计
+ * 7天告警数量统计（曲线图）
  */
 const AlarmWeekChart: FC<{}> = () => {
 

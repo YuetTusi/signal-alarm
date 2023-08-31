@@ -28,8 +28,8 @@ const TerminalTable: FC<TerminalTableProp> = () => {
 
     useEffect(() => {
         querySpecialTerminalData(1, helper.PAGE_SIZE, {
-            beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD 00:00:00'),
-            endTime: dayjs().format('YYYY-MM-DD 23:59:59'),
+            beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD HH:mm:ss'),
+            endTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
             type: helper.protocolToString([
                 Protocol.WiFi24G,
                 Protocol.WiFi58G,
@@ -63,8 +63,8 @@ const TerminalTable: FC<TerminalTableProp> = () => {
         const { beginTime, endTime, type } = formRef.getFieldsValue();
         try {
             await querySpecialTerminalData(pageIndex, pageSize, {
-                beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+                beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
+                endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
                 type: getTypes(type)
             });
         } catch (error) {
@@ -81,8 +81,8 @@ const TerminalTable: FC<TerminalTableProp> = () => {
     const onSearch = async (beginTime: Dayjs, endTime: Dayjs, type: string) => {
         try {
             await querySpecialTerminalData(1, helper.PAGE_SIZE, {
-                beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+                beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
+                endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
                 type
             });
         } catch (error) {
@@ -105,8 +105,8 @@ const TerminalTable: FC<TerminalTableProp> = () => {
             });
             if (filePaths.length > 0) {
                 const data = await exportSpecialTerminalData(specialTerminalPageIndex, specialTerminalPageSize, {
-                    beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                    endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+                    beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
+                    endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
                     type: getTypes(type)
                 });
                 await writeFile(join(filePaths[0], fileName), data);

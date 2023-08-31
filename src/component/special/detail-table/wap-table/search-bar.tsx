@@ -55,17 +55,19 @@ const SearchBar: FC<SearchBarProp> = ({
                     name="beginTime"
                     label="起始时间">
                     <DatePicker
+                        showTime={true}
                         allowClear={false}
                         inputReadOnly={true}
-                        style={{ width: '120px' }} />
+                        style={{ width: '170px' }} />
                 </Item>
                 <Item
                     name="endTime"
                     label="结束时间">
                     <DatePicker
+                        showTime={true}
                         allowClear={false}
                         inputReadOnly={true}
-                        style={{ width: '120px' }} />
+                        style={{ width: '170px' }} />
                 </Item>
                 <Item
                     name="type"

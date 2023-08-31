@@ -52,16 +52,16 @@ const ReportTable: FC<{}> = () => {
      */
     const onSearch = (beginTime: Dayjs, endTime: Dayjs) => {
         queryCheckReportData(1, helper.PAGE_SIZE, {
-            beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-            endTime: endTime.format('YYYY-MM-DD 23:59:59')
+            beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
+            endTime: endTime.format('YYYY-MM-DD HH:mm:ss')
         });
     };
 
     const onPageChange = (pageIndex: number, pageSize: number) => {
         const { getFieldValue } = formRef;
         queryCheckReportData(pageIndex, pageSize, {
-            beginTime: getFieldValue('beginTime').format('YYYY-MM-DD 00:00:00'),
-            endTime: getFieldValue('endTime').format('YYYY-MM-DD 23:59:59'),
+            beginTime: getFieldValue('beginTime').format('YYYY-MM-DD HH:mm:ss'),
+            endTime: getFieldValue('endTime').format('YYYY-MM-DD HH:mm:ss'),
         });
     };
 

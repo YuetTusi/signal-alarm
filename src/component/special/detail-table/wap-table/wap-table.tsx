@@ -29,8 +29,8 @@ const WapTable: FC<WapTableProp> = ({ parentOpen }) => {
     useEffect(() => {
         if (parentOpen) {
             querySpecialWapData(1, helper.PAGE_SIZE, {
-                beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD 00:00:00'),
-                endTime: dayjs().format('YYYY-MM-DD 23:59:59'),
+                beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD HH:mm:ss'),
+                endTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
                 protocolTypes: helper.protocolToString([
                     Protocol.ChinaMobileGSM,
                     Protocol.ChinaUnicomGSM,
@@ -76,8 +76,8 @@ const WapTable: FC<WapTableProp> = ({ parentOpen }) => {
         const condition = formRef.getFieldsValue();
         try {
             await querySpecialWapData(pageIndex, pageSize, {
-                beginTime: condition.beginTime.format('YYYY-MM-DD 00:00:00'),
-                endTime: condition.endTime.format('YYYY-MM-DD 23:59:59'),
+                beginTime: condition.beginTime.format('YYYY-MM-DD HH:mm:ss'),
+                endTime: condition.endTime.format('YYYY-MM-DD HH:mm:ss'),
                 protocolTypes: getTypes(condition.type)
             });
         } catch (error) {
@@ -94,8 +94,8 @@ const WapTable: FC<WapTableProp> = ({ parentOpen }) => {
     const onSearch = async (beginTime: Dayjs, endTime: Dayjs, type: string) => {
         try {
             await querySpecialWapData(1, helper.PAGE_SIZE, {
-                beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+                beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
+                endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
                 protocolTypes: type
             });
         } catch (error) {
@@ -119,8 +119,8 @@ const WapTable: FC<WapTableProp> = ({ parentOpen }) => {
             });
             if (filePaths.length > 0) {
                 const data = await exportSpecialWapData(specialWapPageIndex, specialWapPageSize, {
-                    beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                    endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+                    beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
+                    endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
                     protocolTypes: type
                 });
                 await writeFile(join(filePaths[0], fileName), data);

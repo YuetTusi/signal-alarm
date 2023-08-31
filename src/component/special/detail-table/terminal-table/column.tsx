@@ -11,7 +11,16 @@ const getColumns = (): ColumnsType<Terminal> => {
         dataIndex: 'protocolType',
         width: 80,
         align: 'center',
-        render: (val: Protocol) => getProtocolLabel(val)
+        render: (val: Protocol) => {
+            switch (val) {
+                case Protocol.WiFi24G:
+                    return '终端2.4G';
+                case Protocol.WiFi58G:
+                    return '终端5.8G';
+                case Protocol.Bluetooth50:
+                    return '蓝牙5.0';
+            }
+        }
     },
     {
         title: 'MAC地址',

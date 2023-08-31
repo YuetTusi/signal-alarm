@@ -43,8 +43,8 @@ const WiretapTable: FC<WiretapTableProp> = () => {
 
     useEffect(() => {
         querySpecialWiretapData(1, helper.PAGE_SIZE, {
-            beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD 00:00:00'),
-            endTime: dayjs().format('YYYY-MM-DD 23:59:59')
+            beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD HH:mm:ss'),
+            endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
         });
     }, []);
 
@@ -55,8 +55,8 @@ const WiretapTable: FC<WiretapTableProp> = () => {
         const { beginTime, endTime } = formRef.getFieldsValue();
         try {
             await querySpecialWiretapData(pageIndex, pageSize, {
-                beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                endTime: endTime.format('YYYY-MM-DD 23:59:59')
+                beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
+                endTime: endTime.format('YYYY-MM-DD HH:mm:ss')
             });
         } catch (error) {
             console.warn(error);
@@ -72,8 +72,8 @@ const WiretapTable: FC<WiretapTableProp> = () => {
     const onSearch = async (beginTime: Dayjs, endTime: Dayjs) => {
         try {
             await querySpecialWiretapData(1, helper.PAGE_SIZE, {
-                beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                endTime: endTime.format('YYYY-MM-DD 23:59:59')
+                beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
+                endTime: endTime.format('YYYY-MM-DD HH:mm:ss')
             });
         } catch (error) {
             console.warn(error);
@@ -95,8 +95,8 @@ const WiretapTable: FC<WiretapTableProp> = () => {
             });
             if (filePaths.length > 0) {
                 const data = await exportSpecialWiretapData(specialWiretapPageIndex, specialWiretapPageSize, {
-                    beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                    endTime: endTime.format('YYYY-MM-DD 23:59:59')
+                    beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
+                    endTime: endTime.format('YYYY-MM-DD HH:mm:ss')
                 });
                 await writeFile(join(filePaths[0], fileName), data);
                 modal.success({

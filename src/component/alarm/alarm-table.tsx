@@ -62,8 +62,8 @@ const AlarmTable: FC<AlarmTopProp> = () => {
     useEffect(() => {
         const { beginTime, endTime, status } = formRef.getFieldsValue();
         queryAlarmData(1, helper.PAGE_SIZE, {
-            beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-            endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+            beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
+            endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
             status
         });
     }, []);
@@ -78,8 +78,8 @@ const AlarmTable: FC<AlarmTopProp> = () => {
     const onSearch = async (beginTime: Dayjs, endTime: Dayjs, status: number) => {
         try {
             await queryAlarmData(1, helper.PAGE_SIZE, {
-                beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+                beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
+                endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
                 status
             });
         } catch (error) {
@@ -104,8 +104,8 @@ const AlarmTable: FC<AlarmTopProp> = () => {
             });
             if (filePaths.length > 0) {
                 const data = await exportAlarmData(alarmPageIndex, alarmPageSize, {
-                    beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                    endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+                    beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
+                    endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
                     status
                 });
                 await writeFile(join(filePaths[0], fileName), data);
@@ -133,8 +133,8 @@ const AlarmTable: FC<AlarmTopProp> = () => {
         const { beginTime, endTime, status } = formRef.getFieldsValue();
         try {
             queryAlarmData(pageIndex, pageSize, {
-                beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+                beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
+                endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
                 status
             });
         } catch (error) {
@@ -195,8 +195,8 @@ const AlarmTable: FC<AlarmTopProp> = () => {
             const { beginTime, endTime, status } = getFieldsValue();
             if (success) {
                 await queryAlarmData(1, helper.PAGE_SIZE, {
-                    beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                    endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+                    beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
+                    endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
                     status
                 });
                 message.success('处理成功');
@@ -222,8 +222,8 @@ const AlarmTable: FC<AlarmTopProp> = () => {
             const { beginTime, endTime, status } = getFieldsValue();
             if (success) {
                 await queryAlarmData(1, helper.PAGE_SIZE, {
-                    beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                    endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+                    beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
+                    endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
                     status
                 });
                 selectedRows.current = [];

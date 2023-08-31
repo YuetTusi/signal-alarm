@@ -27,8 +27,8 @@ const OthersTable: FC<OthersTableProp> = () => {
 
     useEffect(() => {
         querySpecialOthersData(1, helper.PAGE_SIZE, {
-            beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD 00:00:00'),
-            endTime: dayjs().format('YYYY-MM-DD 23:59:59')
+            beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD HH:mm:ss'),
+            endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
         });
     }, []);
 
@@ -57,8 +57,8 @@ const OthersTable: FC<OthersTableProp> = () => {
         const { beginTime, endTime } = formRef.getFieldsValue();
         try {
             await querySpecialOthersData(pageIndex, pageSize, {
-                beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                endTime: endTime.format('YYYY-MM-DD 23:59:59')
+                beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
+                endTime: endTime.format('YYYY-MM-DD HH:mm:ss')
             });
         } catch (error) {
             console.warn(error);
@@ -74,8 +74,8 @@ const OthersTable: FC<OthersTableProp> = () => {
     const onSearch = async (beginTime: Dayjs, endTime: Dayjs) => {
         try {
             await querySpecialOthersData(1, helper.PAGE_SIZE, {
-                beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                endTime: endTime.format('YYYY-MM-DD 23:59:59')
+                beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
+                endTime: endTime.format('YYYY-MM-DD HH:mm:ss')
             });
         } catch (error) {
             console.warn(error);
@@ -97,8 +97,8 @@ const OthersTable: FC<OthersTableProp> = () => {
             });
             if (filePaths.length > 0) {
                 const data = await exportSpecialOthersData(specialOthersPageIndex, specialOthersPageSize, {
-                    beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                    endTime: endTime.format('YYYY-MM-DD 23:59:59')
+                    beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
+                    endTime: endTime.format('YYYY-MM-DD HH:mm:ss')
                 });
                 await writeFile(join(filePaths[0], fileName), data);
                 modal.success({

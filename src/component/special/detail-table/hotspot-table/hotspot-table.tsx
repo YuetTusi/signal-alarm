@@ -51,8 +51,8 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
             1,
             helper.PAGE_SIZE,
             {
-                beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD 00:00:00'),
-                endTime: dayjs().format('YYYY-MM-DD 23:59:59'),
+                beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD HH:mm:ss'),
+                endTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
                 protocolTypes: helper.protocolToString([
                     Protocol.WiFi58G,
                     Protocol.WiFi24G
@@ -68,8 +68,8 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
         const { beginTime, endTime, type } = formRef.getFieldsValue();
         try {
             await querySpecialHotspotData(pageIndex, pageSize, {
-                beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+                beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
+                endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
                 protocolTypes: getTypes(type)
             });
 
@@ -86,8 +86,8 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
     const onSearch = async (beginTime: Dayjs, endTime: Dayjs, type: string) => {
         try {
             await querySpecialHotspotData(1, helper.PAGE_SIZE, {
-                beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                endTime: endTime.format('YYYY-MM-DD 23:59:59'),
+                beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
+                endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
                 protocolTypes: type
             });
         } catch (error) {
@@ -112,8 +112,8 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
             });
             if (filePaths.length > 0) {
                 const data = await exportSpecialHotspotData(specialHotspotPageIndex, specialHotspotPageSize, {
-                    beginTime: condition.beginTime.format('YYYY-MM-DD 00:00:00'),
-                    endTime: condition.endTime.format('YYYY-MM-DD 23:59:59'),
+                    beginTime: condition.beginTime.format('YYYY-MM-DD HH:mm:ss'),
+                    endTime: condition.endTime.format('YYYY-MM-DD HH:mm:ss'),
                     protocolTypes: getTypes(condition.type)
                 });
                 await writeFile(join(filePaths[0], fileName), data);

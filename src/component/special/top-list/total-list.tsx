@@ -39,11 +39,7 @@ const TotalList: FC<TotalListProp> = ({ data, type, loading }) => {
                     <div className="inner-row">
                         <div className="list-row-txt">
                             {
-                                `${getProtocolLabel(item.protocolType)} （
-                        ${helper.isNullOrUndefined(item?.siteName) || item?.siteName === ''
-                                    ? '-'
-                                    : item?.siteName
-                                }）`
+                                `${getProtocolLabel(item.protocolType)} （${helper.isNullOrUndefined(item?.siteName) || item?.siteName === '' ? '-' : item?.siteName}）`
                             }
                         </div>
                         <div className="list-row-val">

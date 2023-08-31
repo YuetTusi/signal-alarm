@@ -27,8 +27,8 @@ const CameraTable: FC<CameraTableProp> = () => {
 
     useEffect(() => {
         querySpecialCameraData(1, helper.PAGE_SIZE, {
-            beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD 00:00:00'),
-            endTime: dayjs().format('YYYY-MM-DD 23:59:59')
+            beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD HH:mm:ss'),
+            endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
         });
     }, []);
 
@@ -57,8 +57,8 @@ const CameraTable: FC<CameraTableProp> = () => {
         const { beginTime, endTime } = formRef.getFieldsValue();
         try {
             await querySpecialCameraData(pageIndex, pageSize, {
-                beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                endTime: endTime.format('YYYY-MM-DD 23:59:59')
+                beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
+                endTime: endTime.format('YYYY-MM-DD HH:mm:ss')
             });
         } catch (error) {
             console.warn(error);
@@ -74,8 +74,8 @@ const CameraTable: FC<CameraTableProp> = () => {
     const onSearch = async (beginTime: Dayjs, endTime: Dayjs) => {
         try {
             await querySpecialCameraData(1, helper.PAGE_SIZE, {
-                beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                endTime: endTime.format('YYYY-MM-DD 23:59:59')
+                beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
+                endTime: endTime.format('YYYY-MM-DD HH:mm:ss')
             });
         } catch (error) {
             console.warn(error);
@@ -97,8 +97,8 @@ const CameraTable: FC<CameraTableProp> = () => {
             });
             if (filePaths.length > 0) {
                 const data = await exportSpecialCameraData(specialCameraPageIndex, specialCameraPageSize, {
-                    beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
-                    endTime: endTime.format('YYYY-MM-DD 23:59:59')
+                    beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
+                    endTime: endTime.format('YYYY-MM-DD HH:mm:ss')
                 });
                 await writeFile(join(filePaths[0], fileName), data);
                 modal.success({

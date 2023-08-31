@@ -34,7 +34,6 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, selectedKeys, onBatch, onSearch
 
     const onBatchClick = (event: MouseEvent) => {
         event.preventDefault();
-        // console.log(selectedKeys);
         onBatch(selectedKeys as number[], 1, '');
     };
 
@@ -54,17 +53,19 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, selectedKeys, onBatch, onSearch
                     name="beginTime"
                     label="起始时间">
                     <DatePicker
+                        showTime={true}
                         allowClear={false}
                         inputReadOnly={true}
-                        style={{ width: '120px' }} />
+                        style={{ width: '170px' }} />
                 </Item>
                 <Item
                     name="endTime"
                     label="结束时间">
                     <DatePicker
+                        showTime={true}
                         allowClear={false}
                         inputReadOnly={true}
-                        style={{ width: '120px' }} />
+                        style={{ width: '170px' }} />
                 </Item>
                 <Item
                     name="status"
