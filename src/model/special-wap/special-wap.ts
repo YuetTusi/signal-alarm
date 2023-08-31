@@ -3,6 +3,7 @@ import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';
 import { Wap } from '@/schema/wap';
 import { Protocol } from '@/schema/protocol';
+import { QueryPage } from '@/schema/query-page';
 import { SpecialWapState } from '.';
 import { GetState, SetState } from '..';
 
@@ -61,21 +62,31 @@ const specialWap = (setState: SetState, _: GetState): SpecialWapState => ({
             params = `?` + q.join('&');
         }
         try {
-            const res = await request.get<{
-                records: Wap[],
-                total: number
-            }>(`/spi/wap/${pageIndex}/${pageSize}${params}`);
-            if (res === null) {
-                message.warning('查询失败')
-            } else if (res.code === 200) {
+
+            const res = await request.get<QueryPage<Wap>>(`/spi/wap/${pageIndex}/${pageSize}${params}`);
+            if (res === null || res.code !== 200) {
+                throw new Error('查询失败');
+            }
+
+            if (pageIndex > res.data.pages) {
+                let ret = await request.get<QueryPage>(`/spi/wap/${res.data.pages}/${pageSize}${params}`);
+                if (ret === null || ret.code !== 200) {
+                    throw new Error('查询失败');
+                } else {
+                    setState({
+                        specialWapData: ret.data.records.sort((a, b) => Number(b.rssi) - Number(a.rssi)),
+                        specialWapPageIndex: pageIndex,
+                        specialWapPageSize: pageSize,
+                        specialWapTotal: ret.data.total
+                    });
+                }
+            } else {
                 setState({
                     specialWapData: res.data.records.sort((a, b) => Number(b.rssi) - Number(a.rssi)),
                     specialWapPageIndex: pageIndex,
                     specialWapPageSize: pageSize,
                     specialWapTotal: res.data.total
                 });
-            } else {
-                message.warning(`查询失败（${res.message ?? ''}）`)
             }
         } catch (error) {
             throw error;

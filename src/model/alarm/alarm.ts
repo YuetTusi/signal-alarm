@@ -1,6 +1,7 @@
 import { message } from 'antd';
 import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';
+import { QueryPage } from '@/schema/query-page';
 import { GetState, SetState } from '..';
 import { AlarmState } from './index';
 
@@ -102,18 +103,30 @@ const alarm = (setState: SetState, _: GetState): AlarmState => ({
             params = '?' + q.join('&');
         }
         try {
-            const res = await request.get(`/warn/msg/${pageIndex}/${pageSize}${params}`);
-            if (res === null) {
-                message.warning('查询失败')
-            } else if (res.code === 200) {
+            let res = await request.get<QueryPage>(`/warn/msg/${pageIndex}/${pageSize}${params}`);
+            if (res === null || res.code !== 200) {
+                throw new Error('查询失败');
+            }
+
+            if (pageIndex > res.data.pages) {
+                let ret = await request.get<QueryPage>(`/warn/msg/${res.data.pages}/${pageSize}${params}`);
+                if (ret === null || ret.code !== 200) {
+                    throw new Error('查询失败');
+                } else {
+                    setState({
+                        alarmData: ret.data?.records ?? [],
+                        alarmPageIndex: pageIndex,
+                        alarmPageSize: pageSize,
+                        alarmTotal: ret.data?.total ?? 0
+                    });
+                }
+            } else {
                 setState({
                     alarmData: res.data?.records ?? [],
                     alarmPageIndex: pageIndex,
                     alarmPageSize: pageSize,
                     alarmTotal: res.data?.total ?? 0
                 });
-            } else {
-                message.warning(`查询失败（${res.message ?? ''}）`)
             }
         } catch (error) {
             throw error;

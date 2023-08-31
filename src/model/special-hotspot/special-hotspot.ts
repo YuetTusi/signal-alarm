@@ -5,6 +5,7 @@ import { Protocol } from '@/schema/protocol';
 import { Hotspot } from '@/schema/hotspot';
 import { SpecialHotspotState } from '.';
 import { GetState, SetState } from '..';
+import { QueryPage } from '@/schema/query-page';
 
 const specialHotspot = (setState: SetState, _: GetState): SpecialHotspotState => ({
 
@@ -48,21 +49,30 @@ const specialHotspot = (setState: SetState, _: GetState): SpecialHotspotState =>
             params = '?' + q.join('&');
         }
         try {
-            const res = await request.get<{
-                records: Hotspot[],
-                total: number
-            }>(`/spi/hotspot/${pageIndex}/${pageSize}${params}`);
-            if (res === null) {
-                message.warning('查询失败')
-            } else if (res.code === 200) {
+            const res = await request.get<QueryPage<Hotspot>>(`/spi/hotspot/${pageIndex}/${pageSize}${params}`);
+            if (res === null || res.code !== 200) {
+                throw new Error('查询失败');
+            }
+
+            if (pageIndex > res.data.pages) {
+                let ret = await request.get<QueryPage<Hotspot>>(`/spi/hotspot/${res.data.pages}/${pageSize}${params}`);
+                if (ret === null || ret.code !== 200) {
+                    throw new Error('查询失败');
+                } else {
+                    setState({
+                        specialHotspotData: ret.data.records,
+                        specialHotspotPageIndex: pageIndex,
+                        specialHotspotPageSize: pageSize,
+                        specialHotspotTotal: ret.data.total
+                    });
+                }
+            } else {
                 setState({
                     specialHotspotData: res.data.records,
                     specialHotspotPageIndex: pageIndex,
                     specialHotspotPageSize: pageSize,
                     specialHotspotTotal: res.data.total
                 });
-            } else {
-                message.warning(`查询失败（${res.message ?? ''}）`)
             }
         } catch (error) {
             throw error;

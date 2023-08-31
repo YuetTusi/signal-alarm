@@ -1,10 +1,11 @@
 import dayjs from 'dayjs';
 import { message } from 'antd';
-import { GetState, SetState } from "..";
-import { CheckReportState } from ".";
 import { helper } from "@/utility/helper";
 import { request } from '@/utility/http';
 import { QuickCheckReport } from '@/schema/quick-check-report';
+import { QueryPage } from '@/schema/query-page';
+import { GetState, SetState } from "..";
+import { CheckReportState } from ".";
 
 const checkReport = (setState: SetState, _: GetState): CheckReportState => ({
     /**
@@ -65,14 +66,25 @@ const checkReport = (setState: SetState, _: GetState): CheckReportState => ({
             params = '?' + q.join('&');
         }
         try {
-            const res = await request.get<
-                {
-                    records: QuickCheckReport[],
-                    total: number
-                }>(`/check/${pageIndex}/${pageSize}${params}`);
-            if (res === null) {
-                message.warning('查询失败')
-            } else if (res.code === 200) {
+            const res = await request.get<QueryPage<QuickCheckReport>>(`/check/${pageIndex}/${pageSize}${params}`);
+            if (res === null || res.code !== 200) {
+                throw new Error('查询失败');
+            }
+
+            if (pageIndex > res.data.pages) {
+                let ret = await request.get<QueryPage<QuickCheckReport>>(`/check/${res.data.pages}/${pageSize}${params}`);
+                if (ret === null || ret.code !== 200) {
+                    throw new Error('查询失败');
+                } else {
+                    setState({
+                        checkReportData: ret.data.records.sort((a, b) =>
+                            dayjs(b.createTime).valueOf() - dayjs(a.createTime).valueOf()),
+                        checkReportPageIndex: pageIndex,
+                        checkReportPageSize: pageSize,
+                        checkReportTotal: ret.data.total
+                    });
+                }
+            } else {
                 setState({
                     checkReportData: res.data.records.sort((a, b) =>
                         dayjs(b.createTime).valueOf() - dayjs(a.createTime).valueOf()),
@@ -80,8 +92,6 @@ const checkReport = (setState: SetState, _: GetState): CheckReportState => ({
                     checkReportPageSize: pageSize,
                     checkReportTotal: res.data.total
                 });
-            } else {
-                message.warning(`查询失败（${res.message ?? ''}）`)
             }
         } catch (error) {
             helper.log(`查询检查报告失败 @model/check-report/queryCheckReportData:${error.message}`, 'error');

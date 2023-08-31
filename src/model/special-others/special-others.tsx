@@ -5,6 +5,7 @@ import { Wap } from '@/schema/wap';
 import { Protocol } from '@/schema/protocol';
 import { SpecialOthersState } from '.';
 import { GetState, SetState } from '..';
+import { QueryPage } from '@/schema/query-page';
 
 const specialOthers = (setState: SetState, _: GetState): SpecialOthersState => ({
 
@@ -39,21 +40,30 @@ const specialOthers = (setState: SetState, _: GetState): SpecialOthersState => (
         q.push(`protocolTypes=${Protocol.Others}`);
         params = `?` + q.join('&');
         try {
-            const res = await request.get<{
-                records: Wap[],
-                total: number
-            }>(`/spi/wap/${pageIndex}/${pageSize}${params}`);
-            if (res === null) {
-                message.warning('查询失败')
-            } else if (res.code === 200) {
+            const res = await request.get<QueryPage<Wap>>(`/spi/wap/${pageIndex}/${pageSize}${params}`);
+            if (res === null || res.code !== 200) {
+                throw new Error('查询失败');
+            }
+
+            if (pageIndex > res.data.pages) {
+                let ret = await request.get<QueryPage<Wap>>(`/spi/wap/${res.data.pages}/${pageSize}${params}`);
+                if (ret === null || ret.code !== 200) {
+                    throw new Error('查询失败');
+                } else {
+                    setState({
+                        specialOthersData: ret.data.records,
+                        specialOthersPageIndex: pageIndex,
+                        specialOthersPageSize: pageSize,
+                        specialOthersTotal: ret.data.total
+                    });
+                }
+            } else {
                 setState({
                     specialOthersData: res.data.records,
                     specialOthersPageIndex: pageIndex,
                     specialOthersPageSize: pageSize,
                     specialOthersTotal: res.data.total
                 });
-            } else {
-                message.warning(`查询失败（${res.message ?? ''}）`)
             }
         } catch (error) {
             throw error;

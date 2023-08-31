@@ -1,12 +1,13 @@
 import dayjs from 'dayjs';
 import { FC, useEffect, MouseEvent } from 'react';
-import { Form, Button, DatePicker, TreeSelect } from 'antd';
+import { Form, Button, DatePicker, Select, TreeSelect } from 'antd';
 import { useModel } from '@/model';
 import { getTypeSelectSource, getTypes } from './data-source';
 import { SearchBarBox } from './styled/box';
 import { SearchBarProp } from './prop';
 
 const { Item } = Form;
+const { Option } = Select;
 
 const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
 
@@ -73,6 +74,16 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
                         listHeight={520}
                         style={{ width: '160px' }} />
                 </Item>
+                {/* <Item
+                    initialValue={-1}
+                    name="connect"
+                    label="连接状态">
+                    <Select style={{ width: '80px' }}>
+                        <Option value={-1}>全部</Option>
+                        <Option value={1}>已连接</Option>
+                        <Option value={0}>未连接</Option>
+                    </Select>
+                </Item> */}
                 <Item>
                     <Button
                         onClick={onSubmitClick}

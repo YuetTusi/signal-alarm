@@ -5,6 +5,7 @@ import { Terminal } from '@/schema/terminal';
 import { Protocol } from '@/schema/protocol';
 import { SpecialTerminalState } from '.';
 import { GetState, SetState } from '..';
+import { QueryPage } from '@/schema/query-page';
 
 const specialTerminal = (setState: SetState, _: GetState): SpecialTerminalState => ({
 
@@ -79,22 +80,30 @@ const specialTerminal = (setState: SetState, _: GetState): SpecialTerminalState 
             ])
         }
         try {
-            const res = await request.get<
-                {
-                    records: Terminal[],
-                    total: number
-                }>(`/spi/terminal/${pageIndex}/${pageSize}${params}`);
-            if (res === null) {
-                message.warning('查询失败')
-            } else if (res.code === 200) {
+            const res = await request.get<QueryPage<Terminal>>(`/spi/terminal/${pageIndex}/${pageSize}${params}`);
+            if (res === null || res.code !== 200) {
+                throw new Error('查询失败');
+            }
+
+            if (pageIndex > res.data.pages) {
+                let ret = await request.get<QueryPage<Terminal>>(`/spi/terminal/${res.data.pages}/${pageSize}${params}`);
+                if (ret === null || ret.code !== 200) {
+                    throw new Error('查询失败');
+                } else {
+                    setState({
+                        specialTerminalData: ret.data.records,
+                        specialTerminalPageIndex: pageIndex,
+                        specialTerminalPageSize: pageSize,
+                        specialTerminalTotal: ret.data.total
+                    });
+                }
+            } else {
                 setState({
                     specialTerminalData: res.data.records,
                     specialTerminalPageIndex: pageIndex,
                     specialTerminalPageSize: pageSize,
                     specialTerminalTotal: res.data.total
                 });
-            } else {
-                message.warning(`查询失败（${res.message ?? ''}）`)
             }
         } catch (error) {
             throw error;

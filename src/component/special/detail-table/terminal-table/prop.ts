@@ -45,5 +45,9 @@ export interface SearchFormValue {
     /**
      * 枚举
      */
-    type: string
+    type: string,
+    /**
+     * 连接状态
+     */
+    connect: number
 }

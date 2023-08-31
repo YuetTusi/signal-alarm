@@ -60,12 +60,13 @@ const TerminalTable: FC<TerminalTableProp> = () => {
      * 翻页Change
      */
     const onPageChange = async (pageIndex: number, pageSize: number) => {
-        const { beginTime, endTime, type } = formRef.getFieldsValue();
+        const { beginTime, endTime, type, connect } = formRef.getFieldsValue();
         try {
             await querySpecialTerminalData(pageIndex, pageSize, {
                 beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
                 endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
-                type: getTypes(type)
+                type: getTypes(type),
+                // connect
             });
         } catch (error) {
             console.warn(error);
