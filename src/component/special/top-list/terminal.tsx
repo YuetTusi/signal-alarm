@@ -17,7 +17,9 @@ const renderIcon = (data: TerminalData) => {
                 title={data.isConnect === 0 ? '设备未连接' : undefined}
                 className={data.isConnect === 0 ? 'disconnect' : undefined} />;
         case Protocol.Bluetooth50:
-            return <Bluethooth />;
+            return <Bluethooth
+                title={data.isConnect === 0 ? '设备未连接' : undefined}
+                className={data.isConnect === 0 ? 'disconnect' : undefined} />;
         default:
             return null;
     }

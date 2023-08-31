@@ -3,12 +3,12 @@ import { Spin } from 'antd';
 import { helper } from '@/utility/helper';
 import { NoWarpLabel } from '@/component/panel/panel';
 import Signal from '@/component/signal';
+import { SpecialBase } from '@/schema/special-base';
 import { Terminal as TerminalData } from '@/schema/terminal';
 import { Protocol, getProtocolLabel } from '@/schema/protocol';
+import { Terminal } from './terminal';
 import { ListBox } from './styled/box';
 import { TopListProp } from './prop';
-import { SpecialBase } from '@/schema/special-base';
-import { Terminal } from './terminal';
 
 /**
  * 终端Top10列表组件

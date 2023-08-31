@@ -23,7 +23,7 @@ const AlarmWeekChart: FC<{}> = () => {
 
     const convertData = () =>
         alarmWeekStatisData.reduce<{ days: string[], num: number[] }>((total, current) => {
-            total.days.push(dayjs(current.day).format('YYYY/M/D'));
+            total.days.push(dayjs(current.day).format('M/D'));
             total.num.push(Number(current.num));
             return total;
         }, {
