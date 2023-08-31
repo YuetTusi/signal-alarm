@@ -1,16 +1,19 @@
 import { ColumnsType } from 'antd/es/table';
 import { Wap } from '@/schema/wap';
+import { NoWarpLabel } from '@/component/panel/panel';
 
 export const getColumns = (): ColumnsType<Wap> => {
     return [{
         title: '类型',
         key: 'protocolName',
         dataIndex: 'protocolName',
+        width: 140,
+        align: 'center'
     }, {
         title: '频点',
         key: 'arfcn',
         dataIndex: 'arfcn',
-        width: 60
+        width: 80
     }, {
         title: '频点信息名称',
         key: 'arfcnName',
@@ -23,6 +26,10 @@ export const getColumns = (): ColumnsType<Wap> => {
         title: '设备地址',
         key: 'siteName',
         dataIndex: 'siteName',
+        width: 280,
+        render(val: string) {
+            return <NoWarpLabel title={val} width={270}>{val}</NoWarpLabel>;
+        }
     }, {
         title: '强度',
         key: 'rssi',

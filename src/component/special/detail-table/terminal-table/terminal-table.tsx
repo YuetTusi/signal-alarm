@@ -6,7 +6,7 @@ import { FC, useEffect } from 'react';
 import { App, message, Table } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { useModel } from '@/model';
-import { Wap } from '@/schema/wap';
+import { Terminal } from '@/schema/terminal';
 import { Protocol } from '@/schema/protocol';
 import { helper } from '@/utility/helper';
 import { SearchBar } from './search-bar';
@@ -128,7 +128,7 @@ const TerminalTable: FC<TerminalTableProp> = () => {
             formRef={formRef}
             onExport={onExport}
             onSearch={onSearch} />
-        <Table<Wap>
+        <Table<Terminal>
             columns={getColumns()}
             dataSource={specialTerminalData}
             loading={specialTerminalLoading}

@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';
-import { Wap } from '@/schema/wap';
+import { Terminal } from '@/schema/terminal';
 import { Protocol } from '@/schema/protocol';
 import { SpecialTerminalState } from '.';
 import { GetState, SetState } from '..';
@@ -81,7 +81,7 @@ const specialTerminal = (setState: SetState, _: GetState): SpecialTerminalState 
         try {
             const res = await request.get<
                 {
-                    records: Wap[],
+                    records: Terminal[],
                     total: number
                 }>(`/spi/terminal/${pageIndex}/${pageSize}${params}`);
             if (res === null) {

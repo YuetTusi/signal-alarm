@@ -1,12 +1,15 @@
 import { ColumnsType } from 'antd/es/table';
 import { Hotspot } from '@/schema/hotspot';
 import { getProtocolLabel } from '@/schema/protocol';
+import { NoWarpLabel } from '@/component/panel/panel';
 
 const getColumns = (): ColumnsType<Hotspot> => {
     return [{
         title: '类型',
         key: 'protocolType',
         dataIndex: 'protocolType',
+        width: 80,
+        align: 'center',
         render: (val: any) => {
             return getProtocolLabel(val);
         }
@@ -14,6 +17,10 @@ const getColumns = (): ColumnsType<Hotspot> => {
         title: '热点',
         key: 'ssid',
         dataIndex: 'ssid',
+        width: 160,
+        render(val: string) {
+            return <NoWarpLabel title={val} width={150}>{val}</NoWarpLabel>;
+        }
     }, {
         title: 'APID',
         key: 'apId',
@@ -22,6 +29,7 @@ const getColumns = (): ColumnsType<Hotspot> => {
         title: 'MAC地址',
         key: 'mac',
         dataIndex: 'mac',
+        width: 140
     }, {
         title: '强度值',
         key: 'rssi',
@@ -56,6 +64,10 @@ const getColumns = (): ColumnsType<Hotspot> => {
         title: '设备地址',
         key: 'siteName',
         dataIndex: 'siteName',
+        width: 160,
+        render(val: string) {
+            return <NoWarpLabel title={val} width={150}>{val}</NoWarpLabel>;
+        }
     }, {
         title: '时间',
         key: 'captureTime',

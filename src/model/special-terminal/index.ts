@@ -1,4 +1,4 @@
-import { Wap } from "@/schema/wap";
+import { Terminal } from "@/schema/terminal";
 import { specialTerminal } from './special-terminal';
 
 /**
@@ -9,7 +9,7 @@ interface SpecialTerminalState {
     /**
      * 分页数据
      */
-    specialTerminalData: Wap[],
+    specialTerminalData: Terminal[],
     /**
      * 当前页
      */
