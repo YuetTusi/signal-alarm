@@ -91,7 +91,8 @@ const Bar: FC<BarProp> = ({ xData, yData, serieName }) => {
                         smooth: true,
                         label: {
                             show: true,
-                            position: 'right',
+                            fontSize: 11,
+                            position: ['60%', '0%'],
                             formatter({ name }: Record<string, any>) {
                                 return name;
                             }
