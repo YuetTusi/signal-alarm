@@ -22,11 +22,6 @@ const init = async (isDev: boolean) => {
     } catch (error) {
         await mkdir(join(cwd, './_tmp'));
     }
-    try {
-        await access(join(cwd, './log'))
-    } catch (error) {
-        await mkdir(join(cwd, './log'));
-    }
 };
 
 export { init };

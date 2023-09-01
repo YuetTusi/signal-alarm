@@ -147,7 +147,7 @@ const helper = {
      * @param level 日志等级
      */
     log(value: string, level: 'info' | 'debug' | 'warn' | 'error' = 'info') {
-        ipcRenderer.invoke('log', value, level);
+        ipcRenderer.send('log', value, level);
     }
 };
 

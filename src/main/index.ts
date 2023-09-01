@@ -1,3 +1,4 @@
+import { mkdirSync, accessSync } from 'fs';
 import { join } from 'path';
 import { app, BrowserWindow, globalShortcut, ipcMain, IpcMainEvent } from 'electron';
 import { init } from './init';
@@ -24,8 +25,13 @@ if (!app.requestSingleInstanceLock()) {
     app.quit();
 }
 
+try {
+    accessSync(join(cwd, './logs'));
+} catch (error) {
+    mkdirSync(join(cwd, './logs'));
+}
+
 (async () => {
-    await app.whenReady();
     await init(isDev);
     // if (!isDev) {
     //     globalShortcut.register('Control+R', () => {
@@ -195,6 +201,11 @@ ipcMain.on('alarm-clean', (_: IpcMainEvent) => {
     if (mainWindow) {
         mainWindow.webContents.send('alarm-clean');
     }
+});
+
+ipcMain.on('log', (_, content: string, level: 'info' | 'debug' | 'warn' | 'error') => {
+
+    console.log('log in Main', content, level);
 });
 
 app.on('window-all-closed', () => {

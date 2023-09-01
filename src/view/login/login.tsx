@@ -20,7 +20,6 @@ import {
 } from "./styled/styled";
 import { FormValue } from "./prop";
 
-
 const cwd = process.cwd();
 const { join } = path;
 const { ipcRenderer } = electron;
