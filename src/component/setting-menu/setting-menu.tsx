@@ -27,7 +27,7 @@ const SettingMenu: FC<SettingMenuProp> = ({ onMenuAction }) => <Dropdown
     <Button
         type="primary">
         <SettingOutlined />
-        <span>系统设置</span>
+        <span>菜单</span>
     </Button>
 </Dropdown>;
 

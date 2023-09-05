@@ -3,7 +3,7 @@ import path from 'path';
 import localforage from 'localforage';
 import { useNavigate } from 'react-router-dom';
 import { FC, PropsWithChildren, MouseEvent } from 'react';
-import { LogoutOutlined } from '@ant-design/icons';
+import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { App, Button, message } from 'antd';
 import { useModel } from '@/model';
 import { closeSse } from '@/utility/sse';
@@ -87,17 +87,20 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
         <Reading />
         <div className="banner">
             <div>
-                用户: {sessionStorage.getItem(StorageKeys.User) ?? '-'}
+                <SettingMenu onMenuAction={onMenuAction} />
             </div>
             <div>
-                <SettingMenu onMenuAction={onMenuAction} />
                 <Button
                     onClick={onLogoutClick}
                     type="primary"
-                    style={{ marginLeft: '5px' }}>
+                    style={{ margin: '0 10px 0 10px' }}>
                     <LogoutOutlined />
                     <span>登出</span>
                 </Button>
+                <span>
+                    <UserOutlined style={{ marginRight: '2px' }} />
+                    {sessionStorage.getItem(StorageKeys.User) ?? '-'}
+                </span>
             </div>
         </div>
         <div className="context-box">
