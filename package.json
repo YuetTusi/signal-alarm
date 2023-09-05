@@ -29,6 +29,7 @@
 		"files": [
 			"node_modules/**/*",
 			"dist/**/*",
+			"src/main/**/*",
 			"src/renderer/timer/**/*",
 			"icon.png",
 			"package.json"

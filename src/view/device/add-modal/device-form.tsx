@@ -1,5 +1,5 @@
 import { FC, useEffect } from 'react';
-import { Button, Form, Input, Select } from 'antd';
+import { Form, Input, Select } from 'antd';
 import { IP } from '@/utility/regex';
 import { ComDevice } from '@/schema/com-device';
 import { request } from '@/utility/http';
@@ -67,7 +67,7 @@ const DeviceForm: FC<DeviceFormProp> = ({ data, formRef }) => {
         <Item
             rules={[
                 { required: true, message: '请填写设备ID' },
-                { pattern: /^\w+$/, message: '数字，英文，下划线' },
+                { pattern: /^[a-zA-Z0-9-_]+$/, message: '数字，英文' },
                 () => ({
                     validator(_, value) {
                         if (!helper.isNullOrUndefined(value)) {
@@ -80,7 +80,7 @@ const DeviceForm: FC<DeviceFormProp> = ({ data, formRef }) => {
             ]}
             name="deviceId"
             label="设备ID">
-            <Input placeholder="数字，英文，下划线；不可重复" />
+            <Input placeholder="数字，英文，下划线；不可重复" disabled={data !== undefined} />
         </Item>
         <Item
             rules={[
