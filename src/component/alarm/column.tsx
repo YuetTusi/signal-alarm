@@ -1,8 +1,14 @@
 import { Tag } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { AlarmMsg } from '@/schema/alarm-msg';
-import { ActionType } from './prop';
+import { Protocol } from '@/schema/protocol';
+import { Icon } from './icon';
 import { NoWarpLabel } from '../panel/panel';
+import { ActionType } from './prop';
+import ChinaMobile from '@/assets/image/chinamobile.png';
+import ChinaUnicom from '@/assets/image/chinaunicom.png';
+import ChinaBoardnet from '@/assets/image/chinaboardnet.png';
+import ChinaTelcom from '@/assets/image/telcom.png';
 
 type ActionHandle = (action: ActionType, record: AlarmMsg) => void;
 
@@ -98,6 +104,33 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => {
 
 const getTopColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => {
     return [{
+        title: '',
+        key: 'protocolType',
+        dataIndex: 'protocolType',
+        width: 30,
+        align: 'center',
+        render(val: Protocol) {
+            switch (val) {
+                case Protocol.ChinaMobile5G:
+                case Protocol.ChinaMobileGSM:
+                case Protocol.ChinaMobileTDDLTE:
+                    return <Icon src={ChinaMobile} />;
+                case Protocol.ChinaUnicom5G:
+                case Protocol.ChinaUnicomFDDLTE:
+                case Protocol.ChinaUnicomGSM:
+                case Protocol.ChinaUnicomWCDMA:
+                    return <Icon src={ChinaUnicom} />;
+                case Protocol.ChinaTelecom5G:
+                case Protocol.ChinaTelecomCDMA:
+                case Protocol.ChinaTelecomFDDLTE:
+                    return <Icon src={ChinaTelcom} />;
+                case Protocol.ChinaBroadnet5G:
+                    return <Icon src={ChinaBoardnet} />;
+                default:
+                    return null;
+            }
+        }
+    }, {
         title: '类型',
         key: 'protocol',
         dataIndex: 'protocol'

@@ -74,7 +74,7 @@ export const DashboardBox = styled.div`
         animation-timing-function: linear;
 
         &.center{
-            top:75px;
+            top:70px;
             left:50%;
             margin-left: -172px;
         }
