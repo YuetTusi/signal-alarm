@@ -5,6 +5,7 @@ import { request } from '@/utility/http';
 import { ComDevice } from '@/schema/com-device';
 import { GetState, SetState } from '..';
 import { DeviceState } from './index';
+import { QueryPage } from '@/schema/query-page';
 
 const device = (setState: SetState, _: GetState): DeviceState => ({
     /**
@@ -59,18 +60,30 @@ const device = (setState: SetState, _: GetState): DeviceState => ({
         message.destroy();
         setState({ deviceLoading: true });
         try {
-            const res = await request.get(`/devops/device/${pageIndex}/${pageSize}${params}`);
-            if (res === null) {
-                message.warning('查询失败');
-            } else if (res.code === 200) {
+            const res = await request.get<QueryPage<any>>(`/devops/device/${pageIndex}/${pageSize}${params}`);
+            if (res === null || res.code !== 200) {
+                throw new Error('查询失败');
+            }
+
+            if (pageIndex > res.data.pages) {
+                let ret = await request.get<QueryPage<any>>(`/devops/device/${res.data.pages}/${pageSize}${params}`);
+                if (ret === null || ret.code !== 200) {
+                    throw new Error('查询失败');
+                } else {
+                    setState({
+                        deviceData: ret.data.records,
+                        devicePageIndex: pageIndex,
+                        devicePageSize: pageSize,
+                        deviceTotal: ret.data.total
+                    });
+                }
+            } else {
                 setState({
                     deviceData: res.data.records,
                     devicePageIndex: pageIndex,
                     devicePageSize: pageSize,
                     deviceTotal: res.data.total
                 });
-            } else {
-                message.warning(`查询失败（${res.message ?? ''}）`);
             }
         } catch (error) {
             helper.log(`查询设备失败@model/device/queryDeviceData:${error.message}`, 'error');
