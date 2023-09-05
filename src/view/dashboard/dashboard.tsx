@@ -4,8 +4,7 @@ import electron, { IpcRendererEvent } from 'electron';
 import { FC, memo, useEffect, MouseEvent } from "react";
 import { Button, Typography } from "antd";
 import {
-    ClockCircleOutlined, LoadingOutlined, MobileOutlined,
-    CloseSquareOutlined
+    ClockCircleOutlined, LoadingOutlined, MobileOutlined
 } from '@ant-design/icons';
 import useModel from "@/model";
 import { helper } from '@/utility/helper';

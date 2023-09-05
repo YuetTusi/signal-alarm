@@ -92,7 +92,7 @@ const Bar: FC<BarProp> = ({ xData, yData, serieName }) => {
                         label: {
                             show: true,
                             fontSize: 11,
-                            position: ['60%', '0%'],
+                            position: [5, '0%'],
                             formatter({ name }: Record<string, any>) {
                                 return name;
                             }

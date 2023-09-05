@@ -8,7 +8,7 @@ const alarmSiteTopStatis = (setState: SetState, _: GetState): AlarmSiteTopStatis
 
     alarmSiteTopStatisData: [],
     /**
-     * 查询告警场所Top10（玫瑰图）
+     * 查询告警场所Top10（柱状图）
      */
     queryAlarmSiteTopStatisData: async () => {
         message.destroy();
@@ -18,7 +18,7 @@ const alarmSiteTopStatis = (setState: SetState, _: GetState): AlarmSiteTopStatis
             if (res === null) {
                 message.warning('查询失败');
             } else if (res.code === 200) {
-                setState({ alarmSiteTopStatisData: res.data });
+                setState({ alarmSiteTopStatisData: res.data.sort((a, b) => Number(a.num) - Number(b.num)) });
             } else {
                 message.warning(`查询失败（${res.message}）`);
             }

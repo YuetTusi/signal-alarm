@@ -9,7 +9,7 @@ interface AlarmSiteTopStatisState {
 
     alarmSiteTopStatisData: AlarmSiteTop[]
     /**
-     * 查询告警场所Top10（玫瑰图）
+     * 查询告警场所Top10（柱状图）
      */
     queryAlarmSiteTopStatisData: () => void
 }
