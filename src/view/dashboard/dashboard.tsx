@@ -19,7 +19,7 @@ import {
 } from '@/component/statis';
 import CheckReport from '@/component/check-report';
 import { DashboardBox } from "./styled/box";
-import { request } from '@/utility/http';
+// import { request } from '@/utility/http';
 
 const { ipcRenderer } = electron;
 const { Text } = Typography;
@@ -103,15 +103,15 @@ const Dashboard: FC<{}> = memo(() => {
         const hash = sessionStorage.getItem(StorageKeys.MsgKey);
         if (userId !== null && hash !== null) {
             instance(onMessage);
-            setInterval(() => {
-                request.post(`/sse/push-user`, {
-                    hash,
-                    userId,
-                    message: "{\"arfcn\":1765.0,\"captureTime\":\"2023-08-16T15:00:05\",\"deviceId\":\"RS_177\",\"protocol\":\"中国电信FDD-LTE\",\"protocolType\":7,\"rssi\":-40,\"status\":0,\"warnLevel\":1,\"warnReason\":\"中国电信FDD\"}"
-                })
-                    .then(res => console.log(res))
-                    .catch(err => console.log(err));
-            }, 1000 * 10);
+            // setInterval(() => {
+            //     request.post(`/sse/push-user`, {
+            //         hash,
+            //         userId,
+            //         message: "{\"arfcn\":1765.0,\"captureTime\":\"2023-08-16T15:00:05\",\"deviceId\":\"RS_177\",\"protocol\":\"中国电信FDD-LTE\",\"protocolType\":7,\"rssi\":-40,\"status\":0,\"warnLevel\":1,\"warnReason\":\"中国电信FDD\"}"
+            //     })
+            //         .then(res => console.log(res))
+            //         .catch(err => console.log(err));
+            // }, 1000 * 10);
         }
 
         return () => {
