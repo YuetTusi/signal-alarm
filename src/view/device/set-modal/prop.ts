@@ -24,5 +24,5 @@ export interface SetFormValue {
     /**
      * 配置内容
      */
-    su: string
+    uploadLevel: string
 }

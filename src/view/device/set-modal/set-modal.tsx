@@ -86,7 +86,7 @@ const SetModal: FC<SetModalProp> = ({
         <Form form={formRef} layout="vertical">
             <Item
                 rules={[{ required: true, message: '请填写配置' }]}
-                name="su"
+                name="uploadLevel"
                 label="配置">
                 <Input />
             </Item>

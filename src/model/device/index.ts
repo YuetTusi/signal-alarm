@@ -53,9 +53,9 @@ interface DeviceState {
     /**
      * 下发配置
      * @param data 设备数据
-     * @param su 配置内容
+     * @param uploadLevel 配置内容
      */
-    setDevice: (data: ComDevice, su: string) => Promise<RequestResult<any> | null>
+    setDevice: (data: ComDevice, uploadLevel: string) => Promise<RequestResult<any> | null>
 }
 
 export type { DeviceState };

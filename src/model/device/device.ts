@@ -127,12 +127,12 @@ const device = (setState: SetState, _: GetState): DeviceState => ({
     /**
      * 下发配置
      * @param data 设备数据
-     * @param su 配置内容
+     * @param uploadLevel 配置内容
      */
-    setDevice: async (data: ComDevice, su: string) => {
+    setDevice: async (data: ComDevice, uploadLevel: string) => {
         const param = {
             deviceId: data.deviceId,
-            su
+            uploadLevel
         };
         try {
             const res = await request.post('/devops/device/set', param);

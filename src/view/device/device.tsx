@@ -170,11 +170,11 @@ const Device: FC<DeviceProp> = () => {
      * 下发
      * @param values 表单
      */
-    const onSet = async ({ su }: SetFormValue) => {
+    const onSet = async ({ uploadLevel }: SetFormValue) => {
         message.destroy();
         if (setData.current) {
             try {
-                const res = await setDevice(setData.current, su);
+                const res = await setDevice(setData.current, uploadLevel);
                 if (res !== null && res.code === 200) {
                     await queryDeviceData(1, 15);
                     setSetModalOpen(false);
