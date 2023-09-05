@@ -3,7 +3,7 @@ import path from 'path';
 import localforage from 'localforage';
 import { useNavigate } from 'react-router-dom';
 import { FC, PropsWithChildren, MouseEvent } from 'react';
-import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import { LogoutOutlined, UserOutlined, MobileOutlined } from '@ant-design/icons';
 import { App, Button, message } from 'antd';
 import { useModel } from '@/model';
 import { closeSse } from '@/utility/sse';
@@ -88,6 +88,13 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
         <div className="banner">
             <div>
                 <SettingMenu onMenuAction={onMenuAction} />
+                <Button
+                    onClick={() => navigator('/device')}
+                    type="primary"
+                    style={{ marginLeft: '5px' }}>
+                    <MobileOutlined />
+                    <span>设备管理</span>
+                </Button>
             </div>
             <div>
                 <Button
@@ -106,7 +113,7 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
         <div className="context-box">
             {children}
         </div>
-    </LayoutBox>
+    </LayoutBox >
 };
 
 export { Layout };

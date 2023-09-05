@@ -66,3 +66,11 @@ export const NoWarpLabel = styled.div<{ width?: number }>`
     white-space: nowrap;
     text-overflow: ellipsis;
 `;
+
+export const RedText = styled.span`
+    color:#e60122;
+`;
+
+export const GrayText = styled.span`
+    color:#c1c1c1;
+`;

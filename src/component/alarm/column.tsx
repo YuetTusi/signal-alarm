@@ -3,7 +3,7 @@ import { ColumnsType } from 'antd/es/table';
 import { AlarmMsg } from '@/schema/alarm-msg';
 import { Protocol } from '@/schema/protocol';
 import { Icon } from './icon';
-import { NoWarpLabel } from '../panel/panel';
+import { GrayText, NoWarpLabel, RedText } from '../panel/panel';
 import { ActionType } from './prop';
 import ChinaMobile from '@/assets/image/chinamobile.png';
 import ChinaUnicom from '@/assets/image/chinaunicom.png';
@@ -133,20 +133,32 @@ const getTopColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => {
     }, {
         title: '类型',
         key: 'protocol',
-        dataIndex: 'protocol'
+        dataIndex: 'protocol',
+        render(val: string, record) {
+            return record.status === 0 ? <RedText>{val}</RedText> : <GrayText>{val}</GrayText>;
+        }
     }, {
         title: '告警级别',
         key: 'warnLevel',
         dataIndex: 'warnLevel',
-        width: 75
+        width: 75,
+        render(val: string, record) {
+            return record.status === 0 ? <RedText>{val}</RedText> : <GrayText>{val}</GrayText>;
+        }
     }, {
         title: '告警原因',
         key: 'warnReason',
         dataIndex: 'warnReason',
+        render(val: string, record) {
+            return record.status === 0 ? <RedText>{val}</RedText> : <GrayText>{val}</GrayText>;
+        }
     }, {
         title: '设备地址',
         key: 'siteName',
-        dataIndex: 'siteName'
+        dataIndex: 'siteName',
+        render(val: string, record) {
+            return record.status === 0 ? <RedText>{val}</RedText> : <GrayText>{val}</GrayText>;
+        }
     },
     {
         title: '时间',
@@ -154,6 +166,9 @@ const getTopColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => {
         dataIndex: 'captureTime',
         align: 'center',
         width: 150,
+        render(val: string, record) {
+            return record.status === 0 ? <RedText>{val}</RedText> : <GrayText>{val}</GrayText>;
+        }
     }, {
         title: '处理',
         key: 'read',
