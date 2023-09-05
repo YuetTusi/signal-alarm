@@ -56,7 +56,7 @@ export const DashboardBox = styled.div`
     }
 
     .phone-alarm{
-        position: relative;
+        position: absolute;
         display: inline-flex;
         flex-direction: row;
         justify-content: center;
@@ -72,13 +72,19 @@ export const DashboardBox = styled.div`
         animation-duration: .7s;
         animation-iteration-count: infinite;
         animation-timing-function: linear;
-        &>.close{
-            display: none;
-            position: absolute;
-            top:-9px;
-            right:-9px;
-            font-size: 2rem;
-            color:#fff;
+
+        &.center{
+            top:75px;
+            left:50%;
+            margin-left: -172px;
+        }
+        &.left{
+            top:280px;
+            left:20px;
+        }
+        &.right{
+            top:280px;
+            right:20px;
         }
         &:hover{
             &>.close{

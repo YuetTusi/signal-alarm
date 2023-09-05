@@ -62,10 +62,10 @@ app.on('ready', () => {
 
     mainWindow = new BrowserWindow({
         title: '文档生成',
-        width: 1440,
+        width: 1660,
         height: 900,
         minHeight: 800,
-        minWidth: 1440,
+        minWidth: 1660,
         show: true,
         frame: false,
         backgroundColor: '#02002f',
@@ -200,6 +200,12 @@ ipcMain.on('report', (_: IpcMainEvent, fileName: string) => {
 ipcMain.on('alarm-clean', (_: IpcMainEvent) => {
     if (mainWindow) {
         mainWindow.webContents.send('alarm-clean');
+    }
+});
+
+ipcMain.on('alarm-drop-all', (_: IpcMainEvent) => {
+    if (mainWindow) {
+        mainWindow.webContents.send('alarm-drop-all');
     }
 });
 

@@ -19,10 +19,34 @@ import {
 } from '@/component/statis';
 import CheckReport from '@/component/check-report';
 import { DashboardBox } from "./styled/box";
-// import { request } from '@/utility/http';
+import { request } from '@/utility/http';
 
 const { ipcRenderer } = electron;
 const { Text } = Typography;
+
+/**
+ * 返回绝对定位的类选择器名称
+ * @param index 索引
+ * @param len 报警消息数量
+ */
+const getClassName = (index: number, len: number) => {
+    switch (len) {
+        case 1:
+            return 'center';
+        case 2:
+            return index === 0 ? 'left' : 'right';
+        case 3:
+            if (index === 0) {
+                return 'center'
+            } else if (index === 1) {
+                return 'left'
+            } else {
+                return 'right'
+            }
+        default:
+            return 'hidden';
+    }
+};
 
 /**
  * 主页
@@ -37,6 +61,7 @@ const Dashboard: FC<{}> = memo(() => {
         quickCheckStop,
         queryAlarmTop10Data,
         queryQuickCheckReport,
+        setPhoneAlarmData,
         appendPhoneAlarmData,
         removePhoneAlarmData
     } = useModel(state => ({
@@ -48,6 +73,7 @@ const Dashboard: FC<{}> = memo(() => {
         quickCheckStop: state.quickCheckStop,
         queryAlarmTop10Data: state.queryAlarmTop10Data,
         queryQuickCheckReport: state.queryQuickCheckReport,
+        setPhoneAlarmData: state.setPhoneAlarmData,
         appendPhoneAlarmData: state.appendPhoneAlarmData,
         removePhoneAlarmData: state.removePhoneAlarmData
     }));
@@ -77,15 +103,15 @@ const Dashboard: FC<{}> = memo(() => {
         const hash = sessionStorage.getItem(StorageKeys.MsgKey);
         if (userId !== null && hash !== null) {
             instance(onMessage);
-            // setInterval(() => {
-            //     request.post(`/sse/push-user`, {
-            //         hash,
-            //         userId,
-            //         message: "{\"arfcn\":1765.0,\"captureTime\":\"2023-08-16T15:00:05\",\"deviceId\":\"RS_177\",\"protocol\":\"中国电信FDD-LTE\",\"protocolType\":7,\"rssi\":-40,\"status\":0,\"warnLevel\":1,\"warnReason\":\"中国电信FDD\"}"
-            //     })
-            //         .then(res => console.log(res))
-            //         .catch(err => console.log(err));
-            // }, 1000 * 10);
+            setInterval(() => {
+                request.post(`/sse/push-user`, {
+                    hash,
+                    userId,
+                    message: "{\"arfcn\":1765.0,\"captureTime\":\"2023-08-16T15:00:05\",\"deviceId\":\"RS_177\",\"protocol\":\"中国电信FDD-LTE\",\"protocolType\":7,\"rssi\":-40,\"status\":0,\"warnLevel\":1,\"warnReason\":\"中国电信FDD\"}"
+                })
+                    .then(res => console.log(res))
+                    .catch(err => console.log(err));
+            }, 1000 * 10);
         }
 
         return () => {
@@ -110,6 +136,13 @@ const Dashboard: FC<{}> = memo(() => {
         });
     };
 
+    /**
+     * 清空所有报警消息
+     */
+    const alarmDropAll = (_: IpcRendererEvent) => {
+        setPhoneAlarmData([]);
+    };
+
     useEffect(() => {
 
         ipcRenderer.on('alarm-clean', alarmClean);
@@ -119,11 +152,15 @@ const Dashboard: FC<{}> = memo(() => {
         };
     }, [alarmClean]);
 
-    /**
-     * 移除报警信息
-     */
-    const onPhoneAlarmDelete = (id: string) =>
-        removePhoneAlarmData(id);
+    useEffect(() => {
+
+        ipcRenderer.on('alarm-drop-all', alarmDropAll);
+
+        return () => {
+            ipcRenderer.off('alarm-drop-all', alarmDropAll);
+        };
+    }, [alarmClean]);
+
 
     const onCheckClick = debounce(async (event: MouseEvent) => {
         event.preventDefault();
@@ -144,8 +181,11 @@ const Dashboard: FC<{}> = memo(() => {
         }
     }, 1000, { leading: true, trailing: false });
 
-    const renderPhoneAlarm = () =>
-        phoneAlarmData.map(
+    const renderPhoneAlarm = () => {
+
+        const top3 = phoneAlarmData.slice(0, 3); //只取前3个报警信息
+        const len = top3.length;
+        return top3.map(
             (item, index) => {
                 let data: Record<string, any> = {};
                 try {
@@ -157,14 +197,7 @@ const Dashboard: FC<{}> = memo(() => {
                 } catch (error) {
                     console.warn('推送message转换JSON失败', error.message);
                 }
-                return <div className="phone-alarm" key={`PA_${index}`}>
-                    <Button
-                        onClick={() => onPhoneAlarmDelete(item.id)}
-                        type="link"
-                        className="close"
-                        title="关闭">
-                        <CloseSquareOutlined />
-                    </Button>
+                return <div className={`phone-alarm ${getClassName(index, len)}`} key={`PA_${index}`}>
                     <div className="icon">
                         <MobileOutlined />
                     </div>
@@ -180,6 +213,7 @@ const Dashboard: FC<{}> = memo(() => {
                 </div>;
             }
         );
+    };
 
     return <DashboardBox>
         <div className="left-box">
