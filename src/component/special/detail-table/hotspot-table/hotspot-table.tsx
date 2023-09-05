@@ -147,7 +147,8 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
                 onChange: onPageChange,
                 total: specialHotspotTotal,
                 current: specialHotspotPageIndex,
-                pageSize: specialHotspotPageSize
+                pageSize: specialHotspotPageSize,
+                showSizeChanger: false
             }}
             scroll={{ x: 'max-content' }}
             rowKey="id"

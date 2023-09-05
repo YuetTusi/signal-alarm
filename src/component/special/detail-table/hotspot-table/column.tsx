@@ -17,7 +17,7 @@ const getColumns = (): ColumnsType<Hotspot> => {
         title: '热点',
         key: 'ssid',
         dataIndex: 'ssid',
-        width: 160,
+        width: 140,
         render(val: string) {
             return <NoWarpLabel title={val} width={150}>{val}</NoWarpLabel>;
         }
