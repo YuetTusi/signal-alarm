@@ -7,7 +7,7 @@ export const getColumns = (): ColumnsType<Wap> => {
         title: '类型',
         key: 'protocolName',
         dataIndex: 'protocolName',
-        width: 140,
+        width: 160,
         align: 'center'
     }, {
         title: '频点',
@@ -19,9 +19,15 @@ export const getColumns = (): ColumnsType<Wap> => {
         key: 'arfcnName',
         dataIndex: 'arfcnName',
     }, {
+        title: '强度',
+        key: 'rssi',
+        dataIndex: 'rssi',
+        width: 60
+    }, {
         title: '设备ID',
         key: 'deviceId',
         dataIndex: 'deviceId',
+        width: 120
     }, {
         title: '设备地址',
         key: 'siteName',
@@ -30,11 +36,6 @@ export const getColumns = (): ColumnsType<Wap> => {
         render(val: string) {
             return <NoWarpLabel title={val} width={270}>{val}</NoWarpLabel>;
         }
-    }, {
-        title: '强度',
-        key: 'rssi',
-        dataIndex: 'rssi',
-        width: 60
     }, {
         title: '时间',
         key: 'captureTime',

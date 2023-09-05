@@ -56,6 +56,7 @@ const getColumns = (): ColumnsType<Terminal> => {
         title: '设备ID',
         key: 'deviceId',
         dataIndex: 'deviceId',
+        width: 120
     }, {
         title: '设备地址',
         key: 'siteName',

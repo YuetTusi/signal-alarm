@@ -1,12 +1,15 @@
 import { ColumnsType } from 'antd/es/table';
 import { Wap } from '@/schema/wap';
 import { getProtocolLabel } from '@/schema/protocol';
+import { NoWarpLabel } from '@/component/panel/panel';
 
 const getColumns = (): ColumnsType<Wap> => {
     return [{
         title: '类型',
         key: 'protocolName',
         dataIndex: 'protocolName',
+        width: 160,
+        align: 'center'
     }, {
         title: '频点',
         key: 'arfcn',
@@ -17,18 +20,23 @@ const getColumns = (): ColumnsType<Wap> => {
         key: 'arfcnName',
         dataIndex: 'arfcnName',
     }, {
-        title: '设备ID',
-        key: 'deviceId',
-        dataIndex: 'deviceId',
-    }, {
-        title: '设备地址',
-        key: 'siteName',
-        dataIndex: 'siteName',
-    }, {
         title: '强度',
         key: 'rssi',
         dataIndex: 'rssi',
         width: 60
+    }, {
+        title: '设备ID',
+        key: 'deviceId',
+        dataIndex: 'deviceId',
+        width: 120
+    }, {
+        title: '设备地址',
+        key: 'siteName',
+        dataIndex: 'siteName',
+        width: 280,
+        render(val: string) {
+            return <NoWarpLabel title={val} width={270}>{val}</NoWarpLabel>;
+        }
     }, {
         title: '时间',
         key: 'captureTime',
