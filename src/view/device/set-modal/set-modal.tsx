@@ -1,9 +1,10 @@
 import { FC, MouseEvent, useEffect } from 'react';
-import { Button, Modal, Form, Input, Descriptions, Tag } from 'antd';
+import { Button, Modal, Form, Input, Descriptions, Tag, Select } from 'antd';
 import { DeviceState } from '@/schema/com-device';
 import { DescBox } from './styled/box';
 import { SetFormValue, SetModalProp } from './prop';
 
+const { Option } = Select;
 const { Item, useForm } = Form;
 
 /**
@@ -85,10 +86,14 @@ const SetModal: FC<SetModalProp> = ({
         {renderDesc()}
         <Form form={formRef} layout="vertical">
             <Item
-                rules={[{ required: true, message: '请填写配置' }]}
+                rules={[{ required: true, message: '请选择配置' }]}
                 name="uploadLevel"
                 label="配置">
-                <Input />
+                <Select>
+                    <Option value="-70">-70（低）</Option>
+                    <Option value="-55">-55（中）</Option>
+                    <Option value="-40">-40（高）</Option>
+                </Select>
             </Item>
         </Form>
     </Modal>
