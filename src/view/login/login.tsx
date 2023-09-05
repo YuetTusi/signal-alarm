@@ -19,6 +19,7 @@ import {
     BackgroundBox, LoginBox, LoginOuterBox
 } from "./styled/styled";
 import { FormValue } from "./prop";
+// import { log } from '@/utility/log';
 
 const cwd = process.cwd();
 const { join } = path;
@@ -204,6 +205,7 @@ const Login: FC<{}> = () => {
                                 <Col span={12}>
                                     <Button
                                         onClick={() => {
+                                            // log.info('这是一个测试');
                                             setLoginRemember(false);
                                             formRef.resetFields();
                                         }}

@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { message } from 'antd';
 import { helper } from "@/utility/helper";
 import { request } from '@/utility/http';
+import { log } from '@/utility/log';
 import { QuickCheckReport } from '@/schema/quick-check-report';
 import { QueryPage } from '@/schema/query-page';
 import { GetState, SetState } from "..";
@@ -94,7 +95,7 @@ const checkReport = (setState: SetState, _: GetState): CheckReportState => ({
                 });
             }
         } catch (error) {
-            helper.log(`查询检查报告失败 @model/check-report/queryCheckReportData:${error.message}`, 'error');
+            log.error(`查询检查报告失败 @model/check-report/queryCheckReportData:${error.message}`);
             throw error;
         } finally {
             setState({ checkReportLoading: false });

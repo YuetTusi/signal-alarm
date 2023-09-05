@@ -6,6 +6,7 @@ import { MouseEvent } from 'react';
 import { Button, message } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { QuickCheckReport } from '@/schema/quick-check-report';
+import { log } from '@/utility/log';
 import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';
 
@@ -33,7 +34,7 @@ const getColumns = (onDownload: (report: QuickCheckReport) => void) => [{
             });
             // ipcRenderer.send('report', fileName + '.pdf');
         } catch (error) {
-            helper.log(`打开pdf报告失败 @component/check-report/column/getColumns:${error.message}`);
+            log.error(`打开pdf报告失败 @component/check-report/column/getColumns:${error.message}`);
             message.destroy();
             message.warning('查看报告失败');
         }

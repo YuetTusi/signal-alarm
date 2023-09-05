@@ -7,6 +7,7 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { DownloadOutlined, SearchOutlined, LoadingOutlined } from '@ant-design/icons';
 import { App, Button, Empty, Spin } from 'antd';
 import { useModel } from '@/model';
+import { log } from '@/utility/log';
 import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';
 import { DisplayPanel } from '@/component/panel';
@@ -63,7 +64,7 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
             });
             // ipcRenderer.send('report', fileName + '.pdf');
         } catch (error) {
-            helper.log(`打开pdf报告失败 @component/check-report/check-report:${error.message}`);
+            log.error(`打开pdf报告失败 @component/check-report/check-report:${error.message}`);
             modal.warning({
                 title: '失败',
                 content: '加载报告失败',
