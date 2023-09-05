@@ -72,5 +72,5 @@ export const RedText = styled.span`
 `;
 
 export const GrayText = styled.span`
-    color:#c1c1c1;
+    color:#707070;
 `;
