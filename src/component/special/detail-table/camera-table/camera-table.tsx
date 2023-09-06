@@ -128,7 +128,8 @@ const CameraTable: FC<CameraTableProp> = () => {
                 total: specialCameraTotal,
                 current: specialCameraPageIndex,
                 pageSize: specialCameraPageSize,
-                showSizeChanger: false
+                showSizeChanger: false,
+                showTotal: (total) => `共${total}条`
             }}
             scroll={{ x: 'max-content' }}
             rowKey="id"

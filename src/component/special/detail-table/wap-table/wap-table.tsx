@@ -154,7 +154,8 @@ const WapTable: FC<WapTableProp> = ({ parentOpen }) => {
                 total: specialWapTotal,
                 current: specialWapPageIndex,
                 pageSize: specialWapPageSize,
-                showSizeChanger: false
+                showSizeChanger: false,
+                showTotal: (total) => `共${total}条`
             }}
             rowKey="id"
         />

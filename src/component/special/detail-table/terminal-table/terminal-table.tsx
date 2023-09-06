@@ -138,7 +138,8 @@ const TerminalTable: FC<TerminalTableProp> = () => {
                 total: specialTerminalTotal,
                 current: specialTerminalPageIndex,
                 pageSize: specialTerminalPageSize,
-                showSizeChanger: false
+                showSizeChanger: false,
+                showTotal: (total) => `共${total}条`
             }}
             scroll={{ x: 'max-content' }}
             rowKey="id"

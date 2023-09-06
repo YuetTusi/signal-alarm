@@ -126,7 +126,8 @@ const WiretapTable: FC<WiretapTableProp> = () => {
                 total: specialWiretapTotal,
                 current: specialWiretapPageIndex,
                 pageSize: specialWiretapPageSize,
-                showSizeChanger: false
+                showSizeChanger: false,
+                showTotal: (total) => `共${total}条`
             }}
             scroll={{ x: 'max-content' }}
             rowKey="id"

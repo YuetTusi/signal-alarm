@@ -240,7 +240,8 @@ const Device: FC<DeviceProp> = () => {
                     current: devicePageIndex,
                     pageSize: devicePageSize,
                     total: deviceTotal,
-                    showSizeChanger: false
+                    showSizeChanger: false,
+                    showTotal: (total) => `共${total}条`
                 }}
             />
         </TableBox>

@@ -254,7 +254,8 @@ const AlarmTable: FC<AlarmTopProp> = () => {
                     current: alarmPageIndex,
                     pageSize: alarmPageSize,
                     total: alarmTotal,
-                    showSizeChanger: true
+                    showSizeChanger: true,
+                    showTotal: (total) => `共${total}条`
                 }}
                 rowSelection={{
                     type: 'checkbox',

@@ -109,7 +109,8 @@ const ReportTable: FC<{}> = () => {
                 current: checkReportPageIndex,
                 pageSize: checkReportPageSize,
                 total: checkReportTotal,
-                showSizeChanger: false
+                showSizeChanger: false,
+                showTotal: (total) => `共${total}条`
             }}
             columns={getColumns(onDownload)}
             dataSource={checkReportData}

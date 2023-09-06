@@ -148,7 +148,8 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
                 total: specialHotspotTotal,
                 current: specialHotspotPageIndex,
                 pageSize: specialHotspotPageSize,
-                showSizeChanger: false
+                showSizeChanger: false,
+                showTotal: (total) => `共${total}条`
             }}
             scroll={{ x: 'max-content' }}
             rowKey="id"

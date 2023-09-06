@@ -128,7 +128,8 @@ const OthersTable: FC<OthersTableProp> = () => {
                 total: specialOthersTotal,
                 current: specialOthersPageIndex,
                 pageSize: specialOthersPageSize,
-                showSizeChanger: false
+                showSizeChanger: false,
+                showTotal: (total) => `共${total}条`
             }}
             scroll={{ x: 'max-content' }}
             rowKey="id"
