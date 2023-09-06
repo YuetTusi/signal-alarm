@@ -9,6 +9,10 @@ interface DeviceState {
      */
     deviceData: ComDevice[],
     /**
+     * 设备下拉数据
+     */
+    deviceList: ComDevice[],
+    /**
      * 页码
      */
     devicePageIndex: number,
@@ -29,12 +33,20 @@ interface DeviceState {
      */
     setDevicePage: (pageIndex: number, pageSize: number, total: number) => void,
     /**
+     * 设置设备分页数据
+     */
+    setDeviceList: (payload: ComDevice[]) => void,
+    /**
      * 查询设备数据
      * @param pageIndex 当前页
      * @param pageSize 页尺寸
      * @param condition 条件
      */
     queryDeviceData: (pageIndex: number, pageSize: number, condition?: Record<string, any>) => void,
+    /**
+     * 查询设备下拉数据
+     */
+    queryDeviceList: () => void,
     /**
      * 添加设备
      * @param payload 数据

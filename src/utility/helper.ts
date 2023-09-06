@@ -3,9 +3,10 @@ import fs from 'fs';
 import crypto from 'crypto';
 import electron from 'electron';
 import dayjs from "dayjs";
-import memoize from 'lodash/memoize';
 import { v4 } from 'uuid';
+import memoize from 'lodash/memoize';
 import { Protocol } from '@/schema/protocol';
+import { ComDevice } from '@/schema/com-device';
 
 const { join } = path;
 const { access, readFile, writeFile } = fs.promises;
@@ -148,6 +149,13 @@ const helper = {
      */
     log(value: string, level: 'info' | 'debug' | 'warn' | 'error' = 'info') {
         ipcRenderer.send('log', value, level);
+    },
+    /**
+     * 转为设备下拉数据（以场所树型显示）
+     * @param data 设备数据
+     */
+    toDeviceDropdown(data: ComDevice[]) {
+
     }
 };
 

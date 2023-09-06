@@ -18,9 +18,9 @@ const init = async (isDev: boolean) => {
     }
 
     try {
-        await access(join(cwd, './_tmp'));
+        await access('C:/_signal_tmp');
     } catch (error) {
-        await mkdir(join(cwd, './_tmp'));
+        await mkdir('C:/_signal_tmp');
     }
 };
 

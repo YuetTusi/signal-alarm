@@ -14,6 +14,10 @@ const device = (setState: SetState, _: GetState): DeviceState => ({
      */
     deviceData: [],
     /**
+     * 设备下拉数据
+     */
+    deviceList: [],
+    /**
      * 页码
      */
     devicePageIndex: 1,
@@ -38,6 +42,12 @@ const device = (setState: SetState, _: GetState): DeviceState => ({
             devicePageSize: pageSize,
             deviceTotal: total
         });
+    },
+    /**
+     * 设置设备分页数据
+     */
+    setDeviceList: (payload: ComDevice[]) => {
+        setState({ deviceList: payload });
     },
     /**
      * 查询设备数据
@@ -91,6 +101,25 @@ const device = (setState: SetState, _: GetState): DeviceState => ({
             message.warning(`查询失败（${error.message ?? ''}）`);
         } finally {
             setState({ deviceLoading: false });
+        }
+    },
+    /**
+     * 查询设备下拉数据
+     */
+    async queryDeviceList() {
+        try {
+            const res = await request.get<ComDevice[]>('/devops/device/list');
+            if (res === null) {
+                setState({ deviceList: [] });
+                return;
+            }
+            if (res.code === 200) {
+                setState({ deviceList: res.data });
+            } else {
+                setState({ deviceList: [] });
+            }
+        } catch (error) {
+            log.error(`查询设备下拉失败@model/device/queryDeviceList():${error.message}`);
         }
     },
     /**

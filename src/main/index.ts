@@ -191,9 +191,9 @@ ipcMain.on('report', (_: IpcMainEvent, fileName: string) => {
             reportWindow = null;
         });
         reportWindow.setMenu(null);
-        reportWindow.loadFile(join(cwd, '_tmp', fileName));
+        reportWindow.loadFile(join('C:/_signal_tmp', fileName));
     } else {
-        reportWindow.loadFile(join(cwd, '_tmp', fileName));
+        reportWindow.loadFile(join('C:/_signal_tmp', fileName));
     }
 });
 

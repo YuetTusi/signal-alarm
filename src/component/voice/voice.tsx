@@ -18,7 +18,7 @@ const Voice: FC<VoiceProp> = () => {
     useEffect(() => {
         //当有报警数据，播放报警音
         if ($audio.current !== null) {
-            phoneAlarmData.length === 0 ? $audio.current.pause() : $audio.current.play();
+            // phoneAlarmData.length === 0 ? $audio.current.pause() : $audio.current.play();
         }
     }, [phoneAlarmData]);
 
@@ -26,7 +26,7 @@ const Voice: FC<VoiceProp> = () => {
         <audio
             ref={$audio}
             src={alarm}
-            autoPlay={false}
+            // autoPlay={false}
             loop={true} />
     </VoiceBox>
 };

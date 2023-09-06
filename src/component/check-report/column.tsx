@@ -22,12 +22,12 @@ const getColumns = (onDownload: (report: QuickCheckReport) => void) => [{
     render: (val: string, record) => <Button onClick={async (_: MouseEvent<HTMLElement>) => {
         const fileName = basename(record.url, '.pdf');
         try {
-            const exist = await helper.existFile(path.join(cwd, './_tmp'));
+            const exist = await helper.existFile('C:/_signal_tmp');
             if (!exist) {
-                await mkdir(join(cwd, './_tmp'));
+                await mkdir('C:/_signal_tmp');
             }
             const chunk = await request.attachment(record.url);
-            const pdf = join(cwd, '_tmp', fileName + '.pdf');
+            const pdf = join('C:/_signal_tmp', fileName + '.pdf');
             await writeFile(pdf, chunk);
             shell.openExternal(pdf, {
                 activate: true

@@ -44,7 +44,7 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
                     closeSse();
                     await logout();
                     await localforage.clear();
-                    await rm(path.join(cwd, './_tmp'), { recursive: true });
+                    await rm('C:/_signal_tmp', { recursive: true });
                     sessionStorage.clear();
                     message.success(`用户${loginUserName}已登出`);
                     navigator('/');

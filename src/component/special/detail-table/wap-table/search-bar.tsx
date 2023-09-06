@@ -1,9 +1,8 @@
 import dayjs from 'dayjs';
+import keyBy from 'lodash/keyBy';
 import { FC, useEffect, MouseEvent } from 'react';
 import { Form, Button, DatePicker, TreeSelect } from 'antd';
-import useModel from '@/model';
-import { helper } from '@/utility/helper';
-import { Protocol } from '@/schema/protocol';
+import { useModel } from '@/model';
 import { SearchBarBox } from './styled/box';
 import { getTypeSelectSource, getTypes } from './data-source';
 import { SearchBarProp } from './prop';
@@ -15,10 +14,18 @@ const SearchBar: FC<SearchBarProp> = ({
 }) => {
 
     const {
-        specialWapTotal
+        specialWapTotal,
+        deviceList,
+        queryDeviceList
     } = useModel(state => ({
-        specialWapTotal: state.specialWapTotal
+        specialWapTotal: state.specialWapTotal,
+        deviceList: state.deviceList,
+        queryDeviceList: state.queryDeviceList
     }));
+
+    useEffect(() => {
+        queryDeviceList();
+    }, []);
 
     useEffect(() => {
         if (parentOpen) {
@@ -29,6 +36,11 @@ const SearchBar: FC<SearchBarProp> = ({
             });
         }
     }, [parentOpen, formRef]);
+
+    useEffect(() => {
+        console.clear();
+        console.log(keyBy(deviceList, 'siteName'));
+    }, [deviceList]);
 
     /**
      * 查询Click

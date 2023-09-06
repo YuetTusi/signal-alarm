@@ -52,12 +52,12 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
         setLoading(true);
         const fileName = basename(report.url, '.pdf');
         try {
-            const exist = await helper.existFile(path.join(cwd, './_tmp'));
+            const exist = await helper.existFile('C:/_signal_tmp');
             if (!exist) {
-                await mkdir(join(cwd, './_tmp'));
+                await mkdir('C:/_signal_tmp');
             }
             const chunk = await request.attachment(report.url);
-            const pdf = join(cwd, '_tmp', fileName + '.pdf');
+            const pdf = join('C:/_signal_tmp', fileName + '.pdf');
             await writeFile(pdf, chunk);
             await shell.openExternal(pdf, {
                 activate: true

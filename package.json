@@ -22,12 +22,10 @@
 		"asar": true,
 		"asarUnpack": [
 			"dist/assets/**/*",
-			"dist/src/main/**/*",
 			"src/renderer/timer/**/*",
 			"dist/index.html"
 		],
 		"files": [
-			"node_modules/**/*",
 			"dist/**/*",
 			"src/main/**/*",
 			"src/renderer/timer/**/*",
