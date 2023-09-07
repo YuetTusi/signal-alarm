@@ -1,4 +1,5 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef } from 'react';
+import { useModel } from '@/model';
 import { DisplayPanel } from '@/component/panel';
 import { DetailModal } from './detail-modal';
 import { AlarmTop } from './alarm-top';
@@ -11,8 +12,14 @@ var scrollTimer: any = null;
  */
 const AlarmInfo: FC<{}> = () => {
 
-    const [detailModalOpen, setDetailModalOpen] = useState<boolean>(false);
     const scrollBox = useRef<HTMLDivElement>(null);
+    const {
+        alarmDetailModalOpen,
+        setAlarmDetailModalOpen
+    } = useModel(state => ({
+        alarmDetailModalOpen: state.alarmDetailModalOpen,
+        setAlarmDetailModalOpen: state.setAlarmDetailModalOpen
+    }));
 
     const doScroll = () => {
         const { current } = scrollBox;
@@ -69,7 +76,7 @@ const AlarmInfo: FC<{}> = () => {
             <div className="caption">
                 <span>预警信息</span>
                 <a
-                    onClick={() => setDetailModalOpen(true)}
+                    onClick={() => setAlarmDetailModalOpen(true)}
                     style={{ color: '#fff' }}>更多</a>
             </div>
             <FixContentBox ref={scrollBox}>
@@ -77,8 +84,8 @@ const AlarmInfo: FC<{}> = () => {
             </FixContentBox>
         </DisplayPanel>
         <DetailModal
-            open={detailModalOpen}
-            onCancel={() => setDetailModalOpen(false)} />
+            open={alarmDetailModalOpen}
+            onCancel={() => setAlarmDetailModalOpen(false)} />
     </AlarmInfoBox>;
 };
 

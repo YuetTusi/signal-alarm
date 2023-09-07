@@ -1,32 +1,9 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, MouseEvent } from 'react';
 import { MenuOutlined } from '@ant-design/icons';
 import { Button, Dropdown } from 'antd';
 import { useModel } from '@/model';
 import { SystemMenu } from '@/schema/system-menu';
 import { SettingMenuAction, SettingMenuProp } from './prop';
-
-/**
- * 转为组件菜单数据
- * @param data 菜单数据
- */
-const toMenu = (data: SystemMenu[]): any[] => {
-    let menu: any[] = [];
-    for (let i = 0; i < data.length; i++) {
-        if (data[i].children && data[i].children.length > 0) {
-            menu.push({
-                key: `SysMenu_${data[i].id}`,
-                label: data[i].name,
-                children: toMenu(data[i].children)
-            })
-        } else {
-            menu.push({
-                key: `SysMenu_${data[i].id}`,
-                label: data[i].name
-            });
-        }
-    }
-    return menu;
-};
 
 /**
  * 系统设置下拉菜单
@@ -35,15 +12,68 @@ const SettingMenu: FC<SettingMenuProp> = ({ onMenuAction }) => {
 
     const {
         sysMenuData,
+        setAlarmDetailModalOpen,
+        setQuickCheckReportDetailModalOpen,
+        setSpecialDetailModalOpen,
         querySysMenuData
     } = useModel(state => ({
         sysMenuData: state.sysMenuData,
+        setAlarmDetailModalOpen: state.setAlarmDetailModalOpen,
+        setQuickCheckReportDetailModalOpen: state.setQuickCheckReportDetailModalOpen,
+        setSpecialDetailModalOpen: state.setSpecialDetailModalOpen,
         querySysMenuData: state.querySysMenuData
     }));
 
     useEffect(() => {
         querySysMenuData();
     }, []);
+
+    const onMenuItemClick = ({ type, path }: SystemMenu) => {
+        console.clear();
+        console.log(path);
+        if (type !== 1) {
+            return;
+        }
+        switch (path) {
+            case 'spiSearch':
+                setSpecialDetailModalOpen(true);
+                break;
+            case 'warnSearch':
+                setAlarmDetailModalOpen(true);
+                break;
+            case 'checkReport':
+                setQuickCheckReportDetailModalOpen(true);
+                break;
+        }
+    };
+
+    /**
+     * 转为组件菜单数据
+     * @param data 菜单数据
+     */
+    const toMenu = (data: SystemMenu[]): any[] => {
+        let menu: any[] = [];
+        const next = data
+            .filter(i => i.type >= 0 && i.type < 2)
+            .sort((a, b) => a.sortValue - b.sortValue);
+        //菜单项只取前2层，按sortValue正序排序
+        for (let i = 0; i < next.length; i++) {
+
+            if (next[i].children && next[i].children.length > 0) {
+                menu.push({
+                    key: `SysMenu_${next[i].id}`,
+                    label: <a onClick={() => onMenuItemClick(next[i])}>{next[i].name}</a>,
+                    children: toMenu(next[i].children)
+                })
+            } else {
+                menu.push({
+                    key: `SysMenu_${next[i].id}`,
+                    label: <a onClick={() => onMenuItemClick(next[i])}>{next[i].name}</a>
+                });
+            }
+        }
+        return menu;
+    };
 
     return <Dropdown
         menu={{

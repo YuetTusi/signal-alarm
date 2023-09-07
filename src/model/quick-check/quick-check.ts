@@ -15,6 +15,10 @@ const quickCheck = (setState: SetState, getState: GetState): QuickCheckState => 
      */
     quickCheckReportLoading: false,
     /**
+     * 打开/关闭报告详情框
+     */
+    quickCheckReportDetailModalOpen: false,
+    /**
      * 检测任务id
      */
     quickCheckTaskId: '',
@@ -37,6 +41,12 @@ const quickCheck = (setState: SetState, getState: GetState): QuickCheckState => 
      */
     setQuickCheckReportLoading: (loading: boolean) => {
         setState({ quickCheckReportLoading: loading });
+    },
+    /**
+     * 打开/关闭报告详情框
+     */
+    setQuickCheckReportDetailModalOpen(open: boolean) {
+        setState({ quickCheckReportDetailModalOpen: open });
     },
     /**
      * 设置检测任务id

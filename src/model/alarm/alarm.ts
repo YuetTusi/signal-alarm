@@ -7,6 +7,10 @@ import { AlarmState } from './index';
 
 const alarm = (setState: SetState, _: GetState): AlarmState => ({
     /**
+     * 详情框打开/关闭
+     */
+    alarmDetailModalOpen: false,
+    /**
      * Top10数据
      */
     alarmTop10Data: [],
@@ -34,6 +38,12 @@ const alarm = (setState: SetState, _: GetState): AlarmState => ({
      * 加载中
      */
     alarmLoading: false,
+    /**
+     * 设置详情框打开/关闭
+     */
+    setAlarmDetailModalOpen(payload: boolean) {
+        setState({ alarmDetailModalOpen: payload });
+    },
     /**
      * 更新加载中状态
      * @param payload 

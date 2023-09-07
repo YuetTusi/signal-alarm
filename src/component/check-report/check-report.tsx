@@ -16,7 +16,6 @@ import { ReportDetailModal } from './report-detail-modal';
 import { EmptyBox, ReportBox, ScrollBox } from './styled/box';
 import { CheckReportProp } from './prop';
 
-const cwd = process.cwd();
 const { basename, join } = path;
 const { ipcRenderer, shell } = electron;
 const { mkdir, writeFile } = fs.promises;
@@ -29,15 +28,18 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
     const {
         quickCheckReportLoading,
         quickCheckReportList,
+        quickCheckReportDetailModalOpen,
+        setQuickCheckReportDetailModalOpen,
         queryQuickCheckReport
     } = useModel((state) => ({
         quickCheckReportLoading: state.quickCheckReportLoading,
         quickCheckReportList: state.quickCheckReportList,
+        quickCheckReportDetailModalOpen: state.quickCheckReportDetailModalOpen,
+        setQuickCheckReportDetailModalOpen: state.setQuickCheckReportDetailModalOpen,
         queryQuickCheckReport: state.queryQuickCheckReport
     }));
 
     const [loading, setLoading] = useState<boolean>(false);
-    const [reportDetailModalOpen, setReportDetailModalOpen] = useState<boolean>(false);
     const { modal } = App.useApp();
     const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -176,7 +178,7 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
         <div className="caption">
             <span>检查报告</span>
             <a
-                onClick={() => setReportDetailModalOpen(true)}
+                onClick={() => setQuickCheckReportDetailModalOpen(true)}
                 style={{ color: '#fff' }}>更多</a>
         </div>
         <div className="content">
@@ -195,8 +197,8 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
             </Spin>
         </div>
         <ReportDetailModal
-            onCancel={() => setReportDetailModalOpen(false)}
-            open={reportDetailModalOpen} />
+            onCancel={() => setQuickCheckReportDetailModalOpen(false)}
+            open={quickCheckReportDetailModalOpen} />
     </DisplayPanel>;
 };
 

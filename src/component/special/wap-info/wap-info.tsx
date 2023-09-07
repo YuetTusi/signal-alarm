@@ -93,7 +93,6 @@ const toTabItem = (data: SpecialBase[], type: SpiTab, loading: boolean) => [{
  */
 const WapInfo: FC<WapInfoProp> = ({ }) => {
 
-    const [detailModalOpen, setDetailModalOpen] = useState<boolean>(false);
     const [activeKey, setActiveKey] = useState<string>(SpiTab.All);
 
     const {
@@ -102,6 +101,8 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
         specialHotsportTopData,
         specialTerminalTopData,
         specialWiretapTopData,
+        specialDetailModalOpen,
+        setSpecialDetailModalOpen,
         clearAllTopData,
         getAllTopData,
         querySpecialWapTopData,
@@ -114,6 +115,8 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
         specialHotsportTopData: state.specialHotsportTopData,
         specialTerminalTopData: state.specialTerminalTopData,
         specialWiretapTopData: state.specialWiretapTopData,
+        specialDetailModalOpen: state.specialDetailModalOpen,
+        setSpecialDetailModalOpen: state.setSpecialDetailModalOpen,
         clearAllTopData: state.clearAllTopData,
         getAllTopData: state.getAllTopData,
         querySpecialWapTopData: state.querySpecialWapTopData,
@@ -259,7 +262,7 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
             <div className="caption">
                 <span>专项检查Top10</span>
                 <a
-                    onClick={() => setDetailModalOpen(true)}
+                    onClick={() => setSpecialDetailModalOpen(true)}
                     style={{ color: '#fff' }}>更多</a>
             </div>
             <div className="content">
@@ -274,10 +277,10 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
             </div>
         </DisplayPanel>
         <DetailModal
-            open={detailModalOpen}
+            open={specialDetailModalOpen}
             defaultTabKey={activeKey as SpiTab}
-            onCancel={() => setDetailModalOpen(false)}
-            onOk={() => setDetailModalOpen(false)} />
+            onCancel={() => setSpecialDetailModalOpen(false)}
+            onOk={() => setSpecialDetailModalOpen(false)} />
     </WapInfoBox>;
 };
 

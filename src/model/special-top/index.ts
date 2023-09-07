@@ -5,6 +5,10 @@ import { specialTop } from './special-top';
 interface SpecialTopState {
 
     /**
+     * 专项检查详情框打开/关闭
+     */
+    specialDetailModalOpen: boolean,
+    /**
      * （热像头，手机信号等）Top10数据
      */
     specialWapTopData: SpecialBase[],
@@ -24,6 +28,11 @@ interface SpecialTopState {
      * 加载状态
      */
     specialTopLoading: boolean,
+    /**
+     * 专项检查详情框打开/关闭
+     * @param open 打开/关闭
+     */
+    setSpecialDetailModalOpen: (open: boolean) => void,
     /**
      * 清空所有Top10数据
      */

@@ -8,6 +8,10 @@ import { alarm } from './alarm';
 interface AlarmState {
 
     /**
+     * 详情框打开/关闭
+     */
+    alarmDetailModalOpen: boolean,
+    /**
      * Top10数据
      */
     alarmTop10Data: AlarmMsg[],
@@ -35,6 +39,10 @@ interface AlarmState {
      * 加载中
      */
     alarmLoading: boolean,
+    /**
+     * 设置详情框打开/关闭
+     */
+    setAlarmDetailModalOpen: (payload: boolean) => void,
     /**
      * 更新加载中状态
      * @param payload 

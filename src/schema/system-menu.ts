@@ -12,6 +12,10 @@ export interface SystemMenu {
      */
     parentId: number,
     /**
+     * 菜单层级(从0开始,目前只取0,1两级)
+     */
+    type: number,
+    /**
      * 菜单名称
      */
     name: string,

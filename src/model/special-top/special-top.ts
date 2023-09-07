@@ -7,6 +7,10 @@ import { GetState, SetState } from '..';
 
 const specialTop = (setState: SetState, getState: GetState): SpecialTopState => ({
     /**
+     * 专项检查详情框打开/关闭
+     */
+    specialDetailModalOpen: false,
+    /**
      * 热像头，手机信号等Top10数据
      */
     specialWapTopData: [],
@@ -26,6 +30,13 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
      * 加载状态
      */
     specialTopLoading: false,
+    /**
+     * 专项检查详情框打开/关闭
+     * @param open 打开/关闭
+     */
+    setSpecialDetailModalOpen(open: boolean) {
+        setState({ specialDetailModalOpen: open });
+    },
     /**
      * 清空所有Top10数据
      */

@@ -11,6 +11,10 @@ interface QuickCheckState {
      */
     quickCheckReportLoading: boolean,
     /**
+     * 打开/关闭报告详情框
+     */
+    quickCheckReportDetailModalOpen: boolean,
+    /**
      * 检测任务id
      */
     quickCheckTaskId: string,
@@ -30,6 +34,10 @@ interface QuickCheckState {
      * 设置查询报告等待状态
      */
     setQuickCheckReportLoading: (loading: boolean) => void,
+    /**
+     * 打开/关闭报告详情框
+     */
+    setQuickCheckReportDetailModalOpen: (open: boolean) => void,
     /**
      * 更新报告列表
      */
