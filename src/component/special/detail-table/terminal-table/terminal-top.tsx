@@ -1,9 +1,8 @@
 import { FC, useEffect } from 'react';
 import { Table } from 'antd';
 import { useModel } from '@/model';
-import { Wap } from '@/schema/wap';
+import { Terminal } from '@/schema/terminal';
 import { getTopColumns } from './column';
-
 
 /**
  * 专项数据（终端）Top10
@@ -27,7 +26,7 @@ const TerminalTop: FC<{}> = () => {
     }));
 
 
-    return <Table<Wap>
+    return <Table<Terminal>
         columns={getTopColumns()}
         dataSource={specialTerminalTop10Data}
         loading={specialTerminalLoading}

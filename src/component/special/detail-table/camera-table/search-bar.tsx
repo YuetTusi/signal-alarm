@@ -80,9 +80,10 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
                         showCheckedStrategy={TreeSelect.SHOW_PARENT}
                         treeDefaultExpandAll={true}
                         treeLine={true}
-                        maxTagCount={3}
+                        maxTagCount={2}
+                        maxTagTextLength={3}
                         listHeight={520}
-                        style={{ width: '220px' }} />
+                        style={{ width: '280px' }} />
                 </Item>
                 <Item>
                     <Button
