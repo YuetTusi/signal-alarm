@@ -10,7 +10,6 @@ import { log } from '@/utility/log';
 import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';
 
-const cwd = process.cwd();
 const { basename, join } = path;
 const { mkdir, writeFile } = fs.promises;
 const { shell } = electron;

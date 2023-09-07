@@ -1,11 +1,11 @@
 import dayjs from 'dayjs';
-import keyBy from 'lodash/keyBy';
-import { FC, useEffect, MouseEvent } from 'react';
+import { FC, useEffect, MouseEvent, ReactNode } from 'react';
 import { Form, Button, DatePicker, TreeSelect } from 'antd';
 import { useModel } from '@/model';
+import { helper } from '@/utility/helper';
 import { SearchBarBox } from './styled/box';
 import { getTypeSelectSource, getTypes } from './data-source';
-import { SearchBarProp } from './prop';
+import { DevInSite, SearchBarProp } from './prop';
 
 const { Item } = Form;
 
@@ -15,40 +15,62 @@ const SearchBar: FC<SearchBarProp> = ({
 
     const {
         specialWapTotal,
-        deviceList,
-        queryDeviceList
+        deviceList
     } = useModel(state => ({
         specialWapTotal: state.specialWapTotal,
-        deviceList: state.deviceList,
-        queryDeviceList: state.queryDeviceList
+        deviceList: state.deviceList
     }));
-
-    useEffect(() => {
-        queryDeviceList();
-    }, []);
 
     useEffect(() => {
         if (parentOpen) {
             formRef.setFieldsValue({
                 beginTime: dayjs().add(-1, 'M'),
                 endTime: dayjs(),
-                type: 'all'
+                type: 'all',
+                site: [JSON.stringify({ type: 'all', deviceId: [] })]
             });
         }
     }, [parentOpen, formRef]);
-
-    useEffect(() => {
-        console.clear();
-        console.log(keyBy(deviceList, 'siteName'));
-    }, [deviceList]);
 
     /**
      * 查询Click
      */
     const onSubmitClick = (event: MouseEvent) => {
         event.preventDefault();
-        const { beginTime, endTime, type } = formRef.getFieldsValue();
-        onSearch(beginTime, endTime, getTypes(type));
+        const { beginTime, endTime, type, site } = formRef.getFieldsValue();
+
+        let deviceId: string | undefined = undefined;
+        try {
+            if (site.length === 0) {
+                deviceId = undefined;
+            } else if (site.length === 1) {
+                const data: DevInSite = JSON.parse(site[0]);
+                if (data.type === 'all') {
+                    deviceId = undefined;
+                } else {
+                    //只选了一个节点，但不是全部
+                    deviceId = data.deviceId.join(',');
+                }
+            } else {
+                //选了多个节点，需要把所有的deviceId展开并去重
+                const idList = site.reduce((acc, current) => {
+                    const data: DevInSite = JSON.parse(current);
+                    return acc.concat(...data.deviceId);
+                }, [] as string[]);
+                deviceId = [...new Set(idList)].join(',');
+            }
+            // console.log(deviceId);
+            // onSearch(beginTime, endTime, getTypes(type), deviceId);
+        } catch (error) {
+            console.warn(error);
+        }
+        onSearch(beginTime, endTime, getTypes(type), deviceId);
+    };
+
+    const onTreeSelectChange = (value: string, label: ReactNode[], extra: any) => {
+        // console.log(value);
+        // console.log(label);
+        // console.log(value);
     };
 
     /**
@@ -88,6 +110,24 @@ const SearchBar: FC<SearchBarProp> = ({
                         treeData={getTypeSelectSource()}
                         treeDefaultExpandAll={true}
                         treeLine={true}
+                        listHeight={520}
+                        style={{ width: '220px' }} />
+                </Item>
+                <Item
+                    name="site"
+                    label="设备场所">
+                    <TreeSelect
+                        treeData={helper.toDeviceDropdown(deviceList)}
+                        onChange={onTreeSelectChange}
+                        allowClear={true}
+                        autoClearSearchValue={false}
+                        treeCheckable={true}
+                        filterTreeNode={true}
+                        // showSearch={true}
+                        showCheckedStrategy={TreeSelect.SHOW_PARENT}
+                        treeDefaultExpandAll={true}
+                        treeLine={true}
+                        maxTagCount={3}
                         listHeight={520}
                         style={{ width: '220px' }} />
                 </Item>

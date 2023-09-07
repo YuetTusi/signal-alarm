@@ -8,6 +8,7 @@ import {
     WiretapTable,
     OthersTable
 } from '../detail-table';
+import { useModel } from '@/model';
 import { ModalBox } from './styled/box';
 import { SpiTab } from '../wap-info/prop';
 import { DetailModalProp } from './prop';
@@ -18,6 +19,15 @@ import { DetailModalProp } from './prop';
 const DetailModel: FC<DetailModalProp> = ({ open, defaultTabKey, onCancel }) => {
 
     const [tabKey, setTabKey] = useState<string>();
+    const { queryDeviceList } = useModel(state => ({
+        queryDeviceList: state.queryDeviceList
+    }));
+
+    useEffect(() => {
+        if (open) {
+            queryDeviceList();
+        }
+    }, [open]);
 
     useEffect(() => {
         if (open) {

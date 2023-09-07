@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import { v4 } from 'uuid';
 import memoize from 'lodash/memoize';
 import { Protocol } from '@/schema/protocol';
-import { ComDevice } from '@/schema/com-device';
+import { ComDevice, ComDeviceDropdown } from '@/schema/com-device';
 
 const { join } = path;
 const { access, readFile, writeFile } = fs.promises;
@@ -152,10 +152,33 @@ const helper = {
     },
     /**
      * 转为设备下拉数据（以场所树型显示）
-     * @param data 设备数据
+     * @param devices 设备数据
      */
-    toDeviceDropdown(data: ComDevice[]) {
-
+    toDeviceDropdown(devices: ComDevice[]) {
+        let set = new Set(devices.map(i => i.siteName));
+        let data: ComDeviceDropdown[] = [];
+        if (devices.length === 0) {
+            return [];
+        }
+        for (let [k, v] of set.entries()) {
+            const devInSite = devices.filter(i => i.siteName === v);
+            if (devInSite.length !== 0) {
+                data.push({
+                    title: v ?? '-',
+                    value: JSON.stringify({ type: 'site', deviceId: devInSite.map(i => i.deviceId) }),
+                    children: devInSite.map(j => ({
+                        title: j.deviceName,
+                        value: JSON.stringify({ type: 'device', deviceId: [j.deviceId] }),
+                        deviceId: j.deviceId
+                    }))
+                });
+            }
+        }
+        return [{
+            title: '全部',
+            value: JSON.stringify({ type: 'all', deviceId: [] }),
+            children: data
+        }];
     }
 };
 

@@ -43,4 +43,28 @@ class ComDevice extends BaseEntity {
     }
 }
 
+interface ComDeviceDropdown {
+    /**
+     * KEY
+     */
+    key?: string,
+    /**
+     * 标题
+     */
+    title: string,
+    /**
+     * 值
+     */
+    value: string,
+    /**
+     * 子节点
+     */
+    children?: ComDeviceDropdown[],
+    /**
+     * 附加属性
+     */
+    [extra: string]: any
+}
+
+export type { ComDeviceDropdown };
 export { ComDevice, DeviceState };
