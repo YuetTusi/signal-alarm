@@ -8,14 +8,14 @@ export const getTypeSelectSource = () => [
         children: [
             {
                 value: 'hotspot',
-                title: '热点',
+                title: '终端',
                 children: [
                     {
                         value: Protocol.WiFi58G,
-                        title: 'WiFi5.8G'
+                        title: '终端5.8G'
                     }, {
                         value: Protocol.WiFi24G,
-                        title: 'WiFi2.4G'
+                        title: '终端2.4G'
                     }
                 ]
             }, {

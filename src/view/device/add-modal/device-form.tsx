@@ -80,7 +80,7 @@ const DeviceForm: FC<DeviceFormProp> = ({ data, formRef }) => {
             ]}
             name="deviceId"
             label="设备ID">
-            <Input placeholder="数字，英文，下划线；不可重复" disabled={data !== undefined} />
+            <Input placeholder="数字，英文，下划线，横杠；不可重复" disabled={data !== undefined} />
         </Item>
         <Item
             rules={[
