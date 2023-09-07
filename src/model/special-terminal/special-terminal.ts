@@ -63,13 +63,16 @@ const specialTerminal = (setState: SetState, _: GetState): SpecialTerminalState 
         if (!helper.isNullOrUndefined(condition)) {
             let q: string[] = [];
             if (condition?.beginTime) {
-                q.push(`createTimeBegin=${condition?.beginTime}`);
+                q.push(`createTimeBegin=${condition.beginTime}`);
             }
             if (condition?.endTime) {
-                q.push(`createTimeEnd=${condition?.endTime}`);
+                q.push(`createTimeEnd=${condition.endTime}`);
             }
             if (condition?.type) {
-                q.push(`protocolTypes=${encodeURIComponent(condition?.type)}`);
+                q.push(`protocolTypes=${encodeURIComponent(condition.type)}`);
+            }
+            if (condition?.deviceId) {
+                q.push(`deviceId=${encodeURIComponent(condition.deviceId)}`);
             }
             params = '?' + q.join('&');
         } else {
@@ -130,6 +133,9 @@ const specialTerminal = (setState: SetState, _: GetState): SpecialTerminalState 
             if (condition?.type) {
                 q.push(`protocolTypes=${encodeURIComponent(condition?.type)}`);
             }
+            if (condition?.deviceId) {
+                q.push(`deviceId=${encodeURIComponent(condition.deviceId)}`);
+            }
             params = `?page=${pageIndex}&limit=${pageSize}&` + q.join('&');
         } else {
             params = `?protocolTypes=${helper.protocolToString([
@@ -139,7 +145,6 @@ const specialTerminal = (setState: SetState, _: GetState): SpecialTerminalState 
             ])}`
         }
         try {
-            console.log(`/spi/terminal/export${params}`);
             const chunk = await request.attachment(`/spi/terminal/export${params}`);
             return chunk;
         } catch (error) {

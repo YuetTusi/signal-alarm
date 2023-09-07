@@ -100,6 +100,9 @@ const alarm = (setState: SetState, _: GetState): AlarmState => ({
             if (!helper.isNullOrUndefined(condition?.status) && condition?.status !== -1) {
                 q.push(`status=${condition?.status}`);
             }
+            if (condition?.deviceId) {
+                q.push(`deviceId=${condition.deviceId}`);
+            }
             params = '?' + q.join('&');
         }
         try {
@@ -149,6 +152,9 @@ const alarm = (setState: SetState, _: GetState): AlarmState => ({
             }
             if (!helper.isNullOrUndefined(condition?.status) && condition?.status !== -1) {
                 q.push(`status=${condition?.status}`);
+            }
+            if (condition?.deviceId) {
+                q.push(`deviceId=${condition.deviceId}`);
             }
             params = params + '&' + q.join('&');
         }

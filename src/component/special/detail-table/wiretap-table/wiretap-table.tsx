@@ -52,11 +52,12 @@ const WiretapTable: FC<WiretapTableProp> = () => {
      * 翻页Change
      */
     const onPageChange = async (pageIndex: number, pageSize: number) => {
-        const { beginTime, endTime } = formRef.getFieldsValue();
+        const { beginTime, endTime, site } = formRef.getFieldsValue();
         try {
             await querySpecialWiretapData(pageIndex, pageSize, {
                 beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
-                endTime: endTime.format('YYYY-MM-DD HH:mm:ss')
+                endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
+                deviceId: helper.getDeviceIdFromDropdown(site)
             });
         } catch (error) {
             console.warn(error);
@@ -69,11 +70,12 @@ const WiretapTable: FC<WiretapTableProp> = () => {
      * @param endTime 结束时间
      * @param type 枚举
      */
-    const onSearch = async (beginTime: Dayjs, endTime: Dayjs) => {
+    const onSearch = async (beginTime: Dayjs, endTime: Dayjs, deviceId?: string) => {
         try {
             await querySpecialWiretapData(1, helper.PAGE_SIZE, {
                 beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
-                endTime: endTime.format('YYYY-MM-DD HH:mm:ss')
+                endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
+                deviceId
             });
         } catch (error) {
             console.warn(error);
@@ -85,7 +87,7 @@ const WiretapTable: FC<WiretapTableProp> = () => {
      * @param beginTime 起始时间
      * @param endTime 结束时间
      */
-    const onExport = async (beginTime: Dayjs, endTime: Dayjs) => {
+    const onExport = async (beginTime: Dayjs, endTime: Dayjs, deviceId?: string) => {
         message.destroy();
         const fileName = '专项数据_' + dayjs().format('YYYYMMDDHHmmss') + '.xlsx';
         try {
@@ -96,7 +98,8 @@ const WiretapTable: FC<WiretapTableProp> = () => {
             if (filePaths.length > 0) {
                 const data = await exportSpecialWiretapData(specialWiretapPageIndex, specialWiretapPageSize, {
                     beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
-                    endTime: endTime.format('YYYY-MM-DD HH:mm:ss')
+                    endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
+                    deviceId
                 });
                 await writeFile(join(filePaths[0], fileName), data);
                 modal.success({

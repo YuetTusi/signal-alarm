@@ -30,7 +30,7 @@ const getColumns = (): ColumnsType<Wap> => {
         dataIndex: 'deviceId',
         width: 120
     }, {
-        title: '设备地址',
+        title: '设备场所',
         key: 'siteName',
         dataIndex: 'siteName',
         width: 280,
@@ -59,7 +59,7 @@ const getTopColumns = (): ColumnsType<Wap> => {
         key: 'deviceId',
         dataIndex: 'deviceId'
     }, {
-        title: '设备地址',
+        title: '设备场所',
         key: 'siteName',
         dataIndex: 'siteName'
     },

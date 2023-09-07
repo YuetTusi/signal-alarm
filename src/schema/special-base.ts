@@ -7,7 +7,7 @@ import { Protocol } from "./protocol";
 class SpecialBase extends BaseEntity {
 
     /**
-     * 设备地址
+     * 设备场所
      */
     siteName: string = ''
     /**

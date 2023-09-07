@@ -74,13 +74,15 @@ const AlarmTable: FC<AlarmTopProp> = () => {
      * @param beginTime 起始时间
      * @param endTime 结束时间
      * @param status 状态(-1:全部 0:待处理 1:已处理)
+     * @param deviceId 场所设备
      */
-    const onSearch = async (beginTime: Dayjs, endTime: Dayjs, status: number) => {
+    const onSearch = async (beginTime: Dayjs, endTime: Dayjs, status: number, deviceId?: string) => {
         try {
             await queryAlarmData(1, helper.PAGE_SIZE, {
                 beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
                 endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
-                status
+                status,
+                deviceId
             });
         } catch (error) {
             console.warn(error);
@@ -92,8 +94,9 @@ const AlarmTable: FC<AlarmTopProp> = () => {
      * @param beginTime 起始时间
      * @param endTime 结束时间
      * @param status 状态(-1:全部 0:待处理 1:已处理)
+     * @param deviceId 场所设备
      */
-    const onExport = async (beginTime: Dayjs, endTime: Dayjs, status: number) => {
+    const onExport = async (beginTime: Dayjs, endTime: Dayjs, status: number, deviceId?: string) => {
         message.destroy();
         const fileName = '预警数据_' + dayjs().format('YYYYMMDDHHmmss') + '.xlsx';
         setReading(true);
@@ -106,7 +109,8 @@ const AlarmTable: FC<AlarmTopProp> = () => {
                 const data = await exportAlarmData(alarmPageIndex, alarmPageSize, {
                     beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
                     endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
-                    status
+                    status,
+                    deviceId
                 });
                 await writeFile(join(filePaths[0], fileName), data);
                 modal.success({
@@ -130,12 +134,13 @@ const AlarmTable: FC<AlarmTopProp> = () => {
      * @param pageSize 页尺寸
      */
     const onPageChange = async (pageIndex: number, pageSize: number) => {
-        const { beginTime, endTime, status } = formRef.getFieldsValue();
+        const { beginTime, endTime, status, site } = formRef.getFieldsValue();
         try {
             queryAlarmData(pageIndex, pageSize, {
                 beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
                 endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
-                status
+                status,
+                deviceId: helper.getDeviceIdFromDropdown(site)
             });
         } catch (error) {
             console.warn(error);

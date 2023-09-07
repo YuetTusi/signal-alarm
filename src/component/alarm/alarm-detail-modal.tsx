@@ -1,5 +1,5 @@
 import { FC, MouseEvent } from 'react';
-import { Modal, Button } from 'antd';
+import { Modal } from 'antd';
 import { AlarmDesc } from './alarm-desc';
 import { AlarmDetailModalProp } from './prop';
 
@@ -14,9 +14,7 @@ const AlarmDetailModal: FC<AlarmDetailModalProp> = ({ open, data, onCancel }) =>
     };
 
     return <Modal
-        footer={[
-            <Button onClick={onCancelClick} type="default" key="ADIM_0">取消</Button>
-        ]}
+        footer={null}
         onCancel={onCancelClick}
         open={open}
         title="预警详情"

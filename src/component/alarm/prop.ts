@@ -92,15 +92,17 @@ export interface SearchBarProp {
      * @param beginTime 起始时间
      * @param endTime 结束时间
      * @param status 状态
+     * @param site 场所设备
      */
-    onSearch: (beginTime: Dayjs, endTime: Dayjs, status: number) => void,
+    onSearch: (beginTime: Dayjs, endTime: Dayjs, status: number, site?: string) => void,
     /**
      * 导出
      * @param beginTime 起始时间
      * @param endTime 结束时间
      * @param status 状态
+     * @param site 场所设备
      */
-    onExport: (beginTime: Dayjs, endTime: Dayjs, status: number) => void
+    onExport: (beginTime: Dayjs, endTime: Dayjs, status: number, site?: string) => void
 }
 
 export interface SearchFormValue {
@@ -115,7 +117,11 @@ export interface SearchFormValue {
     /**
      * 状态
      */
-    status: number
+    status: number,
+    /**
+     * 场所设备
+     */
+    site: string[]
 }
 
 export enum ActionType {

@@ -30,7 +30,7 @@ const BatchModal: FC<BatchModalProp> = ({ open, data, onOk, onCancel }) => {
         data.map((item, index) => <li key={`BA_${index}`}>
             <label>类型：</label>
             <span>{item.protocol}</span>
-            <label>设备地址：</label>
+            <label>设备场所：</label>
             <span>{item.siteName}</span>
             <strong>（{item?.captureTime ?? ''}）</strong>
         </li>);

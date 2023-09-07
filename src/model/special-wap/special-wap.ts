@@ -59,10 +59,12 @@ const specialWap = (setState: SetState, _: GetState): SpecialWapState => ({
             if (condition?.protocolTypes) {
                 q.push(`protocolTypes=${encodeURIComponent(condition.protocolTypes)}`);
             }
+            if (condition?.deviceId) {
+                q.push(`deviceId=${encodeURIComponent(condition.deviceId)}`);
+            }
             params = `?` + q.join('&');
         }
         try {
-
             const res = await request.get<QueryPage<Wap>>(`/spi/wap/${pageIndex}/${pageSize}${params}`);
             if (res === null || res.code !== 200) {
                 throw new Error('查询失败');
@@ -124,6 +126,9 @@ const specialWap = (setState: SetState, _: GetState): SpecialWapState => ({
                     Protocol.GPSLocator,
                     Protocol.Others
                 ]))}`);
+            }
+            if (condition?.deviceId) {
+                q.push(`deviceId=${condition.deviceId}`);
             }
             params = params + '&' + q.join('&');
         }

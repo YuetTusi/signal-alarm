@@ -63,10 +63,13 @@ const specialCamera = (setState: SetState, _: GetState): SpecialCameraState => (
         if (!helper.isNullOrUndefined(condition)) {
             let q: string[] = [];
             if (condition?.beginTime) {
-                q.push(`createTimeBegin=${condition?.beginTime}`);
+                q.push(`createTimeBegin=${condition.beginTime}`);
             }
             if (condition?.endTime) {
-                q.push(`createTimeEnd=${condition?.endTime}`);
+                q.push(`createTimeEnd=${condition.endTime}`);
+            }
+            if (condition?.deviceId) {
+                q.push(`deviceId=${condition.deviceId}`);
             }
             q.push(`protocolTypes=${Protocol.Camera}`);
             params = '?' + q.join('&');
@@ -121,13 +124,15 @@ const specialCamera = (setState: SetState, _: GetState): SpecialCameraState => (
             if (condition?.endTime) {
                 q.push(`createTimeEnd=${encodeURIComponent(condition?.endTime)}`);
             }
+            if (condition?.deviceId) {
+                q.push(`deviceId=${condition.deviceId}`);
+            }
             q.push(`protocolTypes=${Protocol.Camera}`);
             params = `?page=${pageIndex}&limit=${pageSize}&` + q.join('&');
         } else {
             params = `?protocolTypes=${Protocol.Camera}`
         }
         try {
-            console.log(`/spi/terminal/export${params}`);
             const chunk = await request.attachment(`/spi/terminal/export${params}`);
             return chunk;
         } catch (error) {

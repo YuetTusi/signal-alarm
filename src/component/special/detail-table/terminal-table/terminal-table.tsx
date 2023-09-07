@@ -28,8 +28,8 @@ const TerminalTable: FC<TerminalTableProp> = () => {
 
     useEffect(() => {
         querySpecialTerminalData(1, helper.PAGE_SIZE, {
-            beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD HH:mm:ss'),
-            endTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+            beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD 00:00:00'),
+            endTime: dayjs().format('YYYY-MM-DD 23:59:59'),
             type: helper.protocolToString([
                 Protocol.WiFi24G,
                 Protocol.WiFi58G,
@@ -60,12 +60,13 @@ const TerminalTable: FC<TerminalTableProp> = () => {
      * 翻页Change
      */
     const onPageChange = async (pageIndex: number, pageSize: number) => {
-        const { beginTime, endTime, type, connect } = formRef.getFieldsValue();
+        const { beginTime, endTime, type, site } = formRef.getFieldsValue();
         try {
             await querySpecialTerminalData(pageIndex, pageSize, {
                 beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
                 endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
                 type: getTypes(type),
+                deviceId: helper.getDeviceIdFromDropdown(site)
                 // connect
             });
         } catch (error) {
@@ -79,12 +80,13 @@ const TerminalTable: FC<TerminalTableProp> = () => {
      * @param endTime 结束时间
      * @param type 枚举
      */
-    const onSearch = async (beginTime: Dayjs, endTime: Dayjs, type: string) => {
+    const onSearch = async (beginTime: Dayjs, endTime: Dayjs, type: string, deviceId?: string) => {
         try {
             await querySpecialTerminalData(1, helper.PAGE_SIZE, {
                 beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
                 endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
-                type
+                type,
+                deviceId
             });
         } catch (error) {
             console.warn(error);
@@ -96,7 +98,7 @@ const TerminalTable: FC<TerminalTableProp> = () => {
      * @param beginTime 起始时间
      * @param endTime 结束时间
      */
-    const onExport = async (beginTime: Dayjs, endTime: Dayjs, type: string) => {
+    const onExport = async (beginTime: Dayjs, endTime: Dayjs, type: string, deviceId?: string) => {
         message.destroy();
         const fileName = '专项数据_' + dayjs().format('YYYYMMDDHHmmss') + '.xlsx';
         try {
@@ -108,7 +110,8 @@ const TerminalTable: FC<TerminalTableProp> = () => {
                 const data = await exportSpecialTerminalData(specialTerminalPageIndex, specialTerminalPageSize, {
                     beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
                     endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
-                    type: getTypes(type)
+                    type,
+                    deviceId
                 });
                 await writeFile(join(filePaths[0], fileName), data);
                 modal.success({

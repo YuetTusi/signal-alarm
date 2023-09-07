@@ -37,6 +37,9 @@ const specialOthers = (setState: SetState, _: GetState): SpecialOthersState => (
         if (condition?.endTime) {
             q.push(`createTimeEnd=${condition.endTime}`);
         }
+        if (condition?.deviceId) {
+            q.push(`deviceId=${condition.deviceId}`);
+        }
         q.push(`protocolTypes=${Protocol.Others}`);
         params = `?` + q.join('&');
         try {
@@ -80,6 +83,9 @@ const specialOthers = (setState: SetState, _: GetState): SpecialOthersState => (
             }
             if (condition?.endTime) {
                 q.push(`createTimeEnd=${condition?.endTime}`);
+            }
+            if (condition?.deviceId) {
+                q.push(`deviceId=${condition.deviceId}`);
             }
             q.push(`protocolTypes=${Protocol.Others}`);
             params = params + '&' + q.join('&');

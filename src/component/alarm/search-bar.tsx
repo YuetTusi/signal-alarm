@@ -1,25 +1,31 @@
 import dayjs from 'dayjs';
 import { FC, useEffect, MouseEvent } from 'react';
-import { Form, Button, DatePicker, Select } from 'antd';
-import useModel from '@/model';
+import { Form, Button, DatePicker, Select, TreeSelect } from 'antd';
+import { useModel } from '@/model';
+import { helper } from '@/utility/helper';
 import { SearchBarBox } from './styled/style';
 import { SearchBarProp } from './prop';
 
 const { Item } = Form;
 
-const SearchBar: FC<SearchBarProp> = ({ formRef, selectedKeys, onBatch, onSearch, onExport }) => {
+const SearchBar: FC<SearchBarProp> = ({
+    formRef, selectedKeys, onBatch, onSearch, onExport
+}) => {
 
     const {
+        deviceList,
         alarmTotal
     } = useModel(state => ({
+        deviceList: state.deviceList,
         alarmTotal: state.alarmTotal
     }));
 
     useEffect(() => {
         formRef.setFieldsValue({
-            beginTime: dayjs().add(-1, 'M'),
-            endTime: dayjs(),
-            status: -1
+            beginTime: dayjs(dayjs().add(-1, 'M').format('YYYY-MM-DD 00:00:00')),
+            endTime: dayjs(dayjs().format('YYYY-MM-DD 23:59:59')),
+            status: -1,
+            site: [JSON.stringify({ type: 'all', deviceId: [] })]
         })
     }, []);
 
@@ -28,8 +34,9 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, selectedKeys, onBatch, onSearch
      */
     const onSubmitClick = (event: MouseEvent) => {
         event.preventDefault();
-        const { beginTime, endTime, status } = formRef.getFieldsValue();
-        onSearch(beginTime, endTime, status);
+        const { beginTime, endTime, status, site } = formRef.getFieldsValue();
+        const deviceId = helper.getDeviceIdFromDropdown(site);
+        onSearch(beginTime, endTime, status, deviceId);
     };
 
     const onBatchClick = (event: MouseEvent) => {
@@ -42,8 +49,9 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, selectedKeys, onBatch, onSearch
      */
     const onExportClick = (event: MouseEvent) => {
         event.preventDefault();
-        const { beginTime, endTime, status } = formRef.getFieldsValue();
-        onExport(beginTime, endTime, status);
+        const { beginTime, endTime, status, site } = formRef.getFieldsValue();
+        const deviceId = helper.getDeviceIdFromDropdown(site);
+        onExport(beginTime, endTime, status, deviceId);
     };
 
     return <SearchBarBox>
@@ -82,6 +90,22 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, selectedKeys, onBatch, onSearch
                             label: '已处理'
                         }]}
                         style={{ width: '100px' }} />
+                </Item>
+                <Item
+                    name="site"
+                    label="设备场所">
+                    <TreeSelect
+                        treeData={helper.toDeviceDropdown(deviceList)}
+                        allowClear={true}
+                        autoClearSearchValue={false}
+                        treeCheckable={true}
+                        filterTreeNode={true}
+                        showCheckedStrategy={TreeSelect.SHOW_PARENT}
+                        treeDefaultExpandAll={true}
+                        treeLine={true}
+                        maxTagCount={3}
+                        listHeight={520}
+                        style={{ width: '220px' }} />
                 </Item>
                 <Item>
                     <Button

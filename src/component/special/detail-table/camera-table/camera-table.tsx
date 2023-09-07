@@ -27,8 +27,8 @@ const CameraTable: FC<CameraTableProp> = () => {
 
     useEffect(() => {
         querySpecialCameraData(1, helper.PAGE_SIZE, {
-            beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD HH:mm:ss'),
-            endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
+            beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD 00:00:00'),
+            endTime: dayjs().format('YYYY-MM-DD 23:59:59')
         });
     }, []);
 
@@ -54,11 +54,12 @@ const CameraTable: FC<CameraTableProp> = () => {
      * 翻页Change
      */
     const onPageChange = async (pageIndex: number, pageSize: number) => {
-        const { beginTime, endTime } = formRef.getFieldsValue();
+        const { beginTime, endTime, site } = formRef.getFieldsValue();
         try {
             await querySpecialCameraData(pageIndex, pageSize, {
                 beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
-                endTime: endTime.format('YYYY-MM-DD HH:mm:ss')
+                endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
+                deviceId: helper.getDeviceIdFromDropdown(site)
             });
         } catch (error) {
             console.warn(error);
@@ -69,13 +70,14 @@ const CameraTable: FC<CameraTableProp> = () => {
      * 查询
      * @param beginTime 起始时间
      * @param endTime 结束时间
-     * @param type 枚举
+     * @param deviceId 场所设备
      */
-    const onSearch = async (beginTime: Dayjs, endTime: Dayjs) => {
+    const onSearch = async (beginTime: Dayjs, endTime: Dayjs, deviceId?: string) => {
         try {
             await querySpecialCameraData(1, helper.PAGE_SIZE, {
                 beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
-                endTime: endTime.format('YYYY-MM-DD HH:mm:ss')
+                endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
+                deviceId
             });
         } catch (error) {
             console.warn(error);
@@ -86,8 +88,9 @@ const CameraTable: FC<CameraTableProp> = () => {
      * 导出
      * @param beginTime 起始时间
      * @param endTime 结束时间
+     * @param deviceId 设备id
      */
-    const onExport = async (beginTime: Dayjs, endTime: Dayjs) => {
+    const onExport = async (beginTime: Dayjs, endTime: Dayjs, deviceId?: string) => {
         message.destroy();
         const fileName = '专项数据_' + dayjs().format('YYYYMMDDHHmmss') + '.xlsx';
         try {
@@ -98,7 +101,8 @@ const CameraTable: FC<CameraTableProp> = () => {
             if (filePaths.length > 0) {
                 const data = await exportSpecialCameraData(specialCameraPageIndex, specialCameraPageSize, {
                     beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
-                    endTime: endTime.format('YYYY-MM-DD HH:mm:ss')
+                    endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
+                    deviceId
                 });
                 await writeFile(join(filePaths[0], fileName), data);
                 modal.success({

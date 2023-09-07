@@ -29,8 +29,8 @@ const WapTable: FC<WapTableProp> = ({ parentOpen }) => {
     useEffect(() => {
         if (parentOpen) {
             querySpecialWapData(1, helper.PAGE_SIZE, {
-                beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD HH:mm:ss'),
-                endTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD 00:00:00'),
+                endTime: dayjs().format('YYYY-MM-DD 23:59:59'),
                 protocolTypes: helper.protocolToString([
                     Protocol.ChinaMobileGSM,
                     Protocol.ChinaUnicomGSM,
@@ -78,7 +78,8 @@ const WapTable: FC<WapTableProp> = ({ parentOpen }) => {
             await querySpecialWapData(pageIndex, pageSize, {
                 beginTime: condition.beginTime.format('YYYY-MM-DD HH:mm:ss'),
                 endTime: condition.endTime.format('YYYY-MM-DD HH:mm:ss'),
-                protocolTypes: getTypes(condition.type)
+                protocolTypes: getTypes(condition.type),
+                deviceId: helper.getDeviceIdFromDropdown(condition.site)
             });
         } catch (error) {
             console.log(error);
@@ -91,12 +92,13 @@ const WapTable: FC<WapTableProp> = ({ parentOpen }) => {
      * @param endTime 结束时间
      * @param type 类型
      */
-    const onSearch = async (beginTime: Dayjs, endTime: Dayjs, type: string) => {
+    const onSearch = async (beginTime: Dayjs, endTime: Dayjs, type: string, deviceId?: string) => {
         try {
             await querySpecialWapData(1, helper.PAGE_SIZE, {
                 beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
                 endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
-                protocolTypes: type
+                protocolTypes: type,
+                deviceId
             });
         } catch (error) {
             console.warn(error);
@@ -108,7 +110,7 @@ const WapTable: FC<WapTableProp> = ({ parentOpen }) => {
      * @param beginTime 起始时间
      * @param endTime 结束时间
      */
-    const onExport = async (beginTime: Dayjs, endTime: Dayjs, type: string) => {
+    const onExport = async (beginTime: Dayjs, endTime: Dayjs, type: string, site?: string) => {
         message.destroy();
         const fileName = '专项数据_' + dayjs().format('YYYYMMDDHHmmss') + '.xlsx';
         setReading(true);
@@ -121,7 +123,8 @@ const WapTable: FC<WapTableProp> = ({ parentOpen }) => {
                 const data = await exportSpecialWapData(specialWapPageIndex, specialWapPageSize, {
                     beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
                     endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
-                    protocolTypes: type
+                    protocolTypes: type,
+                    deviceId: site
                 });
                 await writeFile(join(filePaths[0], fileName), data);
                 modal.success({

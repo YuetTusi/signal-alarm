@@ -6,11 +6,11 @@ import { FC, useEffect } from 'react';
 import { App, message, Form, Table } from 'antd';
 import { useModel } from '@/model';
 import { Hotspot } from '@/schema/hotspot';
+import { Protocol } from '@/schema/protocol';
 import { helper } from '@/utility/helper';
 import { SearchBar } from './search-bar';
 import { getColumns } from './column';
 import { HotspotTableProp, SearchFormValue } from './prop';
-import { Protocol } from '@/schema/protocol';
 import { getTypes } from './data-source';
 
 const { ipcRenderer } = electron;
@@ -51,8 +51,8 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
             1,
             helper.PAGE_SIZE,
             {
-                beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD HH:mm:ss'),
-                endTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD 00:00:00'),
+                endTime: dayjs().format('YYYY-MM-DD 23:59:59'),
                 protocolTypes: helper.protocolToString([
                     Protocol.WiFi58G,
                     Protocol.WiFi24G
@@ -65,12 +65,13 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
      * 翻页Change
      */
     const onPageChange = async (pageIndex: number, pageSize: number) => {
-        const { beginTime, endTime, type } = formRef.getFieldsValue();
+        const { beginTime, endTime, type, site } = formRef.getFieldsValue();
         try {
             await querySpecialHotspotData(pageIndex, pageSize, {
                 beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
                 endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
-                protocolTypes: getTypes(type)
+                protocolTypes: getTypes(type),
+                deviceId: helper.getDeviceIdFromDropdown(site)
             });
 
         } catch (error) {
@@ -80,15 +81,14 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
 
     /**
      * 查询
-     * @param beginTime 起始时间
-     * @param endTime 结束时间
      */
-    const onSearch = async (beginTime: Dayjs, endTime: Dayjs, type: string) => {
+    const onSearch = async (beginTime: Dayjs, endTime: Dayjs, type: string, deviceId?: string) => {
         try {
             await querySpecialHotspotData(1, helper.PAGE_SIZE, {
                 beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
                 endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
-                protocolTypes: type
+                protocolTypes: type,
+                deviceId
             });
         } catch (error) {
             console.warn(error);
@@ -114,7 +114,8 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
                 const data = await exportSpecialHotspotData(specialHotspotPageIndex, specialHotspotPageSize, {
                     beginTime: condition.beginTime.format('YYYY-MM-DD HH:mm:ss'),
                     endTime: condition.endTime.format('YYYY-MM-DD HH:mm:ss'),
-                    protocolTypes: getTypes(condition.type)
+                    protocolTypes: getTypes(condition.type),
+                    deviceId: helper.getDeviceIdFromDropdown(condition.site)
                 });
                 await writeFile(join(filePaths[0], fileName), data);
                 modal.success({

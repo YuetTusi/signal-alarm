@@ -66,7 +66,7 @@ const getColumns = (): ColumnsType<Terminal> => {
         key: 'deviceId',
         dataIndex: 'deviceId',
     }, {
-        title: '设备地址',
+        title: '设备场所',
         key: 'siteName',
         dataIndex: 'siteName',
         width: 160,
@@ -95,7 +95,7 @@ const getTopColumns = (): ColumnsType<Terminal> => {
         key: 'deviceId',
         dataIndex: 'deviceId'
     }, {
-        title: '设备地址',
+        title: '设备场所',
         key: 'siteName',
         dataIndex: 'siteName'
     },

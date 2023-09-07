@@ -22,15 +22,16 @@ export interface SearchBarProp {
      * 查询
      * @param beginTime 起始时间
      * @param endTime 结束时间
-     * @param type 枚举
+     * @param site 场所设备
      */
-    onSearch: (beginTime: Dayjs, endTime: Dayjs) => void,
+    onSearch: (beginTime: Dayjs, endTime: Dayjs, site?: string) => void,
     /**
      * 导出
      * @param beginTime 起始时间
      * @param endTime 结束时间
+     * @param site 场所设备
      */
-    onExport: (beginTime: Dayjs, endTime: Dayjs) => void
+    onExport: (beginTime: Dayjs, endTime: Dayjs, site?: string) => void
 }
 
 export interface SearchFormValue {
@@ -42,6 +43,10 @@ export interface SearchFormValue {
      * 结束时间
      */
     endTime: Dayjs,
+    /**
+     * 设备场所
+     */
+    site: string[]
     /**
      * 枚举
      */

@@ -1,7 +1,8 @@
 import dayjs from 'dayjs';
 import { FC, useEffect, MouseEvent } from 'react';
-import { Form, Button, DatePicker } from 'antd';
+import { Form, Button, DatePicker, TreeSelect } from 'antd';
 import { useModel } from '@/model';
+import { helper } from '@/utility/helper';
 import { SearchBarBox } from './styled/box';
 import { SearchBarProp } from './prop';
 
@@ -10,15 +11,18 @@ const { Item } = Form;
 const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
 
     const {
+        deviceList,
         specialWiretapTotal
     } = useModel(state => ({
+        deviceList: state.deviceList,
         specialWiretapTotal: state.specialWiretapTotal
     }));
 
     useEffect(() => {
         formRef.setFieldsValue({
             beginTime: dayjs().add(-1, 'M'),
-            endTime: dayjs()
+            endTime: dayjs(),
+            site: [JSON.stringify({ type: 'all', deviceId: [] })]
         });
     }, []);
 
@@ -27,8 +31,9 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
      */
     const onSubmitClick = (event: MouseEvent) => {
         event.preventDefault();
-        const { beginTime, endTime } = formRef.getFieldsValue();
-        onSearch(beginTime, endTime);
+        const { beginTime, endTime, site } = formRef.getFieldsValue();
+        const deviceId = helper.getDeviceIdFromDropdown(site);
+        onSearch(beginTime, endTime, deviceId);
     };
 
     /**
@@ -36,8 +41,9 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
      */
     const onExportClick = (event: MouseEvent) => {
         event.preventDefault();
-        const { beginTime, endTime } = formRef.getFieldsValue();
-        onExport(beginTime, endTime);
+        const { beginTime, endTime, site } = formRef.getFieldsValue();
+        const deviceId = helper.getDeviceIdFromDropdown(site);
+        onExport(beginTime, endTime, deviceId);
     };
 
     return <SearchBarBox>
@@ -60,6 +66,22 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
                         allowClear={false}
                         inputReadOnly={true}
                         style={{ width: '170px' }} />
+                </Item>
+                <Item
+                    name="site"
+                    label="设备场所">
+                    <TreeSelect
+                        treeData={helper.toDeviceDropdown(deviceList)}
+                        allowClear={true}
+                        autoClearSearchValue={false}
+                        treeCheckable={true}
+                        filterTreeNode={true}
+                        showCheckedStrategy={TreeSelect.SHOW_PARENT}
+                        treeDefaultExpandAll={true}
+                        treeLine={true}
+                        maxTagCount={3}
+                        listHeight={520}
+                        style={{ width: '220px' }} />
                 </Item>
                 <Item>
                     <Button

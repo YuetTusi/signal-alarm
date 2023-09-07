@@ -60,7 +60,7 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => {
         dataIndex: 'deviceId',
         width: 120
     }, {
-        title: '设备地址',
+        title: '设备场所',
         key: 'siteName',
         dataIndex: 'siteName',
         width: 160
@@ -153,7 +153,7 @@ const getTopColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => {
             return record.status === 0 ? <RedText>{val}</RedText> : <GrayText>{val}</GrayText>;
         }
     }, {
-        title: '设备地址',
+        title: '设备场所',
         key: 'siteName',
         dataIndex: 'siteName',
         render(val: string, record) {

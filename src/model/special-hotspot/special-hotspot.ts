@@ -46,6 +46,9 @@ const specialHotspot = (setState: SetState, _: GetState): SpecialHotspotState =>
             if (condition?.protocolTypes) {
                 q.push(`protocolTypes=${encodeURIComponent(condition.protocolTypes)}`);
             }
+            if (condition?.deviceId) {
+                q.push(`deviceId=${encodeURIComponent(condition.deviceId)}`);
+            }
             params = '?' + q.join('&');
         }
         try {
@@ -97,6 +100,9 @@ const specialHotspot = (setState: SetState, _: GetState): SpecialHotspotState =>
                     Protocol.WiFi58G,
                     Protocol.WiFi24G
                 ]))}`);
+            }
+            if (condition?.deviceId) {
+                q.push(`deviceId=${encodeURIComponent(condition.deviceId)}`);
             }
             params = params + '&' + q.join('&');
         }

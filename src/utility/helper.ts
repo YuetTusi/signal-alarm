@@ -179,6 +179,42 @@ const helper = {
             value: JSON.stringify({ type: 'all', deviceId: [] }),
             children: data
         }];
+    },
+    /**
+     * 返回用户勾选的设备id
+     * @param site 场所下拉数据
+     */
+    getDeviceIdFromDropdown(site: string[]) {
+        let deviceId: string | undefined = undefined;
+        try {
+            if (site.length === 0) {
+                deviceId = undefined;
+            } else if (site.length === 1) {
+                const data: {
+                    type: string,
+                    deviceId: string[]
+                } = JSON.parse(site[0]);
+                if (data.type === 'all') {
+                    deviceId = undefined;
+                } else {
+                    //只选了一个节点，但不是全部
+                    deviceId = data.deviceId.join(',');
+                }
+            } else {
+                //选了多个节点，需要把所有的deviceId展开并去重
+                const idList = site.reduce((acc, current) => {
+                    const data: {
+                        type: string,
+                        deviceId: string[]
+                    } = JSON.parse(current);
+                    return acc.concat(...data.deviceId);
+                }, [] as string[]);
+                deviceId = [...new Set(idList)].join(',');
+            }
+        } catch (error) {
+            throw error;
+        }
+        return deviceId;
     }
 };
 

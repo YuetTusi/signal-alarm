@@ -36,6 +36,9 @@ const specialWiretap = (setState: SetState, _: GetState): SpecialWiretapState =>
         if (condition?.endTime) {
             q.push(`createTimeEnd=${condition.endTime}`);
         }
+        if (condition?.deviceId) {
+            q.push(`deviceId=${condition.deviceId}`);
+        }
         q.push(`protocolTypes=${Protocol.Detectaphone}`);
         params = `?` + q.join('&');
         try {
@@ -70,6 +73,9 @@ const specialWiretap = (setState: SetState, _: GetState): SpecialWiretapState =>
             }
             if (condition?.endTime) {
                 q.push(`createTimeEnd=${condition?.endTime}`);
+            }
+            if (condition?.deviceId) {
+                q.push(`deviceId=${condition.deviceId}`);
             }
             q.push(`protocolTypes=${Protocol.Detectaphone}`);
             params = params + '&' + q.join('&');
