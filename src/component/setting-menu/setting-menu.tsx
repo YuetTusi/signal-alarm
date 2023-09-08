@@ -1,14 +1,14 @@
-import { FC, useEffect, MouseEvent } from 'react';
+import { FC, useEffect } from 'react';
 import { MenuOutlined } from '@ant-design/icons';
 import { Button, Dropdown } from 'antd';
 import { useModel } from '@/model';
 import { SystemMenu } from '@/schema/system-menu';
-import { SettingMenuAction, SettingMenuProp } from './prop';
+import { SettingMenuProp } from './prop';
 
 /**
  * 系统设置下拉菜单
  */
-const SettingMenu: FC<SettingMenuProp> = ({ onMenuAction }) => {
+const SettingMenu: FC<SettingMenuProp> = ({ }) => {
 
     const {
         sysMenuData,
@@ -29,8 +29,8 @@ const SettingMenu: FC<SettingMenuProp> = ({ onMenuAction }) => {
     }, []);
 
     const onMenuItemClick = ({ type, path }: SystemMenu) => {
-        console.clear();
-        console.log(path);
+        // console.clear();
+        // console.log(path);
         if (type !== 1) {
             return;
         }
