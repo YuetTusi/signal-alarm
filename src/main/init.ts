@@ -11,7 +11,7 @@ const init = async (isDev: boolean) => {
         } catch (error) {
             await writeFile(
                 join(cwd, './resources/ip.json'),
-                JSON.stringify({ ip: '58.48.76.202', port: 18800 }),
+                JSON.stringify({ appName: '无线信号哨兵长时监测系统', ip: '58.48.76.202', port: 18800 }),
                 { encoding: 'utf-8' }
             );
         }

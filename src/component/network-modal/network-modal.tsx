@@ -2,7 +2,7 @@ import path from 'path';
 import { FC, MouseEvent, useEffect } from 'react';
 import { Button, Modal, Form, Input } from 'antd';
 import { IP, Port } from '@/utility/regex';
-import { FETCH_IP, FETCH_PORT, helper } from '@/utility/helper';
+import { APP_NAME, FETCH_IP, FETCH_PORT, helper } from '@/utility/helper';
 import { NetworkModalProp, FormValue } from './prop';
 
 const cwd = process.cwd();
@@ -11,7 +11,7 @@ const { useForm, Item } = Form;
 const ipJson = helper.IS_DEV ? join(cwd, './ip.json') : join(cwd, 'resources/ip.json');
 
 /**
- * IP设置
+ * 应用设置
  */
 const NetworkModal: FC<NetworkModalProp> = ({
     open, onOk, onCancel
@@ -28,11 +28,13 @@ const NetworkModal: FC<NetworkModalProp> = ({
                     if (exist) {
                         const values = await helper.readJson(ipJson);
                         setFieldsValue({
+                            appName: values?.appName ?? APP_NAME,
                             ip: values?.ip ?? FETCH_IP,
                             port: values?.port ?? FETCH_PORT
                         });
                     } else {
                         setFieldsValue({
+                            appName: APP_NAME,
                             ip: FETCH_IP,
                             port: FETCH_PORT
                         });
@@ -40,6 +42,7 @@ const NetworkModal: FC<NetworkModalProp> = ({
                 } catch (error) {
                     console.error(`读取ip.json失败:${error.message}`);
                     setFieldsValue({
+                        appName: APP_NAME,
                         ip: FETCH_IP,
                         port: FETCH_PORT
                     });
@@ -55,8 +58,8 @@ const NetworkModal: FC<NetworkModalProp> = ({
         event.preventDefault();
         const { validateFields } = formRef;
         try {
-            const { ip, port } = await validateFields();
-            onOk(ip, port);
+            const { appName, ip, port } = await validateFields();
+            onOk(appName, ip, port);
         } catch (error) {
             console.warn(error);
         }
@@ -83,9 +86,17 @@ const NetworkModal: FC<NetworkModalProp> = ({
         maskClosable={false}
         destroyOnClose={true}
         width={400}
-        title="网络 IP 设置"
+        title="应用设置"
         getContainer="#app">
         <Form form={formRef} layout="vertical">
+            <Item
+                rules={[
+                    { required: true, message: '请填写应用名称' }
+                ]}
+                name="appName"
+                label="应用名称">
+                <Input />
+            </Item>
             <Item
                 rules={[
                     { required: true, message: '请填写IP地址' },
@@ -106,6 +117,12 @@ const NetworkModal: FC<NetworkModalProp> = ({
             </Item>
         </Form>
     </Modal>
+};
+
+NetworkModal.defaultProps = {
+    open: false,
+    onCancel: () => { },
+    onOk: () => { }
 };
 
 export { NetworkModal };

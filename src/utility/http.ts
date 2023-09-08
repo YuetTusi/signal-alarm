@@ -3,7 +3,7 @@ import http from 'http';
 import { helper } from '@/utility/helper';
 import { StorageKeys } from './storage-keys';
 
-const { ip, port } = helper.getFetchIp();
+const { ip, port } = helper.getAppSetting();
 
 /**
  * 封装HTTP请求

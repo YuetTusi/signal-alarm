@@ -10,11 +10,12 @@ import {
 import { Col, Row, Input, Button, Form, message, App } from 'antd';
 import { useModel } from "@/model";
 import { useUnmount } from '@/hook';
-import { helper } from '@/utility/helper';
+import { APP_NAME, helper } from '@/utility/helper';
 import { StorageKeys } from '@/utility/storage-keys';
 import DragBar from '@/component/drag-bar';
 import Reading from '@/component/reading';
 import NetworkModal from '@/component/network-modal';
+import { AppTitle } from '@/component/app-title';
 import {
     BackgroundBox, LoginBox, LoginOuterBox
 } from "./styled/styled";
@@ -108,9 +109,9 @@ const Login: FC<{}> = () => {
         }
     };
 
-    const onNetworkModalOk = async (ip: string, port: number) => {
+    const onNetworkModalOk = async (appName: string, ip: string, port: number) => {
         try {
-            const success = await helper.writeJson(ipJson, { ip, port });
+            const success = await helper.writeJson(ipJson, { appName, ip, port });
             if (success) {
                 setNetworkModalOpen(false);
                 modal.confirm({
@@ -119,7 +120,7 @@ const Login: FC<{}> = () => {
                     },
                     icon: <CheckCircleFilled style={{ color: "#52c41a" }} />,
                     title: '成功',
-                    content: '网络IP更新成功，请重启生效新配置',
+                    content: '应用配置更新成功，请重启生效新配置',
                     okText: '重启',
                     cancelText: '取消',
                     centered: true
@@ -134,7 +135,7 @@ const Login: FC<{}> = () => {
         } catch (error) {
             modal.warning({
                 title: '失败',
-                content: `IP地址更新失败(${error.message})`,
+                content: `应用配置更新失败(${error.message})`,
                 okText: '确定'
             });
         }
@@ -148,36 +149,40 @@ const Login: FC<{}> = () => {
                 <Button
                     onClick={() => setNetworkModalOpen(true)}
                     type="link"
-                    title="网络IP设置">
+                    title="应用设置">
                     <SettingOutlined />
                 </Button>
             </div>
-            <LoginOuterBox>
-                <LoginBox>
-                    <h3>用户登录</h3>
-                    <Form
-                        form={formRef}
-                        style={{ width: '240px' }}
-                        layout="vertical">
-                        <Item
-                            rules={[{
-                                required: true,
-                                message: '请填写用户'
-                            }]}
-                            name="userName"
-                            label="用户">
-                            <Input prefix={<UserOutlined style={{ color: '#424242' }} />} />
-                        </Item>
-                        <Item
-                            rules={[{
-                                required: true,
-                                message: '请填写密码'
-                            }]}
-                            name="password"
-                            label="密码">
-                            <Password prefix={<KeyOutlined style={{ color: '#424242' }} />} />
-                        </Item>
-                        {/* <Item>
+            <div className="app-title-box">
+                <AppTitle />
+            </div>
+            <div className="login-body-box">
+                <LoginOuterBox>
+                    <LoginBox>
+                        <h3>用户登录</h3>
+                        <Form
+                            form={formRef}
+                            style={{ width: '240px' }}
+                            layout="vertical">
+                            <Item
+                                rules={[{
+                                    required: true,
+                                    message: '请填写用户'
+                                }]}
+                                name="userName"
+                                label="用户">
+                                <Input prefix={<UserOutlined style={{ color: '#424242' }} />} />
+                            </Item>
+                            <Item
+                                rules={[{
+                                    required: true,
+                                    message: '请填写密码'
+                                }]}
+                                name="password"
+                                label="密码">
+                                <Password prefix={<KeyOutlined style={{ color: '#424242' }} />} />
+                            </Item>
+                            {/* <Item>
                             <Row gutter={16}>
                                 <Col flex="none">
                                     <Checkbox
@@ -189,37 +194,38 @@ const Login: FC<{}> = () => {
                                 </Col>
                             </Row>
                         </Item> */}
-                        <Item>
-                            <Row gutter={24} style={{ marginTop: '1rem' }}>
-                                <Col span={12}>
-                                    <Button
-                                        onClick={onLoginSubmit}
-                                        disabled={loading}
-                                        type="primary"
-                                        block={true}
-                                    >
-                                        {loading ? <LoadingOutlined /> : <UserOutlined />}
-                                        <span>登录</span>
-                                    </Button>
-                                </Col>
-                                <Col span={12}>
-                                    <Button
-                                        onClick={() => {
-                                            // log.info('这是一个测试');
-                                            setLoginRemember(false);
-                                            formRef.resetFields();
-                                        }}
-                                        type="primary"
-                                        block={true}>
-                                        <ReloadOutlined />
-                                        <span>重置</span>
-                                    </Button>
-                                </Col>
-                            </Row>
-                        </Item>
-                    </Form>
-                </LoginBox>
-            </LoginOuterBox>
+                            <Item>
+                                <Row gutter={24} style={{ marginTop: '1rem' }}>
+                                    <Col span={12}>
+                                        <Button
+                                            onClick={onLoginSubmit}
+                                            disabled={loading}
+                                            type="primary"
+                                            block={true}
+                                        >
+                                            {loading ? <LoadingOutlined /> : <UserOutlined />}
+                                            <span>登录</span>
+                                        </Button>
+                                    </Col>
+                                    <Col span={12}>
+                                        <Button
+                                            onClick={() => {
+                                                // log.info('这是一个测试');
+                                                setLoginRemember(false);
+                                                formRef.resetFields();
+                                            }}
+                                            type="primary"
+                                            block={true}>
+                                            <ReloadOutlined />
+                                            <span>重置</span>
+                                        </Button>
+                                    </Col>
+                                </Row>
+                            </Item>
+                        </Form>
+                    </LoginBox>
+                </LoginOuterBox>
+            </div>
         </BackgroundBox>
         <NetworkModal
             open={networkModalOpen}

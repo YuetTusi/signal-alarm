@@ -1,5 +1,7 @@
 import styled from 'styled-components';
-import loginBg from '@/assets/image/login-bg.jpg';
+// import loginBg from '@/assets/image/login-bg.jpg';
+import appTitleBg from '@/assets/image/login-t-bg.jpg';
+import appBodyBg from '@/assets/image/login-b-bg.jpg';
 
 export const LoginBox = styled.div`
 
@@ -39,7 +41,7 @@ export const LoginBox = styled.div`
 export const LoginOuterBox = styled.div`
 
     position: absolute;
-    top:50%;
+    top:45%;
     left:50%;
     margin-top: -250px;
     margin-left: -195px;
@@ -59,9 +61,30 @@ export const BackgroundBox = styled.div`
     left:0;
     right:0;
     bottom: 0;
-    background-image: url(${loginBg});
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
+
+    .app-title-box{
+        width: 100%;
+        height: 141px;
+        background-image: url(${appTitleBg});
+        background-size: 100% 100%;
+        text-align: center;
+        &>span{
+            position: relative;
+            top:20px;
+            color:#daf5fe;
+            font-size: 4rem;
+            letter-spacing: 2px;
+        }
+    }
+    .login-body-box{
+        position: absolute;
+        top:141px;
+        left:0;
+        bottom:0;
+        right:0;
+        background-image: url(${appBodyBg});
+        background-size: 100% 100%;
+    }
 
     .setting-box{
         position: absolute;

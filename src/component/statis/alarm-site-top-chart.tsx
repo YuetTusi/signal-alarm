@@ -23,11 +23,11 @@ const AlarmSiteTopChart: FC<{}> = () => {
     }, []);
 
     return <DisplayPanel>
-        <div className="caption">告警场所Top10</div>
+        <div className="caption">近一个月告警场所Top10</div>
         <div className="content">
             <CenterFixedBox>
                 <Bar
-                    serieName="告警场所Top10"
+                    serieName="近一个月告警场所Top10"
                     xData={alarmSiteTopStatisData.map(item => item.siteName)}
                     yData={alarmSiteTopStatisData.map(item => Number(item.num))} />
             </CenterFixedBox>

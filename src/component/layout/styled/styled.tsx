@@ -41,6 +41,11 @@ export const LayoutBox = styled.div`
             &:first-child{
                 padding-left: 5px;
             }
+            &.app-title{
+                top:0;
+                font-size: 4rem;
+                color:#daf5fe;
+            }
             &:last-child{
                 padding-right: 5px;
             }

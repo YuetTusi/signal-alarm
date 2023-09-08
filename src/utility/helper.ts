@@ -13,6 +13,7 @@ const { access, readFile, writeFile } = fs.promises;
 const cwd = process.cwd();
 const { ipcRenderer } = electron;
 
+const APP_NAME = '无线信号哨兵长时监测系统';
 /**
 * 接口默认IP
 */
@@ -103,20 +104,24 @@ const helper = {
         }
     },
     /**
-     * 读取通讯接口IP和端口号
+     * 读取应用设置
      */
-    getFetchIp: memoize(() => {
+    getAppSetting: memoize(() => {
         const ipJson = process.env['NODE_ENV'] === 'development'
             ? join(cwd, './ip.json')
             : join(cwd, 'resources/ip.json');
         try {
             const data = fs.readFileSync(ipJson, { encoding: 'utf-8' });
-            const json = JSON.parse(data) as { ip: string, port: number };
-            console.info(`当前接口IP&端口:${json?.ip ?? FETCH_IP}:${json?.port ?? FETCH_PORT}`);
-            return { ip: json?.ip ?? FETCH_IP, port: json?.port ?? FETCH_PORT };
+            const json = JSON.parse(data) as { appName: string, ip: string, port: number };
+            console.info(`当前配置:${JSON.stringify(json)}`);
+            return {
+                appName: json?.appName ?? APP_NAME,
+                ip: json?.ip ?? FETCH_IP,
+                port: json?.port ?? FETCH_PORT
+            };
         } catch (error) {
-            console.warn(`读取ip.json失败: ${error.message}, 使用默认IP配置`);
-            return { ip: FETCH_IP, port: FETCH_PORT };
+            console.warn(`读取ip.json失败: ${error.message}, 使用默认配置`);
+            return { appName: APP_NAME, ip: FETCH_IP, port: FETCH_PORT };
         }
     }),
     /**
@@ -218,5 +223,5 @@ const helper = {
     }
 };
 
-export { FETCH_IP, FETCH_PORT };
+export { APP_NAME, FETCH_IP, FETCH_PORT };
 export { helper };

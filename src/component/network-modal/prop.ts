@@ -6,9 +6,8 @@ export interface NetworkModalProp {
     open: boolean,
     /**
      * 确定
-     * @param ip IP地址
      */
-    onOk: (ip: string, port: number) => void,
+    onOk: (appName: string, ip: string, port: number) => void,
     /**
      * 取消
      */
@@ -16,6 +15,11 @@ export interface NetworkModalProp {
 }
 
 export interface FormValue {
+
+    /**
+     * 应用名称
+     */
+    appName: string,
     /**
      * IP地址
      */

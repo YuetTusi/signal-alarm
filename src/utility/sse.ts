@@ -2,7 +2,7 @@ import { helper } from './helper';
 import { request } from "./http";
 import { StorageKeys } from "./storage-keys";
 
-const { port, ip } = helper.getFetchIp();
+const { port, ip } = helper.getAppSetting();
 let source: EventSource | null = null;
 
 const instance = (onMessage: (this: EventSource, ev: MessageEvent<any>) => any) => {

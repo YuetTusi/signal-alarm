@@ -1,5 +1,4 @@
 import fs from 'fs';
-import path from 'path';
 import localforage from 'localforage';
 import { useNavigate } from 'react-router-dom';
 import { FC, PropsWithChildren, MouseEvent } from 'react';
@@ -11,10 +10,10 @@ import { StorageKeys } from '@/utility/storage-keys';
 import Reading from '../reading';
 import DragBar from '../drag-bar';
 import Voice from '../voice';
+import AppTitle from '../app-title';
 import { SettingMenu } from "../setting-menu";
 import { LayoutBox } from './styled/styled';
 
-const cwd = process.cwd();
 const { rm } = fs.promises;
 
 /**
@@ -76,6 +75,9 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
                     <MobileOutlined />
                     <span>设备管理</span>
                 </Button>
+            </div>
+            <div className="app-title">
+                <AppTitle />
             </div>
             <div>
                 <Button
