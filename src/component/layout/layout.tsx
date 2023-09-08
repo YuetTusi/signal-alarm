@@ -13,7 +13,6 @@ import DragBar from '../drag-bar';
 import Voice from '../voice';
 import { SettingMenu } from "../setting-menu";
 import { LayoutBox } from './styled/styled';
-import { SettingMenuAction } from '../setting-menu/prop';
 
 const cwd = process.cwd();
 const { rm } = fs.promises;
@@ -63,31 +62,13 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
         });
     };
 
-    /**
-     * 菜单项Click
-     */
-    const onMenuAction = (type: SettingMenuAction) => {
-        switch (type) {
-            case SettingMenuAction.Device:
-                navigator('/device');
-                break;
-            case SettingMenuAction.Network:
-                break;
-            case SettingMenuAction.ModifyPassword:
-                break;
-            default:
-                console.warn(type);
-                break;
-        }
-    };
-
     return <LayoutBox>
         <DragBar />
         <Voice />
         <Reading />
         <div className="banner">
             <div>
-                <SettingMenu onMenuAction={onMenuAction} />
+                <SettingMenu />
                 <Button
                     onClick={() => navigator('/device')}
                     type="primary"

@@ -2,6 +2,7 @@ import { join } from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import optimizer from 'vite-plugin-optimizer';
+import renderer from 'vite-plugin-electron-renderer';
 import inject from '@rollup/plugin-inject';
 import { libs } from './config/libs';
 import { port } from './config/port';
@@ -31,6 +32,7 @@ export default defineConfig({
   plugins: [
     react(),
     optimizer(libs),
+    renderer(),
     inject({
       $: 'jquery',
     })

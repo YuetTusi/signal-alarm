@@ -1,6 +1,8 @@
 import { mkdirSync, accessSync } from 'fs';
 import { join } from 'path';
-import { app, BrowserWindow, globalShortcut, ipcMain, IpcMainEvent } from 'electron';
+import {
+    app, BrowserWindow, globalShortcut, ipcMain, IpcMainEvent
+} from 'electron';
 import { init } from './init';
 import { port } from '../../config/port';
 import { bindHandle } from './bind';
@@ -33,6 +35,7 @@ try {
 
 (async () => {
     await init(isDev);
+
     // if (!isDev) {
     //     globalShortcut.register('Control+R', () => {
     //         if (mainWindow && mainWindow.isFocused()) {
