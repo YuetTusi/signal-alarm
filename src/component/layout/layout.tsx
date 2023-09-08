@@ -68,13 +68,6 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
         <div className="banner">
             <div>
                 <SettingMenu />
-                <Button
-                    onClick={() => navigator('/device')}
-                    type="primary"
-                    style={{ marginLeft: '5px' }}>
-                    <MobileOutlined />
-                    <span>设备管理</span>
-                </Button>
             </div>
             <div className="app-title">
                 <AppTitle />

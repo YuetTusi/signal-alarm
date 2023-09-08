@@ -1,4 +1,5 @@
 import { FC, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MenuOutlined } from '@ant-design/icons';
 import { Button, Dropdown } from 'antd';
 import { useModel } from '@/model';
@@ -10,6 +11,7 @@ import { SettingMenuProp } from './prop';
  */
 const SettingMenu: FC<SettingMenuProp> = ({ }) => {
 
+    const navigator = useNavigate();
     const {
         sysMenuData,
         setAlarmDetailModalOpen,
@@ -43,6 +45,9 @@ const SettingMenu: FC<SettingMenuProp> = ({ }) => {
                 break;
             case 'checkReport':
                 setQuickCheckReportDetailModalOpen(true);
+                break;
+            case 'devops':
+                navigator('/device');
                 break;
         }
     };
