@@ -1,12 +1,11 @@
 import { FC } from 'react';
 import { Spin } from 'antd';
-import { helper } from '@/utility/helper';
-// import { Hotspot } from '@/schema/hotspot';
+import Signal from '@/component/signal';
 import { getProtocolLabel } from '@/schema/protocol';
 import { ContentLabel } from './content-label';
 import { ListBox } from './styled/box';
 import { TopListProp } from './prop';
-import Signal from '@/component/signal';
+import { CategoryTag } from './category-tag';
 
 /**
  * 窃听器Top10列表组件
@@ -25,7 +24,7 @@ const WiretapList: FC<TopListProp> = ({ data, type, loading }) => {
             </div>
             <div className="inner-row">
                 <div className="list-row-txt">
-                    [窃听器]
+                    <CategoryTag data={item} />
                 </div>
                 <div className="list-row-val">
                     {getProtocolLabel(item.protocolType)}

@@ -235,7 +235,7 @@ export const DashboardBox = styled.div`
             background-color: rgb(234,65,65,0.58);
         }
         50%{
-            background-color: rgb(234,65,65,0.42);
+            background-color: rgb(234,65,65,0.39);
         }
         100% {
             background-color: rgb(234,65,65,0.58);

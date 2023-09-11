@@ -2,7 +2,6 @@
 import { FC } from 'react';
 import { Protocol } from '@/schema/protocol';
 import { ProtocolIcon } from './styled/box';
-
 import ChinaMobileGSM from '@/assets/image/chinamobilegsm.png';
 import ChinaUnicomGSM from '@/assets/image/chinaunicomgsm.png';
 import ChinaTelecomCDMA from '@/assets/image/chinatelecomcdma.png';
@@ -14,11 +13,13 @@ import ChinaMobile5G from '@/assets/image/chinamobile5g.png';
 import ChinaUnicom5G from '@/assets/image/chinaunicom5G.png';
 import ChinaBroadnet5G from '@/assets/image/chinabroadnet5g.png';
 import ChinaTelecom5G from '@/assets/image/chinatelecom5g.png';
+import Detectaphone from '@/assets/image/detectaphone.png';
 import Bluetooth from '@/assets/image/bluetooth.png';
 import Wifi24 from '@/assets/image/wifi24.png';
 import Wifi58 from '@/assets/image/wifi58.png';
 import GpsLocator from '@/assets/image/gpslocator.png';
 import Camera from '@/assets/image/camera.png';
+import Others from '@/assets/image/others.png';
 import { SpecialBase } from '@/schema/special-base';
 
 const CategoryTag: FC<{ data: SpecialBase }> = ({ data }) => {
@@ -53,11 +54,13 @@ const CategoryTag: FC<{ data: SpecialBase }> = ({ data }) => {
         case Protocol.WiFi58G:
             return <ProtocolIcon url={Wifi58} className={data.isConnect === 0 ? 'disconnect' : undefined} />;
         case Protocol.Detectaphone:
-            return null;
+            return <ProtocolIcon url={Detectaphone} className={data.isConnect === 0 ? 'disconnect' : undefined} />;
         case Protocol.GPSLocator:
             return <ProtocolIcon url={GpsLocator} className={data.isConnect === 0 ? 'disconnect' : undefined} />;
         case Protocol.Camera:
             return <ProtocolIcon url={Camera} className={data.isConnect === 0 ? 'disconnect' : undefined} />;
+        case Protocol.Others:
+            return <ProtocolIcon url={Others} className={data.isConnect === 0 ? 'disconnect' : undefined} />;
         default:
             console.log(data.protocolType);
             return null;

@@ -8,7 +8,9 @@ const phoneAlarm = (setState: SetState, getState: GetState): PhoneAlarmState => 
     /**
      * 用户ID
      */
-    phoneAlarmData: [],
+    phoneAlarmData: [
+        // JSON.parse("{\"arfcn\":1765.0,\"captureTime\":\"2023-08-16T15:00:05\",\"deviceId\":\"RS_177\",\"protocol\":\"中国电信FDD-LTE\",\"protocolType\":7,\"rssi\":-40,\"status\":0,\"warnLevel\":1,\"warnReason\":\"中国电信FDD\"}")
+    ],
     /**
      * 接收推送
      */
