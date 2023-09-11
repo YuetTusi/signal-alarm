@@ -2,10 +2,19 @@ import { phoneAlarm } from './phone-alarm';
 import { PhoneAlarmInfo } from '@/schema/phone-alarm-info';
 
 interface PhoneAlarmState {
+
+    /**
+     * 使用声音
+     */
+    sound: boolean,
     /**
      * 报红手机数据
      */
     phoneAlarmData: PhoneAlarmInfo[],
+    /**
+     * 设置声音
+     */
+    setSound: (payload: boolean) => void,
     /**
      * 更新
      */

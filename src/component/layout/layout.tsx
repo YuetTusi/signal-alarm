@@ -2,7 +2,7 @@ import fs from 'fs';
 import localforage from 'localforage';
 import { useNavigate } from 'react-router-dom';
 import { FC, PropsWithChildren, MouseEvent } from 'react';
-import { LogoutOutlined, UserOutlined, MobileOutlined } from '@ant-design/icons';
+import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { App, Button, message } from 'antd';
 import { useModel } from '@/model';
 import { closeSse } from '@/utility/sse';
@@ -12,6 +12,7 @@ import DragBar from '../drag-bar';
 import Voice from '../voice';
 import AppTitle from '../app-title';
 import { SettingMenu } from "../setting-menu";
+import { VoiceControlModal } from '../voice-control-modal';
 import { LayoutBox } from './styled/styled';
 
 const { rm } = fs.promises;
@@ -24,11 +25,17 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
     const navigator = useNavigate();
     const { modal } = App.useApp();
     const {
+        voiceConrolModalOpen,
         loginUserName,
         logout,
+        setSound,
+        setVoiceConrolModalOpen
     } = useModel(state => ({
+        voiceConrolModalOpen: state.voiceConrolModalOpen,
         loginUserName: state.loginUserName,
-        logout: state.logout
+        logout: state.logout,
+        setSound: state.setSound,
+        setVoiceConrolModalOpen: state.setVoiceConrolModalOpen
     }));
 
     /**
@@ -89,6 +96,18 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
         <div className="context-box">
             {children}
         </div>
+        <VoiceControlModal
+            open={voiceConrolModalOpen}
+            onCancel={() => setVoiceConrolModalOpen(false)}
+            onOk={(voice) => {
+                message.destroy();
+                localStorage.setItem(StorageKeys.Voice, voice);
+                setSound(voice === '1');
+                voice === '1'
+                    ? message.info('预警声音已打开')
+                    : message.info('预警声音已关闭');
+                setVoiceConrolModalOpen(false);
+            }} />
     </LayoutBox >
 };
 

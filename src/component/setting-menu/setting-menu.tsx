@@ -6,6 +6,34 @@ import { useModel } from '@/model';
 import { SystemMenu } from '@/schema/system-menu';
 import { SettingMenuProp } from './prop';
 
+const addVoiceControlMenu = (prev: SystemMenu[]) => {
+    const exist = prev
+        .find(item => item.path === 'system')
+        ?.children?.find(item => item.path === 'voice');
+
+    if (exist) {
+        return prev;
+    } else {
+        return prev.map(item => {
+            if (item.path === 'system') {
+                item.children = item.children ?? [];
+                item.children.push({
+                    id: 9999,
+                    parentId: item.id,
+                    type: 1,
+                    path: 'voice',
+                    name: '预警声音开关',
+                    sortValue: 99,
+                    status: 0
+                } as SystemMenu);
+                return item;
+            } else {
+                return item;
+            }
+        });
+    }
+};
+
 /**
  * 系统设置下拉菜单
  */
@@ -14,12 +42,15 @@ const SettingMenu: FC<SettingMenuProp> = ({ }) => {
     const navigator = useNavigate();
     const {
         sysMenuData,
+        setVoiceConrolModalOpen,
         setAlarmDetailModalOpen,
         setQuickCheckReportDetailModalOpen,
         setSpecialDetailModalOpen,
         querySysMenuData
     } = useModel(state => ({
         sysMenuData: state.sysMenuData,
+        voiceConrolModalOpen: state.voiceConrolModalOpen,
+        setVoiceConrolModalOpen: state.setVoiceConrolModalOpen,
         setAlarmDetailModalOpen: state.setAlarmDetailModalOpen,
         setQuickCheckReportDetailModalOpen: state.setQuickCheckReportDetailModalOpen,
         setSpecialDetailModalOpen: state.setSpecialDetailModalOpen,
@@ -31,8 +62,6 @@ const SettingMenu: FC<SettingMenuProp> = ({ }) => {
     }, []);
 
     const onMenuItemClick = ({ type, path }: SystemMenu) => {
-        // console.clear();
-        // console.log(path);
         if (type !== 1) {
             return;
         }
@@ -48,6 +77,9 @@ const SettingMenu: FC<SettingMenuProp> = ({ }) => {
                 break;
             case 'devops':
                 navigator('/device');
+                break;
+            case 'voice':
+                setVoiceConrolModalOpen(true);
                 break;
         }
     };
@@ -82,7 +114,7 @@ const SettingMenu: FC<SettingMenuProp> = ({ }) => {
 
     return <Dropdown
         menu={{
-            items: toMenu(sysMenuData)
+            items: toMenu(addVoiceControlMenu(sysMenuData))
         }}
         trigger={['click']}>
         <Button

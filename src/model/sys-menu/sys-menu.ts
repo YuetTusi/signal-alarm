@@ -1,7 +1,7 @@
 import { request } from '@/utility/http';
 import { SystemMenu } from '@/schema/system-menu';
-import { GetState, SetState } from "..";
 import { log } from '@/utility/log';
+import { GetState, SetState } from "..";
 
 const sysMenu = (setState: SetState, _: GetState) => ({
     /**
@@ -9,10 +9,20 @@ const sysMenu = (setState: SetState, _: GetState) => ({
      */
     sysMenuData: [],
     /**
+     * 打开/关闭预警声音设置框
+     */
+    voiceConrolModalOpen: false,
+    /**
      * 更新菜单数据
      */
     setSysMenuData(payload: SystemMenu[]) {
         setState({ sysMenuData: payload });
+    },
+    /**
+     * 打开/关闭预警声音设置框
+     */
+    setVoiceConrolModalOpen(payload: boolean) {
+        setState({ voiceConrolModalOpen: payload });
     },
     /**
      * 查询菜单数据

@@ -7,6 +7,14 @@ interface SysMenuState {
      */
     sysMenuData: SystemMenu[],
     /**
+     * 预警声音设置框
+     */
+    voiceConrolModalOpen: boolean,
+    /**
+     * 打开/关闭预警声音设置框
+     */
+    setVoiceConrolModalOpen: (payload: boolean) => void,
+    /**
      * 更新菜单数据
      */
     setSysMenuData: (payload: boolean) => void,

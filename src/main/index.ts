@@ -202,33 +202,6 @@ ipcMain.on('report', (_: IpcMainEvent, fileName: string) => {
     }));
 
     reportWindows[reportWindows.length - 1].loadFile(join('C:/_signal_tmp', fileName));
-
-    // if (reportWindow === null) {
-    //     reportWindow = new BrowserWindow({
-    //         title: '查看报告',
-    //         width: 1440,
-    //         height: 900,
-    //         minHeight: 800,
-    //         minWidth: 1440,
-    //         show: true,
-    //         webPreferences: {
-    //             javascript: true,
-    //             nodeIntegration: true,
-    //             contextIsolation: false,
-    //             webSecurity: false
-    //         }
-    //     });
-    //     reportWindow.once('closed', () => {
-    //         if (reportWindow) {
-    //             reportWindow.destroy();
-    //         }
-    //         reportWindow = null;
-    //     });
-    //     reportWindow.setMenu(null);
-    //     reportWindow.loadFile(join('C:/_signal_tmp', fileName));
-    // } else {
-    //     reportWindow.loadFile(join('C:/_signal_tmp', fileName));
-    // }
 });
 
 ipcMain.on('alarm-clean', (_: IpcMainEvent) => {
@@ -250,6 +223,12 @@ ipcMain.on('log', (_, content: string, level: 'info' | 'debug' | 'warn' | 'error
 
 app.on('window-all-closed', () => {
 
+    reportWindows.forEach(win => {
+        if (win) {
+            win.destroy();
+        }
+    });
+    reportWindows = [];
     if (reportWindow) {
         reportWindow.destroy();
         reportWindow = null;

@@ -19,5 +19,9 @@ export const StorageKeys = {
     /**
      * SSE Hash值
      */
-    MsgKey: 'mkey'
+    MsgKey: 'mkey',
+    /**
+     * 报警声音开关
+     */
+    Voice: 'voice'
 }
