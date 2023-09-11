@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>报告</title>
+	</head>
+	<body>
+		<iframe id="pdf" frameborder="0"></iframe>
+
+		<script>
+			const { ipcRenderer } = require('electron');
+
+			ipcRenderer.on('report', (event, fileName) => {
+				console.log(fileName);
+				document.querySelector('#pdf').src = fileName;
+			});
+		</script>
+	</body>
+</html>

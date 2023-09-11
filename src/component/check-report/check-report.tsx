@@ -61,10 +61,10 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
             const chunk = await request.attachment(report.url);
             const pdf = join('C:/_signal_tmp', fileName + '.pdf');
             await writeFile(pdf, chunk);
-            await shell.openExternal(pdf, {
-                activate: true
-            });
-            // ipcRenderer.send('report', fileName + '.pdf');
+            // await shell.openExternal(pdf, {
+            //     activate: true
+            // });
+            ipcRenderer.send('report', fileName + '.pdf');
         } catch (error) {
             log.error(`打开pdf报告失败 @component/check-report/check-report:${error.message}`);
             log.error(`ErrorStack:${error.stack}`);

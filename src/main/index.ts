@@ -12,6 +12,7 @@ const { env, resourcesPath } = process;
 const isDev = env['NODE_ENV'] === 'development';
 var mainWindow: BrowserWindow | null = null;
 var reportWindow: BrowserWindow | null = null;
+var reportWindows: BrowserWindow[] = [];
 var timerWindow: BrowserWindow | null = null;
 
 app.commandLine.appendSwitch('no-sandbox');
@@ -126,6 +127,11 @@ ipcMain.on('maximize', (event: IpcMainEvent) => {
 //窗口关闭
 ipcMain.on('close', (event: IpcMainEvent) => {
     event.preventDefault();
+    reportWindows.forEach(win => {
+        if (win) {
+            win.close();
+        }
+    });
     if (reportWindow) {
         reportWindow.close();
     }
@@ -139,6 +145,13 @@ ipcMain.on('close', (event: IpcMainEvent) => {
 //退出应用
 ipcMain.on('do-close', (_: IpcMainEvent) => {
     //mainWindow通知退出程序
+
+    reportWindows.forEach(win => {
+        if (win) {
+            win.close();
+            win.destroy();
+        }
+    });
     if (reportWindow) {
         reportWindow.close();
         reportWindow.destroy();
@@ -172,32 +185,50 @@ ipcMain.on('do-relaunch', () => {
 });
 
 ipcMain.on('report', (_: IpcMainEvent, fileName: string) => {
-    if (reportWindow === null) {
-        reportWindow = new BrowserWindow({
-            title: '查看报告',
-            width: 1440,
-            height: 900,
-            minHeight: 800,
-            minWidth: 1440,
-            show: true,
-            webPreferences: {
-                javascript: true,
-                nodeIntegration: true,
-                contextIsolation: false,
-                webSecurity: false
-            }
-        });
-        reportWindow.once('closed', () => {
-            if (reportWindow) {
-                reportWindow.destroy();
-            }
-            reportWindow = null;
-        });
-        reportWindow.setMenu(null);
-        reportWindow.loadFile(join('C:/_signal_tmp', fileName));
-    } else {
-        reportWindow.loadFile(join('C:/_signal_tmp', fileName));
-    }
+
+    reportWindows.push(new BrowserWindow({
+        title: '查看报告',
+        width: 1440,
+        height: 900,
+        minHeight: 800,
+        minWidth: 1440,
+        show: true,
+        webPreferences: {
+            javascript: true,
+            nodeIntegration: true,
+            contextIsolation: false,
+            webSecurity: false
+        }
+    }));
+
+    reportWindows[reportWindows.length - 1].loadFile(join('C:/_signal_tmp', fileName));
+
+    // if (reportWindow === null) {
+    //     reportWindow = new BrowserWindow({
+    //         title: '查看报告',
+    //         width: 1440,
+    //         height: 900,
+    //         minHeight: 800,
+    //         minWidth: 1440,
+    //         show: true,
+    //         webPreferences: {
+    //             javascript: true,
+    //             nodeIntegration: true,
+    //             contextIsolation: false,
+    //             webSecurity: false
+    //         }
+    //     });
+    //     reportWindow.once('closed', () => {
+    //         if (reportWindow) {
+    //             reportWindow.destroy();
+    //         }
+    //         reportWindow = null;
+    //     });
+    //     reportWindow.setMenu(null);
+    //     reportWindow.loadFile(join('C:/_signal_tmp', fileName));
+    // } else {
+    //     reportWindow.loadFile(join('C:/_signal_tmp', fileName));
+    // }
 });
 
 ipcMain.on('alarm-clean', (_: IpcMainEvent) => {
@@ -218,6 +249,7 @@ ipcMain.on('log', (_, content: string, level: 'info' | 'debug' | 'warn' | 'error
 });
 
 app.on('window-all-closed', () => {
+
     if (reportWindow) {
         reportWindow.destroy();
         reportWindow = null;
