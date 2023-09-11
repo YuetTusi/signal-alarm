@@ -22,6 +22,10 @@ class SpecialBase extends BaseEntity {
      * 采集时间
      */
     captureTime: string = ''
+    /**
+     * 连接状态
+     */
+    isConnect: number = 0
 }
 
 export { SpecialBase };

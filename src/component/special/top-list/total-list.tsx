@@ -10,6 +10,7 @@ import Signal from '@/component/signal';
 import { ContentLabel } from './content-label';
 import { Wifi } from './wifi';
 import { Terminal } from './terminal';
+import { CategoryTag } from './category-tag';
 import { ListBox } from './styled/box';
 import { TotalListProp } from './prop';
 
@@ -38,12 +39,10 @@ const TotalList: FC<TotalListProp> = ({ data, type, loading }) => {
                     </div>
                     <div className="inner-row">
                         <div className="list-row-txt">
-                            {
-                                `${getProtocolLabel(item.protocolType)} （${helper.isNullOrUndefined(item?.siteName) || item?.siteName === '' ? '-' : item?.siteName}）`
-                            }
+                            <CategoryTag data={item} />
                         </div>
                         <div className="list-row-val">
-                            <NoWarpLabel width={110}>{item.captureTime}</NoWarpLabel>
+                            {item.captureTime}
                         </div>
                     </div>
                 </>;

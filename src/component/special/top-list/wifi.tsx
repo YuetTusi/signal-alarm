@@ -4,7 +4,9 @@ import { helper } from '@/utility/helper';
 import Signal from '@/component/signal';
 import { Hotspot } from '@/schema/hotspot';
 import { Protocol } from '@/schema/protocol';
-import { Wifi24, Wifi58 } from './styled/box';
+import wifi24 from '@/assets/image/wifi24.png';
+import wifi58 from '@/assets/image/wifi58.png';
+import { ProtocolIcon } from './styled/box';
 
 /**
  * 渲染WiFi内容
@@ -32,7 +34,7 @@ const Wifi: FC<{ data: Hotspot }> = ({ data }) => {
                 <div>
                     {
                         data.protocolType === Protocol.WiFi24G
-                            ? <Wifi24 /> : <Wifi58 />
+                            ? <ProtocolIcon url={wifi24} /> : <ProtocolIcon url={wifi58} />
                     }
                     <NoWarpLabel title={`${data?.ssid ?? ''}（${data?.siteName ?? '-'}）`} width={230}>
                         {`${data?.ssid ?? ''}（${data?.siteName ?? '-'}）`}

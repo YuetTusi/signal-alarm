@@ -14,10 +14,6 @@ class Terminal extends SpecialBase {
      * 区别为接口不同
      */
     isTerminal: boolean = false
-    /**
-     * 连接状态
-     */
-    isConnect: number = 0
 
     type: any
     /**

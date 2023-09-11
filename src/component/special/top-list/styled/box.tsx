@@ -1,9 +1,4 @@
 import styled from 'styled-components';
-import wifi24 from '@/assets/image/wifi24.png';
-import wifi58 from '@/assets/image/wifi58.png';
-import terminal24 from '@/assets/image/terminal24.png';
-import terminal58 from '@/assets/image/terminal58.png';
-import bluetooth from '@/assets/image/bluetooth.png';
 
 export const ListBox = styled.div`
 
@@ -72,35 +67,8 @@ export const Icon = styled.i`
     background-size: contain;
 `;
 
-export const Wifi24 = styled(Icon)`
-   background-image: url(${wifi24});
-   &.disconnect{
-    filter:grayscale(1);
-    }
-`;
-
-export const Wifi58 = styled(Icon)`
-    background-image: url(${wifi58});
-    &.disconnect{
-        filter:grayscale(1);
-    }
-`;
-export const Terminal24 = styled(Icon)`
-   background-image: url(${terminal24});
-   &.disconnect{
-    filter:grayscale(1);
-    }
-`;
-
-export const Terminal58 = styled(Icon)`
-    background-image: url(${terminal58});
-    &.disconnect{
-        filter:grayscale(1);
-    }
-`;
-
-export const Bluethooth = styled(Icon)`
-    background-image: url(${bluetooth});
+export const ProtocolIcon = styled(Icon) <{ url: string }>`
+    background-image: url(${props => props.url});
     &.disconnect{
         filter:grayscale(1);
     }

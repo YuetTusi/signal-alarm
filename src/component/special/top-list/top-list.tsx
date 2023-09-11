@@ -5,6 +5,7 @@ import Signal from '@/component/signal';
 import { ContentLabel } from './content-label';
 import { ListBox } from './styled/box';
 import { TopListProp } from './prop';
+import { CategoryTag } from './category-tag';
 
 
 /**
@@ -24,7 +25,7 @@ const TopList: FC<TopListProp> = ({ data, type, loading }) => {
             </div>
             <div className="inner-row">
                 <div className="list-row-txt">
-                    {helper.isNullOrUndefined(item?.siteName) || item?.siteName === '' ? '-' : item?.siteName}
+                    <CategoryTag data={item} />
                 </div>
                 <div className="list-row-val">
                     {item.captureTime}

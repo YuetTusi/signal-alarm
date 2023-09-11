@@ -25,7 +25,7 @@ const WiretapList: FC<TopListProp> = ({ data, type, loading }) => {
             </div>
             <div className="inner-row">
                 <div className="list-row-txt">
-                    {helper.isNullOrUndefined(item?.siteName) || item?.siteName === '' ? '-' : item?.siteName}
+                    [窃听器]
                 </div>
                 <div className="list-row-val">
                     {getProtocolLabel(item.protocolType)}
