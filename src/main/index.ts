@@ -193,6 +193,7 @@ ipcMain.on('report', (_: IpcMainEvent, fileName: string) => {
         minHeight: 800,
         minWidth: 1440,
         show: true,
+        autoHideMenuBar: true,
         webPreferences: {
             javascript: true,
             nodeIntegration: true,

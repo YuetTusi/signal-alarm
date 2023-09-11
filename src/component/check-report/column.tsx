@@ -12,7 +12,7 @@ import { request } from '@/utility/http';
 
 const { basename, join } = path;
 const { mkdir, writeFile } = fs.promises;
-const { shell } = electron;
+const { ipcRenderer } = electron;
 
 const getColumns = (onDownload: (report: QuickCheckReport) => void) => [{
     title: '报告ID',
@@ -28,10 +28,10 @@ const getColumns = (onDownload: (report: QuickCheckReport) => void) => [{
             const chunk = await request.attachment(record.url);
             const pdf = join('C:/_signal_tmp', fileName + '.pdf');
             await writeFile(pdf, chunk);
-            shell.openExternal(pdf, {
-                activate: true
-            });
-            // ipcRenderer.send('report', fileName + '.pdf');
+            // shell.openExternal(pdf, {
+            //     activate: true
+            // });
+            ipcRenderer.send('report', fileName + '.pdf');
         } catch (error) {
             log.error(`打开pdf报告失败 @component/check-report/column/getColumns:${error.message}`);
             message.destroy();
