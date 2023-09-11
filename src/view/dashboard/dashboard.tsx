@@ -197,18 +197,22 @@ const Dashboard: FC<{}> = memo(() => {
                     console.warn('推送message转换JSON失败', error.message);
                 }
                 return <div className={`phone-alarm ${getClassName(index, len)}`} key={`PA_${index}`}>
-                    <div className="icon">
-                        <MobileOutlined />
+                    <div className="cap">
+                        <span>警告</span>
                     </div>
                     <div className="info">
+                        <div>采集时间：{data?.captureTime ?? '-'}</div>
                         <div>协议类型：{data?.protocol ?? '-'}</div>
                         <div>强度：{data?.rssi ?? '-'}</div>
                         <div>设备ID：{data?.deviceId ?? '-'}</div>
                         <div>频点信息：{data?.arfcn ?? '-'}</div>
                         <div>告警级别：{data?.warnLevel ?? '-'}</div>
                         <div>告警原因：{data?.warnReason ?? '-'}</div>
-                        <div>采集时间：{data?.captureTime ?? '-'}</div>
                     </div>
+                    <i className="b-tl" />
+                    <i className="b-tr" />
+                    <i className="b-bl" />
+                    <i className="b-br" />
                 </div>;
             }
         );

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import alarmBg from '@/assets/image/alarm-bg.gif';
+import pAlarm from '@/assets/image/palarm.png';
 
 export const DashboardBox = styled.div`
 
@@ -58,25 +59,74 @@ export const DashboardBox = styled.div`
     .phone-alarm{
         position: absolute;
         display: inline-flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
-        background-color: #3b3b6f;
+        background-color: rgb(234,65,65,0.58);
         color:#fff8de;
-        margin:0 20px 20px 20px;
-        padding: 5px 6px;
-        box-shadow: inset 0 0 4px 4px #7877c7;
-        border-radius: ${props => props.theme['borderRadius']}px;
-        opacity: 0.9;
-        animation-name: borderflash;
+        /* margin:0 20px 20px 20px; */
+        padding: 24px;
+        border-top-right-radius: 25px;
+        border-bottom-right-radius: 25px;
+        border-bottom-left-radius: 25px;
+        animation-name: bg-flash;
         animation-duration: .7s;
         animation-iteration-count: infinite;
         animation-timing-function: linear;
+        &>i{
+            position: absolute;
+            display: block;
+            width: 20px;
+            height: 20px;
+            &.b-tl{
+                top:0;
+                left:0;
+                border-left:3px solid #f40006;
+                border-top:3px solid #f40006;
+                animation-name: tl-flash;
+                animation-duration: .7s;
+                animation-iteration-count: infinite;
+                animation-timing-function: linear;
+            }
+            &.b-tr{
+                top:0;
+                right:0;
+                border-top:3px solid #f40006;
+                border-right:3px solid #f40006;
+                border-top-right-radius: 30px;
+                animation-name: tr-flash;
+                animation-duration: .7s;
+                animation-iteration-count: infinite;
+                animation-timing-function: linear;
+            }
+            &.b-bl{
+                bottom:0;
+                left:0;
+                border-bottom:3px solid #f40006;
+                border-left:3px solid #f40006;
+                border-bottom-left-radius: 30px;
+                animation-name: bl-flash;
+                animation-duration: .7s;
+                animation-iteration-count: infinite;
+                animation-timing-function: linear;
+            }
+            &.b-br{
+                bottom:0;
+                right:0;
+                border-bottom:3px solid #f40006;
+                border-right:3px solid #f40006;
+                border-bottom-right-radius: 30px;
+                animation-name: br-flash;
+                animation-duration: .7s;
+                animation-iteration-count: infinite;
+                animation-timing-function: linear;
+            }
+        }
 
         &.center{
-            top:70px;
+            top:10px;
             left:50%;
-            margin-left: -172px;
+            margin-left: -185px;
         }
         &.left{
             top:280px;
@@ -91,70 +141,104 @@ export const DashboardBox = styled.div`
                 display: block;
             }
         }
-        &>.icon{
-            position: relative;
-            left: -23px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            background-color: #3b3b6f;
-            color:#7877c7;
-            font-size:2rem;
-            box-shadow: inset 0 0 3px 3px #7877c7;
-            transform: rotate(45deg);
-            animation-name: borderflash;
-            animation-duration: .7s;
-            animation-iteration-count: infinite;
-            animation-timing-function: linear;
-            &>.anticon{
-                animation-name: contentflash;
-                animation-duration: .7s;
-                animation-iteration-count: infinite;
-                transform: rotate(-45deg);
-                animation-timing-function: linear;
+        &>.cap{
+            color:#f40006;
+            text-align: left;
+            width: 100%;
+            border-bottom: 2px solid #f40006;
+            background-image: url(${pAlarm});
+            background-repeat: no-repeat;
+            background-size: 20px 18px;
+            &>span{
+                margin-left: 25px;
             }
         }
         &>.info{
+            margin-top: 5px;
+            padding: 5px;
+            border: 2px solid #7f1c53;
+            border-radius: 3px;
             div{
                 width: 280px;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 &:first-child{
-                    color:#fff8de;
+                    color:#f40006;
                     padding: 2px 0;
                 }
                 &:last-child{
-                    color:#ee545c;
                     padding: 2px 0;
                 }
             }
         }
     }
 
-    @keyframes borderflash {
+    @keyframes tl-flash {
         0% {
-            box-shadow: inset 0 0 4px 4px #7877c7;
+            border-left:3px solid #fff400;
+            border-top:3px solid #fff400;
         }
         50%{
-            box-shadow: inset 0 0 4px 4px #ee545c;
+            border-left:3px solid #f40006;
+            border-top:3px solid #f40006;
         }
         100% {
-            box-shadow: inset 0 0 4px 4px #7877c7;
+            border-left:3px solid #fff400;
+            border-top:3px solid #fff400;
         }
     }
-    @keyframes contentflash {
+    @keyframes tr-flash {
         0% {
-            color: #7877c7;
+            border-right:3px solid #fff400;
+            border-top:3px solid #fff400;
         }
         50%{
-            color: #ee545c;
+            border-right:3px solid #f40006;
+            border-top:3px solid #f40006;
         }
         100% {
-            color: #7877c7;
+            border-right:3px solid #fff400;
+            border-top:3px solid #fff400;
+        }
+    }
+    @keyframes bl-flash {
+        0% {
+            border-left:3px solid #fff400;
+            border-bottom:3px solid #fff400;
+        }
+        50%{
+            border-left:3px solid #f40006;
+            border-bottom:3px solid #f40006;
+        }
+        100% {
+            border-left:3px solid #fff400;
+            border-bottom:3px solid #fff400;
+        }
+    }
+    @keyframes br-flash {
+        0% {
+            border-right:3px solid #fff400;
+            border-bottom:3px solid #fff400;
+        }
+        50%{
+            border-right:3px solid #f40006;
+            border-bottom:3px solid #f40006;
+        }
+        100% {
+            border-right:3px solid #fff400;
+            border-bottom:3px solid #fff400;
+        }
+    }
+    @keyframes bg-flash {
+        0% {
+            background-color: rgb(234,65,65,0.58);
+        }
+        50%{
+            background-color: rgb(234,65,65,0.42);
+        }
+        100% {
+            background-color: rgb(234,65,65,0.58);
         }
     }
 `;
