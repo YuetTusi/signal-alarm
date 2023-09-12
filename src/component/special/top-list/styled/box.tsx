@@ -41,12 +41,10 @@ export const ListBox = styled.div`
             &>.list-row-txt{
                 flex:1;
                 display: flex;
-                flex-direction: column;
-                &>div{
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                }
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+
             }   
             &>.list-row-val{
                 display: flex;

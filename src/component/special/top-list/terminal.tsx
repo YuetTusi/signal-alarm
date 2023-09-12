@@ -38,15 +38,13 @@ const Terminal: FC<{ data: TerminalData }> = ({ data }) => {
     return <>
         <div className="inner-row">
             <div className="list-row-txt">
-                <div>
-                    <NoWarpLabel
-                        title={`${data?.mac ?? '-'} ${helper.isNullOrUndefined(data?.org) ? '' : `（${data.org}）`}`}
-                        width={360}>
-                        {
-                            `${data?.mac ?? '-'} ${helper.isNullOrUndefined(data?.org) ? '' : `（${data.org}）`}`
-                        }
-                    </NoWarpLabel>
-                </div>
+                <NoWarpLabel
+                    title={`${data?.mac ?? '-'} ${helper.isNullOrUndefined(data?.org) ? '' : `（${data.org}）`}`}
+                    width={360}>
+                    {
+                        `${data?.mac ?? '-'} ${helper.isNullOrUndefined(data?.org) ? '' : `（${data.org}）`}`
+                    }
+                </NoWarpLabel>
             </div>
             <div className="list-row-val">
                 <Signal value={Number(data?.rssi)} max={0} min={-100} />
@@ -54,12 +52,10 @@ const Terminal: FC<{ data: TerminalData }> = ({ data }) => {
         </div>
         <div className="inner-row">
             <div className="list-row-txt">
-                <div>
-                    {renderIcon(data)}
-                    <NoWarpLabel title={`${data?.ssid ?? ''}（${data?.siteName ?? '-'}）`} width={230}>
-                        {`${data?.ssid ?? ''}（${data?.siteName ?? '-'}）`}
-                    </NoWarpLabel>
-                </div>
+                {renderIcon(data)}
+                <NoWarpLabel title={`${data?.ssid ?? ''}（${data?.siteName ?? '-'}）`} width={230}>
+                    {`${data?.ssid ?? ''}（${data?.siteName ?? '-'}）`}
+                </NoWarpLabel>
             </div>
             <div className="list-row-val">
                 <NoWarpLabel width={110}>{data.captureTime}</NoWarpLabel>

@@ -6,6 +6,7 @@ import { ContentLabel } from './content-label';
 import { ListBox } from './styled/box';
 import { TopListProp } from './prop';
 import { CategoryTag } from './category-tag';
+import { NoWarpLabel } from '@/component/panel/panel';
 
 
 /**
@@ -26,6 +27,7 @@ const TopList: FC<TopListProp> = ({ data, type, loading }) => {
             <div className="inner-row">
                 <div className="list-row-txt">
                     <CategoryTag data={item} />
+                    <NoWarpLabel width={220} title={item.siteName}>{item.siteName ?? '-'}</NoWarpLabel>
                 </div>
                 <div className="list-row-val">
                     {item.captureTime}

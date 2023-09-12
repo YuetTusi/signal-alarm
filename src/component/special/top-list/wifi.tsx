@@ -15,15 +15,13 @@ const Wifi: FC<{ data: Hotspot }> = ({ data }) => {
     return <>
         <div className="inner-row">
             <div className="list-row-txt">
-                <div>
-                    <NoWarpLabel
-                        title={`${data?.mac ?? '-'} ${helper.isNullOrUndefined(data?.org) ? '' : `（${data.org}）`}`}
-                        width={360}>
-                        {
-                            `${data?.mac ?? '-'} ${helper.isNullOrUndefined(data?.org) ? '' : `（${data.org}）`}`
-                        }
-                    </NoWarpLabel>
-                </div>
+                <NoWarpLabel
+                    title={`${data?.mac ?? '-'} ${helper.isNullOrUndefined(data?.org) ? '' : `（${data.org}）`}`}
+                    width={360}>
+                    {
+                        `${data?.mac ?? '-'} ${helper.isNullOrUndefined(data?.org) ? '' : `（${data.org}）`}`
+                    }
+                </NoWarpLabel>
             </div>
             <div className="list-row-val">
                 <Signal value={Number(data?.rssi)} max={0} min={-100} />
@@ -31,15 +29,13 @@ const Wifi: FC<{ data: Hotspot }> = ({ data }) => {
         </div>
         <div className="inner-row">
             <div className="list-row-txt">
-                <div>
-                    {
-                        data.protocolType === Protocol.WiFi24G
-                            ? <ProtocolIcon url={wifi24} /> : <ProtocolIcon url={wifi58} />
-                    }
-                    <NoWarpLabel title={`${data?.ssid ?? ''}（${data?.siteName ?? '-'}）`} width={230}>
-                        {`${data?.ssid ?? ''}（${data?.siteName ?? '-'}）`}
-                    </NoWarpLabel>
-                </div>
+                {
+                    data.protocolType === Protocol.WiFi24G
+                        ? <ProtocolIcon url={wifi24} /> : <ProtocolIcon url={wifi58} />
+                }
+                <NoWarpLabel title={`${data?.ssid ?? ''}（${data?.siteName ?? '-'}）`} width={230}>
+                    {`${data?.ssid ?? ''}（${data?.siteName ?? '-'}）`}
+                </NoWarpLabel>
             </div>
             <div className="list-row-val">
                 <NoWarpLabel width={110}>{data.captureTime}</NoWarpLabel>

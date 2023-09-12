@@ -61,6 +61,7 @@ export const ScrollPanel = styled.div<{ height?: number }>`
  * 不换行文本
  */
 export const NoWarpLabel = styled.div<{ width?: number }>`
+    display:block;
     width: ${(props) => props.width ?? 100}px;
     overflow: hidden;
     white-space: nowrap;
