@@ -11,7 +11,8 @@ import Reading from '../reading';
 import DragBar from '../drag-bar';
 import Voice from '../voice';
 import AppTitle from '../app-title';
-import { SettingMenu } from "../setting-menu";
+import { UserMenuAction } from '../setting-menu';
+import { SettingMenu, UserMenu } from "../setting-menu";
 import { VoiceControlModal } from '../voice-control-modal';
 import { LayoutBox } from './styled/styled';
 
@@ -39,10 +40,9 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
     }));
 
     /**
-     * 登出Click
+     * 登出
      */
-    const onLogoutClick = (event: MouseEvent) => {
-        event.preventDefault();
+    const doLogout = () => {
         modal.confirm({
             onOk: async () => {
                 try {
@@ -68,6 +68,21 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
         });
     };
 
+    /**
+     * 用户菜单项Click
+     * @param action 点击枚举值
+     */
+    const onUserMenuClick = (action: UserMenuAction) => {
+        switch (action) {
+            case UserMenuAction.VoiceSwitch:
+                setVoiceConrolModalOpen(true);
+                break;
+            case UserMenuAction.Logout:
+                doLogout();
+                break;
+        }
+    };
+
     return <LayoutBox>
         <DragBar />
         <Voice />
@@ -80,16 +95,8 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
                 <AppTitle />
             </div>
             <div>
-                <Button
-                    onClick={onLogoutClick}
-                    type="primary"
-                    style={{ margin: '0 10px 0 10px' }}>
-                    <LogoutOutlined />
-                    <span>登出</span>
-                </Button>
                 <span>
-                    <UserOutlined style={{ marginRight: '2px' }} />
-                    {sessionStorage.getItem(StorageKeys.User) ?? '-'}
+                    <UserMenu onMenuItemClick={onUserMenuClick} />
                 </span>
             </div>
         </div>

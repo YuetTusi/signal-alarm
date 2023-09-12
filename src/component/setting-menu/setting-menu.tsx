@@ -6,34 +6,6 @@ import { useModel } from '@/model';
 import { SystemMenu } from '@/schema/system-menu';
 import { SettingMenuProp } from './prop';
 
-const addVoiceControlMenu = (prev: SystemMenu[]) => {
-    const exist = prev
-        .find(item => item.path === 'system')
-        ?.children?.find(item => item.path === 'voice');
-
-    if (exist) {
-        return prev;
-    } else {
-        return prev.map(item => {
-            if (item.path === 'system') {
-                item.children = item.children ?? [];
-                item.children.push({
-                    id: 9999,
-                    parentId: item.id,
-                    type: 1,
-                    path: 'voice',
-                    name: '预警声音开关',
-                    sortValue: 99,
-                    status: 0
-                } as SystemMenu);
-                return item;
-            } else {
-                return item;
-            }
-        });
-    }
-};
-
 /**
  * 系统设置下拉菜单
  */
@@ -114,7 +86,7 @@ const SettingMenu: FC<SettingMenuProp> = ({ }) => {
 
     return <Dropdown
         menu={{
-            items: toMenu(addVoiceControlMenu(sysMenuData))
+            items: toMenu(sysMenuData)
         }}
         trigger={['click']}>
         <Button
