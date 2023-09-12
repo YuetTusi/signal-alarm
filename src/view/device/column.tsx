@@ -28,7 +28,13 @@ const getColumns = (handle: ActionHandle): ColumnsType<ComDevice> => {
         key: 'config',
         dataIndex: 'config'
     }, {
-        title: '时间',
+        title: '更新时间',
+        key: 'updateTime',
+        dataIndex: 'updateTime',
+        align: 'center',
+        width: 150,
+    }, {
+        title: '创建时间',
         key: 'createTime',
         dataIndex: 'createTime',
         align: 'center',

@@ -82,7 +82,8 @@ const device = (setState: SetState, _: GetState): DeviceState => ({
                     throw new Error('查询失败');
                 } else {
                     setState({
-                        deviceData: ret.data.records,
+                        deviceData: ret.data.records.sort((a, b) =>
+                            dayjs(b.createTime).valueOf() - dayjs(a.createTime).valueOf()),
                         devicePageIndex: pageIndex,
                         devicePageSize: pageSize,
                         deviceTotal: ret.data.total
@@ -90,7 +91,8 @@ const device = (setState: SetState, _: GetState): DeviceState => ({
                 }
             } else {
                 setState({
-                    deviceData: res.data.records,
+                    deviceData: res.data.records.sort((a, b) =>
+                        dayjs(b.createTime).valueOf() - dayjs(a.createTime).valueOf()),
                     devicePageIndex: pageIndex,
                     devicePageSize: pageSize,
                     deviceTotal: res.data.total
