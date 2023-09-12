@@ -2,7 +2,6 @@ import { FC } from 'react';
 import { Spin } from 'antd';
 import Signal from '@/component/signal';
 import { NoWarpLabel } from '@/component/panel/panel';
-import { getProtocolLabel } from '@/schema/protocol';
 import { ContentLabel } from './content-label';
 import { ListBox } from './styled/box';
 import { CategoryTag } from './category-tag';

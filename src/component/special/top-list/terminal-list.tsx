@@ -3,15 +3,16 @@ import { Spin } from 'antd';
 import { helper } from '@/utility/helper';
 import { NoWarpLabel } from '@/component/panel/panel';
 import Signal from '@/component/signal';
+import { Protocol } from '@/schema/protocol';
 import { SpecialBase } from '@/schema/special-base';
 import { Terminal as TerminalData } from '@/schema/terminal';
-import { Protocol, getProtocolLabel } from '@/schema/protocol';
 import { Terminal } from './terminal';
+import { CategoryTag } from './category-tag';
 import { ListBox } from './styled/box';
 import { TopListProp } from './prop';
 
 /**
- * 终端Top10列表组件
+ * 终端,摄像头Top10列表组件
  */
 const TerminalList: FC<TopListProp> = ({ data, loading }) => {
 
@@ -48,9 +49,10 @@ const TerminalList: FC<TopListProp> = ({ data, loading }) => {
                     </div>
                     <div className="inner-row">
                         <div
-                            title={`${getProtocolLabel(item.protocolType)} （${helper.isNullOrUndefined(item?.siteName) || item?.siteName === '' ? '-' : item?.siteName}）`}
+                            title={`${helper.isNullOrUndefined(item?.siteName) || item?.siteName === '' ? '-' : item?.siteName}`}
                             className="list-row-txt">
-                            {`${getProtocolLabel(item.protocolType)} （${helper.isNullOrUndefined(item?.siteName) || item?.siteName === '' ? '-' : item?.siteName}）`}
+                            <CategoryTag data={item} />
+                            {helper.isNullOrUndefined(item?.siteName) || item?.siteName === '' ? '-' : item?.siteName}
                         </div>
                         <div className="list-row-val">
                             <NoWarpLabel width={110}>{item.captureTime}</NoWarpLabel>

@@ -52,7 +52,7 @@ const toTabItem = (data: SpecialBase[], type: SpiTab, loading: boolean) => [{
         {
             data.length === 0
                 ? <EmptyBox><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></EmptyBox>
-                : <TopList data={data} type={type} loading={loading} />
+                : <TerminalList data={data} type={type} loading={loading} />
         }
     </ScrollPanel>
 }, {
