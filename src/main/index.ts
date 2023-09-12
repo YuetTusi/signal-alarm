@@ -128,7 +128,7 @@ ipcMain.on('maximize', (event: IpcMainEvent) => {
 ipcMain.on('close', (event: IpcMainEvent) => {
     event.preventDefault();
     reportWindows.forEach(win => {
-        if (win) {
+        if (win && !win.isDestroyed()) {
             win.close();
         }
     });
@@ -147,7 +147,7 @@ ipcMain.on('do-close', (_: IpcMainEvent) => {
     //mainWindow通知退出程序
 
     reportWindows.forEach(win => {
-        if (win) {
+        if (win && !win.isDestroyed()) {
             win.close();
             win.destroy();
         }
@@ -225,7 +225,8 @@ ipcMain.on('log', (_, content: string, level: 'info' | 'debug' | 'warn' | 'error
 app.on('window-all-closed', () => {
 
     reportWindows.forEach(win => {
-        if (win) {
+        if (win && !win.isDestroyed()) {
+            win.removeAllListeners();
             win.destroy();
         }
     });
