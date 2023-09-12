@@ -34,13 +34,13 @@ const VoiceControlModal: FC<VoiceControlProp> = ({ onOk, onCancel, open }) => {
     return <Modal
         footer={[
             <Button
-                onClick={onOkClick}
-                type="primary"
-                key="VCM_0">确定</Button>,
-            <Button
                 onClick={() => onCancel()}
                 type="default"
-                key="VCM_1">取消</Button>
+                key="VCM_1">取消</Button>,
+            <Button
+                onClick={onOkClick}
+                type="primary"
+                key="VCM_0">确定</Button>
         ]}
         onCancel={onCancel}
         open={open}

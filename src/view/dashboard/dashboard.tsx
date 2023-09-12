@@ -204,7 +204,7 @@ const Dashboard: FC<{}> = memo(() => {
                         <div>采集时间：{data?.captureTime ?? '-'}</div>
                         <div>协议类型：{data?.protocol ?? '-'}</div>
                         <div>强度：{data?.rssi ?? '-'}</div>
-                        <div>设备ID：{data?.deviceId ?? '-'}</div>
+                        <div>设备场所：{data?.siteName ?? '-'}</div>
                         <div>频点信息：{data?.arfcn ?? '-'}</div>
                         <div>告警级别：{data?.warnLevel ?? '-'}</div>
                         <div>告警原因：{data?.warnReason ?? '-'}</div>

@@ -29,7 +29,7 @@ const WiretapList: FC<TopListProp> = ({ data, type, loading }) => {
                     <NoWarpLabel width={220} title={item.siteName}>{item.siteName ?? '-'}</NoWarpLabel>
                 </div>
                 <div className="list-row-val">
-                    {getProtocolLabel(item.protocolType)}
+                    {item.captureTime}
                 </div>
             </div>
         </div>);
