@@ -5,10 +5,24 @@ import { Protocol } from '@/schema/protocol';
 import { Icon } from './icon';
 import { GrayText, NoWarpLabel, RedText } from '../panel/panel';
 import { ActionType } from './prop';
-import ChinaMobile from '@/assets/image/chinamobile.png';
-import ChinaUnicom from '@/assets/image/chinaunicom.png';
-import ChinaBoardnet from '@/assets/image/chinaboardnet.png';
-import ChinaTelcom from '@/assets/image/telcom.png';
+import ChinaMobileGSM from '@/assets/image/chinamobilegsm.png';
+import ChinaUnicomGSM from '@/assets/image/chinaunicomgsm.png';
+import ChinaTelecomCDMA from '@/assets/image/chinatelecomcdma.png';
+import ChinaUnicomWCDMA from '@/assets/image/ChinaUnicomwcdma.png';
+import ChinaMobileTDDLTE from '@/assets/image/chinamobiletddlte.png';
+import ChinaUnicomFDDLTE from '@/assets/image/chinaunicomfddlte.png';
+import ChinaTelecomFDDLTE from '@/assets/image/ChinaTelecomfddlte.png';
+import ChinaMobile5G from '@/assets/image/chinamobile5g.png';
+import ChinaUnicom5G from '@/assets/image/chinaunicom5G.png';
+import ChinaBroadnet5G from '@/assets/image/chinabroadnet5g.png';
+import ChinaTelecom5G from '@/assets/image/chinatelecom5g.png';
+import Detectaphone from '@/assets/image/detectaphone.png';
+import Bluetooth from '@/assets/image/bluetooth.png';
+import Wifi24 from '@/assets/image/wifi24.png';
+import Wifi58 from '@/assets/image/wifi58.png';
+import GpsLocator from '@/assets/image/gpslocator.png';
+import Camera from '@/assets/image/camera.png';
+import Others from '@/assets/image/others.png';
 
 type ActionHandle = (action: ActionType, record: AlarmMsg) => void;
 
@@ -107,25 +121,46 @@ const getTopColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => {
         title: '',
         key: 'protocolType',
         dataIndex: 'protocolType',
-        width: 30,
+        width: 80,
         align: 'center',
         render(val: Protocol) {
             switch (val) {
                 case Protocol.ChinaMobile5G:
+                    return <Icon src={ChinaMobile5G} />;
                 case Protocol.ChinaMobileGSM:
+                    return <Icon src={ChinaMobileGSM} />;
                 case Protocol.ChinaMobileTDDLTE:
-                    return <Icon src={ChinaMobile} />;
+                    return <Icon src={ChinaMobileTDDLTE} />;
                 case Protocol.ChinaUnicom5G:
+                    return <Icon src={ChinaUnicom5G} />;
                 case Protocol.ChinaUnicomFDDLTE:
+                    return <Icon src={ChinaUnicomFDDLTE} />;
                 case Protocol.ChinaUnicomGSM:
+                    return <Icon src={ChinaUnicomGSM} />;
                 case Protocol.ChinaUnicomWCDMA:
-                    return <Icon src={ChinaUnicom} />;
+                    return <Icon src={ChinaUnicomWCDMA} />;
                 case Protocol.ChinaTelecom5G:
+                    return <Icon src={ChinaTelecom5G} />;
                 case Protocol.ChinaTelecomCDMA:
+                    return <Icon src={ChinaTelecomCDMA} />;
                 case Protocol.ChinaTelecomFDDLTE:
-                    return <Icon src={ChinaTelcom} />;
+                    return <Icon src={ChinaTelecomFDDLTE} />;
                 case Protocol.ChinaBroadnet5G:
-                    return <Icon src={ChinaBoardnet} />;
+                    return <Icon src={ChinaBroadnet5G} />;
+                case Protocol.Detectaphone:
+                    return <Icon src={Detectaphone} />;
+                case Protocol.Bluetooth50:
+                    return <Icon src={Bluetooth} />;
+                case Protocol.WiFi24G:
+                    return <Icon src={Wifi24} />;
+                case Protocol.WiFi58G:
+                    return <Icon src={Wifi58} />;
+                case Protocol.GPSLocator:
+                    return <Icon src={GpsLocator} />;
+                case Protocol.Camera:
+                    return <Icon src={Camera} />;
+                case Protocol.Others:
+                    return <Icon src={Others} />;
                 default:
                     return null;
             }
