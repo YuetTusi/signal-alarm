@@ -1,4 +1,14 @@
-import { Panel, BoxPanel, DisplayPanel, ScrollPanel } from './panel';
+import {
+    Panel, BoxPanel, DisplayPanel, ScrollPanel, GrayText, RedText, NoWarpLabel
+} from './panel';
 
 
-export { Panel, BoxPanel, DisplayPanel, ScrollPanel };
+export {
+    Panel,
+    BoxPanel,
+    DisplayPanel,
+    ScrollPanel,
+    GrayText,
+    RedText,
+    NoWarpLabel
+};

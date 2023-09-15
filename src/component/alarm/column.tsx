@@ -3,7 +3,7 @@ import { ColumnsType } from 'antd/es/table';
 import { AlarmMsg } from '@/schema/alarm-msg';
 import { Protocol } from '@/schema/protocol';
 import { Icon } from './icon';
-import { GrayText, NoWarpLabel, RedText } from '../panel/panel';
+import { GrayText, NoWarpLabel, RedText } from '../panel';
 import { ActionType } from './prop';
 import ChinaMobileGSM from '@/assets/image/chinamobilegsm.png';
 import ChinaUnicomGSM from '@/assets/image/chinaunicomgsm.png';
@@ -26,8 +26,8 @@ import Others from '@/assets/image/others.png';
 
 type ActionHandle = (action: ActionType, record: AlarmMsg) => void;
 
-const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => {
-    return [{
+const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [
+    {
         title: '类型',
         key: 'protocol',
         dataIndex: 'protocol',
@@ -113,123 +113,130 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => {
         render: (val: any, record) => <a onClick={() => {
             handle(ActionType.Detail, record);
         }}>详情</a>
-    }];
-};
+    }
+];
 
-const getTopColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => {
-    return [{
-        title: '',
-        key: 'protocolType',
-        dataIndex: 'protocolType',
-        width: 80,
-        align: 'center',
-        render(val: Protocol) {
-            switch (val) {
-                case Protocol.ChinaMobile5G:
-                    return <Icon src={ChinaMobile5G} />;
-                case Protocol.ChinaMobileGSM:
-                    return <Icon src={ChinaMobileGSM} />;
-                case Protocol.ChinaMobileTDDLTE:
-                    return <Icon src={ChinaMobileTDDLTE} />;
-                case Protocol.ChinaUnicom5G:
-                    return <Icon src={ChinaUnicom5G} />;
-                case Protocol.ChinaUnicomFDDLTE:
-                    return <Icon src={ChinaUnicomFDDLTE} />;
-                case Protocol.ChinaUnicomGSM:
-                    return <Icon src={ChinaUnicomGSM} />;
-                case Protocol.ChinaUnicomWCDMA:
-                    return <Icon src={ChinaUnicomWCDMA} />;
-                case Protocol.ChinaTelecom5G:
-                    return <Icon src={ChinaTelecom5G} />;
-                case Protocol.ChinaTelecomCDMA:
-                    return <Icon src={ChinaTelecomCDMA} />;
-                case Protocol.ChinaTelecomFDDLTE:
-                    return <Icon src={ChinaTelecomFDDLTE} />;
-                case Protocol.ChinaBroadnet5G:
-                    return <Icon src={ChinaBroadnet5G} />;
-                case Protocol.Detectaphone:
-                    return <Icon src={Detectaphone} />;
-                case Protocol.Bluetooth50:
-                    return <Icon src={Bluetooth} />;
-                case Protocol.WiFi24G:
-                    return <Icon src={Wifi24} />;
-                case Protocol.WiFi58G:
-                    return <Icon src={Wifi58} />;
-                case Protocol.GPSLocator:
-                    return <Icon src={GpsLocator} />;
-                case Protocol.Camera:
-                    return <Icon src={Camera} />;
-                case Protocol.Others:
-                    return <Icon src={Others} />;
-                default:
-                    return null;
-            }
+const getTopColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [{
+    title: '',
+    key: 'protocolType',
+    dataIndex: 'protocolType',
+    width: 80,
+    align: 'center',
+    render(val: Protocol) {
+        switch (val) {
+            case Protocol.ChinaMobile5G:
+                return <Icon src={ChinaMobile5G} />;
+            case Protocol.ChinaMobileGSM:
+                return <Icon src={ChinaMobileGSM} />;
+            case Protocol.ChinaMobileTDDLTE:
+                return <Icon src={ChinaMobileTDDLTE} />;
+            case Protocol.ChinaUnicom5G:
+                return <Icon src={ChinaUnicom5G} />;
+            case Protocol.ChinaUnicomFDDLTE:
+                return <Icon src={ChinaUnicomFDDLTE} />;
+            case Protocol.ChinaUnicomGSM:
+                return <Icon src={ChinaUnicomGSM} />;
+            case Protocol.ChinaUnicomWCDMA:
+                return <Icon src={ChinaUnicomWCDMA} />;
+            case Protocol.ChinaTelecom5G:
+                return <Icon src={ChinaTelecom5G} />;
+            case Protocol.ChinaTelecomCDMA:
+                return <Icon src={ChinaTelecomCDMA} />;
+            case Protocol.ChinaTelecomFDDLTE:
+                return <Icon src={ChinaTelecomFDDLTE} />;
+            case Protocol.ChinaBroadnet5G:
+                return <Icon src={ChinaBroadnet5G} />;
+            case Protocol.Detectaphone:
+                return <Icon src={Detectaphone} />;
+            case Protocol.Bluetooth50:
+                return <Icon src={Bluetooth} />;
+            case Protocol.WiFi24G:
+                return <Icon src={Wifi24} />;
+            case Protocol.WiFi58G:
+                return <Icon src={Wifi58} />;
+            case Protocol.GPSLocator:
+                return <Icon src={GpsLocator} />;
+            case Protocol.Camera:
+                return <Icon src={Camera} />;
+            case Protocol.Others:
+                return <Icon src={Others} />;
+            default:
+                return null;
         }
-    }, {
-        title: '类型',
-        key: 'protocol',
-        dataIndex: 'protocol',
-        render(val: string, record) {
-            return record.status === 0 ? <RedText>{val}</RedText> : <GrayText>{val}</GrayText>;
+    }
+}, {
+    title: '类型',
+    key: 'protocol',
+    dataIndex: 'protocol',
+    render(val: string, record) {
+        return record.status === 0 ? <RedText>{val}</RedText> : <GrayText>{val}</GrayText>;
+    }
+},
+// {
+//     title: '告警级别',
+//     key: 'warnLevel',
+//     dataIndex: 'warnLevel',
+//     width: 75,
+//     render(val: string, record) {
+//         return record.status === 0 ? <RedText>{val}</RedText> : <GrayText>{val}</GrayText>;
+//     }
+// }, 
+{
+    title: '频点值',
+    key: 'arfcn',
+    dataIndex: 'arfcn',
+    render(val: string, record) {
+        return record.status === 0 ? <RedText>{val}</RedText> : <GrayText>{val}</GrayText>;
+    }
+},
+{
+    title: '告警原因',
+    key: 'warnReason',
+    dataIndex: 'warnReason',
+    render(val: string, record) {
+        return record.status === 0 ? <RedText>{val}</RedText> : <GrayText>{val}</GrayText>;
+    }
+}, {
+    title: '设备场所',
+    key: 'siteName',
+    dataIndex: 'siteName',
+    render(val: string, record) {
+        return record.status === 0 ? <RedText>{val}</RedText> : <GrayText>{val}</GrayText>;
+    }
+},
+{
+    title: '时间',
+    key: 'captureTime',
+    dataIndex: 'captureTime',
+    align: 'center',
+    width: 150,
+    render(val: string, record) {
+        return record.status === 0 ? <RedText>{val}</RedText> : <GrayText>{val}</GrayText>;
+    }
+}, {
+    title: '处理',
+    key: 'read',
+    dataIndex: 'read',
+    align: 'center',
+    width: 60,
+    render: (val: any, record) => {
+        if (record.status === 0) {
+            return <a onClick={() => {
+                handle(ActionType.Process, record);
+            }}>处理</a>
+        } else {
+            return <span style={{ color: '#707070', cursor: 'not-allowed' }}>已处理</span>
         }
-    }, {
-        title: '告警级别',
-        key: 'warnLevel',
-        dataIndex: 'warnLevel',
-        width: 75,
-        render(val: string, record) {
-            return record.status === 0 ? <RedText>{val}</RedText> : <GrayText>{val}</GrayText>;
-        }
-    }, {
-        title: '告警原因',
-        key: 'warnReason',
-        dataIndex: 'warnReason',
-        render(val: string, record) {
-            return record.status === 0 ? <RedText>{val}</RedText> : <GrayText>{val}</GrayText>;
-        }
-    }, {
-        title: '设备场所',
-        key: 'siteName',
-        dataIndex: 'siteName',
-        render(val: string, record) {
-            return record.status === 0 ? <RedText>{val}</RedText> : <GrayText>{val}</GrayText>;
-        }
-    },
-    {
-        title: '时间',
-        key: 'captureTime',
-        dataIndex: 'captureTime',
-        align: 'center',
-        width: 150,
-        render(val: string, record) {
-            return record.status === 0 ? <RedText>{val}</RedText> : <GrayText>{val}</GrayText>;
-        }
-    }, {
-        title: '处理',
-        key: 'read',
-        dataIndex: 'read',
-        align: 'center',
-        width: 60,
-        render: (val: any, record) => {
-            if (record.status === 0) {
-                return <a onClick={() => {
-                    handle(ActionType.Process, record);
-                }}>处理</a>
-            } else {
-                return <span style={{ color: '#707070', cursor: 'not-allowed' }}>已处理</span>
-            }
-        }
-    }, {
-        title: '详情',
-        key: 'detail',
-        dataIndex: 'detail',
-        align: 'center',
-        width: 60,
-        render: (val: any, record) => <a onClick={() => {
-            handle(ActionType.Detail, record);
-        }}>详情</a>
-    }];
-};
-
+    }
+}, {
+    title: '详情',
+    key: 'detail',
+    dataIndex: 'detail',
+    align: 'center',
+    width: 60,
+    render: (val: any, record) => <a onClick={() => {
+        handle(ActionType.Detail, record);
+    }}>详情</a>
+}];
 
 export { getColumns, getTopColumns };

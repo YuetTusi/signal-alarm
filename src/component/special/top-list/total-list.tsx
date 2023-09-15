@@ -4,7 +4,7 @@ import { helper } from '@/utility/helper';
 import { NoWarpLabel } from '@/component/panel/panel';
 import { Hotspot } from '@/schema/hotspot';
 import { SpecialBase } from '@/schema/special-base';
-import { Protocol, getProtocolLabel } from '@/schema/protocol';
+import { Protocol } from '@/schema/protocol';
 import { Terminal as TerminalData } from '@/schema/terminal';
 import Signal from '@/component/signal';
 import { ContentLabel } from './content-label';
@@ -19,6 +19,17 @@ import { TotalListProp } from './prop';
  */
 const TotalList: FC<TotalListProp> = ({ data, type, loading }) => {
 
+    /**
+     * 渲染频点值
+     */
+    const renderArfcn = (data: SpecialBase) => {
+        if (helper.isNullOrUndefined((data as any)?.arfcn)) {
+            return null;
+        } else {
+            return <span className="arf">[{(data as any).arfcn}]</span>
+        }
+    };
+
     const renderContent = (item: SpecialBase) => {
         switch (item.protocolType) {
             case Protocol.WiFi24G:
@@ -32,6 +43,7 @@ const TotalList: FC<TotalListProp> = ({ data, type, loading }) => {
                     <div className="inner-row">
                         <div className="list-row-txt">
                             <ContentLabel type={type} data={item} />
+                            {renderArfcn(item)}
                         </div>
                         <div className="list-row-val">
                             <Signal value={Number(item?.rssi)} max={0} min={-100} />

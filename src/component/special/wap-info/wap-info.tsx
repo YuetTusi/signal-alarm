@@ -6,7 +6,14 @@ import { DisplayPanel } from '@/component/panel';
 import { ScrollPanel } from '@/component/panel/panel';
 import { Protocol } from '@/schema/protocol';
 import { SpecialBase } from '@/schema/special-base';
-import { TopList, TerminalList, HotspotList, TotalList, WiretapList } from '../top-list';
+import {
+    TopList,
+    WapList,
+    TerminalList,
+    HotspotList,
+    TotalList,
+    WiretapList
+} from '../top-list';
 import DetailModal from '../detail-modal';
 import { EmptyBox, WapInfoBox } from './styled/style';
 import { WapInfoProp, SpiTab } from './prop';
@@ -32,7 +39,7 @@ const toTabItem = (data: SpecialBase[], type: SpiTab, loading: boolean) => [{
         {
             data.length === 0
                 ? <EmptyBox><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></EmptyBox>
-                : <TopList data={data} type={type} loading={loading} />
+                : <WapList data={data} type={type} loading={loading} />
         }
     </ScrollPanel>
 }, {

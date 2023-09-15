@@ -1,17 +1,17 @@
 import { FC } from 'react';
 import { Spin } from 'antd';
-import { Wap } from '@/schema/wap';
 import Signal from '@/component/signal';
 import { NoWarpLabel } from '@/component/panel/panel';
 import { ContentLabel } from './content-label';
 import { CategoryTag } from './category-tag';
 import { ListBox } from './styled/box';
 import { TopListProp } from './prop';
+import { Wap } from '@/schema/wap';
 
 /**
- * Top10列表组件
+ * 制式信号Top10列表组件
  */
-const TopList: FC<TopListProp> = ({ data, type, loading }) => {
+const WapList: FC<TopListProp> = ({ data, type, loading }) => {
 
     const renderList = () => data.map(
         (item, index) => <div className="list-row" key={`WL_${index}`}>
@@ -42,9 +42,9 @@ const TopList: FC<TopListProp> = ({ data, type, loading }) => {
     </Spin>
 };
 
-TopList.defaultProps = {
+WapList.defaultProps = {
     data: [],
     loading: false
 };
 
-export { TopList };
+export { WapList };

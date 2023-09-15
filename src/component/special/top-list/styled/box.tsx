@@ -5,6 +5,11 @@ export const ListBox = styled.div`
     position: relative;
     padding:4px;
 
+    .arf{
+        display: inline-block;
+        margin-left:5px;
+    }
+
     &>.list-row{
         font-size: 1.2rem;
         padding: 4px 5px;

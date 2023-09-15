@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { Spin } from 'antd';
+import { Wap } from '@/schema/wap';
 import Signal from '@/component/signal';
 import { NoWarpLabel } from '@/component/panel/panel';
 import { ContentLabel } from './content-label';
@@ -17,6 +18,7 @@ const WiretapList: FC<TopListProp> = ({ data, type, loading }) => {
             <div className="inner-row">
                 <div className="list-row-txt">
                     <ContentLabel type={type} data={item} />
+                    <span className="arf">[{(item as Wap).arfcn}]</span>
                 </div>
                 <div className="list-row-val">
                     <Signal value={Number(item?.rssi)} max={0} min={-100} />
