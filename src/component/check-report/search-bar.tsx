@@ -10,7 +10,7 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch }) => {
 
     useEffect(() => {
         formRef.setFieldsValue({
-            beginTime: dayjs().add(-1, 'M'),
+            beginTime: dayjs().add(-1, 'w'),
             endTime: dayjs()
         });
     }, []);

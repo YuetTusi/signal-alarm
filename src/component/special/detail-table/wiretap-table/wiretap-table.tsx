@@ -43,8 +43,8 @@ const WiretapTable: FC<WiretapTableProp> = () => {
 
     useEffect(() => {
         querySpecialWiretapData(1, helper.PAGE_SIZE, {
-            beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD HH:mm:ss'),
-            endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
+            beginTime: dayjs().add(-1, 'w').format('YYYY-MM-DD 00:00:00'),
+            endTime: dayjs().format('YYYY-MM-DD 23:59:59')
         });
     }, []);
 
@@ -55,8 +55,8 @@ const WiretapTable: FC<WiretapTableProp> = () => {
         const { beginTime, endTime, site } = formRef.getFieldsValue();
         try {
             await querySpecialWiretapData(pageIndex, pageSize, {
-                beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
-                endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
+                beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
+                endTime: endTime.format('YYYY-MM-DD 23:59:59'),
                 deviceId: helper.getDeviceIdFromDropdown(site)
             });
         } catch (error) {
@@ -73,8 +73,8 @@ const WiretapTable: FC<WiretapTableProp> = () => {
     const onSearch = async (beginTime: Dayjs, endTime: Dayjs, deviceId?: string) => {
         try {
             await querySpecialWiretapData(1, helper.PAGE_SIZE, {
-                beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
-                endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
+                beginTime: beginTime.format('YYYY-MM-DD 00:00:00'),
+                endTime: endTime.format('YYYY-MM-DD 23:59:59'),
                 deviceId
             });
         } catch (error) {
