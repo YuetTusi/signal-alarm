@@ -20,7 +20,7 @@ const getColumns = (handle: ActionHandle): ColumnsType<ComDevice> => {
         dataIndex: 'deviceIp',
         width: 130
     }, {
-        title: '场所名称',
+        title: '设备场所',
         key: 'siteName',
         dataIndex: 'siteName'
     }, {

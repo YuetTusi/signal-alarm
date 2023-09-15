@@ -29,7 +29,7 @@ const WapTable: FC<WapTableProp> = ({ parentOpen }) => {
     useEffect(() => {
         if (parentOpen) {
             querySpecialWapData(1, helper.PAGE_SIZE, {
-                beginTime: dayjs().add(-1, 'M').format('YYYY-MM-DD 00:00:00'),
+                beginTime: dayjs().add(-1, 'w').format('YYYY-MM-DD 00:00:00'),
                 endTime: dayjs().format('YYYY-MM-DD 23:59:59'),
                 protocolTypes: helper.protocolToString([
                     Protocol.ChinaMobileGSM,

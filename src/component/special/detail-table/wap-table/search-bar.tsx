@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { FC, useEffect, MouseEvent } from 'react';
-import { Form, Button, DatePicker, TreeSelect } from 'antd';
+import { Form, Button, DatePicker, TreeSelect, TreeNodeProps } from 'antd';
 import { useModel } from '@/model';
 import { helper } from '@/utility/helper';
 import { SearchBarBox } from './styled/box';
@@ -24,7 +24,7 @@ const SearchBar: FC<SearchBarProp> = ({
     useEffect(() => {
         if (parentOpen) {
             formRef.setFieldsValue({
-                beginTime: dayjs(dayjs().add(-1, 'M').format('YYYY-MM-DD 00:00:00')),
+                beginTime: dayjs(dayjs().add(-1, 'w').format('YYYY-MM-DD 00:00:00')),
                 endTime: dayjs(dayjs().format('YYYY-MM-DD 23:59:59')),
                 type: 'all',
                 site: [JSON.stringify({ type: 'all', deviceId: [] })]
@@ -92,7 +92,7 @@ const SearchBar: FC<SearchBarProp> = ({
                         autoClearSearchValue={false}
                         treeCheckable={true}
                         filterTreeNode={true}
-                        // showSearch={true}
+                        treeNodeFilterProp="title"
                         showCheckedStrategy={TreeSelect.SHOW_PARENT}
                         treeDefaultExpandAll={true}
                         treeLine={true}

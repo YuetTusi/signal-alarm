@@ -76,6 +76,7 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
                         autoClearSearchValue={false}
                         treeCheckable={true}
                         filterTreeNode={true}
+                        treeNodeFilterProp="title"
                         showCheckedStrategy={TreeSelect.SHOW_PARENT}
                         treeDefaultExpandAll={true}
                         treeLine={true}

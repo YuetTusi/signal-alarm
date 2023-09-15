@@ -101,10 +101,10 @@ const DeviceForm: FC<DeviceFormProp> = ({ data, formRef }) => {
         </Item>
         <Item
             rules={[
-                { required: true, message: '请填写场所名称' }
+                { required: true, message: '请填写设备场所' }
             ]}
             name="siteName"
-            label="场所名称">
+            label="设备场所">
             <Input />
         </Item>
         <Item

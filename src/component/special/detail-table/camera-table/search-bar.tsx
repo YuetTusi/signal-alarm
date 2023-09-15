@@ -20,7 +20,7 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
 
     useEffect(() => {
         formRef.setFieldsValue({
-            beginTime: dayjs(dayjs().add(-1, 'M').format('YYYY-MM-DD 00:00:00')),
+            beginTime: dayjs(dayjs().add(-1, 'w').format('YYYY-MM-DD 00:00:00')),
             endTime: dayjs(dayjs().format('YYYY-MM-DD 23:59:59')),
             site: [JSON.stringify({ type: 'all', deviceId: [] })]
         });
@@ -76,7 +76,7 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
                         autoClearSearchValue={false}
                         treeCheckable={true}
                         filterTreeNode={true}
-                        // showSearch={true}
+                        treeNodeFilterProp="title"
                         showCheckedStrategy={TreeSelect.SHOW_PARENT}
                         treeDefaultExpandAll={true}
                         treeLine={true}

@@ -6,6 +6,7 @@ import { SetFormValue, SetModalProp } from './prop';
 
 const { Option } = Select;
 const { Item, useForm } = Form;
+const { Item: DescItem } = Descriptions;
 
 /**
  * 下发
@@ -45,18 +46,18 @@ const SetModal: FC<SetModalProp> = ({
             bordered={true}
             size="small"
             style={{ marginTop: '20px' }}>
-            <Descriptions.Item label="设备ID" span={3}>{data?.deviceId ?? ''}</Descriptions.Item>
-            <Descriptions.Item label="设备IP" span={3}>{data?.deviceIp ?? ''}</Descriptions.Item>
-            <Descriptions.Item label="设备名称" span={3}>{data?.deviceName ?? ''}</Descriptions.Item>
-            <Descriptions.Item label="场所名称" span={3}>{data?.siteName ?? ''}</Descriptions.Item>
-            <Descriptions.Item label="设备配置" span={3}>{data?.config ?? ''}</Descriptions.Item>
-            <Descriptions.Item label="状态" span={3}>
+            <DescItem label="设备ID" span={3}>{data?.deviceId ?? ''}</DescItem>
+            <DescItem label="设备IP" span={3}>{data?.deviceIp ?? ''}</DescItem>
+            <DescItem label="设备名称" span={3}>{data?.deviceName ?? ''}</DescItem>
+            <DescItem label="设备场所" span={3}>{data?.siteName ?? ''}</DescItem>
+            <DescItem label="设备配置" span={3}>{data?.config ?? ''}</DescItem>
+            <DescItem label="状态" span={3}>
                 {
                     data?.status === DeviceState.Normal
                         ? <Tag color="green">工作</Tag>
                         : <Tag color="red">异常</Tag>
                 }
-            </Descriptions.Item>
+            </DescItem>
         </Descriptions>
     </DescBox>;
 
