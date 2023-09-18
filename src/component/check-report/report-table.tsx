@@ -24,8 +24,8 @@ const ReportTable: FC<{}> = () => {
 
     useEffect(() => {
         queryCheckReportData(1, helper.PAGE_SIZE, {
-            beginTime: dayjs().add(-1, 'w').format('YYYY-MM-DD HH:mm:ss'),
-            endTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+            beginTime: dayjs().add(-1, 'w').format('YYYY-MM-DD 00:00:00'),
+            endTime: dayjs().format('YYYY-MM-DD 23:59:59'),
         });
     }, []);
 
