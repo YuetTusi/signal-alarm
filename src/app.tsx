@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import localforage from 'localforage';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from '@/styled/global';
@@ -17,6 +18,7 @@ import { blue } from '@/theme/blue';
 
 dayjs.locale('zh-cn');
 dayjs.extend(customParseFormat);
+dayjs.extend(relativeTime);
 
 localforage.config({
     driver: [

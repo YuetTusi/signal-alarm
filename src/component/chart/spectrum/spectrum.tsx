@@ -15,10 +15,9 @@ import {
 } from 'echarts/components';
 import { LabelLayout, UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
-import { helper } from '@/utility/helper';
+import { useResize } from '@/hook';
 import { ChartBox, EmptyBox } from './styled/box';
 import { SpectrumProp } from './prop';
-import { useResize, useUnmount } from '@/hook';
 
 
 // 注册必须的组件
@@ -110,7 +109,7 @@ const Spectrum: FC<SpectrumProp> = ({ domId, data, arfcn, serieName, captureTime
                     type: 'value',
                     axisLabel: {
                         inside: true,
-                        formatter: function (value: string) {
+                        formatter(value: string) {
                             return value + '';
                         }
                     },

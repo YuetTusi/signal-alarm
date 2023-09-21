@@ -121,14 +121,14 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
     };
 
     /**
-     * 生成报告时间差(秒)
+     * 生成报告时间差
      * @param startTime 开始时间
      * @param endTime 结束时间
      */
     const renderDuring = (startTime: number | null, endTime: number | null) => {
         if (startTime && endTime) {
-            const diff = dayjs(endTime).diff(startTime, 'seconds');
-            return diff < 1 ? '1s' : diff.toString() + 's';
+            const diff = dayjs(endTime).diff(startTime);
+            return dayjs('00:00:00', 'HH:mm:ss').add(diff, 'ms').format('HH:mm:ss');
         } else {
             return '-';
         }

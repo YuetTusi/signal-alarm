@@ -48,21 +48,24 @@ const getColumns = (onDownload: (report: QuickCheckReport) => void) => [{
     title: '开始时间',
     key: 'startTime',
     dataIndex: 'startTime',
+    align: 'center',
     width: 150,
     render: (val: number) => dayjs(val).format('YYYY-MM-DD HH:mm:ss')
 }, {
     title: '持续时间',
     key: 'sec',
     dataIndex: 'sec',
+    align: 'center',
     width: 80,
-    render: (_: any, record) => {
-        const diff = dayjs(record.endTime).diff(record.startTime, 'seconds');
-        return diff < 1 ? '1s' : diff.toString() + 's';
+    render: (_: any, { startTime, endTime }) => {
+        const diff = dayjs(endTime).diff(startTime);
+        return dayjs('00:00:00', 'HH:mm:ss').add(diff, 'ms').format('HH:mm:ss')
     }
 }, {
     title: '结束时间',
     key: 'endTime',
     dataIndex: 'endTime',
+    align: 'center',
     width: 150,
     render: (val: any) => dayjs(val).format('YYYY-MM-DD HH:mm:ss')
 }, {
