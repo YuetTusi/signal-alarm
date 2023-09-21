@@ -72,11 +72,19 @@ const historySpectrum = (setState: SetState, _: GetState): HistorySpectrumState 
             }>(url);
 
             if (res !== null && res.code === 200) {
-                setState({
-                    historySpectrumData: typeof res.data?.dbArray === 'string' ? JSON.parse(res.data.dbArray) : (res.data?.dbArray ?? []),
-                    historySpectrumCaptureTime: res.data?.captureTime === undefined ? 0 : Number.parseInt(res.data.captureTime),
-                    historySpectrumDeviceId: res.data?.deviceId ?? ''
-                });
+                if (helper.isNullOrUndefined(res.data)) {
+                    setState({
+                        historySpectrumData: new Array(7499).map(() => '-') as any[],
+                        historySpectrumCaptureTime: 0,
+                        historySpectrumDeviceId: ''
+                    });
+                } else {
+                    setState({
+                        historySpectrumData: typeof res.data.dbArray === 'string' ? JSON.parse(res.data.dbArray) : res.data!.dbArray,
+                        historySpectrumCaptureTime: Number.parseInt(res.data.captureTime),
+                        historySpectrumDeviceId: res.data.deviceId ?? ''
+                    });
+                }
             } else {
                 setState({ historySpectrumData: [] });
             }

@@ -14,7 +14,6 @@ const SettingMenu: FC<SettingMenuProp> = ({ }) => {
     const navigator = useNavigate();
     const {
         sysMenuData,
-        setVoiceConrolModalOpen,
         setAlarmDetailModalOpen,
         setQuickCheckReportDetailModalOpen,
         setSpecialDetailModalOpen,
@@ -22,7 +21,6 @@ const SettingMenu: FC<SettingMenuProp> = ({ }) => {
     } = useModel(state => ({
         sysMenuData: state.sysMenuData,
         voiceConrolModalOpen: state.voiceConrolModalOpen,
-        setVoiceConrolModalOpen: state.setVoiceConrolModalOpen,
         setAlarmDetailModalOpen: state.setAlarmDetailModalOpen,
         setQuickCheckReportDetailModalOpen: state.setQuickCheckReportDetailModalOpen,
         setSpecialDetailModalOpen: state.setSpecialDetailModalOpen,
@@ -41,12 +39,15 @@ const SettingMenu: FC<SettingMenuProp> = ({ }) => {
         // console.log(type, path);
         switch (path) {
             case 'spiSearch':
+                navigator('/dashboard');
                 setSpecialDetailModalOpen(true);
                 break;
             case 'warnSearch':
+                navigator('/dashboard');
                 setAlarmDetailModalOpen(true);
                 break;
             case 'checkReport':
+                navigator('/dashboard');
                 setQuickCheckReportDetailModalOpen(true);
                 break;
             case 'devops':

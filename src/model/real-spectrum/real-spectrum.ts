@@ -70,9 +70,16 @@ const realSpectrum = (setState: SetState, _: GetState): RealSpectrumState => ({
             }>(url);
 
             if (res !== null && res.code === 200) {
-                const data = JSON.parse(res.data.dbArray);
+
+                if (helper.isNullOrUndefined(res.data)) {
+                    setState({
+                        realSpectrumData: new Array(7499).map(() => '-') as any[],
+                        realSpectrumCaptureTime: 0,
+                        realSpectrumDeviceId: deviceId
+                    });
+                }
                 setState({
-                    realSpectrumData: data,
+                    realSpectrumData: typeof res.data.dbArray === 'string' ? JSON.parse(res.data.dbArray) : res.data.dbArray,
                     realSpectrumCaptureTime: Number.parseInt(res.data.captureTime),
                     realSpectrumDeviceId: deviceId
                 });
