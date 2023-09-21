@@ -6,11 +6,11 @@ import { useUnmount } from '@/hook';
 import { useModel } from '@/model';
 import { helper } from '@/utility/helper';
 import { Spectrum } from '@/component/chart';
+import { toSelectData } from './tool';
 import {
     SearchBar, SpectrumBox, TableBox
 } from './styled/box';
 import { RealSpectrumProp, SearchForm } from './prop';
-import { toSelectData } from './tool';
 
 // const { Option } = Select;
 const { useForm, Item } = Form;
@@ -94,7 +94,6 @@ const RealSpectrum: FC<RealSpectrumProp> = () => {
             <div>
                 <Form form={formRef} layout="inline">
                     <Item
-                        initialValue={'zrt-test-x00001'}
                         name="device"
                         label="设备">
                         <Select

@@ -1,13 +1,14 @@
 import dayjs from 'dayjs';
-import { FC, MouseEvent, useEffect, useState } from 'react';
-import { App, Form, Select, Button, DatePicker } from 'antd';
-import { HistorySpectrumProp, HistorySearchForm } from './prop';
-import { SearchBar, SpectrumBox, TableBox } from './styled/box';
+import { FC, MouseEvent, useEffect } from 'react';
+import { App, Form, Select, Button, DatePicker, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { toSelectData } from './tool';
 import { useModel } from '@/model';
 import { useUnmount } from '@/hook';
 import { Spectrum } from '@/component/chart';
+import { helper } from '@/utility/helper';
+import { toSelectData } from './tool';
+import { HistorySpectrumProp, HistorySearchForm } from './prop';
+import { SearchBar, SpectrumBox, TableBox } from './styled/box';
 
 const { Option } = Select;
 const { useForm, Item } = Form;
@@ -91,9 +92,14 @@ const HistorySpectrum: FC<HistorySpectrumProp> = () => {
      */
     const onSearchClick = async (event: MouseEvent<HTMLElement>) => {
         event.preventDefault();
-        setReading(true);
         const { getFieldsValue } = formRef;
         const values = getFieldsValue();
+        if (helper.isNullOrUndefined(values.device)) {
+            message.destroy();
+            message.warning('请选择设备');
+            return;
+        }
+        setReading(true);
         clearInterval(timer);
         try {
             await queryHistorySpectrumData(values.device, values.beginTime.unix());
@@ -144,7 +150,6 @@ const HistorySpectrum: FC<HistorySpectrumProp> = () => {
             <div>
                 <Form form={formRef} layout="inline">
                     <Item
-                        initialValue={'zrt-test-x00001'}
                         name="device"
                         label="设备">
                         <Select
