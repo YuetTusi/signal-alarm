@@ -19,6 +19,8 @@ import { device, DeviceState } from './device';
 import { specialTop, SpecialTopState } from './special-top';
 import { checkReport, CheckReportState } from './check-report';
 import { sysMenu, SysMenuState } from './sys-menu';
+import { realSpectrum, RealSpectrumState } from './real-spectrum';
+import { historySpectrum, HistorySpectrumState } from './history-spectrum';
 
 interface OtherState {
     [stateName: string]: any
@@ -46,7 +48,9 @@ type State = OtherState
     & DeviceState
     & SpecialTopState
     & CheckReportState
-    & SysMenuState;
+    & SysMenuState
+    & RealSpectrumState
+    & HistorySpectrumState;
 
 type GetState = StoreApi<State>['getState'];
 type SetState = StoreApi<State>['setState'];
@@ -74,7 +78,9 @@ const useModel = create<State>(zustandLog((setState: SetState, getState: GetStat
     ...device(setState, getState),
     ...specialTop(setState, getState),
     ...checkReport(setState, getState),
-    ...sysMenu(setState, getState)
+    ...sysMenu(setState, getState),
+    ...realSpectrum(setState, getState),
+    ...historySpectrum(setState, getState)
 }), false));
 
 export type { State, GetState, SetState };

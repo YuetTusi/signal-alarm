@@ -37,6 +37,8 @@ const SettingMenu: FC<SettingMenuProp> = ({ }) => {
         if (type !== 1) {
             return;
         }
+        // console.clear();
+        // console.log(type, path);
         switch (path) {
             case 'spiSearch':
                 setSpecialDetailModalOpen(true);
@@ -48,10 +50,16 @@ const SettingMenu: FC<SettingMenuProp> = ({ }) => {
                 setQuickCheckReportDetailModalOpen(true);
                 break;
             case 'devops':
+                //设备管理
                 navigator('/device');
                 break;
-            case 'voice':
-                setVoiceConrolModalOpen(true);
+            case 'realTimeSpectrum':
+                //实时频谱
+                navigator('/real-spectrum');
+                break;
+            case 'historySpectrum':
+                //历史频谱
+                navigator('/history-spectrum');
                 break;
         }
     };

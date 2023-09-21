@@ -4,6 +4,7 @@ import Layout from '@/component/layout';
 import Login from '@/view/login';
 import Dashboard from '@/view/dashboard';
 import Device from '@/view/device';
+import { RealSpectrum, HistorySpectrum } from '@/view/spectrum';
 
 /**
  * 路由定义 
@@ -22,6 +23,22 @@ export const ViewRouter: FC<{}> = () => <Router>
                     <Dashboard />
                 </Layout>
             } />
+        <Route
+            path="/real-spectrum"
+            element={
+                <Layout>
+                    <RealSpectrum />
+                </Layout>
+            }
+        />
+        <Route
+            path="/history-spectrum"
+            element={
+                <Layout>
+                    <HistorySpectrum />
+                </Layout>
+            }
+        />
         <Route
             path="/device"
             element={

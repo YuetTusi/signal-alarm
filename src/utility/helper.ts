@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from 'fs';
+import util from 'util';
 import crypto from 'crypto';
 import electron from 'electron';
 import dayjs from "dayjs";
@@ -48,6 +49,10 @@ const helper = {
      * @param val 任意值
      */
     isNullOrUndefined: (val: any) => (val === undefined || val === null),
+    /**
+     * 判断对象是否为Promise
+     */
+    isPromise: (val: any) => typeof val === 'object' && typeof val.then === 'function',
     /**
      * 新id 
      */

@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 const { ipcRenderer } = electron;
 
-type HandleType = (event: electron.IpcRendererEvent, rect: electron.Rectangle) => void;
+type HandleType = (event: Event) => void;
 
 /**
  * 窗口大小改变hook
@@ -11,12 +11,9 @@ type HandleType = (event: electron.IpcRendererEvent, rect: electron.Rectangle) =
 const useResize = (handle: HandleType) => {
 
     useEffect(() => {
-
-        console.log('resize', handle);
-        ipcRenderer.on('resize', handle);
-
+        window.addEventListener('resize', handle);
         return () => {
-            ipcRenderer.removeListener('resize', handle);
+            window.removeEventListener('resize', handle);
         }
     }, []);
 };
