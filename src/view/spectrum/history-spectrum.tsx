@@ -75,10 +75,10 @@ const HistorySpectrum: FC<HistorySpectrumProp> = () => {
     useEffect(() => {
         queryRealSpectrumDeviceList();
         formRef.setFieldsValue({
-            beginTime: dayjs('2023-09-15 16:39:45'),
-            endTime: dayjs('2023-09-15 16:40:59')
-            // beginTime: dayjs(dayjs().add(-1, 'w').format('YYYY-MM-DD 00:00:00')),
-            // endTime: dayjs(dayjs().format('YYYY-MM-DD 23:59:59')),
+            // beginTime: dayjs('2023-09-15 16:39:45'),
+            // endTime: dayjs('2023-09-15 16:40:59')
+            beginTime: dayjs(dayjs().add(-1, 'w').format('YYYY-MM-DD 00:00:00')),
+            endTime: dayjs(dayjs().format('YYYY-MM-DD 23:59:59')),
         })
     }, []);
 
