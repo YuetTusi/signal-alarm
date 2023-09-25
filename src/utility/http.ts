@@ -74,7 +74,7 @@ class HttpRequest {
      * @param fetchUrl URL
      */
     get<T = any>(fetchUrl: string): Promise<null | RequestResult<T>> {
-        // console.log(`GET ${fetchUrl}`);
+        console.log(`GET ${fetchUrl}`);
         const options = url.parse(this._getFetchUrl(fetchUrl));
         let data = '';
         return new Promise((resolve, reject) => {

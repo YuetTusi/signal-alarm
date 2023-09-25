@@ -21,6 +21,9 @@ import { checkReport, CheckReportState } from './check-report';
 import { sysMenu, SysMenuState } from './sys-menu';
 import { realSpectrum, RealSpectrumState } from './real-spectrum';
 import { historySpectrum, HistorySpectrumState } from './history-spectrum';
+import { baseSpectrum, BaseSpectrumState } from './base-spectrum';
+import { sysUser, SysUserState } from './sys-user';
+import { sysRole, SysRoleState } from './sys-role';
 
 interface OtherState {
     [stateName: string]: any
@@ -50,7 +53,10 @@ type State = OtherState
     & CheckReportState
     & SysMenuState
     & RealSpectrumState
-    & HistorySpectrumState;
+    & HistorySpectrumState
+    & BaseSpectrumState
+    & SysUserState
+    & SysRoleState;
 
 type GetState = StoreApi<State>['getState'];
 type SetState = StoreApi<State>['setState'];
@@ -80,7 +86,10 @@ const useModel = create<State>(zustandLog((setState: SetState, getState: GetStat
     ...checkReport(setState, getState),
     ...sysMenu(setState, getState),
     ...realSpectrum(setState, getState),
-    ...historySpectrum(setState, getState)
+    ...historySpectrum(setState, getState),
+    ...baseSpectrum(setState, getState),
+    ...sysUser(setState, getState),
+    ...sysRole(setState, getState)
 }), false));
 
 export type { State, GetState, SetState };

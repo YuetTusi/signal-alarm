@@ -26,3 +26,13 @@ export interface HistorySearchForm {
     endTime: Dayjs,
     speed: number
 }
+
+/**
+ * 查询表单
+ */
+export interface BaseSearchForm {
+    name: string,
+    device: string,
+    beginTime: Dayjs,
+    endTime: Dayjs
+}

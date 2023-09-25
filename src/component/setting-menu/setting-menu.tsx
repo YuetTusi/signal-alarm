@@ -4,7 +4,7 @@ import { MenuOutlined } from '@ant-design/icons';
 import { Button, Dropdown } from 'antd';
 import { useModel } from '@/model';
 import { SystemMenu } from '@/schema/system-menu';
-import { SettingMenuProp } from './prop';
+import { SettingMenuProp, MenuPath } from './prop';
 
 /**
  * 系统设置下拉菜单
@@ -35,32 +35,59 @@ const SettingMenu: FC<SettingMenuProp> = ({ }) => {
         if (type !== 1) {
             return;
         }
-        // console.clear();
-        // console.log(type, path);
+        console.clear();
+        console.log(type, path);
         switch (path) {
-            case 'spiSearch':
+            case MenuPath.SpiSearch:
+                //专项检查
                 navigator('/dashboard');
                 setSpecialDetailModalOpen(true);
                 break;
-            case 'warnSearch':
+            case MenuPath.WarnSearch:
+                //预警信息
                 navigator('/dashboard');
                 setAlarmDetailModalOpen(true);
                 break;
-            case 'checkReport':
+            case MenuPath.CheckReport:
+                //检查报告
                 navigator('/dashboard');
                 setQuickCheckReportDetailModalOpen(true);
                 break;
-            case 'devops':
+            case MenuPath.Devops:
                 //设备管理
                 navigator('/device');
                 break;
-            case 'realTimeSpectrum':
+            case MenuPath.RealTimeSpectrum:
                 //实时频谱
                 navigator('/real-spectrum');
                 break;
-            case 'historySpectrum':
+            case MenuPath.HistorySpectrum:
                 //历史频谱
                 navigator('/history-spectrum');
+                break;
+            case MenuPath.BaseSpectrum:
+                //背景频谱
+                navigator('/base-spectrum');
+                break;
+            case MenuPath.Middle:
+                //中间件
+                navigator('/middleware');
+                break;
+            case MenuPath.SysMenu:
+                //系统菜单
+                break;
+            case MenuPath.SysRole:
+                //角色管理
+                break;
+            case MenuPath.SysUser:
+                //用户管理
+                navigator('/sys-user');
+                break;
+            case MenuPath.SysOperLog:
+                //操作日志
+                break;
+            case MenuPath.SysLoginLog:
+                //登录日志
                 break;
         }
     };

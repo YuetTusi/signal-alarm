@@ -23,5 +23,8 @@ export const toSelectData = (devices: ComDevice[]) => {
             });
         }
     }
+
+    data.unshift({ label: '全部', value: '-1' });
+
     return data
 }
