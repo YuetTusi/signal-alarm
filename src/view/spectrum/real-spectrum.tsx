@@ -84,6 +84,13 @@ const RealSpectrum: FC<RealSpectrumProp> = () => {
     }, 500, { leading: true, trailing: false });
 
     /**
+     * 频谱比对 Click
+     */
+    const onCompareClick = async (event: MouseEvent<HTMLElement>) => {
+        event.preventDefault();
+    };
+
+    /**
      * 返回Click
      */
     const onGoBackClick = (_: MouseEvent<HTMLElement>) =>
@@ -110,6 +117,11 @@ const RealSpectrum: FC<RealSpectrumProp> = () => {
                         <Button
                             onClick={onSearchClick}
                             type="primary">查询</Button>
+                    </Item>
+                    <Item>
+                        <Button
+                            onClick={onCompareClick}
+                            type="primary">比对</Button>
                     </Item>
                     <Item>
                         <Button

@@ -1,4 +1,4 @@
-import { Button, Tag } from 'antd';
+import { Tag } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { BaseFreq } from '@/schema/base-freq';
 
@@ -9,7 +9,7 @@ type ActionHandle = (action: any, record: BaseFreq) => void;
  */
 const getBaseColumns = (handle: ActionHandle): ColumnsType<BaseFreq> => {
     return [{
-        title: '频谱名称',
+        title: '背景频谱名称',
         key: 'baseFreqName',
         dataIndex: 'baseFreqName'
     }, {
@@ -20,14 +20,6 @@ const getBaseColumns = (handle: ActionHandle): ColumnsType<BaseFreq> => {
         title: '描述',
         key: 'description',
         dataIndex: 'description'
-    }, {
-        title: 'freqArray',
-        key: 'freqArray',
-        dataIndex: 'freqArray'
-    }, {
-        title: 'aliasName',
-        key: 'aliasName',
-        dataIndex: 'aliasName'
     }, {
         title: '状态',
         key: 'status',

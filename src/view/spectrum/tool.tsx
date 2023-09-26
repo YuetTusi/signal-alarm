@@ -3,8 +3,9 @@ import { ComDevice } from "@/schema/com-device";
 /**
  * 转为Select组件数据
  * @param devices 设备数据
+ * @param useAll 增加全部选项
  */
-export const toSelectData = (devices: ComDevice[]) => {
+export const toSelectData = (devices: ComDevice[], useAll = false) => {
     let set = new Set(devices.map(i => i.siteName));
     let data: any[] = [];
     if (devices.length === 0) {
@@ -24,7 +25,9 @@ export const toSelectData = (devices: ComDevice[]) => {
         }
     }
 
-    data.unshift({ label: '全部', value: '-1' });
+    if (useAll) {
+        data.unshift({ label: '全部', value: '-1' });
+    }
 
     return data
 }

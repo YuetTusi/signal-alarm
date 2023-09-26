@@ -1,13 +1,14 @@
 import dayjs from 'dayjs';
-import { FC, useEffect, MouseEvent } from 'react';
+import { FC, useEffect, useState, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useModel } from '@/model';
-import { Button, Input, DatePicker, Select, Form, Table } from 'antd';
+import { Button, Input, DatePicker, Select, Form, Table, message } from 'antd';
 import { BaseFreq } from '@/schema/base-freq';
+import { CalcModal, FormValue } from './calc-modal';
 import { toSelectData } from './tool';
 import { BaseSearchForm } from './prop';
-import { SearchBar, SpectrumBox, TableBox } from './styled/box';
 import { getBaseColumns } from './column';
+import { SearchBar, SpectrumBox, TableBox } from './styled/box';
 
 const { Option } = Select;
 const { useForm, Item } = Form;
@@ -19,6 +20,7 @@ const BaseSpectrum: FC<{}> = () => {
 
     const navigate = useNavigate();
     const [formRef] = useForm<BaseSearchForm>();
+    const [calcModalOpen, setCalcModalOpen] = useState<boolean>(false);
     const {
         baseSpectrumLoading,
         baseSpectrumData,
@@ -27,7 +29,8 @@ const BaseSpectrum: FC<{}> = () => {
         baseSpectrumTotal,
         baseSpectrumDeviceList,
         queryBaseSpectrumData,
-        queryBaseSpectrumDeviceList
+        queryBaseSpectrumDeviceList,
+        calcBaseFreq
     } = useModel(state => ({
         baseSpectrumLoading: state.baseSpectrumLoading,
         baseSpectrumData: state.baseSpectrumData,
@@ -37,6 +40,7 @@ const BaseSpectrum: FC<{}> = () => {
         baseSpectrumDeviceList: state.baseSpectrumDeviceList,
         queryBaseSpectrumData: state.queryBaseSpectrumData,
         queryBaseSpectrumDeviceList: state.queryBaseSpectrumDeviceList,
+        calcBaseFreq: state.calcBaseFreq
     }));
 
     useEffect(() => {
@@ -66,7 +70,7 @@ const BaseSpectrum: FC<{}> = () => {
                 baseFreqName: values.name,
                 deviceId: values.device,
                 createTimeBegin: values.beginTime.format('YYYY-MM-DD HH:mm:ss'),
-                createTimeEnd: values.endTime.format('YYYY-MM-DD HH:mm:ss'),
+                createTimeEnd: values.endTime.format('YYYY-MM-DD HH:mm:ss')
             });
         } catch (error) {
             console.warn(error);
@@ -80,7 +84,48 @@ const BaseSpectrum: FC<{}> = () => {
      */
     const onPageChange = (pageIndex: number, pageSize: number) => {
         const { getFieldsValue } = formRef;
-        queryBaseSpectrumData(pageIndex, pageSize, getFieldsValue());
+        const values = getFieldsValue();
+        queryBaseSpectrumData(pageIndex, pageSize, {
+            baseFreqName: values.name,
+            deviceId: values.device,
+            createTimeBegin: values.beginTime.format('YYYY-MM-DD HH:mm:ss'),
+            createTimeEnd: values.endTime.format('YYYY-MM-DD HH:mm:ss')
+        });
+    };
+
+    /**
+     * 计算Click
+     */
+    const onCalcClick = (event: MouseEvent<HTMLElement>) => {
+        event.preventDefault();
+        setCalcModalOpen(true);
+    };
+
+    /**
+     * 计算背景频谱handle
+     */
+    const calcFreq = async (values: FormValue) => {
+        const { getFieldsValue } = formRef;
+        const success = await calcBaseFreq({
+            ...values,
+            createTimeBegin: values.createTimeBegin.unix(),
+            createTimeEnd: values.createTimeEnd.unix()
+        });
+        message.destroy();
+        if (success) {
+            message.success('背景频谱计算成功');
+            setCalcModalOpen(false);
+            const values = getFieldsValue();
+            await queryBaseSpectrumData(1, 15, {
+                baseFreqName: values.name,
+                deviceId: values.device,
+                createTimeBegin: values.beginTime.format('YYYY-MM-DD HH:mm:ss'),
+                createTimeEnd: values.endTime.format('YYYY-MM-DD HH:mm:ss'),
+            });
+        } else {
+            message.warning('计算失败');
+            setCalcModalOpen(false);
+        }
     };
 
     /**
@@ -97,15 +142,15 @@ const BaseSpectrum: FC<{}> = () => {
                 <Form form={formRef} layout="inline">
                     <Item
                         name="name"
-                        label="频谱名称">
+                        label="背景频谱名称">
                         <Input />
                     </Item>
                     <Item
                         name="device"
-                        label="设备">
+                        label="设备ID">
                         <Select
                             options={[
-                                ...toSelectData(baseSpectrumDeviceList)
+                                ...toSelectData(baseSpectrumDeviceList, true)
                             ]}
                             filterOption={
                                 (input: string, option: any) =>
@@ -139,6 +184,11 @@ const BaseSpectrum: FC<{}> = () => {
                     </Item>
                     <Item>
                         <Button
+                            onClick={onCalcClick}
+                            type="primary">计算</Button>
+                    </Item>
+                    <Item>
+                        <Button
                             onClick={onGoBackClick}
                             type="default">返回主页</Button>
                     </Item>
@@ -162,7 +212,10 @@ const BaseSpectrum: FC<{}> = () => {
                 rowKey="id"
             />
         </TableBox>
-
+        <CalcModal
+            open={calcModalOpen}
+            onCancel={() => setCalcModalOpen(false)}
+            onOk={calcFreq} />
     </SpectrumBox>
 };
 

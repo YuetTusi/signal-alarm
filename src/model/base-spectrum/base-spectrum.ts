@@ -5,7 +5,7 @@ import { request } from "@/utility/http";
 import { ComDevice } from "@/schema/com-device";
 import { QueryPage } from "@/schema/query-page";
 import { BaseFreq } from '@/schema/base-freq';
-import { BaseSpectrumState } from ".";
+import { BaseSpectrumState, CalcParam } from ".";
 import { GetState, SetState } from "..";
 
 const baseSpectrum = (setState: SetState, _: GetState): BaseSpectrumState => ({
@@ -68,7 +68,7 @@ const baseSpectrum = (setState: SetState, _: GetState): BaseSpectrumState => ({
                 setState({ baseSpectrumDeviceList: [] });
             }
         } catch (error) {
-            log.error(`查询设备下拉失败@model/history-spectrum/queryHistorySpectrumDeviceList():${error.message}`);
+            log.error(`查询设备下拉失败@model/base-spectrum/queryBaseSpectrumDeviceList():${error.message}`);
         }
     },
     /**
@@ -120,11 +120,30 @@ const baseSpectrum = (setState: SetState, _: GetState): BaseSpectrumState => ({
             }
         } catch (error) {
             console.warn(error);
-            log.error(`查询历史频谱数据失败@model/history-spectrum/queryHistorySpectrumData():${error.message}`);
+            log.error(`查询背景频谱数据失败@model/base-spectrum/queryBaseSpectrumData():${error.message}`);
         } finally {
             setState({ baseSpectrumLoading: false });
         }
     },
+    /**
+     * 计算背景频谱
+     */
+    async calcBaseFreq(payload: CalcParam) {
+        const url = '/freq/create-base';
+
+        try {
+            const res = await request.post(url, payload);
+            if (res !== null && res.code === 200) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (error) {
+            console.warn(error);
+            log.error(`计算背景频谱失败@model/base-spectrum/calcBaseFreq():${error.message}`);
+            return false;
+        }
+    }
 });
 
 export { baseSpectrum };
