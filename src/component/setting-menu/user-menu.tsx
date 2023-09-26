@@ -1,8 +1,8 @@
 import { FC, MouseEvent } from 'react';
 import { UserOutlined } from '@ant-design/icons';
 import { Dropdown } from 'antd';
-import { UserMenuAction, UserMenuProp } from './prop';
 import { StorageKeys } from '@/utility/storage-keys';
+import { UserMenuAction, UserMenuProp } from './prop';
 import { UserIconBox } from './styled/box';
 
 
@@ -21,6 +21,15 @@ const UserMenu: FC<UserMenuProp> = ({ onMenuItemClick }) => {
                         onMenuItemClick(UserMenuAction.VoiceSwitch);
                     }}>
                     预警声音开关
+                </a>
+            }, {
+                key: 'UMI_ModifyPassword',
+                label: <a
+                    onClick={(event: MouseEvent<HTMLAnchorElement>) => {
+                        event.preventDefault();
+                        onMenuItemClick(UserMenuAction.ModifyPassword);
+                    }}>
+                    修改密码
                 </a>
             }, {
                 key: 'UMI_Logout',

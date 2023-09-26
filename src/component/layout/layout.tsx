@@ -1,9 +1,8 @@
 import fs from 'fs';
 import localforage from 'localforage';
 import { useNavigate } from 'react-router-dom';
-import { FC, PropsWithChildren, MouseEvent } from 'react';
-import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
-import { App, Button, message } from 'antd';
+import { FC, PropsWithChildren } from 'react';
+import { App, message } from 'antd';
 import { useModel } from '@/model';
 import { closeSse } from '@/utility/sse';
 import { StorageKeys } from '@/utility/storage-keys';
@@ -14,6 +13,7 @@ import AppTitle from '../app-title';
 import { UserMenuAction } from '../setting-menu';
 import { SettingMenu, UserMenu } from "../setting-menu";
 import { VoiceControlModal } from '../voice-control-modal';
+import { ModifyPasswordModal } from '../modify-password-modal';
 import { LayoutBox } from './styled/styled';
 
 const { rm } = fs.promises;
@@ -27,16 +27,22 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
     const { modal } = App.useApp();
     const {
         voiceConrolModalOpen,
+        modifyPasswordModalOpen,
         loginUserName,
         logout,
         setSound,
-        setVoiceConrolModalOpen
+        setModifyPasswordModalOpen,
+        setVoiceConrolModalOpen,
+        modifyUserPassword
     } = useModel(state => ({
         voiceConrolModalOpen: state.voiceConrolModalOpen,
+        modifyPasswordModalOpen: state.modifyPasswordModalOpen,
         loginUserName: state.loginUserName,
         logout: state.logout,
         setSound: state.setSound,
-        setVoiceConrolModalOpen: state.setVoiceConrolModalOpen
+        setModifyPasswordModalOpen: state.setModifyPasswordModalOpen,
+        setVoiceConrolModalOpen: state.setVoiceConrolModalOpen,
+        modifyUserPassword: state.modifyUserPassword
     }));
 
     /**
@@ -77,6 +83,9 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
             case UserMenuAction.VoiceSwitch:
                 setVoiceConrolModalOpen(true);
                 break;
+            case UserMenuAction.ModifyPassword:
+                setModifyPasswordModalOpen(true);
+                break;
             case UserMenuAction.Logout:
                 doLogout();
                 break;
@@ -115,6 +124,14 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
                     : message.info('预警声音已关闭');
                 setVoiceConrolModalOpen(false);
             }} />
+        <ModifyPasswordModal
+            open={modifyPasswordModalOpen}
+            onCancel={() => setModifyPasswordModalOpen(false)}
+            onOk={async (oldPassword, newPassword) => {
+                await modifyUserPassword(oldPassword, newPassword);
+                setModifyPasswordModalOpen(false);
+            }}
+        />
     </LayoutBox >
 };
 

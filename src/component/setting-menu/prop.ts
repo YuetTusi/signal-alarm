@@ -13,6 +13,10 @@ export enum UserMenuAction {
      */
     VoiceSwitch,
     /**
+     * 修改密码
+     */
+    ModifyPassword,
+    /**
      * 登出
      */
     Logout

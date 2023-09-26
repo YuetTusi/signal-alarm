@@ -1,9 +1,12 @@
+import { message } from 'antd';
 import { request } from '@/utility/http';
-import { SystemMenu } from '@/schema/system-menu';
 import { log } from '@/utility/log';
+import { StorageKeys } from '@/utility/storage-keys';
+import { SystemMenu } from '@/schema/system-menu';
 import { GetState, SetState } from "..";
+import { SysMenuState } from '.';
 
-const sysMenu = (setState: SetState, _: GetState) => ({
+const sysMenu = (setState: SetState, _: GetState): SysMenuState => ({
     /**
      * 菜单数据
      */
@@ -12,6 +15,10 @@ const sysMenu = (setState: SetState, _: GetState) => ({
      * 打开/关闭预警声音设置框
      */
     voiceConrolModalOpen: false,
+    /**
+     * 修改密码框
+     */
+    modifyPasswordModalOpen: false,
     /**
      * 更新菜单数据
      */
@@ -23,6 +30,12 @@ const sysMenu = (setState: SetState, _: GetState) => ({
      */
     setVoiceConrolModalOpen(payload: boolean) {
         setState({ voiceConrolModalOpen: payload });
+    },
+    /**
+     * 打开/关闭修改密码框
+     */
+    setModifyPasswordModalOpen(payload: boolean) {
+        setState({ modifyPasswordModalOpen: payload });
     },
     /**
      * 查询菜单数据
@@ -41,6 +54,33 @@ const sysMenu = (setState: SetState, _: GetState) => ({
             }
         } catch (error) {
             log.error(`查询菜单数据失败 @model/sys-menu/querySysMenuData:${error.message}`);
+        }
+    },
+    /**
+     * 修改用户密码
+     * @param oldPassword 原密码
+     * @param newPassword 新密码
+     */
+    async modifyUserPassword(oldPassword: string, newPassword: string) {
+        let id = sessionStorage.getItem(StorageKeys.UserId);
+        if (id === null) {
+            return false;
+        }
+        try {
+            const res = await request.post('/system/sysUser/update-password', {
+                id,
+                oldPassword,
+                newPassword
+            });
+            message.destroy();
+            if (res !== null && res.code === 200) {
+                message.info(res.data);
+            } else {
+                message.warning('修改失败');
+            }
+        } catch (error) {
+            console.warn(error);
+            message.warning('修改失败');
         }
     }
 });
