@@ -92,18 +92,13 @@ const Spectrum: FC<SpectrumProp> = ({ domId, data, arfcn, serieName, captureTime
                     data: accData,
                     axisLabel: {
                         interval(index: number, value: any) {
-                            switch (index) {
-                                case 0:
-                                    return value;
-                                case 3749:
-                                    return value;
-                                case 7498:
-                                    return value;
-                                default:
-                                    return '';
+                            if (index % 599 === 0) {
+                                return value;
+                            } else {
+                                return '';
                             }
                         }
-                    },
+                    }
                 },
                 yAxis: {
                     type: 'value',
@@ -121,7 +116,15 @@ const Spectrum: FC<SpectrumProp> = ({ domId, data, arfcn, serieName, captureTime
                         name: serieName,
                         type: 'line',
                         data: accDays,
-                        smooth: false
+                        smooth: false,
+                        itemStyle: {
+                            normal: {
+                                color: '#32ff7e',
+                                lineStyle: {
+                                    width: 1//设置线条粗细
+                                }
+                            }
+                        }
                     }
                 ],
                 dataZoom: [

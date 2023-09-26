@@ -1,7 +1,7 @@
 import { FC, MouseEvent } from 'react';
 import { Button, Input, Form, Modal } from 'antd';
-import { FormValue, ModifyPasswordModalProp } from './prop';
 import { UserPassword } from '@/utility/regex';
+import { FormValue, ModifyPasswordModalProp } from './prop';
 
 const { Password } = Input;
 const { useForm, Item } = Form;
