@@ -27,6 +27,10 @@ interface RealSpectrumState {
      */
     realSpectrumLoading: boolean,
     /**
+     * 比较中
+     */
+    comparing: boolean,
+    /**
      * 清空实时数据
      */
     clearRealSpectrumData: () => void,
@@ -38,6 +42,18 @@ interface RealSpectrumState {
      * 查询当前设备实时频谱数据
      */
     queryRealSpectrumData: (deviceId: string) => void,
+    /**
+     * 开始实时频谱比对
+     * @param freqBaseId 背景频谱id
+     * @param cmpName 比较名称
+     */
+    startRealCompare: (freqBaseId: string, cmpName: string) => void,
+    /**
+     * 停止实时频谱比对
+     * @param freqBaseId 背景频谱id
+     * @param cmpName 比较名称
+     */
+    stopRealCompare: (freqBaseId: string, cmpName: string) => void
 }
 
 export type { RealSpectrumState };

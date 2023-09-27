@@ -3,6 +3,10 @@ import { BaseEntity } from './base-entity';
 export interface BaseFreq extends BaseEntity {
 
     /**
+     * 背景频谱id
+     */
+    freqBaseId: string,
+    /**
      * 背景频谱名称
      */
     baseFreqName: string,

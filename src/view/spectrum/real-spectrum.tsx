@@ -1,18 +1,18 @@
 import debounce from 'lodash/debounce';
 import { useNavigate } from 'react-router-dom';
-import { FC, MouseEvent, useEffect } from 'react';
+import { FC, MouseEvent, useEffect, useState, useRef } from 'react';
 import { Form, Select, Button, message } from 'antd';
 import { useUnmount } from '@/hook';
 import { useModel } from '@/model';
 import { helper } from '@/utility/helper';
 import { Spectrum } from '@/component/chart';
 import { toSelectData } from './tool';
+import { CompareSpectrumModal } from './compare-spectrum-modal';
 import {
     SearchBar, SpectrumBox, TableBox
 } from './styled/box';
 import { RealSpectrumProp, SearchForm } from './prop';
 
-// const { Option } = Select;
 const { useForm, Item } = Form;
 let timer: any = null;
 
@@ -23,7 +23,12 @@ const RealSpectrum: FC<RealSpectrumProp> = () => {
 
     const navigator = useNavigate();
     const [formRef] = useForm<SearchForm>();
+    const [compareSpectrumModalOpen, setCompareSpectrumModalOpen] = useState<boolean>(false);
+    const currentDeviceId = useRef<string>('');
+    const freqBaseIdRef = useRef<string>('');
+    const cmpNameRef = useRef<string>('');
     const {
+        comparing,
         realSpectrumDeviceId,
         realSpectrumDeviceList,
         realSpectrumData,
@@ -31,8 +36,11 @@ const RealSpectrum: FC<RealSpectrumProp> = () => {
         setReading,
         clearRealSpectrumData,
         queryRealSpectrumDeviceList,
-        queryRealSpectrumData
+        queryRealSpectrumData,
+        startRealCompare,
+        stopRealCompare
     } = useModel(state => ({
+        comparing: state.comparing,
         realSpectrumDeviceId: state.realSpectrumDeviceId,
         realSpectrumDeviceList: state.realSpectrumDeviceList,
         realSpectrumData: state.realSpectrumData,
@@ -40,7 +48,9 @@ const RealSpectrum: FC<RealSpectrumProp> = () => {
         setReading: state.setReading,
         clearRealSpectrumData: state.clearRealSpectrumData,
         queryRealSpectrumDeviceList: state.queryRealSpectrumDeviceList,
-        queryRealSpectrumData: state.queryRealSpectrumData
+        queryRealSpectrumData: state.queryRealSpectrumData,
+        startRealCompare: state.startRealCompare,
+        stopRealCompare: state.stopRealCompare
     }));
 
     useEffect(() => {
@@ -88,6 +98,19 @@ const RealSpectrum: FC<RealSpectrumProp> = () => {
      */
     const onCompareClick = async (event: MouseEvent<HTMLElement>) => {
         event.preventDefault();
+        const { getFieldsValue } = formRef;
+        if (comparing) {
+            await stopRealCompare(freqBaseIdRef.current, cmpNameRef.current);
+        } else {
+            const { device } = getFieldsValue();
+            if (helper.isNullOrUndefined(device)) {
+                message.destroy();
+                message.warning('请选择设备');
+            } else {
+                currentDeviceId.current = device;
+                setCompareSpectrumModalOpen(true);
+            }
+        }
     };
 
     /**
@@ -121,7 +144,7 @@ const RealSpectrum: FC<RealSpectrumProp> = () => {
                     <Item>
                         <Button
                             onClick={onCompareClick}
-                            type="primary">比对</Button>
+                            type="primary">{comparing ? '停止' : '比对'}</Button>
                     </Item>
                     <Item>
                         <Button
@@ -131,7 +154,10 @@ const RealSpectrum: FC<RealSpectrumProp> = () => {
                 </Form>
             </div>
             <div>
-
+                <button
+                    onClick={() => {
+                        stopRealCompare(freqBaseIdRef.current, cmpNameRef.current);
+                    }} type="button">停止</button>
             </div>
         </SearchBar>
         <TableBox id="realOuterBox">
@@ -142,6 +168,17 @@ const RealSpectrum: FC<RealSpectrumProp> = () => {
                 captureTime={realSpectrumCaptureTime}
                 arfcn={Array.from(new Array(7499).keys()).map(i => Math.trunc(1 + i * 0.8))} />
         </TableBox>
+        <CompareSpectrumModal
+            open={compareSpectrumModalOpen}
+            deviceId={currentDeviceId.current}
+            onCancel={() => setCompareSpectrumModalOpen(false)}
+            onOk={(freqBaseId: string, cmpName: string) => {
+                // todo: 发送开始比对请求
+                freqBaseIdRef.current = freqBaseId;
+                cmpNameRef.current = cmpName;
+                startRealCompare(freqBaseId, cmpName);
+            }}
+        />
     </SpectrumBox>;
 };
 

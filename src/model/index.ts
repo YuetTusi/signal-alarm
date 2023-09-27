@@ -22,6 +22,7 @@ import { sysMenu, SysMenuState } from './sys-menu';
 import { realSpectrum, RealSpectrumState } from './real-spectrum';
 import { historySpectrum, HistorySpectrumState } from './history-spectrum';
 import { baseSpectrum, BaseSpectrumState } from './base-spectrum';
+import { compareSpectrumModal, CompareSpectrumModalState } from './compare-spectrum-modal';
 import { sysUser, SysUserState } from './sys-user';
 import { sysRole, SysRoleState } from './sys-role';
 
@@ -55,6 +56,7 @@ type State = OtherState
     & RealSpectrumState
     & HistorySpectrumState
     & BaseSpectrumState
+    & CompareSpectrumModalState
     & SysUserState
     & SysRoleState;
 
@@ -88,6 +90,7 @@ const useModel = create<State>(zustandLog((setState: SetState, getState: GetStat
     ...realSpectrum(setState, getState),
     ...historySpectrum(setState, getState),
     ...baseSpectrum(setState, getState),
+    ...compareSpectrumModal(setState, getState),
     ...sysUser(setState, getState),
     ...sysRole(setState, getState)
 }), false));
