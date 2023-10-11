@@ -59,15 +59,28 @@ const Loop: FC<LoopProp> = ({ data, serieName }) => {
                         saveAsImage: { show: false }
                     }
                 },
+                legend: {
+                    show: true,
+                    type: 'scroll',
+                    orient: 'vertical',
+                    right: 0,
+                    trigger: 'item',
+                    pageIconColor: '#256bec',
+                    pageIconInactiveColor: '#b8b8b8',
+                    pageIconSize: 10,
+                    pageTextStyle: { color: '#ffffffd9' }
+                },
                 series: [
                     {
                         name: serieName,
+                        label: { show: false },
+                        center: [90, '50%'],
                         type: 'pie',
                         radius: ['40%', '70%'],
                         itemStyle: {
                             borderRadius: 0
                         },
-                        data
+                        data,
                     }
                 ]
             });
