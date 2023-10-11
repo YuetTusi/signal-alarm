@@ -221,9 +221,11 @@ const getTopColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [{
     width: 60,
     render: (val: any, record) => {
         if (record.status === 0) {
-            return <a onClick={() => {
-                handle(ActionType.Process, record);
-            }}>处理</a>
+            return <a
+                onClick={() => {
+                    handle(ActionType.Process, record);
+                }}
+                style={{ color: '#fff' }}>处理</a>
         } else {
             return <span style={{ color: '#707070', cursor: 'not-allowed' }}>已处理</span>
         }
@@ -236,7 +238,8 @@ const getTopColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [{
     width: 60,
     render: (val: any, record) => <a onClick={() => {
         handle(ActionType.Detail, record);
-    }}>详情</a>
+    }}
+        style={{ color: '#fff' }}>详情</a>
 }];
 
 export { getColumns, getTopColumns };

@@ -69,7 +69,7 @@ export const NoWarpLabel = styled.div<{ width?: number }>`
 `;
 
 export const RedText = styled.span`
-    color:#e60122;
+    color:#fd2c30;
 `;
 
 export const GrayText = styled.span`
