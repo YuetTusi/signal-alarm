@@ -2,9 +2,10 @@ import dayjs from 'dayjs';
 import debounce from 'lodash/debounce';
 import electron, { IpcRendererEvent } from 'electron';
 import { FC, memo, useEffect, MouseEvent } from "react";
+import { useLocation } from 'react-router-dom';
 import { Button, Typography } from "antd";
 import {
-    ClockCircleOutlined, LoadingOutlined, MobileOutlined
+    ClockCircleOutlined, LoadingOutlined
 } from '@ant-design/icons';
 import useModel from "@/model";
 import { helper } from '@/utility/helper';
@@ -51,27 +52,30 @@ const getClassName = (index: number, len: number) => {
  * 主页
  */
 const Dashboard: FC<{}> = memo(() => {
+
+    const location = useLocation();
+
     const {
         startTime,
-        quickCheckLoading,
+        // quickCheckLoading,
         phoneAlarmData,
-        setQuickCheckLoading,
-        quickCheckStart,
-        quickCheckStop,
+        // setQuickCheckLoading,
+        // quickCheckStart,
+        // quickCheckStop,
         queryAlarmTop10Data,
-        queryQuickCheckReport,
+        // queryQuickCheckReport,
         setPhoneAlarmData,
         appendPhoneAlarmData,
         removePhoneAlarmData
     } = useModel(state => ({
         startTime: state.startTime,
-        quickCheckLoading: state.quickCheckLoading,
+        // quickCheckLoading: state.quickCheckLoading,
         phoneAlarmData: state.phoneAlarmData,
-        setQuickCheckLoading: state.setQuickCheckLoading,
-        quickCheckStart: state.quickCheckStart,
-        quickCheckStop: state.quickCheckStop,
+        // setQuickCheckLoading: state.setQuickCheckLoading,
+        // quickCheckStart: state.quickCheckStart,
+        // quickCheckStop: state.quickCheckStop,
         queryAlarmTop10Data: state.queryAlarmTop10Data,
-        queryQuickCheckReport: state.queryQuickCheckReport,
+        // queryQuickCheckReport: state.queryQuickCheckReport,
         setPhoneAlarmData: state.setPhoneAlarmData,
         appendPhoneAlarmData: state.appendPhoneAlarmData,
         removePhoneAlarmData: state.removePhoneAlarmData
@@ -140,6 +144,9 @@ const Dashboard: FC<{}> = memo(() => {
      */
     const alarmDropAll = (_: IpcRendererEvent) => {
         setPhoneAlarmData([]);
+        if (location.pathname === '/dashboard') {
+            ipcRenderer.send('reload');
+        }
     };
 
     useEffect(() => {
@@ -161,24 +168,24 @@ const Dashboard: FC<{}> = memo(() => {
     }, [alarmClean]);
 
 
-    const onCheckClick = debounce(async (event: MouseEvent) => {
-        event.preventDefault();
-        setQuickCheckLoading(true);
-        try {
-            if (startTime === '') {
-                //开始
-                await quickCheckStart();
-            } else {
-                //停止
-                await quickCheckStop();
-                await queryQuickCheckReport();
-            }
-        } catch (error) {
-            console.warn(error);
-        } finally {
-            setQuickCheckLoading(false);
-        }
-    }, 1000, { leading: true, trailing: false });
+    // const onCheckClick = debounce(async (event: MouseEvent) => {
+    //     event.preventDefault();
+    //     setQuickCheckLoading(true);
+    //     try {
+    //         if (startTime === '') {
+    //             //开始
+    //             await quickCheckStart();
+    //         } else {
+    //             //停止
+    //             await quickCheckStop();
+    //             await queryQuickCheckReport();
+    //         }
+    //     } catch (error) {
+    //         console.warn(error);
+    //     } finally {
+    //         setQuickCheckLoading(false);
+    //     }
+    // }, 1000, { leading: true, trailing: false });
 
     const renderPhoneAlarm = () => {
 
@@ -232,13 +239,13 @@ const Dashboard: FC<{}> = memo(() => {
                         <Text style={{ fontSize: '12px', marginRight: '10px' }} type="success">
                             {startTime === '' ? '' : `开始时间：${startTime}`}
                         </Text>
-                        <Button
+                        {/* <Button
                             onClick={onCheckClick}
                             disabled={quickCheckLoading}
                             type="primary">
                             {quickCheckLoading ? <LoadingOutlined /> : <ClockCircleOutlined />}
                             <span>{startTime === '' ? '长时检测' : '停止长时检测'}</span>
-                        </Button>
+                        </Button> */}
                     </div>
                     <div className="phone-panel">
                         {renderPhoneAlarm()}

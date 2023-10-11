@@ -17,7 +17,7 @@ import { EmptyBox, ReportBox, ScrollBox } from './styled/box';
 import { CheckReportProp } from './prop';
 
 const { basename, join } = path;
-const { ipcRenderer, shell } = electron;
+const { ipcRenderer } = electron;
 const { mkdir, writeFile } = fs.promises;
 
 /**
