@@ -5,10 +5,10 @@ export const ScrollBox = styled.div`
 
     box-sizing: border-box;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: auto;
     height: 277px;
-    padding: 10px;
+    padding: 5px;
     overflow-y: auto;
 `;
 
@@ -23,15 +23,23 @@ export const ReportBox = styled.div`
 
     border:1px solid #2189c8;
     box-shadow: inset 1px 1px 10px 5px #2189c8;
-    margin-bottom: 10px;
-    padding: 20px;
     width:auto;
-    &:last-child{
-        margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex:1;
+
+    &:first-child{
+        margin-right: 2px;
     }
+    &:last-child{
+        margin-left: 2px;
+    }
+
     &>.r-title{
         height: 32px;
-        margin-bottom: 10px;
+        margin-bottom: 24px;
         span{
             display: block;
             height: 32px;
@@ -54,7 +62,7 @@ export const ReportBox = styled.div`
             flex-direction: row;
             flex-wrap: nowrap;
             list-style-type: none;
-            padding: 2px 0;
+            padding: 4px 0;
             label{
                 white-space: nowrap;
                 color:${props => props.theme['colorInfo']};
@@ -69,8 +77,7 @@ export const ReportBox = styled.div`
         }
     }
     &>.btn{
-        margin-top: 10px;
-        padding-top:10px;
+        margin: 20px auto 0 auto;
         text-align: center;
         .ant-btn{
             margin: 0 4px;
