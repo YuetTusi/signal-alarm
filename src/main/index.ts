@@ -205,6 +205,12 @@ ipcMain.on('report', (_: IpcMainEvent, fileName: string) => {
     reportWindows[reportWindows.length - 1].loadFile(join('C:/_signal_tmp', fileName));
 });
 
+ipcMain.on('query-special-type-statis', (_: IpcMainEvent) => {
+    if (mainWindow) {
+        mainWindow.webContents.send('query-special-type-statis');
+    }
+});
+
 ipcMain.on('alarm-clean', (_: IpcMainEvent) => {
     if (mainWindow) {
         mainWindow.webContents.send('alarm-clean');
@@ -220,6 +226,12 @@ ipcMain.on('alarm-drop-all', (_: IpcMainEvent) => {
 ipcMain.on('log', (_, content: string, level: 'info' | 'debug' | 'warn' | 'error') => {
 
     console.log('log in Main', content, level);
+});
+
+ipcMain.on('reload', (_: IpcMainEvent) => {
+    if (mainWindow) {
+        mainWindow.webContents.reload();
+    }
 });
 
 app.on('window-all-closed', () => {

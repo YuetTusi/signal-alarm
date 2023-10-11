@@ -6,7 +6,7 @@ import { getProtocolLabel } from '@/schema/protocol';
 import { DisplayPanel } from '../panel';
 
 /**
- * 专项检查分类图表
+ * 今日专项检查分类统计
  */
 const SpecialTypeChart: FC<{}> = () => {
 
@@ -29,9 +29,9 @@ const SpecialTypeChart: FC<{}> = () => {
         }));
 
     return <DisplayPanel>
-        <div className="caption">专项检查分类统计</div>
+        <div className="caption">今日专项检查分类统计</div>
         <div className="content">
-            <Loop serieName="专项检查分类统计" data={convertData()} />
+            <Loop serieName="今日专项检查分类统计" data={convertData()} />
         </div>
     </DisplayPanel>;
 };

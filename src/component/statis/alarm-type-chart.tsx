@@ -29,9 +29,9 @@ const AlarmTypeChart: FC<{}> = () => {
         }));
 
     return <DisplayPanel>
-        <div className="caption">告警类型统计</div>
+        <div className="caption">近7天告警类型统计</div>
         <div className="content">
-            <Loop serieName="告警类型统计" data={convertData()} />
+            <Loop serieName="近7天告警类型统计" data={convertData()} />
         </div>
     </DisplayPanel>;
 };

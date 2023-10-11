@@ -64,6 +64,7 @@ const Dashboard: FC<{}> = memo(() => {
         // quickCheckStop,
         queryAlarmTop10Data,
         // queryQuickCheckReport,
+        querySpecialTypeStatisData,
         setPhoneAlarmData,
         appendPhoneAlarmData,
         removePhoneAlarmData
@@ -76,6 +77,7 @@ const Dashboard: FC<{}> = memo(() => {
         // quickCheckStop: state.quickCheckStop,
         queryAlarmTop10Data: state.queryAlarmTop10Data,
         // queryQuickCheckReport: state.queryQuickCheckReport,
+        querySpecialTypeStatisData: state.querySpecialTypeStatisData,
         setPhoneAlarmData: state.setPhoneAlarmData,
         appendPhoneAlarmData: state.appendPhoneAlarmData,
         removePhoneAlarmData: state.removePhoneAlarmData
@@ -122,6 +124,13 @@ const Dashboard: FC<{}> = memo(() => {
         };
     }, []);
 
+    /**
+     * 每1分钟查询今日专项检查分类统计
+     */
+    const autoQuerySpecialType = (_: IpcRendererEvent) => {
+        querySpecialTypeStatisData();
+    };
+
     const alarmClean = (_: IpcRendererEvent) => {
         const now = new Date().getTime();
 
@@ -150,18 +159,21 @@ const Dashboard: FC<{}> = memo(() => {
     };
 
     useEffect(() => {
+        ipcRenderer.on('query-special-type-statis', autoQuerySpecialType);
+        return () => {
+            ipcRenderer.off('query-special-type-statis', autoQuerySpecialType);
+        };
+    }, [querySpecialTypeStatisData]);
 
+    useEffect(() => {
         ipcRenderer.on('alarm-clean', alarmClean);
-
         return () => {
             ipcRenderer.off('alarm-clean', alarmClean);
         };
     }, [alarmClean]);
 
     useEffect(() => {
-
         ipcRenderer.on('alarm-drop-all', alarmDropAll);
-
         return () => {
             ipcRenderer.off('alarm-drop-all', alarmDropAll);
         };
@@ -228,9 +240,9 @@ const Dashboard: FC<{}> = memo(() => {
     return <DashboardBox>
         <div className="left-box">
             <AlarmSiteTopChart />
-            <AlarmTypeChart />
-            <AlarmWeekChart />
             <SpecialTypeChart />
+            <AlarmWeekChart />
+            <AlarmTypeChart />
         </div>
         <div className="center-box">
             <div className="main-box">
