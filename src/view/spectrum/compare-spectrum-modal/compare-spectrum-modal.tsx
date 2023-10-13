@@ -35,6 +35,7 @@ const CompareSpectrumModal: FC<CompareSpectrumModalProp> = ({
     useEffect(() => {
         if (open) {
             queryBaseSpectrumDataByDeviceId(deviceId);
+            // formRef.setFieldsValue({ cmpName: '历史比对测试1111' });
         }
     }, [open, deviceId]);
 
@@ -60,6 +61,7 @@ const CompareSpectrumModal: FC<CompareSpectrumModalProp> = ({
             try {
                 const { cmpName } = await validateFields();
                 onOk(selectedRowKeys[0].toString(), cmpName);
+                setSelectedRowKeys([]);
                 resetFields();
             } catch (error) {
                 console.warn(error);
@@ -87,7 +89,7 @@ const CompareSpectrumModal: FC<CompareSpectrumModalProp> = ({
             loading={compareBaseSpectrumLoading}
             pagination={false}
             scroll={{ x: 'max-content', y: 200 }}
-            rowKey="freqBaseId"
+            rowKey={'freqBaseId'}
             onRow={(record) => ({
                 onClick() {
                     setSelectedRowKeys([record.freqBaseId]);

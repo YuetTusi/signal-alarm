@@ -153,8 +153,8 @@ const BaseSpectrum: FC<{}> = () => {
                                 ...toSelectData(baseSpectrumDeviceList, true)
                             ]}
                             filterOption={
-                                (input: string, option: any) =>
-                                    (option?.label ?? '').includes(input)
+                                (val: string, option: any) =>
+                                    (option?.label ?? '').includes(val)
                             }
                             showSearch={true}
                             style={{ width: '200px' }} />

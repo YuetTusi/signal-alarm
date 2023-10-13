@@ -80,8 +80,8 @@ const CalcModal: FC<CalcModalProp> = ({ open, onCancel, onOk }) => {
                         ...toSelectData(baseSpectrumDeviceList, false)
                     ]}
                     filterOption={
-                        (input: string, option: any) =>
-                            (option?.label ?? '').includes(input)
+                        (val: string, option: any) =>
+                            (option?.label ?? '').includes(val)
                     }
                     showSearch={true} />
             </Item>

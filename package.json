@@ -6,7 +6,7 @@
 	"scripts": {
 		"go": "electron .",
 		"predev": "rimraf dist/**/*",
-		"dev": "tsc src/main/index.ts --outDir dist && cross-env NODE_ENV=development concurrently \"vite\" \"pnpm run go\"",
+		"dev": "tsc src/main/index.ts --outDir dist && cross-env NODE_ENV=development concurrently \"vite --host 0.0.0.0\" \"pnpm run go\"",
 		"prebuild": "rimraf dist/**/*",
 		"build": "vite build && tsc src/main/index.ts --outDir dist",
 		"preview": "vite preview",

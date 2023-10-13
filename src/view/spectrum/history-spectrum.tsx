@@ -155,8 +155,8 @@ const HistorySpectrum: FC<HistorySpectrumProp> = () => {
                         <Select
                             options={toSelectData(realSpectrumDeviceList)}
                             filterOption={
-                                (input: string, option: any) =>
-                                    (option?.label ?? '').includes(input)
+                                (val: string, option: any) =>
+                                    (option?.label ?? '').includes(val)
                             }
                             showSearch={true}
                             style={{ width: '200px' }}

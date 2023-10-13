@@ -14,15 +14,17 @@ import {
 import { RealSpectrumProp, SearchForm } from './prop';
 
 const { useForm, Item } = Form;
-let timer: any = null;
+let realTimer: any = null;
+let compareTimer: any = null;
 
 /**
- * 信号分析 > 实时频谱
+ * 信号分析 / 实时频谱
  */
 const RealSpectrum: FC<RealSpectrumProp> = () => {
 
     const navigator = useNavigate();
     const [formRef] = useForm<SearchForm>();
+    const [loading, setLoading] = useState<boolean>(false);
     const [compareSpectrumModalOpen, setCompareSpectrumModalOpen] = useState<boolean>(false);
     const currentDeviceId = useRef<string>('');
     const freqBaseIdRef = useRef<string>('');
@@ -32,37 +34,47 @@ const RealSpectrum: FC<RealSpectrumProp> = () => {
         realSpectrumDeviceId,
         realSpectrumDeviceList,
         realSpectrumData,
+        compareSpectrumData,
         realSpectrumCaptureTime,
         setReading,
-        clearRealSpectrumData,
+        setComparing,
+        clearSpectrumData,
         queryRealSpectrumDeviceList,
         queryRealSpectrumData,
         startRealCompare,
-        stopRealCompare
+        stopRealCompare,
+        queryCompareRealSpectrum
     } = useModel(state => ({
         comparing: state.comparing,
         realSpectrumDeviceId: state.realSpectrumDeviceId,
         realSpectrumDeviceList: state.realSpectrumDeviceList,
         realSpectrumData: state.realSpectrumData,
+        compareSpectrumData: state.compareSpectrumData,
         realSpectrumCaptureTime: state.realSpectrumCaptureTime,
         setReading: state.setReading,
-        clearRealSpectrumData: state.clearRealSpectrumData,
+        setComparing: state.setComparing,
+        clearSpectrumData: state.clearSpectrumData,
         queryRealSpectrumDeviceList: state.queryRealSpectrumDeviceList,
         queryRealSpectrumData: state.queryRealSpectrumData,
         startRealCompare: state.startRealCompare,
-        stopRealCompare: state.stopRealCompare
+        stopRealCompare: state.stopRealCompare,
+        queryCompareRealSpectrum: state.queryCompareRealSpectrum
     }));
 
     useEffect(() => {
-        queryRealSpectrumDeviceList()
+        queryRealSpectrumDeviceList();
     }, []);
 
     useUnmount(() => {
-        if (timer !== null) {
-            clearInterval(timer);
-            timer = null;
+        if (realTimer !== null) {
+            clearInterval(realTimer);
+            realTimer = null;
         }
-        clearRealSpectrumData();
+        if (compareTimer !== null) {
+            clearInterval(compareTimer);
+            compareTimer = null;
+        }
+        clearSpectrumData();
     });
 
     /**
@@ -77,10 +89,16 @@ const RealSpectrum: FC<RealSpectrumProp> = () => {
             message.warning('请选择设备');
         } else {
             setReading(true);
+            if (compareTimer !== null) {
+                clearInterval(compareTimer);
+                compareTimer = null;
+                setComparing(false);
+            }
+            clearSpectrumData();
             try {
-                clearInterval(timer);
+                clearInterval(realTimer);
                 await queryRealSpectrumData(device);
-                timer = setInterval(() => {
+                realTimer = setInterval(() => {
                     (async (id: string) => {
                         await queryRealSpectrumData(id);
                     })(device);
@@ -96,11 +114,16 @@ const RealSpectrum: FC<RealSpectrumProp> = () => {
     /**
      * 频谱比对 Click
      */
-    const onCompareClick = async (event: MouseEvent<HTMLElement>) => {
+    const onCompareClick = debounce(async (event: MouseEvent<HTMLElement>) => {
         event.preventDefault();
+        setLoading(true);
         const { getFieldsValue } = formRef;
         if (comparing) {
             await stopRealCompare(freqBaseIdRef.current, cmpNameRef.current);
+            message.destroy();
+            message.info('比对已停止');
+            clearInterval(compareTimer);
+            compareTimer = null;
         } else {
             const { device } = getFieldsValue();
             if (helper.isNullOrUndefined(device)) {
@@ -111,6 +134,37 @@ const RealSpectrum: FC<RealSpectrumProp> = () => {
                 setCompareSpectrumModalOpen(true);
             }
         }
+        setLoading(false);
+    }, 1000, { leading: true, trailing: false });
+
+    /**
+     * 开始比对 handle
+     * @param freqBaseId 背景频谱id
+     * @param cmpName 比对名称
+     */
+    const onStartCompare = async (freqBaseId: string, cmpName: string) => {
+        setLoading(true);
+        freqBaseIdRef.current = freqBaseId;
+        cmpNameRef.current = cmpName;
+        if (realTimer !== null) {
+            clearInterval(realTimer);
+            realTimer = null;
+        }
+        setCompareSpectrumModalOpen(false);
+        message.destroy();
+        const success = await startRealCompare(freqBaseId, cmpName);
+        if (success) {
+            message.info('比对开始');
+            clearSpectrumData();
+            await queryCompareRealSpectrum(currentDeviceId.current, cmpName)
+
+            compareTimer = setInterval(async () => {
+                await queryCompareRealSpectrum(currentDeviceId.current, cmpName)
+            }, 1000);
+        } else {
+            message.warning('比对失败');
+        }
+        setLoading(false);
     };
 
     /**
@@ -129,8 +183,8 @@ const RealSpectrum: FC<RealSpectrumProp> = () => {
                         <Select
                             options={toSelectData(realSpectrumDeviceList)}
                             filterOption={
-                                (input: string, option: any) =>
-                                    (option?.label ?? '').includes(input)
+                                (value: string, option: any) =>
+                                    (option?.label ?? '').includes(value)
                             }
                             showSearch={true}
                             style={{ width: '200px' }}
@@ -144,6 +198,7 @@ const RealSpectrum: FC<RealSpectrumProp> = () => {
                     <Item>
                         <Button
                             onClick={onCompareClick}
+                            disabled={loading}
                             type="primary">{comparing ? '停止' : '比对'}</Button>
                     </Item>
                     <Item>
@@ -154,17 +209,14 @@ const RealSpectrum: FC<RealSpectrumProp> = () => {
                 </Form>
             </div>
             <div>
-                <button
-                    onClick={() => {
-                        stopRealCompare(freqBaseIdRef.current, cmpNameRef.current);
-                    }} type="button">停止</button>
             </div>
         </SearchBar>
         <TableBox id="realOuterBox">
             <Spectrum
                 domId="realOuterBox"
-                data={realSpectrumData}
-                serieName={`${realSpectrumDeviceId} 频谱`}
+                realData={realSpectrumData}
+                compareData={compareSpectrumData}
+                serieName={realSpectrumDeviceId}
                 captureTime={realSpectrumCaptureTime}
                 arfcn={Array.from(new Array(7499).keys()).map(i => Math.trunc(1 + i * 0.8))} />
         </TableBox>
@@ -172,12 +224,7 @@ const RealSpectrum: FC<RealSpectrumProp> = () => {
             open={compareSpectrumModalOpen}
             deviceId={currentDeviceId.current}
             onCancel={() => setCompareSpectrumModalOpen(false)}
-            onOk={(freqBaseId: string, cmpName: string) => {
-                // todo: 发送开始比对请求
-                freqBaseIdRef.current = freqBaseId;
-                cmpNameRef.current = cmpName;
-                startRealCompare(freqBaseId, cmpName);
-            }}
+            onOk={onStartCompare}
         />
     </SpectrumBox>;
 };
