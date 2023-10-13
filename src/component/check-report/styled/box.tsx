@@ -42,6 +42,10 @@ export const ReportBox = styled.div`
         margin-bottom: 24px;
         span{
             display: block;
+            max-width: 180px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
             height: 32px;
             line-height: 32px;
             text-indent: 37px;

@@ -24,7 +24,7 @@ const SearchBar: FC<SearchBarProp> = ({
         formRef.setFieldsValue({
             beginTime: dayjs(dayjs().add(-1, 'w').format('YYYY-MM-DD 00:00:00')),
             endTime: dayjs(dayjs().format('YYYY-MM-DD 23:59:59')),
-            status: -1,
+            status: 0,
             site: [JSON.stringify({ type: 'all', deviceId: [] })]
         })
     }, []);
