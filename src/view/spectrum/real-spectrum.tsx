@@ -170,8 +170,14 @@ const RealSpectrum: FC<RealSpectrumProp> = () => {
     /**
      * 返回Click
      */
-    const onGoBackClick = (_: MouseEvent<HTMLElement>) =>
+    const onGoBackClick = (_: MouseEvent<HTMLElement>) => {
+        clearInterval(realTimer);
+        clearInterval(compareTimer);
+        clearSpectrumData();
+        setComparing(false);
         navigator('/dashboard');
+    };
+
 
     return <SpectrumBox>
         <SearchBar>
