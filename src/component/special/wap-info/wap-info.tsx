@@ -96,7 +96,7 @@ const toTabItem = (data: SpecialBase[], type: SpiTab, loading: boolean) => [{
 
 
 /**
- * 专项检查数据（摄像头，手机信号，其他等）
+ * 专项检查数据（，手机信号，其他等）
  */
 const WapInfo: FC<WapInfoProp> = ({ }) => {
 

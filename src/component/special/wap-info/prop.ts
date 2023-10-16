@@ -20,6 +20,10 @@ export enum SpiTab {
      */
     Hotspot = 'hotspot',
     /**
+     * 蓝牙
+     */
+    Bluetooth = 'bluetooth',
+    /**
      * 摄像头
      */
     Camera = 'camera',

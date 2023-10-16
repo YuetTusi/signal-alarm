@@ -5,6 +5,7 @@ import { specialWap, SpecialWapState } from './special-wap';
 import { specialHotspot, SpecialHotspotState } from './special-hotspot';
 import { specialTerminal, SpecialTerminalState } from './special-terminal';
 import { specialCamera, SpecialCameraState } from './special-camera';
+import { specialBluetooth, SpecialBluetoothState } from './special-bluetooth';
 import { specialWiretap, SpecialWiretapState } from './special-wiretap';
 import { specialOthers, SpecialOthersState } from './special-others';
 import { alarm, AlarmState } from './alarm';
@@ -40,6 +41,7 @@ type State = OtherState
     & SpecialHotspotState
     & SpecialTerminalState
     & SpecialCameraState
+    & SpecialBluetoothState
     & SpecialWiretapState
     & SpecialOthersState
     & AlarmState
@@ -74,6 +76,7 @@ const useModel = create<State>(zustandLog((setState: SetState, getState: GetStat
     ...specialHotspot(setState, getState),
     ...specialTerminal(setState, getState),
     ...specialCamera(setState, getState),
+    ...specialBluetooth(setState, getState),
     ...specialWiretap(setState, getState),
     ...specialOthers(setState, getState),
     ...alarm(setState, getState),

@@ -74,7 +74,7 @@ const historySpectrum = (setState: SetState, _: GetState): HistorySpectrumState 
             if (res !== null && res.code === 200) {
                 if (helper.isNullOrUndefined(res.data)) {
                     setState({
-                        historySpectrumData: new Array(7499).map(() => '-') as any[],
+                        historySpectrumData: new Array(7499).fill('-') as any[],
                         historySpectrumCaptureTime: 0,
                         historySpectrumDeviceId: ''
                     });
@@ -94,6 +94,20 @@ const historySpectrum = (setState: SetState, _: GetState): HistorySpectrumState 
         } finally {
             setState({ historySpectrumLoading: false });
         }
+    },
+    /**
+     * 查询历史比对数据
+     * @param freqBaseId 
+     * @param startTime 
+     * @param endTime 
+     * @param cmpName 
+     */
+    async queryHistoryCompareSpectrumData(freqBaseId: string, startTime: number, endTime: number, cmpName: string) {
+        const url = `/freq/cmp-history?freqBaseId=${freqBaseId}&startTime=${startTime}&endTime=${endTime}&cmpName=${encodeURIComponent(cmpName)}`;
+
+        const res = await request.get(url);
+
+        console.log(res);
     }
 });
 

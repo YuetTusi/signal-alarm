@@ -39,6 +39,14 @@ interface HistorySpectrumState {
      * 查询当前设备历史频谱数据
      */
     queryHistorySpectrumData: (deviceId: string, captureTime: number) => void,
+    /**
+     * 查询历史比对数据
+     * @param freqBaseId 
+     * @param startTime 
+     * @param endTime 
+     * @param cmpName 
+     */
+    queryHistoryCompareSpectrumData: (freqBaseId: string, startTime: number, endTime: number, cmpName: string) => void
 }
 
 export type { HistorySpectrumState };
