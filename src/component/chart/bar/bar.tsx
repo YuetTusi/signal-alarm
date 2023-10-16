@@ -57,9 +57,10 @@ const Bar: FC<BarProp> = ({ xData, yData, serieName }) => {
                         type: 'shadow'
                     },
                     position: ([x, y]: number[]) => {
-                        const xPoint = x < 150 ? x : x - 160;
-                        const yPoint = y < 150 ? y : y - 60;
-                        return [xPoint, yPoint];
+                        // const xPoint = x < 150 ? x : x - 160;
+                        // const yPoint = y < 150 ? y : y - 60;
+                        const yPoint = y > 175 ? y - 30 : y + 5;
+                        return [30, yPoint];
                     }
                 },
                 toolbox: {
