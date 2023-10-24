@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const WapInfoBox = styled.div`
 
     position: relative;
-    width: 460px;
+    width: 450px;
 
     .ant-tabs-nav{
         margin:0 !important;

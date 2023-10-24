@@ -68,10 +68,9 @@ export const specialBluetooth = (setState: SetState, _: GetState): SpecialBlueto
         if (condition?.endTime) {
             q.push(`createTimeEnd=${condition.endTime}`);
         }
-        if (condition?.deviceId) {
-            q.push(`deviceId=${condition.deviceId}`);
+        if (condition?.bluetoothType !== 'all') {
+            q.push(`bluetoothType=${condition?.bluetoothType}`);
         }
-        q.push(`protocolTypes=${Protocol.Others}`);
         params = `?` + q.join('&');
         try {
             const res = await request.get<QueryPage<any>>(`/spi/bluetooth/${pageIndex}/${pageSize}${params}`);
@@ -112,6 +111,26 @@ export const specialBluetooth = (setState: SetState, _: GetState): SpecialBlueto
      * @param condition 条件
      */
     async exportSpecialBluetoothData(pageIndex: number, pageSize: number, condition?: Record<string, any>) {
-        return Promise.resolve(Buffer.allocUnsafe(0));
+        let params = '';
+        if (!helper.isNullOrUndefined(condition)) {
+            let q: string[] = [];
+            if (condition?.beginTime) {
+                q.push(`createTimeBegin=${encodeURIComponent(condition?.beginTime)}`);
+            }
+            if (condition?.endTime) {
+                q.push(`createTimeEnd=${encodeURIComponent(condition?.endTime)}`);
+            }
+            if (condition?.bluetoothType !== 'all') {
+                q.push(`bluetoothType=${condition?.bluetoothType}`);
+            }
+            params = `?page=${pageIndex}&limit=${pageSize}&` + q.join('&');
+        }
+
+        try {
+            const chunk = await request.attachment(`/spi/bluetooth/export${params}`);
+            return chunk;
+        } catch (error) {
+            throw error;
+        }
     }
 });

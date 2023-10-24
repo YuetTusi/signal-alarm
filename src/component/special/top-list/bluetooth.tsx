@@ -18,10 +18,10 @@ const BluetoothList: FC<TopListProp> = ({ data, loading }) => {
      * 渲染广商名称
      */
     const renderOrg = (item: any) => {
-        if (helper.isNullOrUndefined(item?.org)) {
+        if (helper.isNullOrUndefined(item?.vendor)) {
             return ''
         } else {
-            return `(${item.org})`
+            return `(${item.vendor})`
         }
     }
 
@@ -44,7 +44,7 @@ const BluetoothList: FC<TopListProp> = ({ data, loading }) => {
                     </NoWarpLabel>
                 </div>
                 <div className="list-row-val">
-                    <Signal value={Number(item?.rssi)} max={0} min={-100} />
+                    <Signal value={Number((item as any).signal)} max={0} min={-100} />
                 </div>
             </div>
             <div className="inner-row">
