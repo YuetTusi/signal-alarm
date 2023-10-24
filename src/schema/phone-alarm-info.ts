@@ -28,4 +28,39 @@ class PhoneAlarmInfo {
     public message: string = ''
 }
 
-export { PhoneAlarmInfo };
+interface AlarmMessage {
+    /**
+     * 设备id
+     */
+    deviceId: string,
+    /**
+     * 采集时间：
+     */
+    captureTime?: string,
+    /**
+     * 协议类型：
+     */
+    protocol?: string,
+    /**
+     * 强度
+     */
+    rssi?: string,
+    /**
+     * 设备场所
+     */
+    siteName?: string,
+    /**
+     * 频点信息
+     */
+    arfcn?: string,
+    /**
+     * 告警级别
+     */
+    warnLevel?: string,
+    /**
+     * 告警原因
+     */
+    warnReason?: string
+}
+
+export { PhoneAlarmInfo, type AlarmMessage };

@@ -46,6 +46,7 @@ export const DashboardBox = styled.div`
         background-size: 100% 100%;
     }
 
+    
     .phone-panel{
         position: absolute;
         top:45px;

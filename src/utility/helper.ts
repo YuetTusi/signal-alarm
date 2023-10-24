@@ -5,15 +5,18 @@ import electron from 'electron';
 import dayjs from "dayjs";
 import { v4 } from 'uuid';
 import memoize from 'lodash/memoize';
-import { Protocol } from '@/schema/protocol';
-import { ComDevice, ComDeviceDropdown } from '@/schema/com-device';
+import { Protocol } from '../schema/protocol';
+import { ComDevice, ComDeviceDropdown } from '../schema/com-device';
+import { AlarmType, AppMode, Conf } from '../schema/conf';
 
 const { join } = path;
+const { accessSync, readFileSync } = fs;
 const { access, readFile, writeFile } = fs.promises;
 const cwd = process.cwd();
 const { ipcRenderer } = electron;
 
 const APP_NAME = '无线信号哨兵长时监测系统';
+
 /**
 * 接口默认IP
 */
@@ -36,6 +39,50 @@ const helper = {
      * 默认分页尺寸
      */
     PAGE_SIZE: 10,
+    /**
+     * 读取配置文件
+     * @param algo 解密算法（默认rc4）
+     */
+    readConf: memoize((): Conf => {
+        let confPath = '';
+        try {
+            if (helper.IS_DEV) {
+                confPath = join(cwd, './conf.json');
+            } else {
+                confPath = join(cwd, 'resources/conf.json')
+            }
+            accessSync(confPath);
+            const chunk = readFileSync(confPath, { encoding: 'utf8' });
+            return JSON.parse(chunk) as Conf;
+        } catch (error) {
+            console.warn(`读取配置文件失败 @utility/helper/readConf() : ${error.message}`);
+            return {
+                mode: AppMode.PC,
+                alarmType: AlarmType.Single
+            };
+        }
+
+        // if (helper.IS_DEV) {
+        //     let confPath = join(cwd, './conf.json');
+        //     let chunk = readFileSync(confPath, { encoding: 'utf-8' });
+        // } else {
+        //     let confPath = join(cwd, 'resources/config/conf');
+        //     try {
+        //         accessSync(confPath);
+        //         let chunk = readFileSync(confPath, 'utf8');
+        //         const decipher = crypto.createDecipher(algo, KEY);
+        //         let conf = decipher.update(chunk, 'hex', 'utf8');
+        //         conf += decipher.final('utf8');
+        //         return load(conf) as Conf;
+        //     } catch (error: any) {
+        //         console.warn(`读取配置文件失败 @utility/helper/readConf() : ${error.message}`);
+        //         return {
+        //             mode: AppMode.PC,
+        //             alarmType: AlarmType.Single
+        //         };
+        //     }
+        // }
+    }),
     /**
      * @description 转为dayjs日期格式
      * @param date 原日期字串

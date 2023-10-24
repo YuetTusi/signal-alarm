@@ -1,4 +1,4 @@
-import { mkdirSync, accessSync } from 'fs';
+import { mkdirSync, accessSync, readFileSync } from 'fs';
 import { join } from 'path';
 import {
     app, BrowserWindow, globalShortcut, ipcMain, IpcMainEvent
@@ -6,10 +6,13 @@ import {
 import { init } from './init';
 import { port } from '../../config/port';
 import { bindHandle } from './bind';
+// import { helper } from '../utility/helper';
+import { AppMode, Conf } from '../schema/conf';
 
 const cwd = process.cwd();
 const { env, resourcesPath } = process;
 const isDev = env['NODE_ENV'] === 'development';
+var conf: Conf = { mode: 0, alarmType: 0 };
 var mainWindow: BrowserWindow | null = null;
 var reportWindow: BrowserWindow | null = null;
 var reportWindows: BrowserWindow[] = [];
@@ -28,13 +31,23 @@ if (!app.requestSingleInstanceLock()) {
     app.quit();
 }
 
-try {
-    accessSync(join(cwd, './logs'));
-} catch (error) {
-    mkdirSync(join(cwd, './logs'));
-}
-
 (async () => {
+    try {
+        accessSync(join(cwd, './logs'));
+    } catch (error) {
+        mkdirSync(join(cwd, './logs'));
+    }
+    try {
+        const confPath = isDev
+            ? join(cwd, './conf.json')
+            : join(cwd, 'resources/conf.json');
+        accessSync(confPath);
+        const chunk = readFileSync(confPath, { encoding: 'utf8' });
+        conf = JSON.parse(chunk) as Conf;
+    } catch (error) {
+        conf = { mode: 0, alarmType: 0 };
+    }
+
     await init(isDev);
 
     // if (!isDev) {
@@ -66,12 +79,13 @@ app.on('ready', () => {
 
     mainWindow = new BrowserWindow({
         title: '文档生成',
-        width: 1660,
-        height: 900,
-        minHeight: 800,
-        minWidth: 1660,
+        width: conf.mode === AppMode.PC ? 1660 : 1920,
+        height: conf.mode === AppMode.PC ? 900 : 1200,
+        minHeight: conf.mode === AppMode.PC ? 800 : 1200,
+        minWidth: conf.mode === AppMode.PC ? 1660 : 1920,
         show: true,
         frame: false,
+        fullscreen: conf.mode === AppMode.FullScreen,
         backgroundColor: '#02002f',
         webPreferences: {
             javascript: true,

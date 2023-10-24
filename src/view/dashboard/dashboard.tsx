@@ -1,12 +1,8 @@
 import dayjs from 'dayjs';
-import debounce from 'lodash/debounce';
 import electron, { IpcRendererEvent } from 'electron';
 import { FC, memo, useEffect, MouseEvent } from "react";
 import { useLocation } from 'react-router-dom';
 import { Button, Typography } from "antd";
-import {
-    ClockCircleOutlined, LoadingOutlined
-} from '@ant-design/icons';
 import useModel from "@/model";
 import { helper } from '@/utility/helper';
 import { instance, closeSse } from '@/utility/sse';
@@ -19,10 +15,14 @@ import {
 } from '@/component/statis';
 import CheckReport from '@/component/check-report';
 import { DashboardBox } from "./styled/box";
+import { DevAlarm } from './dev-alarm';
+import { request } from '@/utility/http';
+import { AlarmType } from '@/schema/conf';
 // import { request } from '@/utility/http';
 
 const { ipcRenderer } = electron;
 const { Text } = Typography;
+const { alarmType } = helper.readConf();
 
 /**
  * 返回绝对定位的类选择器名称
@@ -84,6 +84,7 @@ const Dashboard: FC<{}> = memo(() => {
     }));
 
     const onMessage = (event: MessageEvent<any>) => {
+        console.clear();
         console.log('SSE message:', event);
         try {
             if (typeof event.data === 'string') {
@@ -108,15 +109,15 @@ const Dashboard: FC<{}> = memo(() => {
         const hash = sessionStorage.getItem(StorageKeys.MsgKey);
         if (userId !== null && hash !== null) {
             instance(onMessage);
-            // setInterval(() => {
-            //     request.post(`/sse/push-user`, {
-            //         hash,
-            //         userId,
-            //         message: "{\"arfcn\":1765.0,\"captureTime\":\"2023-08-16T15:00:05\",\"deviceId\":\"RS_177\",\"protocol\":\"中国电信FDD-LTE\",\"protocolType\":7,\"rssi\":-40,\"status\":0,\"warnLevel\":1,\"warnReason\":\"中国电信FDD\"}"
-            //     })
-            //         .then(res => console.log(res))
-            //         .catch(err => console.log(err));
-            // }, 1000 * 10);
+            setInterval(() => {
+                request.post(`/sse/push-user`, {
+                    hash,
+                    userId,
+                    message: "{\"arfcn\":1765.0,\"captureTime\":\"2023-08-16T15:00:05\",\"deviceId\":\"RS111\",\"protocol\":\"中国电信FDD-LTE\",\"protocolType\":7,\"rssi\":-40,\"status\":0,\"warnLevel\":1,\"warnReason\":\"中国电信FDD\"}"
+                })
+                    .then(res => console.log(res))
+                    .catch(err => console.log(err));
+            }, 1000 * 10);
         }
 
         return () => {
@@ -251,17 +252,14 @@ const Dashboard: FC<{}> = memo(() => {
                         <Text style={{ fontSize: '12px', marginRight: '10px' }} type="success">
                             {startTime === '' ? '' : `开始时间：${startTime}`}
                         </Text>
-                        {/* <Button
-                            onClick={onCheckClick}
-                            disabled={quickCheckLoading}
-                            type="primary">
-                            {quickCheckLoading ? <LoadingOutlined /> : <ClockCircleOutlined />}
-                            <span>{startTime === '' ? '长时检测' : '停止长时检测'}</span>
-                        </Button> */}
                     </div>
-                    <div className="phone-panel">
-                        {renderPhoneAlarm()}
-                    </div>
+                    {
+                        alarmType === AlarmType.Single
+                            ? <div className="phone-panel">
+                                {renderPhoneAlarm()}
+                            </div>
+                            : <DevAlarm />
+                    }
                 </div>
             </div>
             <div className="bottom-box">

@@ -10,7 +10,7 @@ import {
 import { Col, Row, Input, Button, Form, message, App } from 'antd';
 import { useModel } from "@/model";
 import { useUnmount } from '@/hook';
-import { APP_NAME, helper } from '@/utility/helper';
+import { helper } from '@/utility/helper';
 import { StorageKeys } from '@/utility/storage-keys';
 import DragBar from '@/component/drag-bar';
 import Reading from '@/component/reading';

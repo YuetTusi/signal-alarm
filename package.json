@@ -2,15 +2,17 @@
 	"name": "signal-alarm",
 	"private": true,
 	"version": "0.0.1",
+	"homepage": "http://127.0.0.1/",
 	"main": "dist/src/main/index.js",
 	"scripts": {
-		"go": "electron .",
+		"go": "electron . --no-sandbox",
 		"predev": "rimraf dist/**/*",
 		"dev": "tsc src/main/index.ts --outDir dist && cross-env NODE_ENV=development concurrently \"vite --host 0.0.0.0\" \"pnpm run go\"",
 		"prebuild": "rimraf dist/**/*",
 		"build": "vite build && tsc src/main/index.ts --outDir dist",
 		"preview": "vite preview",
-		"dist": "pnpm run build && electron-builder"
+		"dist": "pnpm run build && electron-builder",
+		"linux": "pnpm run build && npx electron-builder build --linux"
 	},
 	"build": {
 		"appId": "4c9e34def3049532",
@@ -38,9 +40,18 @@
 				"zip"
 			],
 			"icon": "icon.png",
-			"publisherName": "yuet",
+			"publisherName": "wsht",
 			"artifactName": "${productName}.${ext}",
 			"requestedExecutionLevel": "requireAdministrator"
+		},
+		"linux": {
+			"target": [
+				{
+					"target": "AppImage",
+					"arch": "arm64"
+				}
+			],
+			"maintainer": "wsht"
 		}
 	},
 	"dependencies": {
@@ -78,7 +89,7 @@
 		"concurrently": "^7.6.0",
 		"cross-env": "^7.0.3",
 		"electron": "^23.1.2",
-		"electron-builder": "^23.6.0",
+		"electron-builder": "^24.6.4",
 		"jquery": "1.12.4",
 		"rimraf": "^5.0.1",
 		"typescript": "^4.9.3",
