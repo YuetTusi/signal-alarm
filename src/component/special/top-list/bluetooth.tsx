@@ -1,13 +1,13 @@
+import BluetoothBle from '@/assets/image/bluethooth-ble.png';
+import BluetoothClassic from '@/assets/image/bluethooth-classic.png';
 import { FC } from 'react';
 import { Spin } from 'antd';
 import { helper } from '@/utility/helper';
 import { NoWarpLabel } from '@/component/panel/panel';
 import Signal from '@/component/signal';
-import { SpecialBase } from '@/schema/special-base';
+import { Bluetooth } from '@/schema/bluetooth';
 import { ListBox, ProtocolIcon } from './styled/box';
 import { TopListProp } from './prop';
-import BluetoothBle from '@/assets/image/bluethooth-ble.png';
-import BluetoothClassic from '@/assets/image/bluethooth-classic.png';
 
 /**
  * 蓝牙Top10列表组件
@@ -25,7 +25,7 @@ const BluetoothList: FC<TopListProp> = ({ data, loading }) => {
         }
     }
 
-    const renderIcon = (data: SpecialBase) => {
+    const renderIcon = (data: Bluetooth) => {
         const type = (data as any).type;
         return <ProtocolIcon
             url={type === 'ble' ? BluetoothBle : BluetoothClassic}
@@ -33,7 +33,7 @@ const BluetoothList: FC<TopListProp> = ({ data, loading }) => {
             className={data.isConnect === 0 ? 'disconnect' : undefined} />;
     };
 
-    const renderContent = (item: SpecialBase) => {
+    const renderContent = (item: Bluetooth) => {
         return <>
             <div className="inner-row">
                 <div className="list-row-txt">
@@ -63,7 +63,7 @@ const BluetoothList: FC<TopListProp> = ({ data, loading }) => {
 
     const renderList = () => data.map(
         (item, index) => <div className="list-row" key={`WL_${index}`}>
-            {renderContent(item)}
+            {renderContent(item as Bluetooth)}
         </div>);
 
     return <Spin tip="加载中" spinning={loading}>

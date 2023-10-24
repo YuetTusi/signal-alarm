@@ -6,7 +6,7 @@ import { FC, useEffect } from 'react';
 import { App, message, Table } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { useModel } from '@/model';
-import { Terminal } from '@/schema/terminal';
+import { Bluetooth } from '@/schema/bluetooth';
 import { helper } from '@/utility/helper';
 import { SearchBar } from './search-bar';
 import { getColumns } from './column';
@@ -125,7 +125,7 @@ const BluetoothTable: FC<BluetoothTableProp> = () => {
             formRef={formRef}
             onExport={onExport}
             onSearch={onSearch} />
-        <Table<Terminal>
+        <Table<Bluetooth>
             columns={getColumns()}
             dataSource={specialBluetoothData}
             loading={specialBluetoothLoading}

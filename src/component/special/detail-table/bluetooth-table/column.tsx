@@ -1,10 +1,9 @@
 import { Tag } from 'antd';
 import { ColumnsType } from 'antd/es/table';
-import { Terminal } from '@/schema/terminal';
-import { Protocol, getProtocolLabel } from '@/schema/protocol';
 import { NoWarpLabel } from '@/component/panel/panel';
+import { Bluetooth } from '@/schema/bluetooth';
 
-const getColumns = (): ColumnsType<Terminal> => {
+const getColumns = (): ColumnsType<Bluetooth> => {
     return [{
         title: '蓝牙类型',
         key: 'type',

@@ -52,7 +52,7 @@ export const ScrollPanel = styled.div<{ height?: number }>`
 
     position: relative;
     display: block;
-    height: ${props => props.height ?? 565}px;
+    height: ${props => props.height ?? 570}px;
     width: auto;
     overflow-y: auto;
 `;

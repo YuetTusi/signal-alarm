@@ -3,9 +3,9 @@ import { UserOutlined } from '@ant-design/icons';
 import { Dropdown } from 'antd';
 import { helper } from '@/utility/helper';
 import { StorageKeys } from '@/utility/storage-keys';
-import { UserMenuAction, UserMenuProp } from './prop';
-import { UserIconBox } from './styled/box';
 import { AppMode } from '@/schema/conf';
+import { UserIconBox } from './styled/box';
+import { UserMenuAction, UserMenuProp } from './prop';
 
 const { mode } = helper.readConf();
 
@@ -24,7 +24,11 @@ const UserMenu: FC<UserMenuProp> = ({ onMenuItemClick }) => {
                 }}>
                 预警声音开关
             </a>
-        }, {
+        }]
+    };
+
+    if (mode === AppMode.PC) {
+        menuData.items.push({
             key: 'UMI_ModifyPassword',
             label: <a
                 onClick={(event: MouseEvent<HTMLAnchorElement>) => {
@@ -33,10 +37,7 @@ const UserMenu: FC<UserMenuProp> = ({ onMenuItemClick }) => {
                 }}>
                 修改密码
             </a>
-        }]
-    };
-
-    if (mode === AppMode.PC) {
+        });
         menuData.items.push({
             key: 'UMI_Logout',
             label: <a
