@@ -1,7 +1,7 @@
 import path from 'path';
 import electron from 'electron';
 import localforage from 'localforage';
-import { FC, MouseEvent, useState } from "react";
+import { FC, MouseEvent, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import {
     UserOutlined, ReloadOutlined, LoadingOutlined,
@@ -10,6 +10,7 @@ import {
 import { Col, Row, Input, Button, Form, message, App } from 'antd';
 import { useModel } from "@/model";
 import { useUnmount } from '@/hook';
+import { AppMode } from '@/schema/conf';
 import { helper } from '@/utility/helper';
 import { StorageKeys } from '@/utility/storage-keys';
 import DragBar from '@/component/drag-bar';
@@ -30,6 +31,7 @@ const { Password } = Input;
 const ipJson = helper.IS_DEV
     ? join(cwd, './ip.json')
     : join(cwd, 'resources/ip.json');
+const { mode } = helper.readConf();
 
 const Login: FC<{}> = () => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -39,6 +41,7 @@ const Login: FC<{}> = () => {
     const [formRef] = useForm<FormValue>();
     const {
         loginRemember,
+        setReading,
         setLoginUserId,
         setLoginUserName,
         setLoginRemember,
@@ -46,12 +49,60 @@ const Login: FC<{}> = () => {
         queryLoginUserInfo
     } = useModel(state => ({
         loginRemember: state.loginRemember,
+        setReading: state.setReading,
         setLoginUserId: state.setLoginUserId,
         setLoginRemember: state.setLoginRemember,
         setLoginUserName: state.setLoginUserName,
         loginByNamePassword: state.loginByNamePassword,
         queryLoginUserInfo: state.queryLoginUserInfo
     }));
+
+    useEffect(() => {
+        (async () => {
+            if (mode === AppMode.FullScreen) {
+                //全屏模式，免登录(使用admin自动登录直接跳转到/dashboard)
+                setReading(true);
+                try {
+                    const ret = await loginByNamePassword('admin', '111111');
+                    if (ret === null) {
+                        message.warning('服务请求失败');
+                    } else {
+                        if (ret.code === 200) {
+                            sessionStorage.setItem(StorageKeys.Token, ret.data.token ?? '');
+                            const res = await queryLoginUserInfo();
+                            if (res !== null && res.code === 200) {
+                                setLoginUserName(res.data.name);
+                                setLoginUserId(res.data.userId.toString());
+                                const userHash = helper.md5(res.data.userId.toString());
+                                const msgKey = helper.md5(res.data.userId.toString() + new Date().getTime());
+                                sessionStorage.setItem(StorageKeys.Hash, userHash);
+                                sessionStorage.setItem(StorageKeys.User, res.data.name);
+                                sessionStorage.setItem(StorageKeys.UserId, res.data.userId.toString());
+                                sessionStorage.setItem(StorageKeys.MsgKey, msgKey);
+                                if (loginRemember) {
+                                    //如果记住登录状态，将token写入localStorage
+                                    localforage.setItem(StorageKeys.Token, ret.data.token ?? '');
+                                    localforage.setItem(StorageKeys.Hash, userHash);
+                                    localforage.setItem(StorageKeys.User, res.data.name);
+                                    localforage.setItem(StorageKeys.UserId, res.data.userId.toString());
+                                    sessionStorage.setItem(StorageKeys.MsgKey, msgKey);
+                                }
+                                navigate('/dashboard');
+                            } else {
+                                message.warning(`身份验证失败（${res?.message ?? ''}）`);
+                            }
+                        } else {
+                            message.warning(`身份验证失败（${ret.message}）`);
+                        }
+                    }
+                } catch (error) {
+                    message.warning('身份验证失败');
+                } finally {
+                    setReading(false);
+                }
+            }
+        })()
+    }, []);
 
     useUnmount(() => console.clear());
 
@@ -141,6 +192,81 @@ const Login: FC<{}> = () => {
         }
     };
 
+    const renderLogin = () => {
+        if (mode === AppMode.FullScreen) {
+            return null;
+        } else {
+            return <LoginOuterBox>
+                <LoginBox>
+                    <h3>用户登录</h3>
+                    <Form
+                        form={formRef}
+                        style={{ width: '240px' }}
+                        layout="vertical">
+                        <Item
+                            rules={[{
+                                required: true,
+                                message: '请填写用户'
+                            }]}
+                            name="userName"
+                            label="用户">
+                            <Input prefix={<UserOutlined style={{ color: '#424242' }} />} />
+                        </Item>
+                        <Item
+                            rules={[{
+                                required: true,
+                                message: '请填写密码'
+                            }]}
+                            name="password"
+                            label="密码">
+                            <Password prefix={<KeyOutlined style={{ color: '#424242' }} />} />
+                        </Item>
+                        {/* <Item>
+                <Row gutter={16}>
+                    <Col flex="none">
+                        <Checkbox
+                            onChange={(event) => setLoginRemember(event.target.checked)}
+                            checked={loginRemember}
+                            style={{ verticalAlign: 'text-top' }} >
+                            <label onClick={() => setLoginRemember(!loginRemember)}>记住密码</label>
+                        </Checkbox>
+                    </Col>
+                </Row>
+            </Item> */}
+                        <Item>
+                            <Row gutter={24} style={{ marginTop: '1rem' }}>
+                                <Col span={12}>
+                                    <Button
+                                        onClick={onLoginSubmit}
+                                        disabled={loading}
+                                        type="primary"
+                                        block={true}
+                                    >
+                                        {loading ? <LoadingOutlined /> : <UserOutlined />}
+                                        <span>登录</span>
+                                    </Button>
+                                </Col>
+                                <Col span={12}>
+                                    <Button
+                                        onClick={() => {
+                                            // log.info('这是一个测试');
+                                            setLoginRemember(false);
+                                            formRef.resetFields();
+                                        }}
+                                        type="primary"
+                                        block={true}>
+                                        <ReloadOutlined />
+                                        <span>重置</span>
+                                    </Button>
+                                </Col>
+                            </Row>
+                        </Item>
+                    </Form>
+                </LoginBox>
+            </LoginOuterBox>;
+        }
+    }
+
     return <>
         <DragBar />
         <Reading />
@@ -157,74 +283,7 @@ const Login: FC<{}> = () => {
                 <AppTitle />
             </div>
             <div className="login-body-box">
-                <LoginOuterBox>
-                    <LoginBox>
-                        <h3>用户登录</h3>
-                        <Form
-                            form={formRef}
-                            style={{ width: '240px' }}
-                            layout="vertical">
-                            <Item
-                                rules={[{
-                                    required: true,
-                                    message: '请填写用户'
-                                }]}
-                                name="userName"
-                                label="用户">
-                                <Input prefix={<UserOutlined style={{ color: '#424242' }} />} />
-                            </Item>
-                            <Item
-                                rules={[{
-                                    required: true,
-                                    message: '请填写密码'
-                                }]}
-                                name="password"
-                                label="密码">
-                                <Password prefix={<KeyOutlined style={{ color: '#424242' }} />} />
-                            </Item>
-                            {/* <Item>
-                            <Row gutter={16}>
-                                <Col flex="none">
-                                    <Checkbox
-                                        onChange={(event) => setLoginRemember(event.target.checked)}
-                                        checked={loginRemember}
-                                        style={{ verticalAlign: 'text-top' }} >
-                                        <label onClick={() => setLoginRemember(!loginRemember)}>记住密码</label>
-                                    </Checkbox>
-                                </Col>
-                            </Row>
-                        </Item> */}
-                            <Item>
-                                <Row gutter={24} style={{ marginTop: '1rem' }}>
-                                    <Col span={12}>
-                                        <Button
-                                            onClick={onLoginSubmit}
-                                            disabled={loading}
-                                            type="primary"
-                                            block={true}
-                                        >
-                                            {loading ? <LoadingOutlined /> : <UserOutlined />}
-                                            <span>登录</span>
-                                        </Button>
-                                    </Col>
-                                    <Col span={12}>
-                                        <Button
-                                            onClick={() => {
-                                                // log.info('这是一个测试');
-                                                setLoginRemember(false);
-                                                formRef.resetFields();
-                                            }}
-                                            type="primary"
-                                            block={true}>
-                                            <ReloadOutlined />
-                                            <span>重置</span>
-                                        </Button>
-                                    </Col>
-                                </Row>
-                            </Item>
-                        </Form>
-                    </LoginBox>
-                </LoginOuterBox>
+                {renderLogin()}
             </div>
         </BackgroundBox>
         <NetworkModal

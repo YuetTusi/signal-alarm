@@ -7,6 +7,7 @@ import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from '@/styled/global';
 import { ViewRouter } from '@/router';
 import Crash from '@/component/crash';
+import { helper } from '@/utility/helper';
 import {
     App as AntdApp,
     ConfigProvider,
@@ -19,6 +20,7 @@ import { blue } from '@/theme/blue';
 dayjs.locale('zh-cn');
 dayjs.extend(customParseFormat);
 dayjs.extend(relativeTime);
+const { mode } = helper.readConf();
 
 localforage.config({
     driver: [
@@ -43,7 +45,7 @@ const App = () => <ConfigProvider
         <AntdApp>
             <ThemeProvider theme={blue}>
                 <GlobalStyle />
-                <ViewRouter />
+                <ViewRouter mode={mode} />
             </ThemeProvider>
         </AntdApp>
     </Crash>
