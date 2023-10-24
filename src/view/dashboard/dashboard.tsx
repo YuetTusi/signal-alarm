@@ -84,7 +84,6 @@ const Dashboard: FC<{}> = memo(() => {
     }));
 
     const onMessage = (event: MessageEvent<any>) => {
-        console.clear();
         console.log('SSE message:', event);
         try {
             if (typeof event.data === 'string') {

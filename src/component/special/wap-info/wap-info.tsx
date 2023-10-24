@@ -10,6 +10,7 @@ import {
     TopList,
     WapList,
     TerminalList,
+    BluetoothList,
     HotspotList,
     TotalList,
     WiretapList
@@ -53,13 +54,13 @@ const toTabItem = (data: SpecialBase[], type: SpiTab, loading: boolean) => [{
         }
     </ScrollPanel>
 }, {
-    key: SpiTab.Camera,
-    label: '摄像头',
+    key: SpiTab.Bluetooth,
+    label: '蓝牙',
     children: <ScrollPanel>
         {
             data.length === 0
                 ? <EmptyBox><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></EmptyBox>
-                : <TerminalList data={data} type={type} loading={loading} />
+                : <BluetoothList data={data} type={type} loading={loading} />
         }
     </ScrollPanel>
 }, {
@@ -108,6 +109,7 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
         specialHotsportTopData,
         specialTerminalTopData,
         specialWiretapTopData,
+        specialBluetoothTopData,
         specialDetailModalOpen,
         setSpecialDetailModalOpen,
         clearAllTopData,
@@ -115,12 +117,14 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
         querySpecialWapTopData,
         querySpecialHotspotTopData,
         querySpecialTerminalTopData,
+        querySpecialBluetoothTopData,
         querySpecialWiretapTopData
     } = useModel(state => ({
         specialTopLoading: state.specialTopLoading,
         specialWapTopData: state.specialWapTopData,
         specialHotsportTopData: state.specialHotsportTopData,
         specialTerminalTopData: state.specialTerminalTopData,
+        specialBluetoothTopData: state.specialBluetoothTopData,
         specialWiretapTopData: state.specialWiretapTopData,
         specialDetailModalOpen: state.specialDetailModalOpen,
         setSpecialDetailModalOpen: state.setSpecialDetailModalOpen,
@@ -129,6 +133,7 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
         querySpecialWapTopData: state.querySpecialWapTopData,
         querySpecialHotspotTopData: state.querySpecialHotspotTopData,
         querySpecialTerminalTopData: state.querySpecialTerminalTopData,
+        querySpecialBluetoothTopData: state.querySpecialBluetoothTopData,
         querySpecialWiretapTopData: state.querySpecialWiretapTopData
     }));
 
@@ -161,6 +166,7 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
             Protocol.WiFi58G,
             Protocol.Bluetooth50
         ]),
+        querySpecialBluetoothTopData(),
         querySpecialWiretapTopData([
             Protocol.Detectaphone
         ])
@@ -195,10 +201,8 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
                         Protocol.WiFi58G
                     ]);
                     break;
-                case SpiTab.Camera:
-                    await querySpecialTerminalTopData([
-                        Protocol.Camera
-                    ]);
+                case SpiTab.Bluetooth:
+                    await querySpecialBluetoothTopData();
                     break;
                 case SpiTab.Terminal:
                     await querySpecialTerminalTopData([
@@ -245,13 +249,14 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
             case SpiTab.All:
                 return getAllTopData();
             case SpiTab.Signal:
-            case SpiTab.Camera:
             case SpiTab.Others:
                 return specialWapTopData;
             case SpiTab.Hotspot:
                 return specialHotsportTopData;
             case SpiTab.Terminal:
                 return specialTerminalTopData;
+            case SpiTab.Bluetooth:
+                return specialBluetoothTopData;
             case SpiTab.Wiretap:
                 return specialWiretapTopData;
             default:

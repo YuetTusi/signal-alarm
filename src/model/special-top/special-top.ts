@@ -23,6 +23,10 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
      */
     specialTerminalTopData: [],
     /**
+     * 蓝牙Top10数据
+     */
+    specialBluetoothTopData: [],
+    /**
      * 窃听器Top10数据
      */
     specialWiretapTopData: [],
@@ -96,7 +100,7 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
 
             if (res !== null && res.code === 200) {
                 setState({
-                    specialHotsportTopData: res.data.sort((a, b) =>
+                    specialBluetoothTopData: res.data.sort((a, b) =>
                         dayjs(a.captureTime, 'YYYY-MM-DD HH:mm:ss').isAfter(dayjs(b.captureTime, 'YYYY-MM-DD HH:mm:ss')) ? -1 : 1)
                 });
             }
@@ -117,6 +121,28 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
             if (res !== null && res.code === 200) {
                 setState({
                     specialTerminalTopData: res.data
+                        .map(item => ({ ...item, isTerminal: true }))
+                        .sort((a, b) =>
+                            dayjs(a.captureTime, 'YYYY-MM-DD HH:mm:ss')
+                                .isAfter(dayjs(b.captureTime, 'YYYY-MM-DD HH:mm:ss')) ? -1 : 1)
+                });
+            }
+        } catch (error) {
+            throw error;
+        } finally {
+            setState({ specialTopLoading: false });
+        }
+    },
+    /**
+     * 查询蓝牙Top10数据
+     */
+    async querySpecialBluetoothTopData() {
+        setState({ specialTopLoading: true });
+        try {
+            const res = await request.get<SpecialBase[]>('/spi/bluetooth/new');
+            if (res !== null && res.code === 200) {
+                setState({
+                    specialBluetoothTopData: res.data
                         .map(item => ({ ...item, isTerminal: true }))
                         .sort((a, b) =>
                             dayjs(a.captureTime, 'YYYY-MM-DD HH:mm:ss')

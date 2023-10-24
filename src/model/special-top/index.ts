@@ -21,6 +21,10 @@ interface SpecialTopState {
      */
     specialTerminalTopData: SpecialBase[],
     /**
+     * 蓝牙Top10数据
+     */
+    specialBluetoothTopData: SpecialBase[],
+    /**
      * 窃听器Top10数据
      */
     specialWiretapTopData: SpecialBase[],
@@ -53,6 +57,10 @@ interface SpecialTopState {
      * 查询终端Top10数据
      */
     querySpecialTerminalTopData: (type: Protocol[]) => void,
+    /**
+     * 查询蓝牙Top10数据
+     */
+    querySpecialBluetoothTopData: () => void,
     /**
      * 查询窃听器Top10数据
      */
