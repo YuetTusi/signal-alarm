@@ -7,6 +7,6 @@ export const CenterFixedBox = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 190px;
+    height: 195px;
     overflow: hidden;
 `;

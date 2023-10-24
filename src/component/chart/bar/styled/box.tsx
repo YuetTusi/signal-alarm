@@ -19,5 +19,5 @@ export const EmptyBox = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 190px;
+    height: 200px;
 `;

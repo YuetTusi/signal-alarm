@@ -126,6 +126,7 @@ const SettingMenu: FC<SettingMenuProp> = ({ }) => {
         }}
         trigger={['click']}>
         <Button
+            size="middle"
             type="primary">
             <MenuOutlined />
             <span>菜单</span>

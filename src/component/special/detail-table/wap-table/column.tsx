@@ -26,8 +26,7 @@ export const getColumns = (): ColumnsType<Wap> => {
     }, {
         title: '设备ID',
         key: 'deviceId',
-        dataIndex: 'deviceId',
-        width: 120
+        dataIndex: 'deviceId'
     }, {
         title: '设备场所',
         key: 'siteName',
@@ -41,6 +40,6 @@ export const getColumns = (): ColumnsType<Wap> => {
         key: 'captureTime',
         dataIndex: 'captureTime',
         align: 'center',
-        width: 150
+        width: 170
     }];
 };

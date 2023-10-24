@@ -31,7 +31,7 @@ const getColumns = (): ColumnsType<Hotspot> => {
         dataIndex: 'mac',
         width: 140
     }, {
-        title: '强度值',
+        title: '强度',
         key: 'rssi',
         dataIndex: 'rssi',
         width: 80
@@ -73,7 +73,7 @@ const getColumns = (): ColumnsType<Hotspot> => {
         key: 'captureTime',
         dataIndex: 'captureTime',
         align: 'center',
-        width: 150
+        width: 170
     }];
 };
 

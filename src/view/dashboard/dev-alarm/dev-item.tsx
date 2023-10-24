@@ -1,7 +1,7 @@
 import throttle from 'lodash/throttle';
 import { FC, MouseEvent, useRef } from 'react';
 import { Popover } from 'antd';
-import EnvironmentOutlined from '@ant-design/icons/EnvironmentOutlined';
+import WifiOutlined from '@ant-design/icons/WifiOutlined';
 import { useModel } from '@/model';
 import { ComDevice, DeviceState } from '@/schema/com-device';
 import { AlarmMessage } from '@/schema/phone-alarm-info';
@@ -43,11 +43,10 @@ const DevItem: FC<{ data: ComDevice }> = ({ data }) => {
                     <div
                         className="dev-item red">
                         <i>
-                            <EnvironmentOutlined />
+                            <WifiOutlined />
                         </i>
                         <div>{data.siteName ?? '-'}</div>
                         <div>{data.deviceName ?? '-'}</div>
-                        <div>{data.deviceId ?? '-'}</div>
                     </div>
                 </Popover>
             </div>
@@ -55,11 +54,10 @@ const DevItem: FC<{ data: ComDevice }> = ({ data }) => {
                 <div
                     className={`dev-item ${data.status === DeviceState.Normal ? 'green' : 'gray'}`}>
                     <i>
-                        <EnvironmentOutlined />
+                        <WifiOutlined />
                     </i>
                     <div>{data.siteName ?? '-'}</div>
                     <div>{data.deviceName ?? '-'}</div>
-                    <div>{data.deviceId ?? '-'}</div>
                 </div>
             </div>;
     };

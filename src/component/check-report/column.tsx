@@ -49,14 +49,14 @@ const getColumns = (onDownload: (report: QuickCheckReport) => void) => [{
     key: 'startTime',
     dataIndex: 'startTime',
     align: 'center',
-    width: 150,
+    width: 170,
     render: (val: number) => dayjs(val).format('YYYY-MM-DD HH:mm:ss')
 }, {
     title: '持续时间',
     key: 'sec',
     dataIndex: 'sec',
     align: 'center',
-    width: 80,
+    width: 100,
     render: (_: any, { startTime, endTime }) => {
         const diff = dayjs(endTime).diff(startTime);
         return dayjs('00:00:00', 'HH:mm:ss').add(diff, 'ms').format('HH:mm:ss')
@@ -66,14 +66,14 @@ const getColumns = (onDownload: (report: QuickCheckReport) => void) => [{
     key: 'endTime',
     dataIndex: 'endTime',
     align: 'center',
-    width: 150,
+    width: 170,
     render: (val: any) => dayjs(val).format('YYYY-MM-DD HH:mm:ss')
 }, {
     title: '创建时间',
     key: 'createTime',
     dataIndex: 'createTime',
     align: 'center',
-    width: 150
+    width: 170
 }, {
     title: '下载',
     key: 'download',

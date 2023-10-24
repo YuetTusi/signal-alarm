@@ -111,7 +111,7 @@ const Line: FC<LineProp> = ({ data, days, serieName }) => {
         </EmptyBox>
         : <ChartBox
             width={320}
-            height={190}
+            height={210}
             ref={chartDom} />;
 };
 

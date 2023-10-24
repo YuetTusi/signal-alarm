@@ -32,13 +32,13 @@ const getColumns = (handle: ActionHandle): ColumnsType<ComDevice> => {
         key: 'updateTime',
         dataIndex: 'updateTime',
         align: 'center',
-        width: 150,
+        width: 170,
     }, {
         title: '创建时间',
         key: 'createTime',
         dataIndex: 'createTime',
         align: 'center',
-        width: 150,
+        width: 170,
     }, {
         title: '状态',
         key: 'status',

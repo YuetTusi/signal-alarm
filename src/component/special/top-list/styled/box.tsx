@@ -11,7 +11,7 @@ export const ListBox = styled.div`
     }
 
     &>.list-row{
-        font-size: 1.2rem;
+        font-size: 1.4rem;
         padding: 4px 5px;
         border:1px solid #01aff8;
         background: rgb(3,83,196);
@@ -63,9 +63,9 @@ export const ListBox = styled.div`
 
 export const Icon = styled.i`
     display: inline-block;
-    width: 52px;
-    height: 14px;
-    margin-right: 5px;
+    width: 59px;
+    height: 16px;
+    margin-right: 2px;
     background-repeat: no-repeat;
     background-size: contain;
 `;

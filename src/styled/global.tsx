@@ -24,6 +24,7 @@ export const GlobalStyle = createGlobalStyle`
         height: 100%;
         color:#ffffffd9;
         font-size: 1.4rem;
+        /* font-weight: 400; */
         font-family: "Microsoft YaHei","NSimSun","Arial";
         background-color: #02002f;
     }

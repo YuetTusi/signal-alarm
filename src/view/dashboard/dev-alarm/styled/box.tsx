@@ -22,7 +22,7 @@ export const DevAlarmBox = styled.div`
         align-items: center;
         /* border:1px solid yellowgreen; */
         border-radius: 2px;
-        font-size: 1.2rem;
+        font-size: 1.6rem;
         /* position: absolute; */
 
         &>i{
@@ -36,7 +36,7 @@ export const DevAlarmBox = styled.div`
             color:#fd2c30;
         }
         &.gray{
-            color:#808e9b;
+            color:#fff;
         }
 
         .dev-detail{

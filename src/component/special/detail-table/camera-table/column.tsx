@@ -30,7 +30,7 @@ const getColumns = (): ColumnsType<Terminal> => {
         dataIndex: 'ssid'
     },
     {
-        title: '强度值',
+        title: '强度',
         key: 'rssi',
         dataIndex: 'rssi',
         width: 60
@@ -40,7 +40,7 @@ const getColumns = (): ColumnsType<Terminal> => {
         key: 'isConnect',
         dataIndex: 'isConnect',
         align: 'center',
-        width: 75,
+        width: 80,
         render: (val: number) => val === 0
             ? <Tag color="orange" style={{ marginRight: 0 }}>未连接</Tag>
             : <Tag color="green" style={{ marginRight: 0 }}>已连接</Tag>
@@ -55,8 +55,7 @@ const getColumns = (): ColumnsType<Terminal> => {
     }, {
         title: '设备ID',
         key: 'deviceId',
-        dataIndex: 'deviceId',
-        width: 120
+        dataIndex: 'deviceId'
     }, {
         title: '设备场所',
         key: 'siteName',
@@ -70,7 +69,7 @@ const getColumns = (): ColumnsType<Terminal> => {
         key: 'captureTime',
         dataIndex: 'captureTime',
         align: 'center',
-        width: 150
+        width: 170
     }];
 };
 

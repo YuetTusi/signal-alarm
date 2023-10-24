@@ -37,8 +37,8 @@ export const LayoutBox = styled.div`
                     url(${bannerRepeat}) repeat-x;
         &>div{
             position: relative;
-            top:32px;
             &:first-child{
+                top:28px;
                 padding-left: 5px;
             }
             &.app-title{
@@ -47,6 +47,7 @@ export const LayoutBox = styled.div`
                 color:#daf5fe;
             }
             &:last-child{
+                top:32px;
                 padding-right: 5px;
             }
         }

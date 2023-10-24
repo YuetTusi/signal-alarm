@@ -11,7 +11,7 @@ export const AlarmInfoBox = styled.div`
 
 export const AlarmTableBox = styled.div`
 
-    height:560px;
+    height:590px;
     .ant-tag{
         margin-right: 0 !important;
     }

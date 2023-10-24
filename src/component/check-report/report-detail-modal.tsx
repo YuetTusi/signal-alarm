@@ -15,7 +15,7 @@ const ReportDetailModal: FC<ReportDetailModalProp> = ({ open, onCancel }) => {
         open={open}
         footer={null}
         title="检查报告详情"
-        width={1330}
+        width={1520}
         centered={true}
         maskClosable={false}
         destroyOnClose={true}

@@ -202,7 +202,7 @@ const Device: FC<DeviceProp> = () => {
                         name="status"
                         label="状态"
                         initialValue={-1}
-                        style={{ width: '120px' }}>
+                        style={{ width: '140px' }}>
                         <Select>
                             <Option value={-1}>全部</Option>
                             <Option value={DeviceState.Normal}>工作</Option>

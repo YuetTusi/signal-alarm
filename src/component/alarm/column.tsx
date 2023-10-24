@@ -36,7 +36,7 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [
         title: '告警级别',
         key: 'warnLevel',
         dataIndex: 'warnLevel',
-        width: 75
+        width: 80
     }, {
         title: '告警原因',
         key: 'warnReason',
@@ -48,7 +48,7 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [
         dataIndex: 'arfcn',
         width: 120
     }, {
-        title: '强度值',
+        title: '强度',
         key: 'rssi',
         dataIndex: 'rssi',
         width: 60
@@ -72,7 +72,7 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [
         title: '设备ID',
         key: 'deviceId',
         dataIndex: 'deviceId',
-        width: 120
+        width: 140
     }, {
         title: '设备场所',
         key: 'siteName',
@@ -83,7 +83,7 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [
         key: 'captureTime',
         dataIndex: 'captureTime',
         align: 'center',
-        width: 150,
+        width: 170,
     }, {
         title: '处理记录',
         key: 'remark',
@@ -185,6 +185,7 @@ const getTopColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [{
     title: '频点值',
     key: 'arfcn',
     dataIndex: 'arfcn',
+    width: 120,
     render(val: string, record) {
         return record.status === 0 ? <RedText>{val}</RedText> : <GrayText>{val}</GrayText>;
     }
@@ -209,7 +210,7 @@ const getTopColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [{
     key: 'captureTime',
     dataIndex: 'captureTime',
     align: 'center',
-    width: 150,
+    width: 170,
     render(val: string, record) {
         return record.status === 0 ? <RedText>{val}</RedText> : <GrayText>{val}</GrayText>;
     }
@@ -218,7 +219,7 @@ const getTopColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [{
     key: 'read',
     dataIndex: 'read',
     align: 'center',
-    width: 60,
+    width: 50,
     render: (val: any, record) => {
         if (record.status === 0) {
             return <a
@@ -235,7 +236,7 @@ const getTopColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [{
     key: 'detail',
     dataIndex: 'detail',
     align: 'center',
-    width: 60,
+    width: 50,
     render: (val: any, record) => <a onClick={() => {
         handle(ActionType.Detail, record);
     }}

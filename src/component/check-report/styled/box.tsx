@@ -56,7 +56,7 @@ export const ReportBox = styled.div`
     }
 
     &>.info{
-        font-size: 1.2rem;
+        font-size: 1.4rem;
         ul,li{
             margin:0;
             padding:0;
@@ -71,7 +71,7 @@ export const ReportBox = styled.div`
                 white-space: nowrap;
                 color:${props => props.theme['colorInfo']};
                 &:after{
-                    content:"：";
+                    content:":";
                 }
             }
             span{
@@ -91,7 +91,7 @@ export const ReportBox = styled.div`
 
 export const ModalBox = styled.div`
 
-    height: 565px;
+    height: 700px;
 `;
 
 export const SearchBarBox = styled.div`

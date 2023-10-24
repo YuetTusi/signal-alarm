@@ -92,7 +92,7 @@ const Bar: FC<BarProp> = ({ xData, yData, serieName }) => {
                         smooth: true,
                         label: {
                             show: true,
-                            fontSize: 11,
+                            fontSize: 12,
                             position: [5, '0%'],
                             formatter({ name }: Record<string, any>) {
                                 return name;
@@ -118,7 +118,7 @@ const Bar: FC<BarProp> = ({ xData, yData, serieName }) => {
         </EmptyBox>
         : <ChartBox
             width={320}
-            height={260}
+            height={270}
             ref={chartDom} />;
 };
 
