@@ -32,6 +32,10 @@ const helper = {
      */
     IS_DEV: process.env['NODE_ENV'] === 'development',
     /**
+     * 平台
+     */
+    PLATFORM: process.platform,
+    /**
      * 服务端SSE通信地址
      */
     SSE_URL: 'http://58.48.76.202:18800',

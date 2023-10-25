@@ -19,6 +19,7 @@ import { CheckReportProp } from './prop';
 const { basename, join } = path;
 const { ipcRenderer } = electron;
 const { mkdir, writeFile } = fs.promises;
+const reportPath = helper.PLATFORM === 'linux' ? join(process.cwd(), './_signal_tmp') : 'C:/_signal_tmp'
 
 /**
  * 检测报告
@@ -54,12 +55,12 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
         setLoading(true);
         const fileName = basename(report.url, '.pdf');
         try {
-            const exist = await helper.existFile('C:/_signal_tmp');
+            const exist = await helper.existFile(reportPath);
             if (!exist) {
-                await mkdir('C:/_signal_tmp');
+                await mkdir(reportPath);
             }
             const chunk = await request.attachment(report.url);
-            const pdf = join('C:/_signal_tmp', fileName + '.pdf');
+            const pdf = join(reportPath, fileName + '.pdf');
             await writeFile(pdf, chunk);
             // await shell.openExternal(pdf, {
             //     activate: true

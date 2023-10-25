@@ -1,5 +1,6 @@
 var libs = {
-    events: 'const events=require("events"); export default events',
+    os: 'const os=require("os"); export default os;',
+    events: 'const events=require("events"); export default events;',
     fs: 'const fs=require("fs"); export default fs;',
     path: 'const path=require("path"); export default path;',
     url: 'const url=require("url"); export default url;',

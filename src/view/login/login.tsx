@@ -57,51 +57,47 @@ const Login: FC<{}> = () => {
         queryLoginUserInfo: state.queryLoginUserInfo
     }));
 
-    useEffect(() => {
-        (async () => {
-            if (mode === AppMode.FullScreen) {
-                //全屏模式，免登录(使用admin自动登录直接跳转到/dashboard)
-                setReading(true);
-                try {
-                    const ret = await loginByNamePassword('admin', '111111');
-                    if (ret === null) {
-                        message.warning('服务请求失败');
+    const doLogin = async (userName: string, password: string) => {
+        setReading(true);
+        try {
+            const ret = await loginByNamePassword(userName, password);
+            if (ret === null) {
+                message.warning('服务请求失败');
+                return;
+            } else {
+                if (ret.code === 200) {
+                    sessionStorage.setItem(StorageKeys.Token, ret.data.token ?? '');
+                    const res = await queryLoginUserInfo();
+                    if (res !== null && res.code === 200) {
+                        setLoginUserName(res.data.name);
+                        setLoginUserId(res.data.userId.toString());
+                        const userHash = helper.md5(res.data.userId.toString());
+                        const msgKey = helper.md5(res.data.userId.toString() + new Date().getTime());
+                        sessionStorage.setItem(StorageKeys.Hash, userHash);
+                        sessionStorage.setItem(StorageKeys.User, res.data.name);
+                        sessionStorage.setItem(StorageKeys.UserId, res.data.userId.toString());
+                        sessionStorage.setItem(StorageKeys.MsgKey, msgKey);
+                        navigate('/dashboard');
                     } else {
-                        if (ret.code === 200) {
-                            sessionStorage.setItem(StorageKeys.Token, ret.data.token ?? '');
-                            const res = await queryLoginUserInfo();
-                            if (res !== null && res.code === 200) {
-                                setLoginUserName(res.data.name);
-                                setLoginUserId(res.data.userId.toString());
-                                const userHash = helper.md5(res.data.userId.toString());
-                                const msgKey = helper.md5(res.data.userId.toString() + new Date().getTime());
-                                sessionStorage.setItem(StorageKeys.Hash, userHash);
-                                sessionStorage.setItem(StorageKeys.User, res.data.name);
-                                sessionStorage.setItem(StorageKeys.UserId, res.data.userId.toString());
-                                sessionStorage.setItem(StorageKeys.MsgKey, msgKey);
-                                if (loginRemember) {
-                                    //如果记住登录状态，将token写入localStorage
-                                    localforage.setItem(StorageKeys.Token, ret.data.token ?? '');
-                                    localforage.setItem(StorageKeys.Hash, userHash);
-                                    localforage.setItem(StorageKeys.User, res.data.name);
-                                    localforage.setItem(StorageKeys.UserId, res.data.userId.toString());
-                                    sessionStorage.setItem(StorageKeys.MsgKey, msgKey);
-                                }
-                                navigate('/dashboard');
-                            } else {
-                                message.warning(`身份验证失败（${res?.message ?? ''}）`);
-                            }
-                        } else {
-                            message.warning(`身份验证失败（${ret.message}）`);
-                        }
+                        message.warning(`身份验证失败（${res?.message ?? ''}）`);
                     }
-                } catch (error) {
-                    message.warning('身份验证失败');
-                } finally {
-                    setReading(false);
+                } else {
+                    message.warning(`身份验证失败（${ret.message}）`);
                 }
             }
-        })()
+        } catch (error) {
+            console.clear();
+            console.warn(error);
+        } finally {
+            setReading(false);
+        }
+    };
+
+    useEffect(() => {
+        if (mode === AppMode.FullScreen) {
+            //如果是全屏模式，使用admin自动登录
+            doLogin('admin', '111111');
+        }
     }, []);
 
     useUnmount(() => console.clear());
@@ -114,41 +110,7 @@ const Login: FC<{}> = () => {
         message.destroy();
         try {
             const { userName, password } = await formRef.validateFields();
-            setLoading(true);
-            const ret = await loginByNamePassword(userName, password);
-            if (ret === null) {
-                message.warning('登录失败');
-                return;
-            }
-
-            if (ret.code === 200) {
-                sessionStorage.setItem(StorageKeys.Token, ret.data.token ?? '');
-                const res = await queryLoginUserInfo();
-                if (res !== null && res.code === 200) {
-                    setLoginUserName(res.data.name);
-                    setLoginUserId(res.data.userId.toString());
-                    const userHash = helper.md5(res.data.userId.toString());
-                    const msgKey = helper.md5(res.data.userId.toString() + new Date().getTime());
-                    sessionStorage.setItem(StorageKeys.Hash, userHash);
-                    sessionStorage.setItem(StorageKeys.User, res.data.name);
-                    sessionStorage.setItem(StorageKeys.UserId, res.data.userId.toString());
-                    sessionStorage.setItem(StorageKeys.MsgKey, msgKey);
-                    if (loginRemember) {
-                        //如果记住登录状态，将token写入localStorage
-                        localforage.setItem(StorageKeys.Token, ret.data.token ?? '');
-                        localforage.setItem(StorageKeys.Hash, userHash);
-                        localforage.setItem(StorageKeys.User, res.data.name);
-                        localforage.setItem(StorageKeys.UserId, res.data.userId.toString());
-                        sessionStorage.setItem(StorageKeys.MsgKey, msgKey);
-                    }
-                    message.success('登录成功');
-                    navigate('/dashboard');
-                } else {
-                    message.warning(`登录失败（${res?.message ?? ''}）`);
-                }
-            } else {
-                message.warning(`登录失败（${ret.message}）`);
-            }
+            await doLogin(userName, password);
         } catch (error) {
             if (error.errorFields) {
                 console.warn(error);
@@ -250,6 +212,7 @@ const Login: FC<{}> = () => {
                                     <Button
                                         onClick={() => {
                                             // log.info('这是一个测试');
+                                            console.log(helper.PLATFORM);
                                             setLoginRemember(false);
                                             formRef.resetFields();
                                         }}

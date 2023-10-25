@@ -10,8 +10,9 @@ import { bindHandle } from './bind';
 import { AppMode, Conf } from '../schema/conf';
 
 const cwd = process.cwd();
-const { env, resourcesPath } = process;
+const { env, resourcesPath, platform } = process;
 const isDev = env['NODE_ENV'] === 'development';
+const isLinux = platform === 'linux';
 var conf: Conf = { mode: 0, alarmType: 0 };
 var mainWindow: BrowserWindow | null = null;
 var reportWindow: BrowserWindow | null = null;
@@ -216,7 +217,10 @@ ipcMain.on('report', (_: IpcMainEvent, fileName: string) => {
         }
     }));
 
-    reportWindows[reportWindows.length - 1].loadFile(join('C:/_signal_tmp', fileName));
+    reportWindows[reportWindows.length - 1]
+        .loadFile(isLinux
+            ? join(cwd, './_signal_tmp', fileName)
+            : join('C:/_signal_tmp', fileName));
 });
 
 ipcMain.on('query-special-type-statis', (_: IpcMainEvent) => {
