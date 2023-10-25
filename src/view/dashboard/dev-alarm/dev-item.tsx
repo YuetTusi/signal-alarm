@@ -40,25 +40,35 @@ const DevItem: FC<{ data: ComDevice }> = ({ data }) => {
                 <Popover
                     content={<AlarmTable data={next} />}
                     placement="right">
-                    <div
+                    <div className="alarm-box">
+                        <div className="qiu red">
+                            {next.length}
+                        </div>
+                        <span>{data.siteName ?? '-'}</span>
+                    </div>
+                    {/* <div
                         className="dev-item red">
                         <i>
                             <WifiOutlined />
                         </i>
                         <div>{data.siteName ?? '-'}</div>
                         <div>{data.deviceName ?? '-'}</div>
-                    </div>
+                    </div> */}
                 </Popover>
             </div>
             : <div className="dev-item-box">
-                <div
+                <div className="alarm-box">
+                    <div className={`qiu ${data.status === DeviceState.Normal ? 'green' : 'gray'}`} />
+                    <span>{data.siteName ?? '-'}</span>
+                </div>
+                {/* <div
                     className={`dev-item ${data.status === DeviceState.Normal ? 'green' : 'gray'}`}>
                     <i>
                         <WifiOutlined />
                     </i>
                     <div>{data.siteName ?? '-'}</div>
                     <div>{data.deviceName ?? '-'}</div>
-                </div>
+                </div> */}
             </div>;
     };
 

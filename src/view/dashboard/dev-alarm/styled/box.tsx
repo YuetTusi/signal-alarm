@@ -1,4 +1,8 @@
 import styled from 'styled-components';
+import DiPng from '@/assets/image/di.png';
+import BallRedPng from '@/assets/image/ball-red.png';
+import BallGreenPng from '@/assets/image/ball-green.png';
+import BallGrayPng from '@/assets/image/ball-gray.png';
 
 export const DevAlarmBox = styled.div`
     position: absolute;
@@ -8,190 +12,65 @@ export const DevAlarmBox = styled.div`
     bottom: 0;
     overflow-y: auto;
 
-    .dev-item-box{
-        display: inline-block;
-        width: 33.3%;
+    .alarm-box{
+        color: #fff;
         text-align: center;
-    }
-
-    .dev-item{
-        position: relative;
-        display:inline-flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        /* border:1px solid yellowgreen; */
-        border-radius: 2px;
-        font-size: 1.6rem;
-        /* position: absolute; */
-
-        &>i{
-            font-size: 2rem;
-        }
-
-        &.green{
-            color:#0be881;
-        }
-        &.red{
-            color:#fd2c30;
-        }
-        &.gray{
-            color:#fff;
-        }
-
-        .dev-detail{
-            position: absolute;
-            top:0;
-            left:0;
-            z-index: 1;
-            display: none;
-            min-width:200px;
-            flex-direction: column;
+        position: absolute;
+        width: 14rem;
+        height: 14rem;
+        background: url(${DiPng}) no-repeat bottom center;
+        background-size: contain;
+        padding-top: 3%;
+        box-sizing: border-box;
+        & .qiu{
+            position: relative;
+            width: 6rem;
+            height: 6rem;
+            margin: auto;
+            font-size: 2.4rem;
+            font-weight: bold;
+            display: flex;
             justify-content: center;
             align-items: center;
-            background-color: rgb(234,65,65,0.58);
-            color:#fff8de;
-            /* margin:0 20px 20px 20px; */
-            padding: 24px;
-            border-top-right-radius: 25px;
-            border-bottom-right-radius: 25px;
-            border-bottom-left-radius: 25px;
-            animation-name: bg-flash;
-            animation-duration: .7s;
-            animation-iteration-count: infinite;
-            animation-timing-function: linear;
-
-            /* &::before{
-                position: absolute;
-                left:0;
-                top:50%;
-                width: 20px;
+            background: url(${BallGrayPng}) no-repeat center;
+            background-size: contain;
+            &::before{
+                content: '';
                 display: block;
-                border:1px solid #fff400;
-                content: "";
-            } */
-
-            .info{
-                white-space: nowrap;
-            }
-
-            &>i{
+                width: 8rem;
+                height: 8rem;
                 position: absolute;
-                display: block;
-                width: 20px;
-                height: 20px;
-                &.b-tl{
-                    top:0;
-                    left:0;
-                    border-left:3px solid #f40006;
-                    border-top:3px solid #f40006;
-                    animation-name: tl-flash;
-                    animation-duration: .7s;
-                    animation-iteration-count: infinite;
-                    animation-timing-function: linear;
-                }
-                &.b-tr{
-                    top:0;
-                    right:0;
-                    border-top:3px solid #f40006;
-                    border-right:3px solid #f40006;
-                    border-top-right-radius: 30px;
-                    animation-name: tr-flash;
-                    animation-duration: .7s;
-                    animation-iteration-count: infinite;
-                    animation-timing-function: linear;
-                }
-                &.b-bl{
-                    bottom:0;
-                    left:0;
-                    border-bottom:3px solid #f40006;
-                    border-left:3px solid #f40006;
-                    border-bottom-left-radius: 30px;
-                    animation-name: bl-flash;
-                    animation-duration: .7s;
-                    animation-iteration-count: infinite;
-                    animation-timing-function: linear;
-                }
-                &.b-br{
-                    bottom:0;
-                    right:0;
-                    border-bottom:3px solid #f40006;
-                    border-right:3px solid #f40006;
-                    border-bottom-right-radius: 30px;
-                    animation-name: br-flash;
-                    animation-duration: .7s;
-                    animation-iteration-count: infinite;
-                    animation-timing-function: linear;
-                }
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                border-radius: 50%;
+                border-width: 3px;
+                border-style: solid;
+                animation: scale 2s linear infinite;
+            }
+            &.gray{
+                color:#fff;
+                background-image: url(${BallGrayPng});
+            }
+            &.green{
+                color:#0be881;
+                background-image: url(${BallGreenPng});
+            }
+            &.red{
+                color:#fd2c30;
+                background-image: url(${BallRedPng});
             }
         }
+    }
 
-        @keyframes tl-flash {
+    @keyframes scale {
             0% {
-                border-left:3px solid #fff400;
-                border-top:3px solid #fff400;
-            }
-            50%{
-                border-left:3px solid #f40006;
-                border-top:3px solid #f40006;
+                transform: translate(-50%, -50%) scale(0.9);
+                opacity: 1;
             }
             100% {
-                border-left:3px solid #fff400;
-                border-top:3px solid #fff400;
+                transform: translate(-50%, -50%) scale(1.5);
+                opacity: 0;
             }
-        }
-        @keyframes tr-flash {
-            0% {
-                border-right:3px solid #fff400;
-                border-top:3px solid #fff400;
-            }
-            50%{
-                border-right:3px solid #f40006;
-                border-top:3px solid #f40006;
-            }
-            100% {
-                border-right:3px solid #fff400;
-                border-top:3px solid #fff400;
-            }
-        }
-        @keyframes bl-flash {
-            0% {
-                border-left:3px solid #fff400;
-                border-bottom:3px solid #fff400;
-            }
-            50%{
-                border-left:3px solid #f40006;
-                border-bottom:3px solid #f40006;
-            }
-            100% {
-                border-left:3px solid #fff400;
-                border-bottom:3px solid #fff400;
-            }
-        }
-        @keyframes br-flash {
-            0% {
-                border-right:3px solid #fff400;
-                border-bottom:3px solid #fff400;
-            }
-            50%{
-                border-right:3px solid #f40006;
-                border-bottom:3px solid #f40006;
-            }
-            100% {
-                border-right:3px solid #fff400;
-                border-bottom:3px solid #fff400;
-            }
-        }
-        @keyframes bg-flash {
-            0% {
-                background-color: rgb(234,65,65,0.58);
-            }
-            50%{
-                background-color: rgb(234,65,65,0.39);
-            }
-            100% {
-                background-color: rgb(234,65,65,0.58);
-            }
-        }
     }
 `;

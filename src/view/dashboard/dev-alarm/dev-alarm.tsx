@@ -24,7 +24,8 @@ const DevAlarm: FC<DevAlarmProp> = () => {
     const renderItem = () =>
         deviceList.map((data, index) => <DevItem
             data={data}
-            key={`DI_${index}`} />);
+            key={`DI_${index}`} />
+        );
 
     return <DevAlarmBox id="devAlarmBox">
         {renderItem()}
