@@ -1,6 +1,6 @@
-import { FC, MouseEvent, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useModel } from '@/model';
-import { DevItem } from './dev-item';
+import { PointItem } from './point-item';
 import { DevAlarmBox } from './styled/box';
 import { DevAlarmProp } from './prop';
 
@@ -22,7 +22,7 @@ const DevAlarm: FC<DevAlarmProp> = () => {
     }, []);
 
     const renderItem = () =>
-        deviceList.map((data, index) => <DevItem
+        deviceList.map((data, index) => <PointItem
             data={data}
             key={`DI_${index}`} />
         );

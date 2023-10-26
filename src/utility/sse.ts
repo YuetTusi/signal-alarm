@@ -5,6 +5,9 @@ import { StorageKeys } from "./storage-keys";
 const { port, ip } = helper.getAppSetting();
 let source: EventSource | null = null;
 
+/**
+ * 创建SSE实例绑定onMessage回调
+ */
 const instance = (onMessage: (this: EventSource, ev: MessageEvent<any>) => any) => {
 
     const userId = sessionStorage.getItem(StorageKeys.UserId)!;
@@ -29,6 +32,9 @@ const instance = (onMessage: (this: EventSource, ev: MessageEvent<any>) => any) 
     return source;
 };
 
+/**
+ * 关闭SSE释放资源
+ */
 const closeSse = () => {
     if (source) {
         const hash = sessionStorage.getItem(StorageKeys.Hash) ?? '';

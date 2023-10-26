@@ -40,7 +40,7 @@ export const DashboardBox = styled.div`
     .alarm-bg{
         position: relative;
         width: 100%;
-        height: 652px;
+        height: 648px;
         background-image: url(${alarmBg});
         background-repeat: no-repeat;
         background-size: 100% 100%;
@@ -49,7 +49,7 @@ export const DashboardBox = styled.div`
     
     .phone-panel{
         position: absolute;
-        top:45px;
+        top:0;
         left:0;
         right:0;
         bottom:0;

@@ -1,16 +1,14 @@
-import throttle from 'lodash/throttle';
-import { FC, MouseEvent, useRef } from 'react';
+import { FC } from 'react';
 import { Popover } from 'antd';
-import WifiOutlined from '@ant-design/icons/WifiOutlined';
 import { useModel } from '@/model';
 import { ComDevice, DeviceState } from '@/schema/com-device';
 import { AlarmMessage } from '@/schema/phone-alarm-info';
 import { AlarmTable } from './alarm-table';
 
 /**
- * 设备
+ * 设备（圆点）
  */
-const DevItem: FC<{ data: ComDevice }> = ({ data }) => {
+const PointItem: FC<{ data: ComDevice }> = ({ data }) => {
 
     const {
         phoneAlarmData
@@ -36,17 +34,18 @@ const DevItem: FC<{ data: ComDevice }> = ({ data }) => {
                 }
             }, []);
         return next.length > 0
-            ? <div className="dev-item-box">
-                <Popover
-                    content={<AlarmTable data={next} />}
-                    placement="right">
-                    <div className="alarm-box">
-                        <div className="qiu red">
-                            {next.length}
+            ? <div className="cell">
+                <div className="dev-item-box">
+                    <Popover
+                        content={<AlarmTable data={next} />}
+                        placement="right">
+                        <div className="dev-box">
+                            <div className="qiu red">
+                                {next.length}
+                            </div>
+                            <span>{data.siteName ?? '-'}</span>
                         </div>
-                        <span>{data.siteName ?? '-'}</span>
-                    </div>
-                    {/* <div
+                        {/* <div
                         className="dev-item red">
                         <i>
                             <WifiOutlined />
@@ -54,14 +53,16 @@ const DevItem: FC<{ data: ComDevice }> = ({ data }) => {
                         <div>{data.siteName ?? '-'}</div>
                         <div>{data.deviceName ?? '-'}</div>
                     </div> */}
-                </Popover>
-            </div>
-            : <div className="dev-item-box">
-                <div className="alarm-box">
-                    <div className={`qiu ${data.status === DeviceState.Normal ? 'green' : 'gray'}`} />
-                    <span>{data.siteName ?? '-'}</span>
+                    </Popover>
                 </div>
-                {/* <div
+            </div>
+            : <div className="cell">
+                <div className="dev-item-box">
+                    <div>
+                        <div className={`qiu ${data.status === DeviceState.Normal ? 'green' : 'gray'}`} />
+                        <span>{data.siteName ?? '-'}</span>
+                    </div>
+                    {/* <div
                     className={`dev-item ${data.status === DeviceState.Normal ? 'green' : 'gray'}`}>
                     <i>
                         <WifiOutlined />
@@ -69,10 +70,11 @@ const DevItem: FC<{ data: ComDevice }> = ({ data }) => {
                     <div>{data.siteName ?? '-'}</div>
                     <div>{data.deviceName ?? '-'}</div>
                 </div> */}
+                </div>
             </div>;
     };
 
     return renderMessage();
 };
 
-export { DevItem };
+export { PointItem };
