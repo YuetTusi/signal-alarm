@@ -68,7 +68,15 @@ const Loop: FC<LoopProp> = ({ data, serieName }) => {
                     pageIconColor: '#256bec',
                     pageIconInactiveColor: '#b8b8b8',
                     pageIconSize: 10,
-                    pageTextStyle: { color: '#ffffffd9' }
+                    pageTextStyle: { color: '#ffffffd9' },
+                    formatter: (name: string) => {
+                        const item = data.find((i) => i.name === name);
+                        if (item) {
+                            return `${name}(${item.value})`;
+                        } else {
+                            return name;
+                        }
+                    }
                 },
                 series: [
                     {
