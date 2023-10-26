@@ -116,7 +116,7 @@ const device = (setState: SetState, _: GetState): DeviceState => ({
                 return;
             }
             if (res.code === 200) {
-                setState({ deviceList: res.data });
+                setState({ deviceList: res.data.sort((a, b) => a.id - b.id) });
             } else {
                 setState({ deviceList: [] });
             }
