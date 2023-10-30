@@ -59,7 +59,8 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
         const wap = getState().specialWapTopData;
         const hotspot = getState().specialHotsportTopData;
         const terminal = getState().specialTerminalTopData;
-        const data = [...wap, ...hotspot, ...terminal]
+        const bluetooth = getState().specialBluetoothTopData;
+        const data = [...wap, ...hotspot, ...bluetooth, ...terminal]
             .sort((a, b) =>
                 dayjs(a.captureTime, 'YYYY-MM-DD HH:mm:ss')
                     .isAfter(dayjs(b.captureTime, 'YYYY-MM-DD HH:mm:ss')) ? -1 : 1)
@@ -137,13 +138,14 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
      * 查询蓝牙Top10数据
      */
     async querySpecialBluetoothTopData() {
+
         setState({ specialTopLoading: true });
         try {
             const res = await request.get<SpecialBase[]>('/spi/bluetooth/new');
             if (res !== null && res.code === 200) {
                 setState({
                     specialBluetoothTopData: res.data
-                        .map(item => ({ ...item, isTerminal: true }))
+                        .map(item => ({ ...item, isBluetooth: true }))
                         .sort((a, b) =>
                             dayjs(a.captureTime, 'YYYY-MM-DD HH:mm:ss')
                                 .isAfter(dayjs(b.captureTime, 'YYYY-MM-DD HH:mm:ss')) ? -1 : 1)

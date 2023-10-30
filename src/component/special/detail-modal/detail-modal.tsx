@@ -52,7 +52,7 @@ const DetailModel: FC<DetailModalProp> = ({ open, defaultTabKey, onCancel }) => 
         footer={null}
         onCancel={onCancelClick}
         open={open}
-        width={1520}
+        width={1660}
         getContainer="#app"
         title="专项检查详情"
         centered={true}

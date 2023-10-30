@@ -82,7 +82,7 @@ const Loop: FC<LoopProp> = ({ data, serieName }) => {
                     {
                         name: serieName,
                         label: { show: false },
-                        center: [90, '50%'],
+                        center: [80, '50%'],
                         type: 'pie',
                         radius: ['40%', '70%'],
                         itemStyle: {

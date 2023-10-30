@@ -1,6 +1,5 @@
 import path from 'path';
 import electron from 'electron';
-import localforage from 'localforage';
 import { FC, MouseEvent, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import {
@@ -22,6 +21,7 @@ import {
 } from "./styled/styled";
 import { FormValue } from "./prop";
 // import { log } from '@/utility/log';
+// import L from 'leaflet';
 
 const cwd = process.cwd();
 const { join } = path;
@@ -212,7 +212,6 @@ const Login: FC<{}> = () => {
                                     <Button
                                         onClick={() => {
                                             // log.info('这是一个测试');
-                                            console.log(helper.PLATFORM);
                                             setLoginRemember(false);
                                             formRef.resetFields();
                                         }}

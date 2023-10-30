@@ -5,15 +5,17 @@ import { Spin } from 'antd';
 import { helper } from '@/utility/helper';
 import { NoWarpLabel } from '@/component/panel/panel';
 import Signal from '@/component/signal';
-import { Bluetooth } from '@/schema/bluetooth';
+import { Bluetooth as BluetoothEntity } from '@/schema/bluetooth';
 import { ListBox, ProtocolIcon } from './styled/box';
 import { TopListProp } from './prop';
+import { SpecialBase } from '@/schema/special-base';
 
 /**
- * 蓝牙Top10列表组件
+ * 蓝牙
  */
-const BluetoothList: FC<TopListProp> = ({ data, loading }) => {
+const Bluetooth: FC<{ data: BluetoothEntity }> = ({ data }) => {
 
+    // console.log(data);
     /**
      * 渲染广商名称
      */
@@ -25,7 +27,7 @@ const BluetoothList: FC<TopListProp> = ({ data, loading }) => {
         }
     }
 
-    const renderIcon = (data: Bluetooth) => {
+    const renderIcon = (data: BluetoothEntity) => {
         const type = (data as any).type;
         return <ProtocolIcon
             url={type === 'ble' ? BluetoothBle : BluetoothClassic}
@@ -33,37 +35,41 @@ const BluetoothList: FC<TopListProp> = ({ data, loading }) => {
             className={data.isConnect === 0 ? 'disconnect' : undefined} />;
     };
 
-    const renderContent = (item: Bluetooth) => {
-        return <>
-            <div className="inner-row">
-                <div className="list-row-txt">
-                    <NoWarpLabel
-                        title={`${(item as any)?.mac ?? '-'} ${renderOrg(item as any)}`}
-                        width={340}>
-                        {`${(item as any)?.mac ?? '-'} ${renderOrg(item as any)}`}
-                    </NoWarpLabel>
-                </div>
-                <div className="list-row-val">
-                    <Signal value={Number((item as any).signal)} max={0} min={-100} />
-                </div>
+    return <>
+        <div className="inner-row">
+            <div className="list-row-txt">
+                <NoWarpLabel
+                    title={`${(data as any)?.mac ?? '-'} ${renderOrg(data as any)}`}
+                    width={340}>
+                    {`${(data as any)?.mac ?? '-'} ${renderOrg(data as any)}`}
+                </NoWarpLabel>
             </div>
-            <div className="inner-row">
-                <div
-                    title={`${helper.isNullOrUndefined(item?.siteName) || item?.siteName === '' ? '-' : item?.siteName}`}
-                    className="list-row-txt">
-                    {renderIcon(item)}
-                    {helper.isNullOrUndefined(item?.siteName) || item?.siteName === '' ? '-' : item?.siteName}
-                </div>
-                <div className="list-row-val">
-                    <NoWarpLabel width={130}>{item.captureTime}</NoWarpLabel>
-                </div>
+            <div className="list-row-val">
+                <Signal value={Number((data as any).signal)} max={0} min={-100} />
             </div>
-        </>;
-    };
+        </div>
+        <div className="inner-row">
+            <div
+                title={`${helper.isNullOrUndefined(data?.siteName) || data?.siteName === '' ? '-' : data?.siteName}`}
+                className="list-row-txt">
+                {renderIcon(data)}
+                {helper.isNullOrUndefined(data?.siteName) || data?.siteName === '' ? '-' : data?.siteName}
+            </div>
+            <div className="list-row-val">
+                <NoWarpLabel width={130}>{data.captureTime}</NoWarpLabel>
+            </div>
+        </div>
+    </>;
+};
+
+/**
+ * 蓝牙Top10列表组件
+ */
+const BluetoothList: FC<TopListProp> = ({ data, loading }) => {
 
     const renderList = () => data.map(
         (item, index) => <div className="list-row" key={`WL_${index}`}>
-            {renderContent(item as Bluetooth)}
+            <Bluetooth data={item as BluetoothEntity} key={`WL_${index}`} />
         </div>);
 
     return <Spin tip="加载中" spinning={loading}>
@@ -78,4 +84,4 @@ BluetoothList.defaultProps = {
     loading: false
 };
 
-export { BluetoothList };
+export { BluetoothList, Bluetooth };

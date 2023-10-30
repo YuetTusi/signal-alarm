@@ -57,7 +57,7 @@ const CalcModal: FC<CalcModalProp> = ({ open, onCancel, onOk }) => {
         maskClosable={false}
         destroyOnClose={true}
         forceRender={true}
-        width={420}
+        width={460}
         getContainer="#app"
         title="计算背景频谱">
         <Form form={formRef} layout="vertical" style={{ marginTop: '2rem' }}>
@@ -104,7 +104,19 @@ const CalcModal: FC<CalcModalProp> = ({ open, onCancel, onOk }) => {
                         name="createTimeEnd"
                         label="结束时间"
                         rules={[
-                            { required: true, message: '请选择结束时间' }
+                            { required: true, message: '请选择结束时间' },
+                            ({ getFieldValue }) => ({
+                                validator(_, value) {
+                                    const minute = value.diff(getFieldValue('createTimeBegin'), 'minute');
+                                    if (minute < 0) {
+                                        return Promise.reject(new Error('请大于起始时间'));
+                                    } else if (minute > 60) {
+                                        return Promise.reject(new Error('时间范围在1小时之内'));
+                                    } else {
+                                        return Promise.resolve();
+                                    }
+                                }
+                            })
                         ]}>
                         <DatePicker
                             showTime={true}

@@ -18,17 +18,6 @@ export const getTypeSelectSource = () => [
                         title: '终端2.4G'
                     }
                 ]
-            }, {
-                value: 'others',
-                title: '其他',
-                children: [
-                    {
-                        value: helper.protocolToString([
-                            Protocol.Bluetooth50
-                        ]),
-                        title: '蓝牙5.0'
-                    }
-                ]
             }
         ]
     }
@@ -43,17 +32,12 @@ export const getTypes = (type: string) => {
         case 'all':
             return helper.protocolToString([
                 Protocol.WiFi24G,
-                Protocol.WiFi58G,
-                Protocol.Bluetooth50
+                Protocol.WiFi58G
             ]);
         case 'hotspot':
             return helper.protocolToString([
                 Protocol.WiFi24G,
                 Protocol.WiFi58G
-            ]);
-        case 'others':
-            return helper.protocolToString([
-                Protocol.Bluetooth50
             ]);
         default:
             return type;

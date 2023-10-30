@@ -25,13 +25,13 @@ const getBaseColumns = (handle: ActionHandle): ColumnsType<BaseFreq> => {
         key: 'status',
         dataIndex: 'status',
         align: 'center',
-        width: 60,
+        width: 70,
         render: (val: number) => {
             switch (val) {
                 case 0:
-                    return <Tag color="red">停用</Tag>;
+                    return <Tag color="red">未完成</Tag>;
                 case 1:
-                    return <Tag color="green">正常</Tag>;
+                    return <Tag color="green">已完成</Tag>;
                 default:
                     return <Tag>未知</Tag>;
             }
@@ -41,13 +41,13 @@ const getBaseColumns = (handle: ActionHandle): ColumnsType<BaseFreq> => {
         key: 'updateTime',
         dataIndex: 'updateTime',
         align: 'center',
-        width: 150
+        width: 170
     }, {
         title: '创建时间',
         key: 'createTime',
         dataIndex: 'createTime',
         align: 'center',
-        width: 150
+        width: 170
     }];
 };
 

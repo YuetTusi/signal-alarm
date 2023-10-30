@@ -53,7 +53,7 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
                         showTime={true}
                         allowClear={false}
                         inputReadOnly={true}
-                        style={{ width: '170px' }} />
+                        style={{ width: '200px' }} />
                 </Item>
                 <Item
                     name="endTime"
@@ -62,7 +62,7 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
                         showTime={true}
                         allowClear={false}
                         inputReadOnly={true}
-                        style={{ width: '170px' }} />
+                        style={{ width: '200px' }} />
                 </Item>
                 <Item
                     name="bluetoothType"

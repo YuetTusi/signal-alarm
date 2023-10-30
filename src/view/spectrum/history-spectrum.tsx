@@ -169,7 +169,7 @@ const HistorySpectrum: FC<HistorySpectrumProp> = () => {
                             showTime={true}
                             allowClear={false}
                             inputReadOnly={true}
-                            style={{ width: '170px' }} />
+                            style={{ width: '200px' }} />
                     </Item>
                     <Item
                         name="endTime"
@@ -178,7 +178,7 @@ const HistorySpectrum: FC<HistorySpectrumProp> = () => {
                             showTime={true}
                             allowClear={false}
                             inputReadOnly={true}
-                            style={{ width: '170px' }} />
+                            style={{ width: '200px' }} />
                     </Item>
                     <Item
                         initialValue={2}
@@ -209,7 +209,7 @@ const HistorySpectrum: FC<HistorySpectrumProp> = () => {
         <TableBox id="historyOuterBox">
             <Spectrum
                 domId="historyOuterBox"
-                data={historySpectrumData}
+                realData={historySpectrumData}
                 serieName={`${historySpectrumDeviceId} 频谱`}
                 captureTime={historySpectrumCaptureTime}
                 arfcn={Array.from(new Array(7499).keys()).map(i => Math.trunc(1 + i * 0.8))} />

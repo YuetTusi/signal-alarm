@@ -32,8 +32,7 @@ const TerminalTable: FC<TerminalTableProp> = () => {
             endTime: dayjs().format('YYYY-MM-DD 23:59:59'),
             type: helper.protocolToString([
                 Protocol.WiFi24G,
-                Protocol.WiFi58G,
-                Protocol.Bluetooth50
+                Protocol.WiFi58G
             ])
         });
     }, []);

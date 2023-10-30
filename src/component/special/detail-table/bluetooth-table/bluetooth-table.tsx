@@ -51,7 +51,6 @@ const BluetoothTable: FC<BluetoothTableProp> = () => {
         exportSpecialBluetoothData: state.exportSpecialBluetoothData
     }));
 
-    console.log(specialBluetoothData);
     /**
      * 翻页Change
      */

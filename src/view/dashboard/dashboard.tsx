@@ -17,6 +17,7 @@ import { DashboardBox } from "./styled/box";
 import { DevAlarm, FloatAlarm } from './ring-alarm';
 import { request } from '@/utility/http';
 import { AlarmType } from '@/schema/conf';
+import { MapAlarm } from './map-alarm';
 
 const { ipcRenderer } = electron;
 const { alarmType } = helper.readConf();
@@ -235,10 +236,11 @@ const Dashboard: FC<{}> = memo(() => {
                             ? <div className="phone-panel">
                                 <FloatAlarm data={phoneAlarmData.slice(0, 5)} />
                             </div>
-                            : <div className="phone-panel">
-                                <DevAlarm />
-                            </div>
+                            : <MapAlarm />
                     }
+                    {/* <div className="phone-panel">
+                                <DevAlarm />
+                            </div> */}
                 </div>
             </div>
             <div className="bottom-box">

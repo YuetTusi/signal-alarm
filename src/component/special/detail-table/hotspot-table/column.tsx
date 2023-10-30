@@ -36,6 +36,13 @@ const getColumns = (): ColumnsType<Hotspot> => {
         dataIndex: 'rssi',
         width: 80
     }, {
+        title: '厂商',
+        key: 'org',
+        dataIndex: 'org',
+        render(val: string) {
+            return <NoWarpLabel title={val} width={150}>{val}</NoWarpLabel>;
+        }
+    }, {
         title: '频点号',
         key: 'channel',
         dataIndex: 'channel',

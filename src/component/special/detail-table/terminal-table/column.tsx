@@ -17,8 +17,6 @@ const getColumns = (): ColumnsType<Terminal> => {
                     return '终端2.4G';
                 case Protocol.WiFi58G:
                     return '终端5.8G';
-                case Protocol.Bluetooth50:
-                    return '蓝牙5.0';
             }
         }
     },

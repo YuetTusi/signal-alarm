@@ -166,7 +166,7 @@ const BaseSpectrum: FC<{}> = () => {
                             showTime={true}
                             allowClear={false}
                             inputReadOnly={true}
-                            style={{ width: '170px' }} />
+                            style={{ width: '200px' }} />
                     </Item>
                     <Item
                         name="endTime"
@@ -175,7 +175,7 @@ const BaseSpectrum: FC<{}> = () => {
                             showTime={true}
                             allowClear={false}
                             inputReadOnly={true}
-                            style={{ width: '170px' }} />
+                            style={{ width: '200px' }} />
                     </Item>
                     <Item>
                         <Button

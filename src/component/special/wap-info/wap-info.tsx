@@ -163,8 +163,7 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
         ]),
         querySpecialTerminalTopData([
             Protocol.WiFi24G,
-            Protocol.WiFi58G,
-            Protocol.Bluetooth50
+            Protocol.WiFi58G
         ]),
         querySpecialBluetoothTopData(),
         querySpecialWiretapTopData([
@@ -207,8 +206,7 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
                 case SpiTab.Terminal:
                     await querySpecialTerminalTopData([
                         Protocol.WiFi24G,
-                        Protocol.WiFi58G,
-                        Protocol.Bluetooth50
+                        Protocol.WiFi58G
                     ]);
                     break;
                 case SpiTab.Wiretap:
@@ -230,11 +228,11 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
     useEffect(() => {
         queryData(activeKey);
         if (timer === null) {
-            timer = setInterval(() => {
-                (() => {
-                    queryData(activeKey);
-                })();
-            }, 1000 * 10);
+            // timer = setInterval(() => {
+            //     (() => {
+            //         queryData(activeKey);
+            //     })();
+            // }, 1000 * 10);
         }
         return () => {
             if (timer !== null) {

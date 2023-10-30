@@ -16,6 +16,7 @@ import {
 } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
 import { blue } from '@/theme/blue';
+import 'leaflet/dist/leaflet.css';
 
 dayjs.locale('zh-cn');
 dayjs.extend(customParseFormat);

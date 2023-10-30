@@ -24,6 +24,8 @@ class Bluetooth extends SpecialBase {
      * 设备名称
      */
     name: string = ''
+
+    isBluetooth: boolean = true
 };
 
 export { Bluetooth };

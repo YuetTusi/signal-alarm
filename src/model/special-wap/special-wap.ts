@@ -76,7 +76,7 @@ const specialWap = (setState: SetState, _: GetState): SpecialWapState => ({
                     throw new Error('查询失败');
                 } else {
                     setState({
-                        specialWapData: ret.data.records.sort((a, b) => Number(b.rssi) - Number(a.rssi)),
+                        specialWapData: ret.data.records,
                         specialWapPageIndex: pageIndex,
                         specialWapPageSize: pageSize,
                         specialWapTotal: ret.data.total
@@ -84,7 +84,7 @@ const specialWap = (setState: SetState, _: GetState): SpecialWapState => ({
                 }
             } else {
                 setState({
-                    specialWapData: res.data.records.sort((a, b) => Number(b.rssi) - Number(a.rssi)),
+                    specialWapData: res.data.records,
                     specialWapPageIndex: pageIndex,
                     specialWapPageSize: pageSize,
                     specialWapTotal: res.data.total

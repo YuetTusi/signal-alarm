@@ -13,6 +13,8 @@ import { Terminal } from './terminal';
 import { CategoryTag } from './category-tag';
 import { ListBox } from './styled/box';
 import { TotalListProp } from './prop';
+import { Bluetooth } from './bluetooth';
+import { Bluetooth as BluetoothEntity } from '@/schema/bluetooth';
 
 /**
  * Top10全部列表组件
@@ -34,10 +36,13 @@ const TotalList: FC<TotalListProp> = ({ data, type, loading }) => {
         switch (item.protocolType) {
             case Protocol.WiFi24G:
             case Protocol.WiFi58G:
-            case Protocol.Bluetooth50:
-                return (item as TerminalData).isTerminal
-                    ? <Terminal data={item as TerminalData} />
-                    : <Wifi data={item as Hotspot} />
+                if ((item as TerminalData).isTerminal) {
+                    return <Terminal data={item as TerminalData} />;
+                } else if ((item as BluetoothEntity).isBluetooth) {
+                    return <Bluetooth data={item as BluetoothEntity} />
+                } else {
+                    return <Wifi data={item as Hotspot} />;
+                }
             default:
                 return <>
                     <div className="inner-row">
