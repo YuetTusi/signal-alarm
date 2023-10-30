@@ -5,7 +5,6 @@ import Signal from '@/component/signal';
 import { Terminal as TerminalData } from '@/schema/terminal';
 import { Protocol } from '@/schema/protocol';
 import { ProtocolIcon } from './styled/box';
-import bluetooth from '@/assets/image/bluetooth.png';
 import terminal24 from '@/assets/image/terminal24.png';
 import terminal58 from '@/assets/image/terminal58.png';
 
@@ -19,11 +18,6 @@ const renderIcon = (data: TerminalData) => {
         case Protocol.WiFi58G:
             return <ProtocolIcon
                 url={terminal58}
-                title={data.isConnect === 0 ? '设备未连接' : undefined}
-                className={data.isConnect === 0 ? 'disconnect' : undefined} />;
-        case Protocol.Bluetooth50:
-            return <ProtocolIcon
-                url={bluetooth}
                 title={data.isConnect === 0 ? '设备未连接' : undefined}
                 className={data.isConnect === 0 ? 'disconnect' : undefined} />;
         default:

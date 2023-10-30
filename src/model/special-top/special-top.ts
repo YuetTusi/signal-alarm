@@ -49,7 +49,8 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
             specialWapTopData: [],
             specialHotsportTopData: [],
             specialTerminalTopData: [],
-            specialWiretapTopData: []
+            specialWiretapTopData: [],
+            specialBluetoothTopData: []
         });
     },
     /**
@@ -60,6 +61,7 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
         const hotspot = getState().specialHotsportTopData;
         const terminal = getState().specialTerminalTopData;
         const bluetooth = getState().specialBluetoothTopData;
+
         const data = [...wap, ...hotspot, ...bluetooth, ...terminal]
             .sort((a, b) =>
                 dayjs(a.captureTime, 'YYYY-MM-DD HH:mm:ss')
