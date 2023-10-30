@@ -58,14 +58,16 @@ const Dashboard: FC<{}> = memo(() => {
         querySpecialTypeStatisData,
         setPhoneAlarmData,
         appendPhoneAlarmData,
-        removePhoneAlarmData
+        removePhoneAlarmData,
+        clearPhoneAlarmData
     } = useModel(state => ({
         phoneAlarmData: state.phoneAlarmData,
         queryAlarmTop10Data: state.queryAlarmTop10Data,
         querySpecialTypeStatisData: state.querySpecialTypeStatisData,
         setPhoneAlarmData: state.setPhoneAlarmData,
         appendPhoneAlarmData: state.appendPhoneAlarmData,
-        removePhoneAlarmData: state.removePhoneAlarmData
+        removePhoneAlarmData: state.removePhoneAlarmData,
+        clearPhoneAlarmData: state.clearPhoneAlarmData
     }));
 
     const onMessage = (event: MessageEvent<any>) => {
@@ -117,21 +119,11 @@ const Dashboard: FC<{}> = memo(() => {
         querySpecialTypeStatisData();
     };
 
+    /**
+     * 清除报警消息
+     */
     const alarmClean = (_: IpcRendererEvent) => {
-        const now = new Date().getTime();
-
-        const removeAlarms = phoneAlarmData.reduce((acc, current) => {
-            const sec = dayjs(now).diff(dayjs(current.receiveTime), 'second');
-            if (sec > 30) {
-                //清除掉30秒以上的报警消息
-                acc.push(current);
-            }
-            return acc;
-        }, [] as PhoneAlarmInfo[]);
-
-        removeAlarms.forEach(item => {
-            removePhoneAlarmData(item.id);
-        });
+        clearPhoneAlarmData();
     };
 
     /**
@@ -163,7 +155,7 @@ const Dashboard: FC<{}> = memo(() => {
         return () => {
             ipcRenderer.off('alarm-drop-all', alarmDropAll);
         };
-    }, [alarmClean]);
+    }, [alarmDropAll]);
 
 
     // const onCheckClick = debounce(async (event: MouseEvent) => {
@@ -241,7 +233,7 @@ const Dashboard: FC<{}> = memo(() => {
                     {
                         alarmType === AlarmType.Single
                             ? <div className="phone-panel">
-                                <FloatAlarm data={phoneAlarmData.slice(0, 3)} />
+                                <FloatAlarm data={phoneAlarmData.slice(0, 5)} />
                             </div>
                             : <div className="phone-panel">
                                 <DevAlarm />

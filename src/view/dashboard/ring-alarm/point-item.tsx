@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { FC } from 'react';
 import { Popover } from 'antd';
 import { useModel } from '@/model';
@@ -21,7 +22,6 @@ const PointItem: FC<{ data: ComDevice }> = ({ data }) => {
      */
     const renderMessage = () => {
         const next = phoneAlarmData
-            .slice(0, 5)
             .reduce<AlarmMessage[]>((acc, current) => {
                 try {
                     const message: AlarmMessage = JSON.parse(current.message);
@@ -33,43 +33,32 @@ const PointItem: FC<{ data: ComDevice }> = ({ data }) => {
                     return acc;
                 }
             }, []);
+
         return next.length > 0
             ? <div className="cell">
-                <div className="dev-item-box">
-                    <Popover
-                        content={<AlarmTable data={next} />}
-                        placement="right">
-                        <div className="dev-box">
-                            <div className="qiu red">
-                                {next.length}
-                            </div>
-                            <span>{data.siteName ?? '-'}</span>
+                <Popover
+                    content={<AlarmTable
+                        data={next.sort((a, b) => (
+                            dayjs(b.captureTime).valueOf() - dayjs(a.captureTime).valueOf()
+                        )).slice(0, 5)} />
+                    }
+                    placement="right">
+                    <div className="dev-item-box">
+                        <div className="qiu red">
+                            {next.length}
                         </div>
-                        {/* <div
-                        className="dev-item red">
-                        <i>
-                            <WifiOutlined />
-                        </i>
-                        <div>{data.siteName ?? '-'}</div>
-                        <div>{data.deviceName ?? '-'}</div>
-                    </div> */}
-                    </Popover>
-                </div>
+                        <span>{data.siteName ?? '-'}</span>
+                    </div>
+                </Popover>
             </div>
             : <div className="cell">
                 <div className="dev-item-box">
                     <div>
-                        <div className={`qiu ${data.status === DeviceState.Normal ? 'green' : 'gray'}`} />
+                        <div className={`qiu ${data.status === DeviceState.Normal ? 'green' : 'gray'}`}>
+                            0
+                        </div>
                         <span>{data.siteName ?? '-'}</span>
                     </div>
-                    {/* <div
-                    className={`dev-item ${data.status === DeviceState.Normal ? 'green' : 'gray'}`}>
-                    <i>
-                        <WifiOutlined />
-                    </i>
-                    <div>{data.siteName ?? '-'}</div>
-                    <div>{data.deviceName ?? '-'}</div>
-                </div> */}
                 </div>
             </div>;
     };

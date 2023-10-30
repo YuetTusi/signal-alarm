@@ -18,8 +18,10 @@
 
 			(() => {
 				setInterval(() => {
-					ipcRenderer.send('alarm-clean');
-				}, 1000 * 5);
+					if (new Date().toLocaleTimeString() === '00:00:00') {
+						ipcRenderer.send('alarm-clean');
+					}
+				}, 1000);
 			})();
 
 			(() => {

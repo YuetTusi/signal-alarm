@@ -18,7 +18,7 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMessage> => {
         title: '强度',
         key: 'rssi',
         dataIndex: 'rssi',
-        width: 130
+        width: 60
     }, {
         title: '设备场所',
         key: 'siteName',
@@ -27,10 +27,6 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMessage> => {
         title: '频点信息',
         key: 'arfcn',
         dataIndex: 'arfcn'
-    }, {
-        title: '告警级别',
-        key: 'warnLevel',
-        dataIndex: 'warnLevel'
     }, {
         title: '告警原因',
         key: 'warnReason',

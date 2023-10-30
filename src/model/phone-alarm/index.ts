@@ -28,7 +28,11 @@ interface PhoneAlarmState {
      * 移除手机数据
      * @param id 
      */
-    removePhoneAlarmData: (id: string) => void
+    removePhoneAlarmData: (id: string) => void,
+    /**
+     * 清空报警消息
+     */
+    clearPhoneAlarmData: () => void
 }
 
 export type { PhoneAlarmState };
