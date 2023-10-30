@@ -236,7 +236,9 @@ const Dashboard: FC<{}> = memo(() => {
                             ? <div className="phone-panel">
                                 <FloatAlarm data={phoneAlarmData.slice(0, 5)} />
                             </div>
-                            : <MapAlarm />
+                            : <div className="phone-panel">
+                                <DevAlarm />
+                            </div>
                     }
                     {/* <div className="phone-panel">
                                 <DevAlarm />

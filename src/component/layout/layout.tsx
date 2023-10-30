@@ -117,9 +117,9 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
             onCancel={() => setVoiceConrolModalOpen(false)}
             onOk={(voice) => {
                 message.destroy();
-                localStorage.setItem(StorageKeys.Voice, voice);
-                setSound(voice === '1');
-                voice === '1'
+                localStorage.setItem(StorageKeys.Voice, voice ? '1' : '0');
+                setSound(voice);
+                voice
                     ? message.info('预警声音已打开')
                     : message.info('预警声音已关闭');
                 setVoiceConrolModalOpen(false);

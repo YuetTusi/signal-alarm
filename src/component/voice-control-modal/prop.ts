@@ -10,5 +10,5 @@ export interface VoiceControlProp {
     /**
      * 确定Click
      */
-    onOk: (voice: '0' | '1') => void
+    onOk: (voice: boolean) => void
 };

@@ -1,9 +1,8 @@
 import { FC, useEffect, MouseEvent } from 'react';
-import { Modal, Button, Form, Select } from 'antd';
-import { VoiceControlProp } from './prop';
+import { Modal, Button, Form, Switch } from 'antd';
 import { StorageKeys } from '@/utility/storage-keys';
+import { VoiceControlProp } from './prop';
 
-const { Option } = Select;
 const { useForm, Item } = Form;
 
 /**
@@ -11,13 +10,15 @@ const { useForm, Item } = Form;
  */
 const VoiceControlModal: FC<VoiceControlProp> = ({ onOk, onCancel, open }) => {
 
-    const [formRef] = useForm<{ voice: '0' | '1' }>();
+    // const [turnOn, setTurnOn] = useState<boolean>(false);
+    const [formRef] = useForm<{ voice: boolean }>();
 
     useEffect(() => {
         const { setFieldValue } = formRef;
         if (open) {
             const voice = localStorage.getItem(StorageKeys.Voice);
-            setFieldValue('voice', voice === '1' ? '1' : '0');
+            console.log(voice);
+            setFieldValue('voice', voice === '1');
         }
     }, [open]);
 
@@ -53,14 +54,12 @@ const VoiceControlModal: FC<VoiceControlProp> = ({ onOk, onCancel, open }) => {
         <Form
             form={formRef}
             style={{ marginTop: '20px' }}
-            layout="vertical">
+            layout="horizontal">
             <Item
                 name="voice"
+                valuePropName="checked"
                 label="预警声音">
-                <Select>
-                    <Option value="1">打开</Option>
-                    <Option value="0">关闭</Option>
-                </Select>
+                <Switch />
             </Item>
         </Form>
     </Modal>
