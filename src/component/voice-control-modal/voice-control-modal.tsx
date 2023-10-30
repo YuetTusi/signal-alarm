@@ -17,7 +17,6 @@ const VoiceControlModal: FC<VoiceControlProp> = ({ onOk, onCancel, open }) => {
         const { setFieldValue } = formRef;
         if (open) {
             const voice = localStorage.getItem(StorageKeys.Voice);
-            console.log(voice);
             setFieldValue('voice', voice === '1');
         }
     }, [open]);

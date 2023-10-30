@@ -101,7 +101,7 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
 
             if (res !== null && res.code === 200) {
                 setState({
-                    specialBluetoothTopData: res.data.sort((a, b) =>
+                    specialHotsportTopData: res.data.sort((a, b) =>
                         dayjs(a.captureTime, 'YYYY-MM-DD HH:mm:ss').isAfter(dayjs(b.captureTime, 'YYYY-MM-DD HH:mm:ss')) ? -1 : 1)
                 });
             }
