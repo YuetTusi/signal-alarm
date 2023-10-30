@@ -12,6 +12,13 @@
 
 			(() => {
 				setInterval(() => {
+					//查询专项数据
+					ipcRenderer.send('query-wap');
+				}, 1000 * 20);
+			})();
+
+			(() => {
+				setInterval(() => {
 					ipcRenderer.send('query-special-type-statis');
 				}, 1000 * 60 * 2);
 			})();

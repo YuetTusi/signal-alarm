@@ -229,6 +229,12 @@ ipcMain.on('query-special-type-statis', (_: IpcMainEvent) => {
     }
 });
 
+ipcMain.on('query-wap', (_: IpcMainEvent) => {
+    if (mainWindow) {
+        mainWindow.webContents.send('query-wap');
+    }
+});
+
 ipcMain.on('alarm-clean', (_: IpcMainEvent) => {
     if (mainWindow) {
         mainWindow.webContents.send('alarm-clean');

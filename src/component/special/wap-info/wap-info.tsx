@@ -1,3 +1,4 @@
+import electron from 'electron';
 import { FC, useEffect, useState } from 'react';
 import { DoubleRightOutlined } from '@ant-design/icons';
 import { Empty, Tabs, message } from 'antd';
@@ -19,7 +20,7 @@ import DetailModal from '../detail-modal';
 import { EmptyBox, WapInfoBox } from './styled/style';
 import { WapInfoProp, SpiTab } from './prop';
 
-var timer: any = null;
+const { ipcRenderer } = electron;
 
 /**
  * 数据转TabItem
@@ -225,21 +226,19 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
         }
     };
 
+    const autoQueryData = () => {
+        queryData(activeKey);
+    };
+
+    useEffect(() => {
+        ipcRenderer.on('query-wap', autoQueryData);
+        return () => {
+            ipcRenderer.off('query-wap', autoQueryData);
+        };
+    }, [autoQueryData, activeKey]);
+
     useEffect(() => {
         queryData(activeKey);
-        if (timer === null) {
-            // timer = setInterval(() => {
-            //     (() => {
-            //         queryData(activeKey);
-            //     })();
-            // }, 1000 * 10);
-        }
-        return () => {
-            if (timer !== null) {
-                clearInterval(timer);
-                timer = null;
-            }
-        }
     }, [activeKey]);
 
     const getData = (activeKey: string): SpecialBase[] => {

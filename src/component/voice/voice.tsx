@@ -3,6 +3,7 @@ import { FC, useEffect, useRef } from 'react';
 import { useModel } from '@/model';
 import { VoiceBox } from './styled/box';
 import { VoiceProp } from './prop';
+import { StorageKeys } from '@/utility/storage-keys';
 
 /**
  * 音频播放
@@ -13,11 +14,18 @@ const Voice: FC<VoiceProp> = () => {
 
     const {
         sound,
+        setSound,
         phoneAlarmData
     } = useModel(state => ({
         sound: state.sound,
+        setSound: state.setSound,
         phoneAlarmData: state.phoneAlarmData
     }));
+
+    useEffect(() => {
+        const voice = localStorage.getItem(StorageKeys.Voice);
+        setSound(voice === '1');
+    }, []);
 
     useEffect(() => {
         //当有报警数据且开启声音，则播放报警音
