@@ -4,6 +4,7 @@ import SyncOutlined from '@ant-design/icons/SyncOutlined';
 import CloseCircleOutlined from '@ant-design/icons/CloseCircleOutlined';
 import Button from 'antd/lib/button';
 import Result from 'antd/lib/result';
+import { log } from '@/utility/log';
 import { ErrorMessage } from './error-message';
 import { CrashViewBox } from './styled/box';
 import { CrashProp, CrashState } from './prop';
@@ -22,6 +23,7 @@ class Crash extends Component<CrashProp, CrashState> {
         return { hasError: true };
     }
     componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+        log.error(`Crash:${error.message},ErrorStack:${error.stack},errorInfo:${errorInfo.componentStack}`);
         this.setState({ err: error, errInfo: errorInfo });
     }
     render() {

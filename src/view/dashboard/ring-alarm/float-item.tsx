@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { FloatItemProp } from './prop';
+import { helper } from '@/utility/helper';
 
 /**
  * 锥形浮动
@@ -7,12 +8,15 @@ import { FloatItemProp } from './prop';
 const FloatItem: FC<FloatItemProp> = ({ data, top }) => {
     let json: Record<string, any> = {};
     try {
-        if (typeof data.message === 'string') {
+        if (helper.isNullOrUndefined(data)) {
+            json = {};
+        } else if (typeof data.message === 'string') {
             json = JSON.parse(data.message);
         } else {
             json = data?.message ?? {};
         }
     } catch (error) {
+        console.log(data);
         console.warn('推送message转换JSON失败', error.message);
     }
 
