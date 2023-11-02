@@ -29,9 +29,9 @@ const DevAlarm: FC<DevAlarmProp> = () => {
             data={item}
             key={`DevTOP_${index}`} />); //前6个元素一行3个，不必添加空元素
         const bottom = chunk(deviceList.slice(6), 2).reduce((acc, current, index) => {
-            acc.push(<PointItem data={current[0]} key={`DevBOTTOM_${current[0].id}`} />);
+            acc.push(<PointItem data={current[0]} key={`DevBOTTOM_${Math.random().toString()}`} />);
             acc.push(<div className="cell" key={`DevEmpty_${helper.nextId()}`}></div>);
-            acc.push(<PointItem data={current[1]} key={`DevBOTTOM_${current[1].id}`} />);
+            acc.push(<PointItem data={current[1]} key={`DevBOTTOM_${Math.random().toString()}`} />);
             return acc;
         }, [] as JSX.Element[]);//后面元素每行加一个空div，为隔开中间背景
 

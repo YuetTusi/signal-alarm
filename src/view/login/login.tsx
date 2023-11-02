@@ -86,7 +86,7 @@ const Login: FC<{}> = () => {
                 }
             }
         } catch (error) {
-            console.clear();
+            // console.clear();
             console.warn(error);
         } finally {
             setReading(false);
@@ -100,7 +100,7 @@ const Login: FC<{}> = () => {
         }
     }, []);
 
-    useUnmount(() => console.clear());
+    // useUnmount(() => console.clear());
 
     /**
      * 登录

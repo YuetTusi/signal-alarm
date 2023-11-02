@@ -14,7 +14,7 @@ import {
 /**
  * 路由定义 
  */
-export const ViewRouter: FC<any> = () => <Router>
+export const ViewRouter: FC<{}> = () => <Router>
     <Routes>
         <Route
             path="/"

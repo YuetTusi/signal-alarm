@@ -21,11 +21,12 @@ const PointItem: FC<{ data: ComDevice }> = ({ data }) => {
      * 渲染报警消息表
      */
     const renderMessage = () => {
+
         const next = phoneAlarmData
             .reduce<AlarmMessage[]>((acc, current) => {
                 try {
                     const message: AlarmMessage = JSON.parse(current.message);
-                    if (message.deviceId === data.deviceId) {
+                    if (message.deviceId === data?.deviceId) {
                         acc.push(message);
                     }
                     return acc;
@@ -54,10 +55,10 @@ const PointItem: FC<{ data: ComDevice }> = ({ data }) => {
             : <div className="cell">
                 <div className="dev-item-box">
                     <div>
-                        <div className={`qiu ${data.status === DeviceState.Normal ? 'green' : 'gray'}`}>
+                        <div className={`qiu ${data?.status === DeviceState.Normal ? 'green' : 'gray'}`}>
                             0
                         </div>
-                        <span>{data.siteName ?? '-'}</span>
+                        <span>{data?.siteName ?? '-'}</span>
                     </div>
                 </div>
             </div>;
