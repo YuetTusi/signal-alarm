@@ -26,6 +26,7 @@ import { baseSpectrum, BaseSpectrumState } from './base-spectrum';
 import { compareSpectrumModal, CompareSpectrumModalState } from './compare-spectrum-modal';
 import { sysUser, SysUserState } from './sys-user';
 import { sysRole, SysRoleState } from './sys-role';
+import { zone, ZoneState } from './zone';
 
 interface OtherState {
     [stateName: string]: any
@@ -60,7 +61,8 @@ type State = OtherState
     & BaseSpectrumState
     & CompareSpectrumModalState
     & SysUserState
-    & SysRoleState;
+    & SysRoleState
+    & ZoneState;
 
 type GetState = StoreApi<State>['getState'];
 type SetState = StoreApi<State>['setState'];
@@ -95,7 +97,8 @@ const useModel = create<State>(zustandLog((setState: SetState, getState: GetStat
     ...baseSpectrum(setState, getState),
     ...compareSpectrumModal(setState, getState),
     ...sysUser(setState, getState),
-    ...sysRole(setState, getState)
+    ...sysRole(setState, getState),
+    ...zone(setState, getState)
 }), false));
 
 export type { State, GetState, SetState };

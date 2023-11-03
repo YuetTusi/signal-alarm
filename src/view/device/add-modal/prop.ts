@@ -20,6 +20,13 @@ export interface AddModalProp {
     onCancel: () => void
 }
 
+export interface FormValue extends ComDevice {
+    /**
+     * 坐标点
+     */
+    point: string
+}
+
 export interface DeviceFormProp {
     /**
      * 表单数据
@@ -28,5 +35,5 @@ export interface DeviceFormProp {
     /**
      * 表单引用
      */
-    formRef: FormInstance<ComDevice>
+    formRef: FormInstance<FormValue>
 }

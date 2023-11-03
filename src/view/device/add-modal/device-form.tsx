@@ -1,5 +1,7 @@
 import { FC, useEffect } from 'react';
-import { Form, Input, Select } from 'antd';
+import EnvironmentOutlined from '@ant-design/icons/EnvironmentOutlined';
+import { Form, Input, InputNumber, Select } from 'antd';
+import { useModel } from '@/model';
 import { IP } from '@/utility/regex';
 import { ComDevice } from '@/schema/com-device';
 import { request } from '@/utility/http';
@@ -41,7 +43,7 @@ const deviceIdExist = async (deviceId: string, id?: number) => {
     } catch (error) {
         return Promise.reject(error);
     }
-}
+};
 
 /**
  * 表单
@@ -51,6 +53,12 @@ const DeviceForm: FC<DeviceFormProp> = ({ data, formRef }) => {
 
     const { setFieldValue, setFieldsValue } = formRef;
 
+    const {
+        zoneList
+    } = useModel(state => ({
+        zoneList: state.zoneList
+    }));
+
     useEffect(() => {
         if (data) {
             setFieldsValue(data);
@@ -59,11 +67,26 @@ const DeviceForm: FC<DeviceFormProp> = ({ data, formRef }) => {
         }
     }, [data]);
 
+    const renderZoneOptions = () =>
+        zoneList.map((item) =>
+            <Option value={item.id} key={`ZL_${item.id}`}>{item.areaName}</Option>
+        );
+
     return <Form
         form={formRef}
         preserve={false}
         layout="horizontal"
         {...formLayout}>
+        <Item
+            rules={[
+                { required: true, message: '请选择区域' }
+            ]}
+            label="所属区域"
+            name="areaId">
+            <Select>
+                {renderZoneOptions()}
+            </Select>
+        </Item>
         <Item
             rules={[
                 { required: true, message: '请填写设备ID' },
@@ -106,6 +129,14 @@ const DeviceForm: FC<DeviceFormProp> = ({ data, formRef }) => {
             name="siteName"
             label="设备场所">
             <Input />
+        </Item>
+        <Item
+            rules={[
+                { required: true, message: '请选择坐标位置' }
+            ]}
+            label="坐标位置"
+            name="point">
+            <Input suffix={<EnvironmentOutlined />} readOnly={true} />
         </Item>
         <Item
             rules={[

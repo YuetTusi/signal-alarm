@@ -23,7 +23,8 @@ const FloatAlarm: FC<{ data: PhoneAlarmInfo[] }> = ({ data }) => {
         return shuffleIndex.map((i, index) => {
             return <FloatItem
                 data={data[i]}
-                top={shuffleTops[index]} />
+                top={shuffleTops[index]}
+                key={`FAI_${index}`} />
         });
     }
 

@@ -40,6 +40,10 @@ export enum MenuPath {
      */
     Devops = 'devops',
     /**
+     * 区域管理
+     */
+    Area = 'area',
+    /**
      * 实时频谱
      */
     RealTimeSpectrum = 'realTimeSpectrum',

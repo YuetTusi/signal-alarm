@@ -1,9 +1,9 @@
 import { FC, MouseEvent, useEffect } from 'react';
 import { Button, Form, Modal } from 'antd';
-import { ComDevice } from '@/schema/com-device';
+import { useModel } from '@/model';
 import { DeviceForm } from './device-form';
 import { AddModalBox, FormBox } from './styled/box';
-import { AddModalProp } from './prop';
+import { AddModalProp, FormValue } from './prop';
 
 const { useForm } = Form;
 
@@ -11,10 +11,17 @@ const AddModal: FC<AddModalProp> = ({
     open, data, onOk, onCancel
 }) => {
 
-    const [formRef] = useForm<ComDevice>();
+    const [formRef] = useForm<FormValue>();
+    const {
+        queryZoneList
+    } = useModel(state => ({
+        queryZoneList: state.queryZoneList
+    }));
 
     useEffect(() => {
-        if (!open) {
+        if (open) {
+            queryZoneList();
+        } else {
             formRef.resetFields();
         }
     }, [open]);

@@ -275,6 +275,14 @@ const helper = {
             throw error;
         }
         return deviceId;
+    },
+    async fileToBase64(filePath: string) {
+        try {
+            const chunk = await readFile(filePath);
+            return chunk.toString('base64');
+        } catch (error) {
+            throw error;
+        }
     }
 };
 

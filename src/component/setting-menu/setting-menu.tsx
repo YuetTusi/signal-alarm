@@ -57,6 +57,9 @@ const SettingMenu: FC<SettingMenuProp> = ({ }) => {
                 //设备管理
                 navigator('/device');
                 break;
+            case MenuPath.Area:
+                navigator('/zone');
+                break;
             case MenuPath.RealTimeSpectrum:
                 //实时频谱
                 navigator('/real-spectrum');

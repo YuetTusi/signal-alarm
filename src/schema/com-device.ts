@@ -37,6 +37,18 @@ class ComDevice extends BaseEntity {
      * 状态(0:异常,1:工作)
      */
     status: DeviceState = DeviceState.Abnormal
+    /**
+     * 区域id
+     */
+    areaId: string = ''
+    /**
+     * 经度
+     */
+    lon: number = 0
+    /**
+     * 纬度
+     */
+    lat: number = 0
 
     constructor() {
         super();

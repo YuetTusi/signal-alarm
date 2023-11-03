@@ -4,6 +4,7 @@ import Layout from '@/component/layout';
 import Login from '@/view/login';
 import Dashboard from '@/view/dashboard';
 import Device from '@/view/device';
+import Zone from '@/view/zone';
 import SysUser from '@/view/sys-user';
 import {
     RealSpectrum,
@@ -59,6 +60,14 @@ export const ViewRouter: FC<{}> = () => <Router>
                     <Device />
                 </Layout>
             } />
+        <Route
+            path="/zone"
+            element={
+                <Layout>
+                    <Zone />
+                </Layout>
+            }
+        />
         <Route
             path="/sys-user"
             element={
