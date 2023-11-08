@@ -39,6 +39,11 @@ export const GlobalStyle = createGlobalStyle`
         padding: 6px 10px !important;
     }
 
+    //地图背景色重写
+    .leaflet-container{
+        background-color: rgba(25, 35, 104, .7);
+    }
+
     //Webkit滚动条样式
     ::-webkit-scrollbar {
         width: 10px;

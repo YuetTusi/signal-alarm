@@ -54,7 +54,7 @@ const deviceIdExist = async (deviceId: string, id?: number) => {
 const DeviceForm: FC<DeviceFormProp> = ({ data, formRef }) => {
 
     const pointRef = useRef<[number, number]>([0, 0]);
-    const { setFieldValue, setFieldsValue } = formRef;
+    const { setFieldValue, setFieldsValue, resetFields } = formRef;
     const [pointModalOpen, setPointModalOpen] = useState<boolean>(false);
 
     const {
@@ -92,8 +92,7 @@ const DeviceForm: FC<DeviceFormProp> = ({ data, formRef }) => {
         );
 
     const onZoneChange = (value: any, options: any) => {
-        console.log(value);
-        console.log(options);
+
         setFieldValue('point', '');
         pointRef.current = [0, 0];
     };
@@ -198,7 +197,7 @@ const DeviceForm: FC<DeviceFormProp> = ({ data, formRef }) => {
                 if (x === 0 && y === 0) {
                     setPointModalOpen(false);
                 } else {
-                    setFieldValue('point', `${x},${y}`);
+                    setFieldsValue({ point: `${x},${y}` });
                     setPointModalOpen(false);
                 }
             }} />

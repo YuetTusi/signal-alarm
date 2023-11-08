@@ -1,10 +1,10 @@
-import L, { LatLngBoundsLiteral, LeafletEvent } from 'leaflet';
+import L, { LatLngBoundsLiteral } from 'leaflet';
 import { FC, useEffect, useRef } from 'react';
 import { MapProp } from './prop';
 import { MapBox } from './styled/box';
 import { helper } from '@/utility/helper';
 
-let map: L.Map | null = null;
+// let map: L.Map | null = null;
 let topLeft = { x: 0, y: 0 };
 let rightBottom = { x: 0, y: 0 };
 
@@ -25,7 +25,7 @@ const Map: FC<MapProp> = ({ x, y, background, onAddPoint }) => {
         const bg: HTMLElement = document.querySelector('#map')!;
         var imageBounds: LatLngBoundsLiteral = [[40.712216, -74.22655], [40.773941, -74.12544]];
         // var imageBounds: LatLngBoundsLiteral = [[0, -40.22655], [0, -40.12544]];
-        map = L.map(bg, {
+        let map = L.map(bg, {
             zoomControl: false,
             doubleClickZoom: false,
             maxBounds: imageBounds
@@ -36,7 +36,7 @@ const Map: FC<MapProp> = ({ x, y, background, onAddPoint }) => {
         map.setMaxZoom(15);
 
         if (x !== 0 && y !== 0) {
-            const mark = L.marker(map.containerPointToLatLng([x, y])).addTo(map!);
+            const mark = L.marker([x, y]).addTo(map!);
             if (prevMark.current !== null) {
                 map?.removeLayer(prevMark.current);
             }
@@ -66,7 +66,7 @@ const Map: FC<MapProp> = ({ x, y, background, onAddPoint }) => {
                 }
                 prevMark.current = mark;
             }
-            onAddPoint(point.x, point.y);
+            onAddPoint(e.latlng.lat, e.latlng.lng);
         });
         // }
     }, [x, y, background, onAddPoint]);
