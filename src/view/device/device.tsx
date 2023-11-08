@@ -9,6 +9,7 @@ import { SetModal } from './set-modal';
 import { getColumns } from './column';
 import { SetFormValue } from './set-modal/prop';
 import { DeviceBox, SearchBar, TableBox } from './styled/box';
+import { FormValue as AddModalFormValue } from './add-modal/prop';
 import { ActionType, DeviceProp, FormValue } from './prop';
 
 const { Item, useForm } = Form;
@@ -22,7 +23,7 @@ const Device: FC<DeviceProp> = () => {
     const navigate = useNavigate();
     const { modal } = App.useApp();
     const [formRef] = useForm<FormValue>();
-    const editData = useRef<ComDevice>();
+    const editData = useRef<AddModalFormValue>();
     const setData = useRef<ComDevice>();
     const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
     const [setModalOpen, setSetModalOpen] = useState<boolean>(false);
@@ -117,7 +118,7 @@ const Device: FC<DeviceProp> = () => {
                 });
                 break;
             case ActionType.Edit:
-                editData.current = data;
+                editData.current = data as AddModalFormValue;
                 setAddModalOpen(true);
                 break;
             case ActionType.Set:

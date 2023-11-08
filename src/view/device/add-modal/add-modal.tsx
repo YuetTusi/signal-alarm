@@ -34,10 +34,28 @@ const AddModal: FC<AddModalProp> = ({
         const { validateFields } = formRef;
         try {
             const values = await validateFields();
-            if (data) {
-                onOk({ ...data, ...values });
+            let point = [0, 0];
+            if (values.point === '') {
+                point = [0, 0];
             } else {
-                onOk(values);
+                const [x, y] = values.point.split(',');
+                point = [Number(x), Number(y)];
+            }
+            if (data) {
+                //编辑
+                onOk({
+                    ...data,
+                    ...values,
+                    lat: point[0],
+                    lon: point[1]
+                });
+            } else {
+                //添加
+                onOk({
+                    ...values,
+                    lat: point[0],
+                    lon: point[1]
+                });
             }
         } catch (error) {
             console.warn(error);

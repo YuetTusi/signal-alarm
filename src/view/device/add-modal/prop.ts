@@ -1,5 +1,5 @@
-import { FormInstance } from "antd"
-import { ComDevice } from "@/schema/com-device"
+import { FormInstance } from "antd";
+import { ComDevice } from "@/schema/com-device";
 
 export interface AddModalProp {
     /**
@@ -9,7 +9,7 @@ export interface AddModalProp {
     /**
      * 编辑数据（为空添加）
      */
-    data?: ComDevice
+    data?: FormValue
     /**
      * 确定
      */
@@ -31,7 +31,7 @@ export interface DeviceFormProp {
     /**
      * 表单数据
      */
-    data?: ComDevice,
+    data?: FormValue,
     /**
      * 表单引用
      */
