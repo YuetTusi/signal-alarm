@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import electron, { IpcRendererEvent } from 'electron';
 import { FC, memo, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
@@ -7,6 +6,7 @@ import { helper } from '@/utility/helper';
 import { instance, closeSse } from '@/utility/sse';
 import { StorageKeys } from '@/utility/storage-keys';
 import { PhoneAlarmInfo } from '@/schema/phone-alarm-info';
+import { Bibo } from '@/component/map';
 import WapInfo from "@/component/special/wap-info";
 import { AlarmInfo } from '@/component/alarm';
 import {
@@ -17,34 +17,9 @@ import { DashboardBox } from "./styled/box";
 import { DevAlarm, FloatAlarm } from './ring-alarm';
 import { request } from '@/utility/http';
 import { AlarmType } from '@/schema/conf';
-import { MapAlarm } from './map-alarm';
 
 const { ipcRenderer } = electron;
 const { alarmType } = helper.readConf();
-
-/**
- * 返回绝对定位的类选择器名称
- * @param index 索引
- * @param len 报警消息数量
- */
-// const getClassName = (index: number, len: number) => {
-//     switch (len) {
-//         case 1:
-//             return 'center';
-//         case 2:
-//             return index === 0 ? 'left' : 'right';
-//         case 3:
-//             if (index === 0) {
-//                 return 'center'
-//             } else if (index === 1) {
-//                 return 'left'
-//             } else {
-//                 return 'right'
-//             }
-//         default:
-//             return 'hidden';
-//     }
-// };
 
 /**
  * 主页
@@ -237,7 +212,7 @@ const Dashboard: FC<{}> = memo(() => {
                                 <FloatAlarm data={phoneAlarmData.slice(0, 5)} />
                             </div>
                             : <div className="phone-panel">
-                                <DevAlarm />
+                                <Bibo />
                             </div>
                     }
                     {/* <div className="phone-panel">

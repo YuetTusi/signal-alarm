@@ -14,3 +14,14 @@ export const MapBox = styled.div`
         cursor: default !important;
     }
 `;
+
+export const BiboBox = styled.div`
+
+    .d-box{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 10px 4px;
+    }
+`;

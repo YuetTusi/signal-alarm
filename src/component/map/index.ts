@@ -1,3 +1,4 @@
 import { Map } from './map';
+import { Bibo } from './bibo';
 
-export { Map };
+export { Map, Bibo };

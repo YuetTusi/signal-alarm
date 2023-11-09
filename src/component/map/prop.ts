@@ -19,3 +19,10 @@ export interface MapProp {
      */
     onAddPoint: (x: number, y: number) => void
 }
+
+export interface SearchFormValue {
+    /**
+     * 区域
+     */
+    zone: number
+}
