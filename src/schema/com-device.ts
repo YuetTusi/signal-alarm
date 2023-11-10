@@ -1,5 +1,8 @@
 import { BaseEntity } from './base-entity';
 
+/**
+ * 设备状态
+ */
 enum DeviceState {
     /**
      * 异常
@@ -11,6 +14,9 @@ enum DeviceState {
     Normal
 }
 
+/**
+ * 设备实体
+ */
 class ComDevice extends BaseEntity {
 
     /**

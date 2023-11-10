@@ -1,4 +1,7 @@
 
+/**
+ * 实体基类
+ */
 abstract class BaseEntity {
 
     /**

@@ -1,3 +1,6 @@
+/**
+ * 应用模式
+ */
 export enum AppMode {
     /**
      * 单机版
@@ -9,6 +12,9 @@ export enum AppMode {
     FullScreen
 }
 
+/**
+ * 报警类型
+ */
 export enum AlarmType {
     /**
      * 单设备
@@ -20,6 +26,9 @@ export enum AlarmType {
     Multi
 }
 
+/**
+ * App配置
+ */
 export interface Conf {
     /**
      * 应用模式

@@ -1,3 +1,7 @@
+
+/**
+ * 分页类型
+ */
 interface QueryPage<T = any> {
     /**
      * 记录

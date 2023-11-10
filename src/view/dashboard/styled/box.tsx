@@ -53,7 +53,6 @@ export const DashboardBox = styled.div`
         left:0;
         right:0;
         bottom:0;
-        padding: 0 15px;
         overflow-y: auto;
     }
 
