@@ -1,5 +1,6 @@
-export interface MapProp {
+import { Marker, MarkerOptions } from 'leaflet';
 
+export interface MapProp {
     /**
      * X轴初值
      */
@@ -25,4 +26,20 @@ export interface SearchFormValue {
      * 区域
      */
     zone: number
+}
+
+export interface MarkerOptionsEx extends MarkerOptions {
+
+    /**
+     * 设备id
+     */
+    deviceId: string,
+    /**
+     * 场所
+     */
+    siteName: string,
+    /**
+     * 其他属性
+     */
+    [extraProp: string]: any
 }

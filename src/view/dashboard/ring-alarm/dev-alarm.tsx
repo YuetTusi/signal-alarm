@@ -1,6 +1,6 @@
 import chunk from 'lodash/chunk';
 import { FC, useEffect } from 'react';
-import { useModel } from '@/model';
+import { State, useModel } from '@/model';
 import { helper } from '@/utility/helper';
 import { PointItem } from './point-item';
 import { DevAlarmBox } from './styled/box';
@@ -14,7 +14,7 @@ const DevAlarm: FC<DevAlarmProp> = () => {
     const {
         deviceList,
         queryDeviceList
-    } = useModel((state) => ({
+    } = useModel((state: State) => ({
         deviceList: state.deviceList,
         queryDeviceList: state.queryDeviceList
     }));

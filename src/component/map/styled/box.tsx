@@ -34,6 +34,25 @@ export const BiboBox = styled.div`
         flex:1;
         border-radius: 2px;
     }
+
+    //报警表格样式
+    .alarm-table-box{
+        font-size: 1.4rem;
+        table{
+            border-top: 1px solid silver;
+            border-left:1px solid silver;
+            border-spacing: 0;
+            border-collapse: collapse;
+            tbody tr:hover{
+                background-color: #e0eaff;
+            }
+            td,th{
+                padding: 2px 5px;
+                border-bottom: 1px solid silver;
+                border-right:1px solid silver;
+            }
+        }
+    }
 `;
 
 export const MaskBox = styled.div`

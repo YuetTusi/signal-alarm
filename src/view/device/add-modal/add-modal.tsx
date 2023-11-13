@@ -89,7 +89,7 @@ const AddModal: FC<AddModalProp> = ({
             ]}
             onCancel={onCancelClick}
             open={open}
-            width={500}
+            width={540}
             title={data === undefined ? '添加设备' : '编辑设备'}
             getContainer="#app"
             forceRender={true}
