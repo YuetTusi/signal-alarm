@@ -16,7 +16,7 @@ const FloatItem: FC<FloatItemProp> = ({ data, top }) => {
             json = data?.message ?? {};
         }
     } catch (error) {
-        console.log(data);
+        console.warn(error);
         console.warn('推送message转换JSON失败', error.message);
     }
 

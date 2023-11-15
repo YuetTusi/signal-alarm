@@ -1,17 +1,18 @@
 import markerIconPng from '@/assets/image/marker-icon.png';
+import offlineIconPng from '@/assets/image/offline-icon.png';
 import warnIconPng from '@/assets/image/warn-icon.png';
 import L, { LatLngBoundsLiteral } from 'leaflet';
-import { FC, useEffect, useState } from 'react';
-import { Form, Spin, Select } from 'antd';
+import { FC, useEffect, useState, useCallback } from 'react';
+import { Form, Spin, Select, message } from 'antd';
 import { useModel } from '@/model';
 import { useUnmount } from '@/hook';
 import { request } from '@/utility/http';
 import { Zone } from '@/schema/zone';
-import { ComDevice } from '@/schema/com-device';
+import { ComDevice, DeviceState } from '@/schema/com-device';
+import { AlarmMessage, PhoneAlarmInfo } from '@/schema/phone-alarm-info';
+import { RadarInfo } from './radar-info';
 import { BiboBox, MaskBox } from './styled/box';
 import { MarkerOptionsEx, SearchFormValue } from './prop';
-import { AlarmMessage, PhoneAlarmInfo } from '@/schema/phone-alarm-info';
-
 
 const { useForm, Item } = Form;
 const { Option } = Select;
@@ -21,12 +22,15 @@ const defaultIcon = new L.Icon({
     iconUrl: markerIconPng,
     iconAnchor: [12, 44]
 });//默认图标
+const offlineIcon = new L.Icon({
+    iconUrl: offlineIconPng,
+    iconAnchor: [12, 44]
+});//离线图标
 const warnIcon = new L.Icon({
     iconUrl: warnIconPng,
     iconAnchor: [12, 44]
 });//报警图标
 let imageBounds: LatLngBoundsLiteral = [[40.712216, -74.22655], [40.773941, -74.12544]];
-// let imageBounds: LatLngBoundsLiteral = [[40.77898159474759, -74.50550079345705], [40.57902014096309, -74.15393829345705]];
 
 /**
  * 清空还原地图
@@ -55,15 +59,17 @@ const loadMap = (domId: string, background: string): L.Map => {
         doubleClickZoom: false,
         attributionControl: false,
         maxBounds: imageBounds,
-        zoom: 2
+        minZoom: 11,
+        maxZoom: 15
     });
     if (!background.startsWith('data:image/png;base64,')) {
         bg = 'data:image/png;base64,' + background;
     }
     L.imageOverlay(bg, imageBounds).addTo(map);
     map.fitBounds(imageBounds);
-    map.setMinZoom(11);
-    map.setMaxZoom(15);
+    // map.setMinZoom(11);
+    // map.setMaxZoom(15);
+    map.setZoom(14);
     return map;
 };
 
@@ -103,51 +109,14 @@ const renderAlarmTable = (alarms: PhoneAlarmInfo[] = []): string => {
 };
 
 /**
- * 加载设备，返回所属区域下设备坐标点
- * @param id 区域id
- */
-const loadDevice = async (id: number) => {
-    const url = `/sys/area/get-device-info/${id}`;
-    try {
-        const res = await request.get<ComDevice[]>(url);
-        if (res !== null && res.code === 200 && map !== null) {
-            return res.data.map(item => {
-                const mark = L.marker([
-                    item.lat, item.lon
-                ], {
-                    icon: defaultIcon,
-                    title: item.deviceName,
-                    deviceId: item.deviceId,
-                    siteName: item.siteName
-                } as MarkerOptionsEx).addTo(map!);
-                // mark.on('mouseover', (e) => {
-                //     console.log(e);
-                //     e.target.openPopup('<p>Hello world!<br />This is a nice popup.</p>', {
-                //         maxHeight: 250,
-                //         maxWidth: 490,
-                //         className: 'content',
-                //         offset: [0, 0],
-                //         autoClose: true
-                //     });
-                // });
-                return mark;
-            });
-        } else {
-            return [];
-        }
-    } catch (error) {
-        console.warn(error);
-        return [];
-    }
-};
-
-/**
  * 设备报警（地图版本）
  */
 const Bibo: FC<{}> = () => {
 
     const [formRef] = useForm<SearchFormValue>();
     const [loading, setLoading] = useState<boolean>(false);
+    const [radar, openRadar] = useState<boolean>(false);
+    const [deviceId, setDeviceId] = useState<string>('');
     const {
         zoneList,
         phoneAlarmData,
@@ -166,7 +135,7 @@ const Bibo: FC<{}> = () => {
 
         for (let i = 0; i < devices.length; i++) {
             const { deviceId } = devices[i].options as MarkerOptionsEx;
-            const alarms: any[] = phoneAlarmData.filter(item => {
+            const alarms: PhoneAlarmInfo[] = phoneAlarmData.filter(item => {
                 let message: AlarmMessage;
                 if (typeof item.message === 'string') {
                     message = JSON.parse(item.message);
@@ -177,19 +146,55 @@ const Bibo: FC<{}> = () => {
             });
             if (alarms.length > 0) {
                 devices[i].setIcon(warnIcon);
-                devices[i].bindPopup(renderAlarmTable(alarms.slice(0, 5)), {
-                    maxHeight: 250,
-                    maxWidth: 650,
-                    className: 'alarm-table-box',
-                    offset: [0, -40],
-                    autoClose: true
-                });
+                (devices[i].options as MarkerOptionsEx).hasAlarm = true;
             } else {
                 devices[i].setIcon(defaultIcon);
-                devices[i].unbindPopup();
+                (devices[i].options as MarkerOptionsEx).hasAlarm = false;
             }
         }
     }, [phoneAlarmData]);
+
+    /**
+     * 加载设备，返回所属区域下设备坐标点
+     * @param id 区域id
+     */
+    const loadDevice = useCallback(async (id: number) => {
+        const url = `/sys/area/get-device-info/${id}`;
+        try {
+            const res = await request.get<ComDevice[]>(url);
+            if (res !== null && res.code === 200 && map !== null) {
+                return res.data.map(item => {
+                    const mark = L.marker([
+                        item.lat, item.lon
+                    ], {
+                        icon: item.status === DeviceState.Normal ? defaultIcon : offlineIcon,
+                        title: item.deviceName,
+                        deviceId: item.deviceId,
+                        siteName: item.siteName,
+                        status: item.status,
+                        hasAlarm: false
+                    } as MarkerOptionsEx).addTo(map!);
+                    mark.on('click', (e) => {
+                        const { deviceId, hasAlarm } = e.target.options;
+                        console.log(e.target.options);
+                        if (hasAlarm) {
+                            setDeviceId(deviceId);
+                            openRadar(true);
+                        } else {
+                            message.destroy();
+                            message.info('暂无告警消息');
+                        }
+                    });
+                    return mark;
+                });
+            } else {
+                return [];
+            }
+        } catch (error) {
+            console.warn(error);
+            return [];
+        }
+    }, []);
 
     useEffect(() => {
         if (zoneList.length > 0) {
@@ -272,6 +277,12 @@ const Bibo: FC<{}> = () => {
         <div className="map-box" id="bibo">
 
         </div>
+        <RadarInfo
+            open={radar}
+            deviceId={deviceId}
+            onClose={() => {
+                openRadar(false);
+            }} />
         <MaskBox style={{ display: loading ? 'flex' : 'none' }}>
             <Spin
                 tip="加载中"

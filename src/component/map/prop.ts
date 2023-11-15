@@ -1,3 +1,4 @@
+import { DeviceState } from '@/schema/com-device';
 import { Marker, MarkerOptions } from 'leaflet';
 
 export interface MapProp {
@@ -38,6 +39,14 @@ export interface MarkerOptionsEx extends MarkerOptions {
      * 场所
      */
     siteName: string,
+    /**
+     * 状态
+     */
+    status: DeviceState,
+    /**
+     * 是否有报警消息
+     */
+    hasAlarm: boolean,
     /**
      * 其他属性
      */

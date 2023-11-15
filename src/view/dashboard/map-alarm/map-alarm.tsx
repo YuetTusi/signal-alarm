@@ -13,8 +13,7 @@ const MapAlarm: FC<{}> = () => {
             var imageBounds: any = [[40.712216, -74.22655], [40.773941, -74.12544]];
             L.imageOverlay(fileJpg, imageBounds).addTo(mapRef.current);
             mapRef.current.fitBounds([[40.712216, -74.22655], [40.773941, -74.12544]])
-            var marker = L.marker([40.752216, -74.1636]).addTo(mapRef.current);
-            console.log(marker);
+            L.marker([40.752216, -74.1636]).addTo(mapRef.current);
         }
     }, []);
 

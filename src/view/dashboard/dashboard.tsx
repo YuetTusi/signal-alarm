@@ -52,7 +52,6 @@ const Dashboard: FC<{}> = memo(() => {
             if (typeof event.data === 'string') {
                 const data: PhoneAlarmInfo = JSON.parse(event.data);
                 if (data.hash) {
-                    console.log(data);
                     appendPhoneAlarmData({
                         ...data,
                         id: helper.nextId(),
