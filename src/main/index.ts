@@ -267,15 +267,15 @@ app.on('window-all-closed', () => {
         }
     });
     reportWindows = [];
-    if (reportWindow) {
+    if (reportWindow && !reportWindow.isDestroyed()) {
         reportWindow.destroy();
         reportWindow = null;
     }
-    if (timerWindow) {
+    if (timerWindow && !timerWindow.isDestroyed()) {
         timerWindow.destroy();
         timerWindow = null;
     }
-    if (mainWindow) {
+    if (mainWindow && !mainWindow.isDestroyed()) {
         mainWindow.destroy();
     }
     app.exit(0);
