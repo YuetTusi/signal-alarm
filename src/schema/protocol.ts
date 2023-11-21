@@ -134,3 +134,8 @@ export const getProtocolLabel = (value: Protocol) => {
             return '-';
     }
 }
+
+/**
+ * 获取枚举名称
+ */
+export const getProtocolName = (value: Protocol) => Protocol[value];

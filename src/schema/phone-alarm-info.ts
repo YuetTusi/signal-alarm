@@ -5,6 +5,8 @@
 //     "siteName":"中软通二楼111"
 // }
 
+import { Protocol } from "./protocol"
+
 class PhoneAlarmInfo {
     /**
      * 唯一id(前端用)
@@ -42,6 +44,10 @@ interface AlarmMessage {
      */
     protocol?: string,
     /**
+     * 
+     */
+    protocolType?: Protocol,
+    /**
      * 强度
      */
     rssi?: string,
@@ -60,7 +66,11 @@ interface AlarmMessage {
     /**
      * 告警原因
      */
-    warnReason?: string
+    warnReason?: string,
+    /**
+     * 半径
+     */
+    radius: number
 }
 
 export { PhoneAlarmInfo, type AlarmMessage };

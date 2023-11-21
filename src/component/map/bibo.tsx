@@ -1,7 +1,7 @@
 import markerIconPng from '@/assets/image/marker-icon.png';
 import offlineIconPng from '@/assets/image/offline-icon.png';
 import warnIconPng from '@/assets/image/warn-icon.png';
-import L, { LatLngBoundsLiteral } from 'leaflet';
+import L from 'leaflet';
 import { FC, useEffect, useState, useCallback } from 'react';
 import { Form, Spin, Select, message } from 'antd';
 import { useModel } from '@/model';
@@ -11,6 +11,7 @@ import { Zone } from '@/schema/zone';
 import { ComDevice, DeviceState } from '@/schema/com-device';
 import { AlarmMessage, PhoneAlarmInfo } from '@/schema/phone-alarm-info';
 import { RadarInfo } from './radar-info';
+import { getColor, getRadius, initMap, loadCircle, loadMap } from './util';
 import { BiboBox, MaskBox } from './styled/box';
 import { MarkerOptionsEx, SearchFormValue } from './prop';
 
@@ -18,6 +19,10 @@ const { useForm, Item } = Form;
 const { Option } = Select;
 let map: L.Map | null = null;
 let devices: L.Marker[] = []; //设备坐标点
+let circles: {
+    deviceId: string,
+    circle: L.Circle
+}[] = [];//效果圆环
 const defaultIcon = new L.Icon({
     iconUrl: markerIconPng,
     iconAnchor: [12, 44]
@@ -30,83 +35,6 @@ const warnIcon = new L.Icon({
     iconUrl: warnIconPng,
     iconAnchor: [12, 44]
 });//报警图标
-let imageBounds: LatLngBoundsLiteral = [[40.712216, -74.22655], [40.773941, -74.12544]];
-
-/**
- * 清空还原地图
- * @param domId 地图DOM id
- * @param mapInstance 地图实例
- */
-const initMap = (domId: string, mapInstance: L.Map) => {
-    if (mapInstance !== null) {
-        mapInstance.remove();
-    }
-    var container = L.DomUtil.get(domId);
-    if (container !== null) {
-        (container as any)._leaflet_id = null;
-    }
-};
-
-/**
- * 加载地图
- * @param domId 地图DOMid 
- * @param background 地图图像
- */
-const loadMap = (domId: string, background: string): L.Map => {
-    let bg = background;
-    map = L.map(domId, {
-        zoomControl: false,
-        doubleClickZoom: false,
-        attributionControl: false,
-        maxBounds: imageBounds,
-        minZoom: 11,
-        maxZoom: 15
-    });
-    if (!background.startsWith('data:image/png;base64,')) {
-        bg = 'data:image/png;base64,' + background;
-    }
-    L.imageOverlay(bg, imageBounds).addTo(map);
-    map.fitBounds(imageBounds);
-    // map.setMinZoom(11);
-    // map.setMaxZoom(15);
-    map.setZoom(14);
-    return map;
-};
-
-/**
- * 渲染报警表格
- */
-const renderAlarmTable = (alarms: PhoneAlarmInfo[] = []): string => {
-    if (alarms.length === 0) {
-        return '';
-    }
-    const rows = alarms.map(item => {
-        let message: AlarmMessage;
-        if (typeof item.message === 'string') {
-            message = JSON.parse(item.message);
-        } else {
-            message = item.message;
-        }
-        return `<tr>
-            <td>${message?.captureTime ?? '-'}</td>
-            <td>${message?.protocol ?? '-'}</td>
-            <td>${message?.rssi ?? '-'}</td>
-            <td>${message?.siteName ?? '-'}</td>
-            <td>${message?.arfcn ?? '-'}</td>
-            <td>${message?.warnReason ?? '-'}</td>
-        </tr>`;
-    });
-    return `<table>
-    <thead>
-        <tr>
-        <th>采集时间</th><th>协议类型</th><th>强度</th><th>设备场所</th><th>频点信息</th><th>告警原因</th>
-        </tr>
-    </thead>
-    <tbody>
-        ${rows.join('')}
-    </tbody>
-    </table>`;
-};
 
 /**
  * 设备报警（地图版本）
@@ -146,6 +74,25 @@ const Bibo: FC<{}> = () => {
             });
             if (alarms.length > 0) {
                 devices[i].setIcon(warnIcon);
+                const thisCircle = circles.find(item => item.deviceId === deviceId);
+                if (map && thisCircle) {
+                    //如果已存在，先删除Circle
+                    map.removeLayer(thisCircle.circle);
+                    circles = circles.filter(item => item.deviceId !== deviceId);
+                }
+
+                const circle = loadCircle(
+                    devices[i].getLatLng(),
+                    getColor(alarms),
+                    getRadius(alarms));
+                circles.push({
+                    deviceId,
+                    circle
+                });
+                if (map) {
+                    circle.addTo(map);
+                }
+
                 (devices[i].options as MarkerOptionsEx).hasAlarm = true;
             } else {
                 devices[i].setIcon(defaultIcon);
@@ -176,7 +123,6 @@ const Bibo: FC<{}> = () => {
                     } as MarkerOptionsEx).addTo(map!);
                     mark.on('click', (e) => {
                         const { deviceId, hasAlarm } = e.target.options;
-                        console.log(e.target.options);
                         if (hasAlarm) {
                             setDeviceId(deviceId);
                             openRadar(true);
@@ -208,8 +154,9 @@ const Bibo: FC<{}> = () => {
                         if (map !== null) {
                             initMap('bibo', map);
                         }
-                        loadMap('bibo', res.data.areaBg);
+                        map = loadMap('bibo', res.data.areaBg);
                         devices = await loadDevice(first.id);
+                        map?.setZoom(14);
                     }
                 } catch (error) {
                     console.warn(error);
@@ -234,6 +181,8 @@ const Bibo: FC<{}> = () => {
      */
     const onZoneChange = async (value: number) => {
         setLoading(true);
+        devices = [];
+        circles = [];
         try {
             const res = await request.get<Zone>(`/sys/area/get-area-info/${value}`);
             if (res !== null && res.code === 200) {
@@ -241,10 +190,10 @@ const Bibo: FC<{}> = () => {
                 if (map !== null) {
                     initMap('bibo', map);
                 }
-                loadMap('bibo', res.data.areaBg);
+                map = loadMap('bibo', res.data.areaBg);
             }
             devices = await loadDevice(value);
-
+            map?.setZoom(14);
         } catch (error) {
             console.warn(error);
         } finally {

@@ -1,10 +1,13 @@
-import { FC, useEffect } from 'react';
+import debounce from 'lodash/debounce';
+import { FC } from 'react';
 import CloseCircleOutlined from '@ant-design/icons/CloseCircleOutlined';
 import { Button } from 'antd';
 import { useModel } from '@/model';
+import { helper } from '@/utility/helper'
+import { getProtocolName } from '@/schema/protocol';
+import { AlarmMessage } from '@/schema/phone-alarm-info';
 import { RadarBox } from './styled/box';
 import { RadarInfoProp } from './prop';
-import { AlarmMessage } from '@/schema/phone-alarm-info';
 
 /**
  * 报警详情
@@ -17,7 +20,39 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, deviceId, onClose }) => {
         phoneAlarmData: state.phoneAlarmData
     }));
 
-    const render = () => {
+    /**
+     * 渲染协议点
+     */
+    const renderPoint = () => {
+        const dom: JSX.Element[] = [];
+        for (let i = 0; i < phoneAlarmData.slice(0, 10).length; i++) {
+            let message: AlarmMessage;
+            try {
+                if (typeof phoneAlarmData[i].message === 'string') {
+                    message = JSON.parse(phoneAlarmData[i].message);
+                } else {
+                    message = phoneAlarmData[i].message as any;
+                }
+                if (message.deviceId === deviceId) {
+                    dom.push(<div
+                        style={{
+                            left: `${helper.rnd(15, 65)}%`,
+                            top: `${helper.rnd(15, 75)}%`,
+                            animation: `flash${helper.rnd(1, 4)} 2s infinite`
+                        }}
+                        className={`pointer ${getProtocolName(message.protocolType!)}`} />);
+                }
+            } catch (error) {
+                continue;
+            }
+        }
+        return dom;
+    };
+
+    /**
+     * 渲染详情
+     */
+    const renderInfo = () => {
         const currentAlarms = phoneAlarmData.filter(item => {
             let message: AlarmMessage;
             if (typeof item.message === 'string') {
@@ -76,10 +111,15 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, deviceId, onClose }) => {
 
     return <RadarBox style={{ display: open ? 'flex' : 'none' }}>
         <div className="left">
-            <div className="radar" />
+
+        </div>
+        <div className="center">
+            <div className="radar">
+                {renderPoint()}
+            </div>
         </div>
         <div className="right">
-            {render()}
+            {renderInfo()}
         </div>
         <Button
             onClick={() => onClose()}

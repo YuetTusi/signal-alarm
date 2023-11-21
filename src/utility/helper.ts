@@ -65,28 +65,17 @@ const helper = {
                 alarmType: AlarmType.Single
             };
         }
-
-        // if (helper.IS_DEV) {
-        //     let confPath = join(cwd, './conf.json');
-        //     let chunk = readFileSync(confPath, { encoding: 'utf-8' });
-        // } else {
-        //     let confPath = join(cwd, 'resources/config/conf');
-        //     try {
-        //         accessSync(confPath);
-        //         let chunk = readFileSync(confPath, 'utf8');
-        //         const decipher = crypto.createDecipher(algo, KEY);
-        //         let conf = decipher.update(chunk, 'hex', 'utf8');
-        //         conf += decipher.final('utf8');
-        //         return load(conf) as Conf;
-        //     } catch (error: any) {
-        //         console.warn(`读取配置文件失败 @utility/helper/readConf() : ${error.message}`);
-        //         return {
-        //             mode: AppMode.PC,
-        //             alarmType: AlarmType.Single
-        //         };
-        //     }
-        // }
     }),
+    /**
+     * 返回泛围内随机值
+     * @param min 最小
+     * @param max 最大
+     */
+    rnd: (min: number, max: number) => {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min; //不含最大值，含最小值
+    },
     /**
      * @description 转为dayjs日期格式
      * @param date 原日期字串

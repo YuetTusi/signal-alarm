@@ -1,3 +1,23 @@
+import ChinaMobileGSM from '@/assets/image/chinamobilegsm.png';
+import ChinaUnicomGSM from '@/assets/image/chinaunicomgsm.png';
+import ChinaTelecomCDMA from '@/assets/image/chinatelecomcdma.png';
+import ChinaUnicomWCDMA from '@/assets/image/ChinaUnicomwcdma.png';
+import ChinaMobileTDDLTE from '@/assets/image/chinamobiletddlte.png';
+import ChinaUnicomFDDLTE from '@/assets/image/chinaunicomfddlte.png';
+import ChinaTelecomFDDLTE from '@/assets/image/ChinaTelecomfddlte.png';
+import WiFi24G from '@/assets/image/wifi24.png';
+import WiFi58G from '@/assets/image/wifi58.png';
+import ChinaMobile5G from '@/assets/image/chinamobile5g.png';
+import ChinaUnicom5G from '@/assets/image/chinaunicom5G.png';
+import ChinaTelecom5G from '@/assets/image/chinatelecom5g.png';
+import chinaBroadnet5g from '@/assets/image/chinabroadnet5g.png';
+import Bluetooth50 from '@/assets/image/bluetooth.png';
+import Detectaphone from '@/assets/image/detectaphone.png';
+import GPSLocator from '@/assets/image/gpslocator.png';
+import Camera from '@/assets/image/camera.png';
+import Terminal24 from '@/assets/image/terminal24.png';
+import Terminal58 from '@/assets/image/terminal58.png';
+import Others from '@/assets/image/others.png';
 import styled from 'styled-components';
 
 export const RadarBox = styled.div`
@@ -40,31 +60,40 @@ export const RadarBox = styled.div`
     background-size: 7rem 7rem;
     background-position: -5.2rem -5.2rem;
     .left{
+        flex:1;
+    }
+    .center{
         flex:none;
-        width: 540px;
+        width: 500px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
     .right{
         flex:1;
 
         .adetail{
-            padding-right: 10px;
+            width: 220px;
+            margin: 0 auto;
             &>div{
                 margin:0;
                 padding:5px 0;
                 color:#01aff8;
                 text-shadow: 1px 1px 10px #01aff8,-1px -1px 10px #01aff8;
                 label{
-                    font-size:1.6rem;
+                    font-size:1.4rem;
                 }
                 h2{
-                    font-size: 8rem;
+                    font-size: 7rem;
                     font-weight: normal;
                     margin: 0;
                     padding: 0;
                     text-shadow: 1px 1px 20px #01aff8,-1px -1px 20px #01aff8;
                 }
                 span{
-                    font-size:1.6rem;
+                    font-size:1.4rem;
+                    white-space: nowrap;
                 }
             }
         }
@@ -73,25 +102,14 @@ export const RadarBox = styled.div`
     .radar {
         background: -webkit-radial-gradient(center, #01aff887 0%, rgba(32, 255, 77, 0) 75%), -webkit-repeating-radial-gradient(rgba(32, 255, 77, 0) 5.8%, rgba(32, 255, 77, 0) 18%, #01aff8 18.6%, rgba(32, 255, 77, 0) 18.9%), -webkit-linear-gradient(90deg, rgba(32, 255, 77, 0) 49.5%, #01aff8 50%, #01aff8 50%, rgba(32, 255, 77, 0) 50.2%), -webkit-linear-gradient(0deg, rgba(32, 255, 77, 0) 49.5%, #01aff8 50%, #01aff8 50%, rgba(32, 255, 77, 0) 50.2%);
         background: radial-gradient(center, #01aff887 0%, rgba(32, 255, 77, 0) 75%), repeating-radial-gradient(#01aff887 5.8%, #01aff887 18%, #01aff8 18.6%, rgba(32, 255, 77, 0) 18.9%), linear-gradient(90deg, #01aff887 49.5%, #01aff8 50%, #01aff8 50%, #01aff887 50.2%), linear-gradient(0deg, #01aff887 49.5%, #01aff8 50%, #01aff8 50%, #01aff887 50.2%);
-        width: 400px;
-        height: 400px;
+        width: 440px;
+        height: 440px;
         margin: 0 auto;
         position: relative;
         border-radius: 50%;
         border: 0.2rem solid #01aff8;
         overflow: hidden;
         
-        &:before{
-            content: ' ';
-            display: block;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            animation: blips 5s infinite;
-            animation-timing-function: linear;
-            animation-delay: 1.4s;
-        }
         &:after{
             content: ' ';
             display: block;
@@ -105,6 +123,81 @@ export const RadarBox = styled.div`
             animation-timing-function: linear;
             transform-origin: bottom right;
             border-radius: 100% 0 0 0;
+        }
+        .pointer{
+            position: absolute;
+            width: 63px;
+            height: 18px;
+            z-index: 1;
+            display: block;
+            background-repeat: no-repeat;
+            background-size: contain;
+            opacity: 0;
+            /*animation: flash1 5s infinite;*/
+            animation-timing-function: linear;
+            animation-delay: 1.4s;
+            background-color: #fff;
+            /* box-shadow: 2px 2px 2px #fff, -2px -2px 2px #fff, 2px -2px 2px #fff, -2px 2px 2px #fff; */
+            &.ChinaMobileGSM{
+                background-image: url(${ChinaMobileGSM});
+            }
+            &.ChinaUnicomGSM{
+                background-image: url(${ChinaUnicomGSM});
+            }
+            &.ChinaTelecomCDMA{
+                background-image: url(${ChinaTelecomCDMA});
+            }
+            &.ChinaUnicomWCDMA{
+                background-image: url(${ChinaUnicomWCDMA});
+            }
+            &.ChinaMobileTDDLTE{
+                background-image: url(${ChinaMobileTDDLTE});
+            }
+            &.ChinaUnicomFDDLTE{
+                background-image: url(${ChinaUnicomFDDLTE});
+            }
+            &.ChinaTelecomFDDLTE{
+                background-image: url(${ChinaTelecomFDDLTE});
+            }
+            &.WiFi24G{
+                background-image: url(${WiFi24G});
+            }
+            &.WiFi58G{
+                background-image: url(${WiFi58G});
+            }
+            &.ChinaMobile5G{
+                background-image: url(${ChinaMobile5G});
+            }
+            &.ChinaUnicom5G{
+                background-image: url(${ChinaUnicom5G});
+            }
+            &.ChinaTelecom5G{
+                background-image: url(${ChinaTelecom5G});
+            }
+            &.chinaBroadnet5g{
+                background-image: url(${chinaBroadnet5g});
+            }
+            &.Bluetooth50{
+                background-image: url(${Bluetooth50});
+            }
+            &.Detectaphone{
+                background-image: url(${Detectaphone});
+            }
+            &.GPSLocator{
+                background-image: url(${GPSLocator});
+            }
+            &.Camera{
+                background-image: url(${Camera});
+            }
+            &.Terminal24{
+                background-image: url(${Terminal24});
+            }
+            &.Terminal58{
+                background-image: url(${Terminal58});
+            }
+            &.Others{
+                background-image: url(${Others});
+            }
         }
     }
 
@@ -123,23 +216,34 @@ export const RadarBox = styled.div`
             transform: rotate(360deg);
         }
     }
-    @keyframes blips {
-        14% {
-            background: radial-gradient(2vmin circle at 75% 70%, #ffffff 10%, #01aff8 30%, rgba(255, 255, 255, 0) 100%);
+    @keyframes flash1 {
+        1% {
+            opacity: 0.9;
+            box-shadow: 2px 2px 2px #fff, -2px -2px 2px #fff, 2px -2px 2px #fff, -2px 2px 2px #fff;
         }
-        14.0002% {
-            background: radial-gradient(2vmin circle at 75% 70%, #ffffff 10%, #01aff8 30%, rgba(255, 255, 255, 0) 100%), radial-gradient(2vmin circle at 63% 72%, #ffffff 10%, #01aff8 30%, rgba(255, 255, 255, 0) 100%);
+        80% {
+            opacity: 0;
+            box-shadow: 2px 2px 2px #fff, -2px -2px 2px #fff, 2px -2px 2px #fff, -2px 2px 2px #fff;
         }
-        25% {
-            background: radial-gradient(2vmin circle at 75% 70%, #ffffff 10%, #01aff8 30%, rgba(255, 255, 255, 0) 100%), radial-gradient(2vmin circle at 63% 72%, #ffffff 10%, #01aff8 30%, rgba(255, 255, 255, 0) 100%), radial-gradient(2vmin circle at 56% 86%, #ffffff 10%, #01aff8 30%, rgba(255, 255, 255, 0) 100%);
+    }
+    @keyframes flash2 {
+        24% {
+            opacity: 0.9;
+            box-shadow: 2px 2px 2px #fff, -2px -2px 2px #fff, 2px -2px 2px #fff, -2px 2px 2px #fff;
         }
-        26% {
-            background: radial-gradient(2vmin circle at 75% 70%, #ffffff 10%, #01aff8 30%, rgba(255, 255, 255, 0) 100%), radial-gradient(2vmin circle at 63% 72%, #ffffff 10%, #01aff8 30%, rgba(255, 255, 255, 0) 100%), radial-gradient(2vmin circle at 56% 86%, #ffffff 10%, #01aff8 30%, rgba(255, 255, 255, 0) 100%);
-            opacity: 1;
+        90% {
+            opacity: 0;
+            box-shadow: 2px 2px 2px #fff, -2px -2px 2px #fff, 2px -2px 2px #fff, -2px 2px 2px #fff;
+        }
+    }
+    @keyframes flash3 {
+        37% {
+            opacity: 0.9;
+            box-shadow: 2px 2px 2px #fff, -2px -2px 2px #fff, 2px -2px 2px #fff, -2px 2px 2px #fff;
         }
         100% {
-            background: radial-gradient(2vmin circle at 75% 70%, #ffffff 10%, #01aff8 30%, rgba(255, 255, 255, 0) 100%), radial-gradient(2vmin circle at 63% 72%, #ffffff 10%, #01aff8 30%, rgba(255, 255, 255, 0) 100%), radial-gradient(2vmin circle at 56% 86%, #ffffff 10%, #01aff8 30%, rgba(255, 255, 255, 0) 100%);
             opacity: 0;
+            box-shadow: 2px 2px 2px #fff, -2px -2px 2px #fff, 2px -2px 2px #fff, -2px 2px 2px #fff;
         }
     }
 `;

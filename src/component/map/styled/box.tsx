@@ -53,6 +53,15 @@ export const BiboBox = styled.div`
             }
         }
     }
+    @keyframes blink {  
+        0% { opacity: 1; }
+        50% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+    .flashing-circle {
+        cursor: default;
+		animation: blink 5s linear infinite;  // 应用闪烁动画  
+	}
 `;
 
 export const MaskBox = styled.div`
