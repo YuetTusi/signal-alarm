@@ -1,6 +1,6 @@
-import markerIconPng from '@/assets/image/marker-icon.png';
+import mapConnectedIcon from '@/assets/image/map-connected.png';
+import mapWarnIcon from '@/assets/image/map-warn.png';
 import offlineIconPng from '@/assets/image/offline-icon.png';
-import warnIconPng from '@/assets/image/warn-icon.png';
 import L from 'leaflet';
 import { FC, useEffect, useState, useCallback } from 'react';
 import { Form, Spin, Select, message } from 'antd';
@@ -24,16 +24,12 @@ let circles: {
     circle: L.Circle
 }[] = [];//效果圆环
 const defaultIcon = new L.Icon({
-    iconUrl: markerIconPng,
-    iconAnchor: [12, 44]
+    iconUrl: mapConnectedIcon,
+    iconAnchor: [21, 59]
 });//默认图标
-const offlineIcon = new L.Icon({
-    iconUrl: offlineIconPng,
-    iconAnchor: [12, 44]
-});//离线图标
 const warnIcon = new L.Icon({
-    iconUrl: warnIconPng,
-    iconAnchor: [12, 44]
+    iconUrl: mapWarnIcon,
+    iconAnchor: [21, 59]
 });//报警图标
 
 /**
@@ -114,7 +110,7 @@ const Bibo: FC<{}> = () => {
                     const mark = L.marker([
                         item.lat, item.lon
                     ], {
-                        icon: item.status === DeviceState.Normal ? defaultIcon : offlineIcon,
+                        icon: defaultIcon,
                         title: item.deviceName,
                         deviceId: item.deviceId,
                         siteName: item.siteName,

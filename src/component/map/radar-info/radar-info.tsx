@@ -1,11 +1,10 @@
-import debounce from 'lodash/debounce';
 import { FC } from 'react';
 import CloseCircleOutlined from '@ant-design/icons/CloseCircleOutlined';
 import { Button } from 'antd';
 import { useModel } from '@/model';
 import { helper } from '@/utility/helper'
 import { getProtocolName } from '@/schema/protocol';
-import { AlarmMessage } from '@/schema/phone-alarm-info';
+import { AlarmMessage, PhoneAlarmInfo } from '@/schema/phone-alarm-info';
 import { RadarBox } from './styled/box';
 import { RadarInfoProp } from './prop';
 
@@ -24,16 +23,18 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, deviceId, onClose }) => {
      * 渲染协议点
      */
     const renderPoint = () => {
-        const dom: JSX.Element[] = [];
-        for (let i = 0; i < phoneAlarmData.slice(0, 10).length; i++) {
-            let message: AlarmMessage;
-            try {
-                if (typeof phoneAlarmData[i].message === 'string') {
-                    message = JSON.parse(phoneAlarmData[i].message);
-                } else {
-                    message = phoneAlarmData[i].message as any;
-                }
-                if (message.deviceId === deviceId) {
+        if (deviceId === undefined) {
+            //单机版无deviceId参数
+            const dom: JSX.Element[] = [];
+            const data = phoneAlarmData.slice(0, 10);
+            for (let i = 0; i < data.length; i++) {
+                let message: AlarmMessage;
+                try {
+                    if (typeof phoneAlarmData[i].message === 'string') {
+                        message = JSON.parse(phoneAlarmData[i].message);
+                    } else {
+                        message = phoneAlarmData[i].message as any;
+                    }
                     dom.push(<div
                         style={{
                             left: `${helper.rnd(15, 65)}%`,
@@ -41,32 +42,61 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, deviceId, onClose }) => {
                             animation: `flash${helper.rnd(1, 4)} 2s infinite`
                         }}
                         className={`pointer ${getProtocolName(message.protocolType!)}`} />);
+                } catch (error) {
+                    continue;
                 }
-            } catch (error) {
-                continue;
             }
+            return dom;
+        } else {
+            return phoneAlarmData.reduce((acc, current) => {
+                let message: AlarmMessage;
+                try {
+                    if (typeof current.message === 'string') {
+                        message = JSON.parse(current.message);
+                    } else {
+                        message = current.message as any;
+                    }
+                    if (message.deviceId === deviceId) {
+                        acc.push(<div
+                            style={{
+                                left: `${helper.rnd(15, 65)}%`,
+                                top: `${helper.rnd(15, 75)}%`,
+                                animation: `flash${helper.rnd(1, 4)} 2s infinite`
+                            }}
+                            className={`pointer ${getProtocolName(message.protocolType!)}`} />);
+                    }
+                } catch (error) {
+                    console.warn(error);
+                }
+                return acc;
+            }, [] as JSX.Element[]);
         }
-        return dom;
     };
 
     /**
      * 渲染详情
      */
     const renderInfo = () => {
-        const currentAlarms = phoneAlarmData.filter(item => {
-            let message: AlarmMessage;
-            if (typeof item.message === 'string') {
-                message = JSON.parse(item.message);
-            } else {
-                message = item.message;
+        let alarm: PhoneAlarmInfo | undefined = undefined;
+        if (deviceId === undefined) {
+            //单机版无deviceId参数，直接取第一个报警
+            alarm = phoneAlarmData[0];
+        } else {
+            const currentAlarms = phoneAlarmData.filter(item => {
+                let message: AlarmMessage;
+                if (typeof item.message === 'string') {
+                    message = JSON.parse(item.message);
+                } else {
+                    message = item.message;
+                }
+                return message.deviceId === deviceId;
+            });
+            if (currentAlarms.length === 0) {
+                return null;
             }
-            return message.deviceId === deviceId;
-        });
-        if (currentAlarms.length === 0) {
-            return null;
+            alarm = currentAlarms[0];
         }
 
-        const [alarm] = currentAlarms;
         if (typeof alarm?.message === 'string') {
             try {
                 const msg: AlarmMessage = JSON.parse(alarm.message);
@@ -121,14 +151,18 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, deviceId, onClose }) => {
         <div className="right">
             {renderInfo()}
         </div>
-        <Button
-            onClick={() => onClose()}
-            title="关闭"
-            type="link"
-            ghost={true}
-            className="close-radar">
-            <CloseCircleOutlined />
-        </Button>
+        {
+            deviceId === undefined
+                ? null
+                : <Button
+                    onClick={() => onClose!()}
+                    title="关闭"
+                    type="link"
+                    ghost={true}
+                    className="close-radar">
+                    <CloseCircleOutlined />
+                </Button>
+        }
     </RadarBox>;
 };
 

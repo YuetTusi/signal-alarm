@@ -1,4 +1,3 @@
-import { PhoneAlarmInfo } from "@/schema/phone-alarm-info"
 
 export interface RadarInfoProp {
 
@@ -7,6 +6,8 @@ export interface RadarInfoProp {
      * 设备id
      */
     deviceId?: string,
-
-    onClose: () => void
+    /**
+     * 关闭handle
+     */
+    onClose?: () => void
 }

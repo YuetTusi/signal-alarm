@@ -9,12 +9,12 @@ import { PhoneAlarmInfo } from '@/schema/phone-alarm-info';
 import { Bibo } from '@/component/map';
 import WapInfo from "@/component/special/wap-info";
 import { AlarmInfo } from '@/component/alarm';
+import { RadarInfo } from '@/component/map/radar-info';
 import {
     AlarmTypeChart, AlarmSiteTopChart, SpecialTypeChart, AlarmWeekChart
 } from '@/component/statis';
 import CheckReport from '@/component/check-report';
 import { DashboardBox } from "./styled/box";
-import { DevAlarm, FloatAlarm } from './ring-alarm';
 import { request } from '@/utility/http';
 import { AlarmType } from '@/schema/conf';
 
@@ -29,20 +29,16 @@ const Dashboard: FC<{}> = memo(() => {
     const location = useLocation();
 
     const {
-        phoneAlarmData,
         queryAlarmTop10Data,
         querySpecialTypeStatisData,
         setPhoneAlarmData,
         appendPhoneAlarmData,
-        removePhoneAlarmData,
         clearPhoneAlarmData
     } = useModel(state => ({
-        phoneAlarmData: state.phoneAlarmData,
         queryAlarmTop10Data: state.queryAlarmTop10Data,
         querySpecialTypeStatisData: state.querySpecialTypeStatisData,
         setPhoneAlarmData: state.setPhoneAlarmData,
         appendPhoneAlarmData: state.appendPhoneAlarmData,
-        removePhoneAlarmData: state.removePhoneAlarmData,
         clearPhoneAlarmData: state.clearPhoneAlarmData
     }));
 
@@ -51,7 +47,6 @@ const Dashboard: FC<{}> = memo(() => {
         try {
             if (typeof event.data === 'string') {
                 const data: PhoneAlarmInfo = JSON.parse(event.data);
-                console.log(data);
                 if (data.hash) {
                     appendPhoneAlarmData({
                         ...data,
@@ -209,7 +204,9 @@ const Dashboard: FC<{}> = memo(() => {
                     {
                         alarmType === AlarmType.Single
                             ? <div className="phone-panel">
-                                <FloatAlarm data={phoneAlarmData.slice(0, 5)} />
+                                {/* <FloatAlarm data={phoneAlarmData.slice(0, 5)} /> */}
+                                <RadarInfo
+                                    open={true} />
                             </div>
                             : <div className="phone-panel">
                                 <Bibo />
