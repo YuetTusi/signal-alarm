@@ -124,6 +124,21 @@ app.on('ready', () => {
     }
     bindHandle(mainWindow);
 
+    mainWindow.on('closed', () => {
+
+        reportWindows.forEach(win => {
+            if (win && !win.isDestroyed()) {
+                win.destroy();
+            }
+        });
+        if (reportWindow) {
+            reportWindow.destroy();
+        }
+        if (timerWindow) {
+            timerWindow.destroy();
+        }
+    });
+
 });
 
 //窗口最小化

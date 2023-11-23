@@ -1,9 +1,8 @@
 import mapConnectedIcon from '@/assets/image/map-connected.png';
 import mapWarnIcon from '@/assets/image/map-warn.png';
-import offlineIconPng from '@/assets/image/offline-icon.png';
 import L from 'leaflet';
 import { FC, useEffect, useState, useCallback } from 'react';
-import { Form, Spin, Select, message } from 'antd';
+import { Button, Form, Spin, Select, message } from 'antd';
 import { useModel } from '@/model';
 import { useUnmount } from '@/hook';
 import { request } from '@/utility/http';
@@ -14,6 +13,7 @@ import { RadarInfo } from './radar-info';
 import { getColor, getRadius, initMap, loadCircle, loadMap } from './util';
 import { BiboBox, MaskBox } from './styled/box';
 import { MarkerOptionsEx, SearchFormValue } from './prop';
+import { Legend } from './legend';
 
 const { useForm, Item } = Form;
 const { Option } = Select;
@@ -40,6 +40,7 @@ const Bibo: FC<{}> = () => {
     const [formRef] = useForm<SearchFormValue>();
     const [loading, setLoading] = useState<boolean>(false);
     const [radar, openRadar] = useState<boolean>(false);
+    const [legendVisible, setLegendVisible] = useState<boolean>(true);
     const [deviceId, setDeviceId] = useState<string>('');
     const {
         zoneList,
@@ -69,6 +70,7 @@ const Bibo: FC<{}> = () => {
                 return message.deviceId === deviceId;
             });
             if (alarms.length > 0) {
+                console.log(devices[i].getIcon().options);
                 devices[i].setIcon(warnIcon);
                 const thisCircle = circles.find(item => item.deviceId === deviceId);
                 if (map && thisCircle) {
@@ -166,6 +168,8 @@ const Bibo: FC<{}> = () => {
     }, [zoneList]);
 
     useUnmount(() => {
+        devices = [];
+        circles = [];
         if (map !== null) {
             initMap('bibo', map);
             map = null;
@@ -205,6 +209,7 @@ const Bibo: FC<{}> = () => {
         </Option>);
 
     return <BiboBox>
+        <Legend visible={legendVisible} />
         <div className="d-box">
             <Form form={formRef} layout="inline">
                 <Item
@@ -218,6 +223,13 @@ const Bibo: FC<{}> = () => {
                     </Select>
                 </Item>
             </Form>
+            <span>
+                <Button
+                    onClick={() => setLegendVisible((prev) => !prev)}
+                    type="primary">
+                    {legendVisible ? '关闭图例' : '查看图例'}
+                </Button>
+            </span>
         </div>
         <div className="map-box" id="bibo">
 

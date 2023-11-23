@@ -69,7 +69,7 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, deviceId, onClose }) => {
                     console.warn(error);
                 }
                 return acc;
-            }, [] as JSX.Element[]);
+            }, [] as JSX.Element[]).slice(0, 10);
         }
     };
 

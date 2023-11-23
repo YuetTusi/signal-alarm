@@ -27,7 +27,7 @@ export const RadarBox = styled.div`
     right:0;
     bottom:0;
     left: 0;
-    z-index: 400;
+    z-index: 402;
 
     display: flex;
     flex-direction: row;
@@ -100,8 +100,11 @@ export const RadarBox = styled.div`
     }
 
     .radar {
-        background: -webkit-radial-gradient(center, #01aff887 0%, rgba(32, 255, 77, 0) 75%), -webkit-repeating-radial-gradient(rgba(32, 255, 77, 0) 5.8%, rgba(32, 255, 77, 0) 18%, #01aff8 18.6%, rgba(32, 255, 77, 0) 18.9%), -webkit-linear-gradient(90deg, rgba(32, 255, 77, 0) 49.5%, #01aff8 50%, #01aff8 50%, rgba(32, 255, 77, 0) 50.2%), -webkit-linear-gradient(0deg, rgba(32, 255, 77, 0) 49.5%, #01aff8 50%, #01aff8 50%, rgba(32, 255, 77, 0) 50.2%);
-        background: radial-gradient(center, #01aff887 0%, rgba(32, 255, 77, 0) 75%), repeating-radial-gradient(#01aff887 5.8%, #01aff887 18%, #01aff8 18.6%, rgba(32, 255, 77, 0) 18.9%), linear-gradient(90deg, #01aff887 49.5%, #01aff8 50%, #01aff8 50%, #01aff887 50.2%), linear-gradient(0deg, #01aff887 49.5%, #01aff8 50%, #01aff8 50%, #01aff887 50.2%);
+        background: -webkit-radial-gradient(center, #01aff887 0%, rgba(32, 255, 77, 0) 75%),
+		/*-webkit-repeating-radial-gradient(rgba(32, 255, 77, 0) 5.8%, rgba(32, 255, 77, 0) 18%, #01aff8 18.6%, rgba(32, 255, 77, 0) 18.9%),*/
+            -webkit-repeating-radial-gradient(rgba(32, 255, 77, 0) 11.4%, rgba(32, 255, 77, 0) 18%, #01aff8 18.6%, rgba(32, 255, 77, 0) 18.9%),
+            -webkit-linear-gradient(90deg, rgba(32, 255, 77, 0) 49.5%, #01aff8 50%, #01aff8 50%, rgba(32,255,77,0)50.2%),
+            -webkit-linear-gradient(0deg, rgba(32, 255, 77, 0) 49.5%, #01aff8 50%, #01aff8 50%, rgba(32,255,77,0)50.2%);
         width: 440px;
         height: 440px;
         margin: 0 auto;

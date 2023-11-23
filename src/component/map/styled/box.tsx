@@ -26,7 +26,7 @@ export const BiboBox = styled.div`
         flex:none;
         display: flex;
         flex-direction: row;
-        justify-content: flex-start;
+        justify-content: space-between;
         align-items: center;
         padding: 10px;
     }
