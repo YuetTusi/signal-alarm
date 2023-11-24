@@ -244,9 +244,9 @@ ipcMain.on('query-special-type-statis', (_: IpcMainEvent) => {
     }
 });
 
-ipcMain.on('query-wap', (_: IpcMainEvent) => {
+ipcMain.on('query-each-20', (_: IpcMainEvent) => {
     if (mainWindow) {
-        mainWindow.webContents.send('query-wap');
+        mainWindow.webContents.send('query-each-20');
     }
 });
 

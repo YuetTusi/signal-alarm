@@ -231,9 +231,9 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
     };
 
     useEffect(() => {
-        ipcRenderer.on('query-wap', autoQueryData);
+        ipcRenderer.on('query-each-20', autoQueryData);
         return () => {
-            ipcRenderer.off('query-wap', autoQueryData);
+            ipcRenderer.off('query-each-20', autoQueryData);
         };
     }, [autoQueryData, activeKey]);
 

@@ -1,5 +1,6 @@
+import { Protocol } from '@/schema/protocol';
 import { phoneAlarm } from './phone-alarm';
-import { PhoneAlarmInfo } from '@/schema/phone-alarm-info';
+import { AlarmMessage, PhoneAlarmInfo } from '@/schema/phone-alarm-info';
 
 interface PhoneAlarmState {
 

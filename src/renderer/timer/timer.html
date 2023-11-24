@@ -12,8 +12,8 @@
 
 			(() => {
 				setInterval(() => {
-					//查询专项数据
-					ipcRenderer.send('query-wap');
+					//每20秒查询, 专项数据，报警信号泛围
+					ipcRenderer.send('query-each-20');
 				}, 1000 * 20);
 			})();
 

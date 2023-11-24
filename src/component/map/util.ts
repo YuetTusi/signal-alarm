@@ -1,7 +1,7 @@
 import { Protocol } from "@/schema/protocol";
 import L, { LatLngBoundsLiteral, LatLng } from "leaflet";
-import { ProtocolColor } from "./prop";
 import { AlarmMessage, PhoneAlarmInfo } from "@/schema/phone-alarm-info";
+import { ProtocolColor } from "./prop";
 
 let imageBounds: LatLngBoundsLiteral = [[40.712216, -74.22655], [40.773941, -74.12544]];
 
@@ -73,24 +73,7 @@ export const getRadius = (alarms: PhoneAlarmInfo[]) => {
  * 返回协议对应颜色值
  * @param protocol 
  */
-export const getColor = (alarms: PhoneAlarmInfo[]): string => {
-
-    if (alarms.length === 0) {
-        return '#2C3A47';
-    }
-    const [first] = alarms;
-    let protocol = Protocol.All;
-    try {
-        if (typeof first.message === 'string') {
-            const message: AlarmMessage = JSON.parse(first.message);
-            protocol = Number(message.protocolType);
-        } else {
-            protocol = Number((first.message as any)?.protocolType);
-        }
-    } catch (error) {
-        console.warn(error);
-        return '#2C3A47';
-    }
+export const getColor = (protocol: Protocol): string => {
 
     switch (protocol) {
         case Protocol.ChinaMobile5G:
