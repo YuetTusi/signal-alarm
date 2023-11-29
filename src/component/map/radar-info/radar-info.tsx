@@ -1,3 +1,5 @@
+import maxBy from 'lodash/maxBy';
+import dayjs from 'dayjs';
 import { FC, useRef } from 'react';
 import CloseCircleOutlined from '@ant-design/icons/CloseCircleOutlined';
 import { Button } from 'antd';
@@ -25,6 +27,7 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, data, deviceId, onClose }) => {
         return data[deviceId].map((item, index) => {
 
             const loop = getLoopIndex(Number(item.rssi!)); //信号强度所在环数
+            console.log(`强度：${Number(item.rssi!)},环数：${loop}`);
             const points = pointMap.get(loop)!;//该环上所有的点，随机取
             let top = 0, left = 0;
             if (m.current.has(item.protocolType!)) {
@@ -51,31 +54,33 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, data, deviceId, onClose }) => {
 
         const next = data[deviceId];
         if (next.length > 0) {
-            const msg = next[next.length - 1];
-            return <div className="adetail">
+            const msg = maxBy(next, (item) => item.captureTime);
+            // const msg = next[next.length - 1];
+
+            return <div style={{ display: dayjs().diff(dayjs(msg?.captureTime), 's') > 5 ? 'none' : 'block' }} className="adetail">
                 <div>
                     <label htmlFor="h2">强度值：</label>
-                    <h2>{msg.rssi ?? ''}</h2>
+                    <h2>{msg?.rssi ?? ''}</h2>
                 </div>
                 <div>
                     <label htmlFor="span">设备ID：</label>
-                    <span>{msg.deviceId ?? '-'}</span>
+                    <span>{msg?.deviceId ?? '-'}</span>
                 </div>
                 <div>
                     <label htmlFor="span">协议名称：</label>
-                    <span>{msg.protocol ?? '-'}</span>
+                    <span>{msg?.protocol ?? '-'}</span>
                 </div>
                 <div>
                     <label htmlFor="span">场所名称：</label>
-                    <span>{msg.siteName ?? '-'}</span>
+                    <span>{msg?.siteName ?? '-'}</span>
                 </div>
                 <div>
                     <label htmlFor="span">告警原因：</label>
-                    <span>{msg.warnReason ?? '-'}</span>
+                    <span>{msg?.warnReason ?? '-'}</span>
                 </div>
                 <div>
                     <label htmlFor="span">采集时间：</label>
-                    <span>{msg.captureTime ?? '-'}</span>
+                    <span>{msg?.captureTime ?? '-'}</span>
                 </div>
             </div>;
         } else {

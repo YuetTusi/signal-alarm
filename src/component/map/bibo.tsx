@@ -51,6 +51,7 @@ const Bibo: FC<{}> = () => {
         phoneAlarmData,
         devicesOnMap,
         alarmsOfDevice,
+        clearPhoneAlarmData,
         queryZoneList,
         queryDevicesOnMap,
         queryDeviceTopAlarms
@@ -59,6 +60,7 @@ const Bibo: FC<{}> = () => {
         phoneAlarmData: state.phoneAlarmData,
         devicesOnMap: state.devicesOnMap,
         alarmsOfDevice: state.alarmsOfDevice,
+        clearPhoneAlarmData: state.clearPhoneAlarmData,
         queryZoneList: state.queryZoneList,
         queryDevicesOnMap: state.queryDevicesOnMap,
         queryDeviceTopAlarms: state.queryDeviceTopAlarms
@@ -215,6 +217,7 @@ const Bibo: FC<{}> = () => {
         setLoading(true);
         devices = [];
         circles = [];
+        clearPhoneAlarmData();
         try {
             const res = await request.get<Zone>(`/sys/area/get-area-info/${value}`);
             if (res !== null && res.code === 200) {

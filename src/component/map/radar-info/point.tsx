@@ -1,8 +1,7 @@
-import { FC, useEffect, useState } from 'react';
-import { Protocol, getProtocolName } from '@/schema/protocol';
+import dayjs from 'dayjs';
+import { FC } from 'react';
+import { getProtocolName } from '@/schema/protocol';
 import { AlarmMessage } from '@/schema/phone-alarm-info';
-
-let timer: any = null;
 
 /**
  * 协议点
@@ -13,24 +12,21 @@ const Point: FC<{
     data: AlarmMessage
 }> = ({ top, left, data }) => {
 
-    const [hide, setHide] = useState<boolean>(false);
-
-    useEffect(() => {
-        setHide(false);
-        timer = setTimeout(() => {
-            setHide(true);
-        }, 5000);
-        return () => {
-            if (timer !== null) {
-                clearTimeout(timer);
-                timer = null;
-            }
-        };
-    }, [data]);
+    /**
+     * 采集时间是否超过5秒
+     * @param date 采集时间
+     */
+    const isOver5Second = (date: string) => {
+        try {
+            return dayjs().diff(date, 's') > 5;
+        } catch (error) {
+            return false;
+        }
+    };
 
     return <div
         style={{
-            display: hide ? 'none' : 'block',
+            display: isOver5Second(data.captureTime!) ? 'none' : 'block',
             top: `${top}%`,
             left: `${left}%`,
             animation: `flash1 2s infinite`
