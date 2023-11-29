@@ -27,6 +27,7 @@ const DragBar: FC<PropsWithChildren<DragBarProp>> = memo(({ children }) => {
                 ipcRenderer.send('close');
             },
             centered: true,
+            zIndex: 2001,
             title: '退出',
             content: '确认退出应用？',
             okText: '是',

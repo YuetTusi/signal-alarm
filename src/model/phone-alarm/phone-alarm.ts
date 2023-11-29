@@ -30,7 +30,7 @@ const phoneAlarm = (setState: SetState, getState: GetState): PhoneAlarmState => 
      */
     appendPhoneAlarmData: (payload: PhoneAlarmInfo) => {
         const { phoneAlarmData } = getState();
-        setState({ phoneAlarmData: [payload].concat(...phoneAlarmData) });
+        setState({ phoneAlarmData: phoneAlarmData.concat([payload]) });
     },
     /**
      * 移除手机数据

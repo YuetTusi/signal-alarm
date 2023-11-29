@@ -99,34 +99,11 @@ export const RadarBox = styled.div`
         }
     }
 
-    .radar {
-        background: -webkit-radial-gradient(center, #01aff887 0%, rgba(32, 255, 77, 0) 75%),
-		/*-webkit-repeating-radial-gradient(rgba(32, 255, 77, 0) 5.8%, rgba(32, 255, 77, 0) 18%, #01aff8 18.6%, rgba(32, 255, 77, 0) 18.9%),*/
-            -webkit-repeating-radial-gradient(rgba(32, 255, 77, 0) 11.4%, rgba(32, 255, 77, 0) 18%, #01aff8 18.6%, rgba(32, 255, 77, 0) 18.9%),
-            -webkit-linear-gradient(90deg, rgba(32, 255, 77, 0) 49.5%, #01aff8 50%, #01aff8 50%, rgba(32,255,77,0)50.2%),
-            -webkit-linear-gradient(0deg, rgba(32, 255, 77, 0) 49.5%, #01aff8 50%, #01aff8 50%, rgba(32,255,77,0)50.2%);
-        width: 440px;
-        height: 440px;
-        margin: 0 auto;
+    .radar-outer{
+
         position: relative;
-        border-radius: 50%;
-        border: 0.2rem solid #01aff8;
-        overflow: hidden;
-        
-        &:after{
-            content: ' ';
-            display: block;
-            background-image: linear-gradient(44deg, rgba(0, 255, 51, 0) 50%, #01aff8 100%);
-            width: 50%;
-            height: 50%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            animation: radar-beam 5s infinite;
-            animation-timing-function: linear;
-            transform-origin: bottom right;
-            border-radius: 100% 0 0 0;
-        }
+        padding: 20px;
+
         .pointer{
             position: absolute;
             width: 63px;
@@ -201,6 +178,36 @@ export const RadarBox = styled.div`
             &.Others{
                 background-image: url(${Others});
             }
+        }
+    }
+
+    .radar {
+        background: -webkit-radial-gradient(center, #01aff887 0%, rgba(32, 255, 77, 0) 75%),
+		/*-webkit-repeating-radial-gradient(rgba(32, 255, 77, 0) 5.8%, rgba(32, 255, 77, 0) 18%, #01aff8 18.6%, rgba(32, 255, 77, 0) 18.9%),*/
+            -webkit-repeating-radial-gradient(rgba(32, 255, 77, 0) 11.4%, rgba(32, 255, 77, 0) 18%, #01aff8 18.6%, rgba(32, 255, 77, 0) 18.9%),
+            -webkit-linear-gradient(90deg, rgba(32, 255, 77, 0) 49.5%, #01aff8 50%, #01aff8 50%, rgba(32,255,77,0)50.2%),
+            -webkit-linear-gradient(0deg, rgba(32, 255, 77, 0) 49.5%, #01aff8 50%, #01aff8 50%, rgba(32,255,77,0)50.2%);
+        width: 440px;
+        height: 440px;
+        margin: 0 auto;
+        position: relative;
+        border-radius: 50%;
+        border: 0.2rem solid #01aff8;
+        overflow: hidden;
+        
+        &:after{
+            content: ' ';
+            display: block;
+            background-image: linear-gradient(44deg, rgba(0, 255, 51, 0) 50%, #01aff8 100%);
+            width: 50%;
+            height: 50%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: radar-beam 5s infinite;
+            animation-timing-function: linear;
+            transform-origin: bottom right;
+            border-radius: 100% 0 0 0;
         }
     }
 

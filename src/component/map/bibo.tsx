@@ -1,19 +1,19 @@
 import mapConnectedIcon from '@/assets/image/map-connected.png';
 import mapWarnIcon from '@/assets/image/map-warn.png';
+import mapOfflineIcon from '@/assets/image/map-offline.png';
 import L from 'leaflet';
-import { FC, useEffect, useState, useCallback } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Button, Form, Spin, Select, message } from 'antd';
 import { useModel } from '@/model';
-import { useUnmount, useSubscribe } from '@/hook';
+import { useUnmount, useSubscribe, usePhoneAlarm } from '@/hook';
 import { request } from '@/utility/http';
 import { Zone } from '@/schema/zone';
-import { ComDevice, DeviceState } from '@/schema/com-device';
-import { AlarmMessage, PhoneAlarmInfo } from '@/schema/phone-alarm-info';
+import { Legend } from './legend';
 import { RadarInfo } from './radar-info';
-import { getColor, getRadius, initMap, loadCircle, loadMap } from './util';
+import { getColor, initMap, loadCircle, loadMap } from './util';
 import { BiboBox, MaskBox } from './styled/box';
 import { MarkerOptionsEx, SearchFormValue } from './prop';
-import { Legend } from './legend';
+import { DeviceState } from '@/schema/com-device';
 
 const { useForm, Item } = Form;
 const { Option } = Select;
@@ -31,6 +31,10 @@ const warnIcon = new L.Icon({
     iconUrl: mapWarnIcon,
     iconAnchor: [21, 59]
 });//报警图标
+const offlineIcon = new L.Icon({
+    iconUrl: mapOfflineIcon,
+    iconAnchor: [21, 59]
+});//离线图标
 
 /**
  * 设备报警（地图版本）
@@ -40,8 +44,8 @@ const Bibo: FC<{}> = () => {
     const [formRef] = useForm<SearchFormValue>();
     const [loading, setLoading] = useState<boolean>(false);
     const [radar, openRadar] = useState<boolean>(false);
-    const [legendVisible, setLegendVisible] = useState<boolean>(true);
     const [deviceId, setDeviceId] = useState<string>('');
+    const [legendVisible, setLegendVisible] = useState<boolean>(true);
     const {
         zoneList,
         phoneAlarmData,
@@ -59,17 +63,29 @@ const Bibo: FC<{}> = () => {
         queryDevicesOnMap: state.queryDevicesOnMap,
         queryDeviceTopAlarms: state.queryDeviceTopAlarms
     }));
+    const alarms = usePhoneAlarm(phoneAlarmData);
 
     useEffect(() => {
         queryZoneList();
     }, []);
 
+    // const alarmData = usePhoneAlarmOfDevice(deviceId, phoneAlarmData);
+
     /**
      * 间隔n秒查询信号环
      */
     const queryDeviceHandle = async () => {
-        const tasks = devices.map(item =>
-            queryDeviceTopAlarms((item.options as MarkerOptionsEx).deviceId));
+        const tasks = devices.map(item => {
+            const { deviceId } = item.options as MarkerOptionsEx;
+            if (map !== null) {
+                const willRemove = circles.filter(i => i.deviceId === deviceId);
+                for (let i = 0; i < willRemove.length; i++) {
+                    map.removeLayer(willRemove[i].circle);
+                }
+            }
+            return queryDeviceTopAlarms(deviceId);
+        });
+
         try {
             await Promise.all(tasks);
         } catch (error) {
@@ -84,24 +100,20 @@ const Bibo: FC<{}> = () => {
         if (alarmsOfDevice === undefined) {
             return;
         }
+
         for (let i = 0; i < devices.length; i++) {
             const { deviceId } = devices[i].options as MarkerOptionsEx;
-            circles = circles.reduce((acc, current) => {
-                if (map && current.deviceId === deviceId) {
-                    map.removeLayer(current.circle);
-                } else {
-                    acc.push(current);
-                }
-                return acc;
-            }, [] as {
-                deviceId: string,
-                circle: L.Circle
-            }[]); //将上一次请求的Circle清除
             const alarms = alarmsOfDevice[deviceId];
+
             if (alarms && alarms.length > 0) {
                 circles = alarms.map(item => {
                     const circle = loadCircle(devices[i].getLatLng(), getColor(item.protocolType!), item.radius);
                     if (map !== null) {
+                        // const has = circles.find(item => item.deviceId === deviceId);
+                        // console.log(has);
+                        // if (has !== undefined) {
+                        //     map.removeLayer(has.circle);
+                        // }
                         circle.addTo(map!);
                     }
                     return {
@@ -119,7 +131,7 @@ const Bibo: FC<{}> = () => {
             const mark = L.marker([
                 item.lat, item.lon
             ], {
-                icon: defaultIcon,
+                icon: item.status === DeviceState.Normal ? defaultIcon : offlineIcon,
                 title: item.deviceName,
                 deviceId: item.deviceId,
                 siteName: item.siteName,
@@ -145,6 +157,22 @@ const Bibo: FC<{}> = () => {
     }, [devicesOnMap]);
 
     useEffect(() => {
+        for (let i = 0; i < devices.length; i++) {
+            const { deviceId } = devices[i].options as MarkerOptionsEx;
+            if (alarms[deviceId] && alarms[deviceId].length > 0) {
+                devices[i].setIcon(warnIcon);
+                (devices[i].options as MarkerOptionsEx).hasAlarm = true;
+            } else {
+                (devices[i].options as MarkerOptionsEx).status === DeviceState.Normal
+                    ? devices[i].setIcon(defaultIcon)
+                    : devices[i].setIcon(offlineIcon);
+
+                (devices[i].options as MarkerOptionsEx).hasAlarm = false;
+            }
+        }
+    }, [alarms]);
+
+    useEffect(() => {
         if (zoneList.length > 0) {
             (async () => {
                 setLoading(true);
@@ -157,7 +185,6 @@ const Bibo: FC<{}> = () => {
                             initMap('bibo', map);
                         }
                         map = loadMap('bibo', res.data.areaBg);
-                        // devices = await loadDevice(first.id);
                         map?.setZoom(14);
                         await queryDevicesOnMap(first.id.toString());
                     }
@@ -240,6 +267,7 @@ const Bibo: FC<{}> = () => {
         </div>
         <RadarInfo
             open={radar}
+            data={alarms}
             deviceId={deviceId}
             onClose={() => {
                 openRadar(false);

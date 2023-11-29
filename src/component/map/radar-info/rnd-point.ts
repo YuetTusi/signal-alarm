@@ -3,6 +3,33 @@ interface OnePoint {
     left: number
 }
 
+/**
+ * 根据信号值返回第n环
+ */
+const getLoopIndex = (rssi: number) => {
+    if (rssi >= -10) {
+        return 1;
+    } else if (rssi < -10 && rssi >= -20) {
+        return 2;
+    } else if (rssi < -20 && rssi >= -30) {
+        return 3;
+    } else if (rssi < -30 && rssi >= -40) {
+        return 4;
+    } else if (rssi < -40 && rssi >= -50) {
+        return 5;
+    } else if (rssi < -50 && rssi >= -60) {
+        return 6;
+    } else if (rssi < -60 && rssi >= -70) {
+        return 7;
+    } else if (rssi < -70 && rssi >= -80) {
+        return 8;
+    } else if (rssi < -80 && rssi >= -90) {
+        return 9;
+    } else {
+        return 10;
+    }
+}
+
 const pointMap: Map<number, OnePoint[]> = new Map();
 
 pointMap.set(10, [{
@@ -498,4 +525,4 @@ pointMap.set(1, [{
     top: 48,
     left: 44
 }]);
-export { pointMap };
+export { pointMap, getLoopIndex };
