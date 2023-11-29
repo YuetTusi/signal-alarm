@@ -18,3 +18,21 @@ export interface RadarInfoProp {
      */
     onClose?: () => void
 }
+
+/**
+ * 信号点位置
+ */
+export interface PointAt {
+    /**
+     * 顶部距离
+     */
+    top: number,
+    /**
+     * 左部距离
+     */
+    left: number,
+    /**
+     * 所在环数
+     */
+    loop: number
+}

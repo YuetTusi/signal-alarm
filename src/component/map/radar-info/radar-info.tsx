@@ -4,20 +4,18 @@ import { FC, useRef } from 'react';
 import CloseCircleOutlined from '@ant-design/icons/CloseCircleOutlined';
 import { Button } from 'antd';
 import { helper } from '@/utility/helper'
-import { Protocol, getProtocolName } from '@/schema/protocol';
-import { AlarmMessage, PhoneAlarmInfo } from '@/schema/phone-alarm-info';
-import { RadarBox } from './styled/box';
-import { RadarInfoProp } from './prop';
-import { pointMap, getLoopIndex } from './rnd-point';
+import { Protocol } from '@/schema/protocol';
 import { Point } from './point';
-import { useLastPhoneAlarmOfDevice, usePhoneAlarmOfDevice } from '@/hook';
+import { pointMap, getLoopIndex } from './rnd-point';
+import { RadarBox } from './styled/box';
+import { PointAt, RadarInfoProp } from './prop';
 
 /**
  * 报警详情
  */
 const RadarInfo: FC<RadarInfoProp> = ({ open, data, deviceId, onClose }) => {
 
-    const m = useRef<Map<Protocol, { top: number, left: number }>>(new Map());//缓存位置点
+    const m = useRef<Map<Protocol, PointAt>>(new Map());//缓存位置点
 
     const renderPoint = () => {
         if (deviceId === undefined || data[deviceId] === undefined) {
@@ -27,16 +25,21 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, data, deviceId, onClose }) => {
         return data[deviceId].map((item, index) => {
 
             const loop = getLoopIndex(Number(item.rssi!)); //信号强度所在环数
-            console.log(`强度：${Number(item.rssi!)},环数：${loop}`);
+            // console.log(`强度：${Number(item.rssi!)},环数：${loop}`);
             const points = pointMap.get(loop)!;//该环上所有的点，随机取
             let top = 0, left = 0;
             if (m.current.has(item.protocolType!)) {
-                top = m.current.get(item.protocolType!)?.top!;
-                left = m.current.get(item.protocolType!)?.left!;
+                //如果已有该协议的数据，且环数相同，则不更换top&left值
+                top = m.current.get(item.protocolType!)?.loop === loop
+                    ? m.current.get(item.protocolType!)?.top!
+                    : points[helper.rnd(0, points.length)].top;
+                left = m.current.get(item.protocolType!)?.loop === loop
+                    ? m.current.get(item.protocolType!)?.left!
+                    : points[helper.rnd(0, points.length)].left;
             } else {
                 top = points[helper.rnd(0, points.length)].top;
                 left = points[helper.rnd(0, points.length)].left;
-                m.current.set(item.protocolType!, { top, left });
+                m.current.set(item.protocolType!, { top, left, loop });
             }
 
             return <Point
@@ -57,7 +60,13 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, data, deviceId, onClose }) => {
             const msg = maxBy(next, (item) => item.captureTime);
             // const msg = next[next.length - 1];
 
-            return <div style={{ display: dayjs().diff(dayjs(msg?.captureTime), 's') > 5 ? 'none' : 'block' }} className="adetail">
+            return <div
+                style={{
+                    display: dayjs().diff(dayjs(msg?.captureTime), 's') > 5
+                        ? 'none'
+                        : 'block'
+                }}
+                className="adetail">
                 <div>
                     <label htmlFor="h2">强度值：</label>
                     <h2>{msg?.rssi ?? ''}</h2>

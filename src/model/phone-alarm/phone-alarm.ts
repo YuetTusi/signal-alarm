@@ -1,5 +1,4 @@
-import { AlarmMessage, PhoneAlarmInfo } from '@/schema/phone-alarm-info';
-import { request } from '@/utility/http';
+import { PhoneAlarmInfo } from '@/schema/phone-alarm-info';
 import { GetState, SetState } from '..';
 import { PhoneAlarmState } from '.';
 

@@ -45,7 +45,7 @@ const Bibo: FC<{}> = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [radar, openRadar] = useState<boolean>(false);
     const [deviceId, setDeviceId] = useState<string>('');
-    const [legendVisible, setLegendVisible] = useState<boolean>(true);
+    const [legendVisible, setLegendVisible] = useState<boolean>(false);
     const {
         zoneList,
         phoneAlarmData,
@@ -261,7 +261,7 @@ const Bibo: FC<{}> = () => {
                 <Button
                     onClick={() => setLegendVisible((prev) => !prev)}
                     type="primary">
-                    {legendVisible ? '关闭图例' : '查看图例'}
+                    {legendVisible ? '关闭图例' : '信号图例'}
                 </Button>
             </span>
         </div>
