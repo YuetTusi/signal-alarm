@@ -1,7 +1,8 @@
 import { FC, useEffect, useState } from 'react';
 import { Protocol, getProtocolName } from '@/schema/protocol';
+import { AlarmMessage } from '@/schema/phone-alarm-info';
 
-
+let timer: any = null;
 
 /**
  * 协议点
@@ -9,16 +10,23 @@ import { Protocol, getProtocolName } from '@/schema/protocol';
 const Point: FC<{
     top: number,
     left: number,
-    protocol: Protocol
-}> = ({ top, left, protocol }) => {
+    data: AlarmMessage
+}> = ({ top, left, data }) => {
 
     const [hide, setHide] = useState<boolean>(false);
 
     useEffect(() => {
-        setTimeout(() => {
+        setHide(false);
+        timer = setTimeout(() => {
             setHide(true);
         }, 5000);
-    }, []);
+        return () => {
+            if (timer !== null) {
+                clearTimeout(timer);
+                timer = null;
+            }
+        };
+    }, [data]);
 
     return <div
         style={{
@@ -27,7 +35,7 @@ const Point: FC<{
             left: `${left}%`,
             animation: `flash1 2s infinite`
         }}
-        className={`pointer ${getProtocolName(protocol)}`}
+        className={`pointer ${getProtocolName(data.protocolType!)}`}
     />;
 };
 

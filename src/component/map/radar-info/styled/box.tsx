@@ -154,7 +154,7 @@ export const RadarBox = styled.div`
             &.ChinaTelecom5G{
                 background-image: url(${ChinaTelecom5G});
             }
-            &.chinaBroadnet5g{
+            &.ChinaBroadnet5G{
                 background-image: url(${chinaBroadnet5g});
             }
             &.Bluetooth50{

@@ -36,12 +36,10 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, data, deviceId, onClose }) => {
                 m.current.set(item.protocolType!, { top, left });
             }
 
-            console.log(item);
-
             return <Point
                 top={top}
                 left={left}
-                protocol={item.protocolType!}
+                data={item}
                 key={`P_${index}`} />;
         });
     };
