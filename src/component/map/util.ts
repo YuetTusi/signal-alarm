@@ -127,9 +127,8 @@ export const loadCircle = (at: LatLng, color: string, rad: number) => {
     let circle = L.circle(at, {
         color,
         fillColor: color,
-        fillOpacity: 0.3,
-        radius: rad,
-        className: 'flashing-circle'
+        fillOpacity: 0.05,
+        radius: rad
     })
     return circle;
 };

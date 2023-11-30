@@ -58,10 +58,6 @@ export const BiboBox = styled.div`
         50% { opacity: 0; }
         100% { opacity: 1; }
     }
-    .flashing-circle {
-        cursor: default;
-		animation: blink 5s linear infinite;  // 应用闪烁动画  
-	}
 `;
 
 export const MaskBox = styled.div`
