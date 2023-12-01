@@ -1,10 +1,12 @@
-import { Tag } from 'antd';
+import PlusOutlined from '@ant-design/icons/PlusOutlined';
+import { Button, Tag } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { Terminal } from '@/schema/terminal';
 import { Protocol, getProtocolLabel } from '@/schema/protocol';
 import { NoWarpLabel } from '@/component/panel/panel';
+import { ActionType } from './prop';
 
-const getColumns = (): ColumnsType<Terminal> => {
+const getColumns = (handle: (actionType: ActionType, data: Terminal) => void): ColumnsType<Terminal> => {
     return [{
         title: '类型',
         key: 'protocolType',
@@ -77,6 +79,20 @@ const getColumns = (): ColumnsType<Terminal> => {
         dataIndex: 'captureTime',
         align: 'center',
         width: 170
+    }, {
+        title: '白名单',
+        key: 'whiteList',
+        dataIndex: 'whiteList',
+        align: 'center',
+        width: 70,
+        render(_: any, record) {
+            return <Button
+                onClick={() => handle(ActionType.AddToWhiteList, record)}
+                type="link"
+                size='small'>
+                <PlusOutlined />
+            </Button>
+        }
     }];
 };
 
@@ -102,8 +118,7 @@ const getTopColumns = (): ColumnsType<Terminal> => {
         key: 'rssi',
         dataIndex: 'rssi',
         width: 80
-    },
-    ];
+    }];
 };
 
 

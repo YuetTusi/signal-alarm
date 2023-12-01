@@ -58,3 +58,10 @@ export interface SearchFormValue {
      */
     connect: number
 }
+
+export enum ActionType {
+    /**
+     * 加至白名单
+     */
+    AddToWhiteList
+}

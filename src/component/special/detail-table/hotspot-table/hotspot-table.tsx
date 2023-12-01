@@ -10,7 +10,6 @@ import { Hotspot } from '@/schema/hotspot';
 import { Protocol } from '@/schema/protocol';
 import { WhiteListType } from '@/schema/white-list';
 import { helper } from '@/utility/helper';
-import { RequestResult } from '@/utility/http';
 import { SearchBar } from './search-bar';
 import { getColumns } from './column';
 import { getTypes } from './data-source';
@@ -154,7 +153,7 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
                             const res = await addWhiteList({
                                 type: WhiteListType.MAC,
                                 mac: data.mac,
-                                status: 1,
+                                status: 0,
                                 startFreq: '',
                                 endFreq: ''
                             });

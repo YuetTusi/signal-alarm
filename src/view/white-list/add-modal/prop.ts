@@ -1,4 +1,5 @@
-import { WhiteListType } from "@/schema/white-list";
+import { WhiteListType } from "@/schema/white-list"
+
 
 export interface AddModalProp {
 

@@ -5,6 +5,10 @@ import { FormValue } from '@/view/white-list/add-modal/prop';
 
 interface WhiteListState {
     /**
+     * 白名单Top10数据
+     */
+    whiteListTop: WhiteListEntity[],
+    /**
      * 白名单数据
      */
     whiteListData: WhiteListEntity[],
@@ -32,6 +36,10 @@ interface WhiteListState {
      * 删除白名单
      */
     deleteWhiteList: (id: string) => Promise<RequestResult<any> | null>,
+    /**
+     * 查询白名单Top10
+     */
+    queryWhiteListTop: () => void,
     /**
      * 查询白名单数据
      */

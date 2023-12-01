@@ -1,3 +1,4 @@
+import debounce from 'lodash/debounce';
 import fs from 'fs';
 import path from 'path';
 import dayjs, { Dayjs } from 'dayjs';
@@ -8,11 +9,13 @@ import { useForm } from 'antd/es/form/Form';
 import { useModel } from '@/model';
 import { Terminal } from '@/schema/terminal';
 import { Protocol } from '@/schema/protocol';
+import { WhiteListType } from '@/schema/white-list';
 import { helper } from '@/utility/helper';
 import { SearchBar } from './search-bar';
 import { getColumns } from './column';
 import { getTypes } from './data-source';
-import { SearchFormValue, TerminalTableProp } from './prop';
+import { ActionType, SearchFormValue, TerminalTableProp } from './prop';
+
 
 const { ipcRenderer } = electron;
 const { writeFile } = fs.promises;
@@ -43,6 +46,7 @@ const TerminalTable: FC<TerminalTableProp> = () => {
         specialTerminalTotal,
         specialTerminalData,
         specialTerminalLoading,
+        addWhiteList,
         querySpecialTerminalData,
         exportSpecialTerminalData
     } = useModel(state => ({
@@ -51,6 +55,7 @@ const TerminalTable: FC<TerminalTableProp> = () => {
         specialTerminalTotal: state.specialTerminalTotal,
         specialTerminalData: state.specialTerminalData,
         specialTerminalLoading: state.specialTerminalLoading,
+        addWhiteList: state.addWhiteList,
         querySpecialTerminalData: state.querySpecialTerminalData,
         exportSpecialTerminalData: state.exportSpecialTerminalData
     }));
@@ -126,13 +131,53 @@ const TerminalTable: FC<TerminalTableProp> = () => {
         }
     };
 
+    /**
+     * 表格列Click
+     */
+    const onColumnClick = debounce(async (actionType: ActionType, data: Terminal) => {
+
+        message.destroy();
+        switch (actionType) {
+            case ActionType.AddToWhiteList:
+                modal.confirm({
+                    async onOk() {
+                        try {
+                            const res = await addWhiteList({
+                                type: WhiteListType.MAC,
+                                mac: data.mac,
+                                status: 0,
+                                startFreq: '',
+                                endFreq: ''
+                            });
+                            if (res !== null && res.code === 200) {
+                                message.success('成功添加至白名单');
+                            } else {
+                                message.warning('添加失败');
+                            }
+                        } catch (error) {
+                            console.warn(error);
+                            message.warning(`添加失败 ${error.message}`);
+                        }
+                    },
+                    centered: true,
+                    title: '白名单',
+                    content: `确认将「${data.protocolType === Protocol.WiFi24G ? '终端2.4G' : '终端5.8G'} ${data.mac}」加入白名单？`,
+                    okText: '是',
+                    cancelText: '否'
+                });
+                break;
+            default:
+                break;
+        }
+    }, 500, { leading: true, trailing: false });
+
     return <>
         <SearchBar
             formRef={formRef}
             onExport={onExport}
             onSearch={onSearch} />
         <Table<Terminal>
-            columns={getColumns()}
+            columns={getColumns(onColumnClick)}
             dataSource={specialTerminalData}
             loading={specialTerminalLoading}
             pagination={{

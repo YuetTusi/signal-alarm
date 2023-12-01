@@ -138,7 +138,7 @@ const BluetoothTable: FC<BluetoothTableProp> = () => {
                             const res = await addWhiteList({
                                 type: WhiteListType.MAC,
                                 mac: data.mac,
-                                status: 1,
+                                status: 0,
                                 startFreq: '',
                                 endFreq: ''
                             });

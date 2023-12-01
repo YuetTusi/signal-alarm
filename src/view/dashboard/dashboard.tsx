@@ -11,7 +11,7 @@ import WapInfo from "@/component/special/wap-info";
 import { AlarmInfo } from '@/component/alarm';
 import { RadarInfo } from '@/component/map/radar-info';
 import {
-    AlarmTypeChart, AlarmSiteTopChart, SpecialTypeChart, AlarmWeekChart
+    AlarmTypeChart, WhiteListTop, SpecialTypeChart, AlarmWeekChart
 } from '@/component/statis';
 import CheckReport from '@/component/check-report';
 import { DashboardBox } from "./styled/box";
@@ -126,67 +126,10 @@ const Dashboard: FC<{}> = memo(() => {
         };
     }, [alarmDropAll]);
 
-
-    // const onCheckClick = debounce(async (event: MouseEvent) => {
-    //     event.preventDefault();
-    //     setQuickCheckLoading(true);
-    //     try {
-    //         if (startTime === '') {
-    //             //开始
-    //             await quickCheckStart();
-    //         } else {
-    //             //停止
-    //             await quickCheckStop();
-    //             await queryQuickCheckReport();
-    //         }
-    //     } catch (error) {
-    //         console.warn(error);
-    //     } finally {
-    //         setQuickCheckLoading(false);
-    //     }
-    // }, 1000, { leading: true, trailing: false });
-
-    // const renderPhoneAlarm = () => {
-
-    //     const top3 = phoneAlarmData.slice(0, 3); //只取前3个报警信息
-    //     const len = top3.length;
-    //     return top3.map(
-    //         (item, index) => {
-    //             let data: Record<string, any> = {};
-    //             try {
-    //                 if (typeof item.message === 'string') {
-    //                     data = JSON.parse(item.message);
-    //                 } else {
-    //                     data = item?.message ?? {};
-    //                 }
-    //             } catch (error) {
-    //                 console.warn('推送message转换JSON失败', error.message);
-    //             }
-    //             return <div className={`phone-alarm ${getClassName(index, len)}`} key={`PA_${index}`}>
-    //                 <div className="cap">
-    //                     <span>警告</span>
-    //                 </div>
-    //                 <div className="info">
-    //                     <div>采集时间：{data?.captureTime ?? '-'}</div>
-    //                     <div>协议类型：{data?.protocol ?? '-'}</div>
-    //                     <div>强度：{data?.rssi ?? '-'}</div>
-    //                     <div>设备场所：{data?.siteName ?? '-'}</div>
-    //                     <div>频点信息：{data?.arfcn ?? '-'}</div>
-    //                     <div>告警级别：{data?.warnLevel ?? '-'}</div>
-    //                     <div>告警原因：{data?.warnReason ?? '-'}</div>
-    //                 </div>
-    //                 <i className="b-tl" />
-    //                 <i className="b-tr" />
-    //                 <i className="b-bl" />
-    //                 <i className="b-br" />
-    //             </div>;
-    //         }
-    //     );
-    // };
-
     return <DashboardBox>
         <div className="left-box">
-            <AlarmSiteTopChart />
+            {/* <AlarmSiteTopChart /> */}
+            <WhiteListTop />
             <SpecialTypeChart />
             <AlarmWeekChart />
             <AlarmTypeChart />

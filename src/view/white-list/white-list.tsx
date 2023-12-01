@@ -181,11 +181,11 @@ const WhiteList: FC<WhiteListProp> = () => {
                 </Form>
             </div>
             <div>
-                {/* <Button
+                <Button
                     onClick={() => setAddModalOpen(true)}
                     type="primary">
                     添加白名单
-                </Button> */}
+                </Button>
             </div>
         </SearchBar>
         <TableBox>

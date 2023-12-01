@@ -1,8 +1,7 @@
 import { FC, MouseEvent } from 'react';
-import { Button, Input, InputNumber, Select, Form, Modal, Col, Row } from 'antd';
-import { AddModalProp, FormValue } from './prop';
+import { Button, InputNumber, Select, Form, Modal, Col, Row } from 'antd';
 import { WhiteListType } from '@/schema/white-list';
-import { Mac } from '@/utility/regex';
+import { AddModalProp, FormValue } from './prop';
 
 const { Item, useForm } = Form;
 const { Option } = Select;
@@ -18,10 +17,13 @@ const AddModal: FC<AddModalProp> = ({
 
     const onSubmit = async (event: MouseEvent<HTMLElement>) => {
         event.preventDefault();
-        const { validateFields } = formRef;
+        const { validateFields, resetFields } = formRef;
         try {
             const values = await validateFields();
+            values.mac = '';
+            values.type = WhiteListType.Freq;
             onOk(values);
+            resetFields();
         } catch (error) {
             console.warn(error);
         }
@@ -50,26 +52,6 @@ const AddModal: FC<AddModalProp> = ({
             form={formRef}
             layout="vertical"
             style={{ marginTop: '2rem' }}>
-            <Item
-                rules={[
-                    { required: true, message: '请选择类型' }
-                ]}
-                label="类型"
-                name="type">
-                <Select>
-                    <Option value={WhiteListType.MAC}>MAC</Option>
-                    <Option value={WhiteListType.Freq}>频段</Option>
-                </Select>
-            </Item>
-            <Item
-                rules={[
-                    { required: true, message: '请填写MAC地址' },
-                    { pattern: Mac, message: 'MAC地址格式有误' }
-                ]}
-                label="MAC地址"
-                name="mac">
-                <Input placeholder='形如 6B:18:F4:F1:AE:A4' />
-            </Item>
             <Row gutter={24}>
                 <Col span={12}>
                     <Item
@@ -84,7 +66,15 @@ const AddModal: FC<AddModalProp> = ({
                 <Col span={12}>
                     <Item
                         rules={[
-                            { required: true, message: '请填写结束频段' }
+                            { required: true, message: '请填写结束频段' },
+                            ({ getFieldValue }) => ({
+                                validator(_, value) {
+                                    if (!value || getFieldValue('startFreq') < value) {
+                                        return Promise.resolve();
+                                    }
+                                    return Promise.reject(new Error('值需大于起始频段'));
+                                }
+                            })
                         ]}
                         label="结束频段"
                         name="endFreq">
@@ -99,8 +89,8 @@ const AddModal: FC<AddModalProp> = ({
                 label="状态"
                 name="status">
                 <Select>
-                    <Option value={1}>启用</Option>
-                    <Option value={0}>停用</Option>
+                    <Option value={1}>生效中</Option>
+                    <Option value={0}>未生效</Option>
                 </Select>
             </Item>
         </Form>

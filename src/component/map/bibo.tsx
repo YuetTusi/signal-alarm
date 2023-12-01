@@ -252,7 +252,7 @@ const Bibo: FC<{}> = () => {
                     <Select
                         onChange={onZoneChange}
                         disabled={loading}
-                        style={{ width: '180px' }}>
+                        style={{ width: '200px' }}>
                         {bindZoneOption()}
                     </Select>
                 </Item>

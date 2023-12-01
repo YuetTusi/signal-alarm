@@ -9,6 +9,10 @@ import { helper } from '@/utility/helper';
 
 const whiteList = (setState: SetState, _: GetState): WhiteListState => ({
     /**
+     * 白名单Top10数据
+     */
+    whiteListTop: [],
+    /**
      * 白名单数据
      */
     whiteListData: [],
@@ -35,7 +39,6 @@ const whiteList = (setState: SetState, _: GetState): WhiteListState => ({
         const url = '/white-list/add';
         try {
             const res = await request.post(url, payload);
-            console.log(res);
             return res;
         } catch (error) {
             throw error;
@@ -49,6 +52,22 @@ const whiteList = (setState: SetState, _: GetState): WhiteListState => ({
         try {
             const res = await request.del(url);
             return res;
+        } catch (error) {
+            throw error;
+        }
+    },
+    /**
+     * 查询白名单Top10
+     */
+    async queryWhiteListTop() {
+        const url = '/white-list';
+        try {
+            const res = await request.get<WhiteListEntity[]>(url);
+            if (res !== null && res.code === 200) {
+                setState({ whiteListTop: res.data });
+            } else {
+                setState({ whiteListTop: [] });
+            }
         } catch (error) {
             throw error;
         }
