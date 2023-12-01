@@ -1,11 +1,10 @@
 import markerIconPng from '@/assets/image/marker-icon.png';
-import L, { LatLngBoundsLiteral } from 'leaflet';
+import L from 'leaflet';
 import { FC, useEffect, useRef } from 'react';
-import { helper } from '@/utility/helper';
+import { MAP_BACKGROUND_BOUNDS, helper } from '@/utility/helper';
 import { MapBox } from './styled/box';
 import { MapProp } from './prop';
 
-// let map: L.Map | null = null;
 let topLeft = { x: 0, y: 0 };
 let rightBottom = { x: 0, y: 0 };
 
@@ -28,15 +27,14 @@ const Map: FC<MapProp> = ({ x, y, background, onAddPoint }) => {
         }
 
         const bg: HTMLElement = document.querySelector('#map')!;
-        var imageBounds: LatLngBoundsLiteral = [[40.712216, -74.22655], [40.773941, -74.12544]];
         let map = L.map(bg, {
             zoomControl: false,
             doubleClickZoom: false,
             attributionControl: false,
-            maxBounds: imageBounds
+            maxBounds: MAP_BACKGROUND_BOUNDS
         });
-        L.imageOverlay(background, imageBounds).addTo(map);
-        map.fitBounds(imageBounds);
+        L.imageOverlay(background, MAP_BACKGROUND_BOUNDS).addTo(map);
+        map.fitBounds(MAP_BACKGROUND_BOUNDS);
         map.setMinZoom(10);
         map.setMaxZoom(15);
 

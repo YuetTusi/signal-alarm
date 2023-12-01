@@ -5,6 +5,7 @@ import electron from 'electron';
 import dayjs from "dayjs";
 import { v4 } from 'uuid';
 import memoize from 'lodash/memoize';
+import { LatLngBoundsLiteral } from 'leaflet';
 import { Protocol } from '../schema/protocol';
 import { ComDevice, ComDeviceDropdown } from '../schema/com-device';
 import { AlarmType, AppMode, Conf } from '../schema/conf';
@@ -25,6 +26,10 @@ const FETCH_IP = '58.48.76.202';
  * 接口默认端口
  */
 const FETCH_PORT = 18800;
+/**
+ * 地图背景坐标
+ */
+const MAP_BACKGROUND_BOUNDS: LatLngBoundsLiteral = [[40.712216, -74.22655], [40.773941, -74.12544]];
 
 const helper = {
     /**
@@ -275,5 +280,5 @@ const helper = {
     }
 };
 
-export { APP_NAME, FETCH_IP, FETCH_PORT };
+export { APP_NAME, FETCH_IP, FETCH_PORT, MAP_BACKGROUND_BOUNDS };
 export { helper };

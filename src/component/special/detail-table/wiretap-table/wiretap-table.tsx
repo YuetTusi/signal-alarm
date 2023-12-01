@@ -41,6 +41,8 @@ const WiretapTable: FC<WiretapTableProp> = () => {
         exportSpecialWiretapData: state.exportSpecialWiretapData
     }));
 
+    console.log(specialWiretapData);
+
     useEffect(() => {
         querySpecialWiretapData(1, helper.PAGE_SIZE, {
             beginTime: dayjs().add(-1, 'w').format('YYYY-MM-DD 00:00:00'),

@@ -28,6 +28,7 @@ import { sysUser, SysUserState } from './sys-user';
 import { sysRole, SysRoleState } from './sys-role';
 import { zone, ZoneState } from './zone';
 import { bibo, BiboState } from './bibo';
+import { whiteList, WhiteListState } from './white-list';
 
 interface OtherState {
     [stateName: string]: any
@@ -64,7 +65,8 @@ type State = OtherState
     & SysUserState
     & SysRoleState
     & ZoneState
-    & BiboState;
+    & BiboState
+    & WhiteListState;
 
 type GetState = StoreApi<State>['getState'];
 type SetState = StoreApi<State>['setState'];
@@ -101,7 +103,8 @@ const useModel = create<State>(zustandLog((setState: SetState, getState: GetStat
     ...sysUser(setState, getState),
     ...sysRole(setState, getState),
     ...zone(setState, getState),
-    ...bibo(setState, getState)
+    ...bibo(setState, getState),
+    ...whiteList(setState, getState)
 }), false));
 
 export type { State, GetState, SetState };

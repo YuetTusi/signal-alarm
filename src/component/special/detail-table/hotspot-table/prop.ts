@@ -54,3 +54,10 @@ export interface SearchFormValue {
      */
     site: string[]
 }
+
+export enum ActionType {
+    /**
+     * 加至白名单
+     */
+    AddToWhiteList
+}

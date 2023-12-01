@@ -1,9 +1,12 @@
 import { ColumnsType } from 'antd/es/table';
+import PlusOutlined from '@ant-design/icons/PlusOutlined';
+import { Button } from 'antd';
 import { Hotspot } from '@/schema/hotspot';
 import { getProtocolLabel } from '@/schema/protocol';
 import { NoWarpLabel } from '@/component/panel/panel';
+import { ActionType } from './prop';
 
-const getColumns = (): ColumnsType<Hotspot> => {
+const getColumns = (handle: (actionType: ActionType, data: Hotspot) => void): ColumnsType<Hotspot> => {
     return [{
         title: '类型',
         key: 'protocolType',
@@ -40,7 +43,7 @@ const getColumns = (): ColumnsType<Hotspot> => {
         key: 'org',
         dataIndex: 'org',
         render(val: string) {
-            return <NoWarpLabel title={val} width={150}>{val}</NoWarpLabel>;
+            return <NoWarpLabel title={val} width={120}>{val}</NoWarpLabel>;
         }
     }, {
         title: '频点号',
@@ -81,6 +84,20 @@ const getColumns = (): ColumnsType<Hotspot> => {
         dataIndex: 'captureTime',
         align: 'center',
         width: 170
+    }, {
+        title: '白名单',
+        key: 'whiteList',
+        dataIndex: 'whiteList',
+        align: 'center',
+        width: 70,
+        render(_: any, record) {
+            return <Button
+                onClick={() => handle(ActionType.AddToWhiteList, record)}
+                type="link"
+                size='small'>
+                <PlusOutlined />
+            </Button>
+        }
     }];
 };
 

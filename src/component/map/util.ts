@@ -1,9 +1,8 @@
 import { Protocol } from "@/schema/protocol";
-import L, { LatLngBoundsLiteral, LatLng } from "leaflet";
+import L, { LatLng } from "leaflet";
 import { AlarmMessage, PhoneAlarmInfo } from "@/schema/phone-alarm-info";
 import { ProtocolColor } from "./prop";
-
-let imageBounds: LatLngBoundsLiteral = [[40.712216, -74.22655], [40.773941, -74.12544]];
+import { MAP_BACKGROUND_BOUNDS } from "@/utility/helper";
 
 /**
  * 清空还原地图
@@ -31,15 +30,15 @@ export const loadMap = (domId: string, background: string): L.Map => {
         zoomControl: false,
         doubleClickZoom: false,
         attributionControl: false,
-        maxBounds: imageBounds,
+        maxBounds: MAP_BACKGROUND_BOUNDS,
         minZoom: 11,
         maxZoom: 15
     });
     if (!background.startsWith('data:image/png;base64,')) {
         bg = 'data:image/png;base64,' + background;
     }
-    L.imageOverlay(bg, imageBounds).addTo(map);
-    map.fitBounds(imageBounds);
+    L.imageOverlay(bg, MAP_BACKGROUND_BOUNDS).addTo(map);
+    map.fitBounds(MAP_BACKGROUND_BOUNDS);
     map.setMinZoom(11);
     map.setMaxZoom(15);
     // map.setZoom(14);

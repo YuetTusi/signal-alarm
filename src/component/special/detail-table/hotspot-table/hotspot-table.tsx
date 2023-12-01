@@ -1,17 +1,20 @@
 import fs from 'fs';
 import path from 'path';
 import dayjs, { Dayjs } from 'dayjs';
+import debounce from 'lodash/debounce';
 import electron, { OpenDialogReturnValue } from 'electron';
 import { FC, useEffect } from 'react';
 import { App, message, Form, Table } from 'antd';
 import { useModel } from '@/model';
 import { Hotspot } from '@/schema/hotspot';
 import { Protocol } from '@/schema/protocol';
+import { WhiteListType } from '@/schema/white-list';
 import { helper } from '@/utility/helper';
+import { RequestResult } from '@/utility/http';
 import { SearchBar } from './search-bar';
 import { getColumns } from './column';
-import { HotspotTableProp, SearchFormValue } from './prop';
 import { getTypes } from './data-source';
+import { ActionType, HotspotTableProp, SearchFormValue } from './prop';
 
 const { ipcRenderer } = electron;
 const { writeFile } = fs.promises;
@@ -34,6 +37,7 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
         specialHotspotLoading,
         querySpecialHotspotData,
         exportSpecialHotspotData,
+        addWhiteList,
         setReading
     } = useModel(state => ({
         specialHotspotPageIndex: state.specialHotspotPageIndex,
@@ -43,6 +47,7 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
         specialHotspotLoading: state.specialHotspotLoading,
         querySpecialHotspotData: state.querySpecialHotspotData,
         exportSpecialHotspotData: state.exportSpecialHotspotData,
+        addWhiteList: state.addWhiteList,
         setReading: state.setReading
     }));
 
@@ -135,13 +140,53 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
         }
     };
 
+    /**
+     * 表格列Click
+     */
+    const onColumnClick = debounce(async (actionType: ActionType, data: Hotspot) => {
+
+        message.destroy();
+        switch (actionType) {
+            case ActionType.AddToWhiteList:
+                modal.confirm({
+                    async onOk() {
+                        try {
+                            const res = await addWhiteList({
+                                type: WhiteListType.MAC,
+                                mac: data.mac,
+                                status: 1,
+                                startFreq: '',
+                                endFreq: ''
+                            });
+                            if (res !== null && res.code === 200) {
+                                message.success('成功添加至白名单');
+                            } else {
+                                message.warning('添加失败');
+                            }
+                        } catch (error) {
+                            console.warn(error);
+                            message.warning(`添加失败 ${error.message}`);
+                        }
+                    },
+                    centered: true,
+                    title: '白名单',
+                    content: `确认将热点「${data.ssid ?? ''}」加入白名单？`,
+                    okText: '是',
+                    cancelText: '否'
+                });
+                break;
+            default:
+                break;
+        }
+    }, 500, { leading: true, trailing: false });
+
     return <>
         <SearchBar
             formRef={formRef}
             onExport={onExport}
             onSearch={onSearch} />
         <Table<Hotspot>
-            columns={getColumns()}
+            columns={getColumns(onColumnClick)}
             dataSource={specialHotspotData}
             loading={specialHotspotLoading}
             pagination={{

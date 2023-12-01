@@ -24,6 +24,10 @@ class Bluetooth extends SpecialBase {
      * 设备名称
      */
     name: string = ''
+    /**
+     * MAC地址
+     */
+    mac: string = ''
 
     isBluetooth: boolean = true
 };

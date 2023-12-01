@@ -1,9 +1,12 @@
 import { Tag } from 'antd';
+import PlusOutlined from '@ant-design/icons/PlusOutlined';
 import { ColumnsType } from 'antd/es/table';
+import { Button } from 'antd';
 import { NoWarpLabel } from '@/component/panel/panel';
 import { Bluetooth } from '@/schema/bluetooth';
+import { ActionType } from './prop';
 
-const getColumns = (): ColumnsType<Bluetooth> => {
+const getColumns = (handle: (actionType: ActionType, data: Bluetooth) => void): ColumnsType<Bluetooth> => {
     return [{
         title: '蓝牙类型',
         key: 'type',
@@ -68,6 +71,20 @@ const getColumns = (): ColumnsType<Bluetooth> => {
         dataIndex: 'captureTime',
         align: 'center',
         width: 170
+    }, {
+        title: '白名单',
+        key: 'whiteList',
+        dataIndex: 'whiteList',
+        align: 'center',
+        width: 70,
+        render(_: any, record) {
+            return <Button
+                onClick={() => handle(ActionType.AddToWhiteList, record)}
+                type="link"
+                size='small'>
+                <PlusOutlined />
+            </Button>
+        }
     }];
 };
 

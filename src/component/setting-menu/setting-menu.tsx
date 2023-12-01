@@ -92,6 +92,10 @@ const SettingMenu: FC<SettingMenuProp> = ({ }) => {
             case MenuPath.SysLoginLog:
                 //登录日志
                 break;
+            case MenuPath.WhiteList:
+                //白名单管理
+                navigator('/white-list');
+                break;
         }
     };
 

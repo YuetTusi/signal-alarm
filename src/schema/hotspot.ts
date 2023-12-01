@@ -6,7 +6,6 @@ import { SpecialBase } from './special-base';
 class Hotspot extends SpecialBase {
 
     apId: string = ''
-
     /**
      * 热点名称
      */

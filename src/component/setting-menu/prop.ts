@@ -78,5 +78,9 @@ export enum MenuPath {
     /**
      * 登录日志
      */
-    SysLoginLog = 'sysLoginLog'
+    SysLoginLog = 'sysLoginLog',
+    /**
+     * 白名单管理
+     */
+    WhiteList = 'whiteList'
 }

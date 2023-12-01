@@ -6,6 +6,7 @@ import Dashboard from '@/view/dashboard';
 import Device from '@/view/device';
 import Zone from '@/view/zone';
 import SysUser from '@/view/sys-user';
+import WhiteList from '@/view/white-list';
 import {
     RealSpectrum,
     HistorySpectrum,
@@ -73,6 +74,14 @@ export const ViewRouter: FC<{}> = () => <Router>
             element={
                 <Layout>
                     <SysUser />
+                </Layout>
+            }
+        />
+        <Route
+            path="/white-list"
+            element={
+                <Layout>
+                    <WhiteList />
                 </Layout>
             }
         />

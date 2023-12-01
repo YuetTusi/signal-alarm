@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import dayjs, { Dayjs } from 'dayjs';
+import debounce from 'lodash/debounce';
 import electron, { OpenDialogReturnValue } from 'electron';
 import { FC, useEffect } from 'react';
 import { App, message, Table } from 'antd';
@@ -10,7 +11,8 @@ import { Bluetooth } from '@/schema/bluetooth';
 import { helper } from '@/utility/helper';
 import { SearchBar } from './search-bar';
 import { getColumns } from './column';
-import { SearchFormValue, BluetoothTableProp } from './prop';
+import { SearchFormValue, BluetoothTableProp, ActionType } from './prop';
+import { WhiteListType } from '@/schema/white-list';
 
 
 const { ipcRenderer } = electron;
@@ -39,6 +41,7 @@ const BluetoothTable: FC<BluetoothTableProp> = () => {
         specialBluetoothTotal,
         specialBluetoothData,
         specialBluetoothLoading,
+        addWhiteList,
         querySpecialBluetoothData,
         exportSpecialBluetoothData
     } = useModel(state => ({
@@ -47,6 +50,7 @@ const BluetoothTable: FC<BluetoothTableProp> = () => {
         specialBluetoothTotal: state.specialBluetoothTotal,
         specialBluetoothData: state.specialBluetoothData,
         specialBluetoothLoading: state.specialBluetoothLoading,
+        addWhiteList: state.addWhiteList,
         querySpecialBluetoothData: state.querySpecialBluetoothData,
         exportSpecialBluetoothData: state.exportSpecialBluetoothData
     }));
@@ -119,13 +123,54 @@ const BluetoothTable: FC<BluetoothTableProp> = () => {
         }
     };
 
+
+    /**
+     * 表格列Click
+     */
+    const onColumnClick = debounce(async (actionType: ActionType, data: Bluetooth) => {
+
+        message.destroy();
+        switch (actionType) {
+            case ActionType.AddToWhiteList:
+                modal.confirm({
+                    async onOk() {
+                        try {
+                            const res = await addWhiteList({
+                                type: WhiteListType.MAC,
+                                mac: data.mac,
+                                status: 1,
+                                startFreq: '',
+                                endFreq: ''
+                            });
+                            if (res !== null && res.code === 200) {
+                                message.success('成功添加至白名单');
+                            } else {
+                                message.warning('添加失败');
+                            }
+                        } catch (error) {
+                            console.warn(error);
+                            message.warning(`添加失败 ${error.message}`);
+                        }
+                    },
+                    centered: true,
+                    title: '白名单',
+                    content: `确认将「${data.type === 'ble' ? '低功耗蓝牙' : '经典蓝牙'} ${data.mac}」加入白名单？`,
+                    okText: '是',
+                    cancelText: '否'
+                });
+                break;
+            default:
+                break;
+        }
+    }, 500, { leading: true, trailing: false });
+
     return <>
         <SearchBar
             formRef={formRef}
             onExport={onExport}
             onSearch={onSearch} />
         <Table<Bluetooth>
-            columns={getColumns()}
+            columns={getColumns(onColumnClick)}
             dataSource={specialBluetoothData}
             loading={specialBluetoothLoading}
             pagination={{
