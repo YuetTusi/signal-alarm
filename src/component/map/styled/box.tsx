@@ -53,6 +53,10 @@ export const BiboBox = styled.div`
             }
         }
     }
+    /* 暗蓝风格滤镜样式类 */  
+	.dark-blue-filter {  
+		filter: invert(95%) hue-rotate(180deg); 
+	}  
     @keyframes blink {  
         0% { opacity: 1; }
         50% { opacity: 0; }

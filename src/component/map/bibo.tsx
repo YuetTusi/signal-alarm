@@ -3,17 +3,17 @@ import mapWarnIcon from '@/assets/image/map-warn.png';
 import mapOfflineIcon from '@/assets/image/map-offline.png';
 import L from 'leaflet';
 import { FC, useEffect, useState } from 'react';
-import { Button, Form, Spin, Select, message } from 'antd';
+import { Button, Form, Spin, Select, Switch, message } from 'antd';
 import { useModel } from '@/model';
 import { useUnmount, useSubscribe, usePhoneAlarm } from '@/hook';
 import { request } from '@/utility/http';
 import { Zone } from '@/schema/zone';
+import { DeviceState } from '@/schema/com-device';
 import { Legend } from './legend';
 import { RadarInfo } from './radar-info';
 import { getColor, initMap, loadCircle, loadMap } from './util';
 import { BiboBox, MaskBox } from './styled/box';
 import { MarkerOptionsEx, SearchFormValue } from './prop';
-import { DeviceState } from '@/schema/com-device';
 
 const { useForm, Item } = Form;
 const { Option } = Select;
@@ -71,8 +71,6 @@ const Bibo: FC<{}> = () => {
         queryZoneList();
     }, []);
 
-    // const alarmData = usePhoneAlarmOfDevice(deviceId, phoneAlarmData);
-
     /**
      * 间隔n秒查询信号环
      */
@@ -111,11 +109,6 @@ const Bibo: FC<{}> = () => {
                 circles = alarms.map(item => {
                     const circle = loadCircle(devices[i].getLatLng(), getColor(item.protocolType!), item.radius);
                     if (map !== null) {
-                        // const has = circles.find(item => item.deviceId === deviceId);
-                        // console.log(has);
-                        // if (has !== undefined) {
-                        //     map.removeLayer(has.circle);
-                        // }
                         circle.addTo(map!);
                     }
                     return {
@@ -156,6 +149,9 @@ const Bibo: FC<{}> = () => {
             }
             return mark;
         });
+        if (map !== null) {
+            map.setZoom(14);
+        }
     }, [devicesOnMap]);
 
     useEffect(() => {
@@ -187,7 +183,6 @@ const Bibo: FC<{}> = () => {
                             initMap('bibo', map);
                         }
                         map = loadMap('bibo', res.data.areaBg);
-                        map?.setZoom(14);
                         await queryDevicesOnMap(first.id.toString());
                     }
                 } catch (error) {
@@ -245,21 +240,36 @@ const Bibo: FC<{}> = () => {
     return <BiboBox>
         <Legend visible={legendVisible} />
         <div className="d-box">
-            <Form form={formRef} layout="inline">
-                <Item
-                    name="zone"
-                    label="涉密区域">
-                    <Select
-                        onChange={onZoneChange}
-                        disabled={loading}
-                        style={{ width: '200px' }}>
-                        {bindZoneOption()}
-                    </Select>
-                </Item>
-            </Form>
+            <span>
+                <Form form={formRef} layout="inline">
+                    <Item
+                        name="zone"
+                        label="涉密区域">
+                        <Select
+                            onChange={onZoneChange}
+                            disabled={loading}
+                            style={{ width: '200px' }}>
+                            {bindZoneOption()}
+                        </Select>
+                    </Item>
+                    <Item label="颜色">
+                        <Switch
+                            onChange={(checked) => {
+                                const $div = document.querySelector('#bibo');
+                                if ($div) {
+                                    checked
+                                        ? $div.classList.add('dark-blue-filter')
+                                        : $div.classList.remove('dark-blue-filter');
+                                }
+                            }}
+                            checkedChildren="暗"
+                            unCheckedChildren="亮" />
+                    </Item>
+                </Form>
+            </span>
             <span>
                 <Button
-                    onClick={() => setLegendVisible((prev) => !prev)}
+                    onClick={() => setLegendVisible(prev => !prev)}
                     type="primary">
                     {legendVisible ? '关闭图例' : '信号图例'}
                 </Button>

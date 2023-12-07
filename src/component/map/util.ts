@@ -1,9 +1,8 @@
-import { Protocol } from "@/schema/protocol";
 import L, { LatLng } from "leaflet";
+import { MAP_BACKGROUND_BOUNDS } from "@/utility/helper";
+import { Protocol } from "@/schema/protocol";
 import { AlarmMessage, PhoneAlarmInfo } from "@/schema/phone-alarm-info";
 import { ProtocolColor } from "./prop";
-import { MAP_BACKGROUND_BOUNDS } from "@/utility/helper";
-
 /**
  * 清空还原地图
  * @param domId 地图DOM id
@@ -128,6 +127,6 @@ export const loadCircle = (at: LatLng, color: string, rad: number) => {
         fillColor: color,
         fillOpacity: 0.05,
         radius: rad
-    })
+    });
     return circle;
 };

@@ -71,7 +71,6 @@ const TerminalTable: FC<TerminalTableProp> = () => {
                 endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
                 type: getTypes(type),
                 deviceId: helper.getDeviceIdFromDropdown(site)
-                // connect
             });
         } catch (error) {
             console.warn(error);

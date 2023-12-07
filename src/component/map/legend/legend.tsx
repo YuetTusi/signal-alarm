@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { Protocol, getProtocolLabel } from '@/schema/protocol';
 import { ProtocolColor } from '../prop';
-import { LegendBox } from './styled/box';
 import { LegendProp } from './prop';
+import { LegendBox } from './styled/box';
 
 /**
  * 图例
@@ -17,7 +17,6 @@ const Legend: FC<LegendProp> = ({ visible }) => {
             </li>
         );
 
-    render();
     return <LegendBox style={{ display: visible ? 'block' : 'none' }}>
         {render()}
     </LegendBox>;
