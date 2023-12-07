@@ -14,7 +14,7 @@ export const CenterFixedBox = styled.div`
 export const ScrollWhiteList = styled.div`
 
     height: 195px;
-    overflow-y: auto;
+    overflow: hidden;
     &>ul{
         margin:0;
         padding:0;

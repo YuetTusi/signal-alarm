@@ -137,15 +137,9 @@ const Dashboard: FC<{}> = memo(() => {
         <div className="center-box">
             <div className="main-box">
                 <div className="alarm-bg">
-                    {/* <div className="setting-box">
-                        <Text style={{ fontSize: '12px', marginRight: '10px' }} type="success">
-                            {startTime === '' ? '' : `开始时间：${startTime}`}
-                        </Text>
-                    </div> */}
                     {
                         alarmType === AlarmType.Single
                             ? <div className="phone-panel">
-                                {/* <FloatAlarm data={phoneAlarmData.slice(0, 5)} /> */}
                                 <RadarInfo
                                     data={{}}
                                     open={true} />
@@ -154,9 +148,6 @@ const Dashboard: FC<{}> = memo(() => {
                                 <Bibo />
                             </div>
                     }
-                    {/* <div className="phone-panel">
-                                <DevAlarm />
-                            </div> */}
                 </div>
             </div>
             <div className="bottom-box">
