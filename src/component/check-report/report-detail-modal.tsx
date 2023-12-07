@@ -7,10 +7,8 @@ import { ModalBox } from './styled/box';
 /**
  * 报告详情框
  */
-const ReportDetailModal: FC<ReportDetailModalProp> = ({ open, onCancel }) => {
-
-
-    return <Modal
+const ReportDetailModal: FC<ReportDetailModalProp> =
+    ({ open, onCancel }) => <Modal
         onCancel={onCancel}
         open={open}
         footer={null}
@@ -23,7 +21,6 @@ const ReportDetailModal: FC<ReportDetailModalProp> = ({ open, onCancel }) => {
         <ModalBox>
             <ReportTable />
         </ModalBox>
-    </Modal>
-};
+    </Modal>;
 
 export { ReportDetailModal };

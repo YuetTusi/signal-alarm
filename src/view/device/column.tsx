@@ -64,7 +64,8 @@ const getColumns = (handle: ActionHandle): ColumnsType<ComDevice> => {
         render(_: string, record) {
             return <Button
                 onClick={() => handle(ActionType.Set, record)}
-                type="link">
+                type="link"
+                size="small">
                 下发
             </Button>
         }
@@ -77,7 +78,8 @@ const getColumns = (handle: ActionHandle): ColumnsType<ComDevice> => {
         render(_: string, record) {
             return <Button
                 onClick={() => handle(ActionType.Edit, record)}
-                type="link">
+                type="link"
+                size="small">
                 编辑
             </Button>
         }
@@ -90,7 +92,8 @@ const getColumns = (handle: ActionHandle): ColumnsType<ComDevice> => {
         render(_: string, record) {
             return <Button
                 onClick={() => handle(ActionType.Delete, record)}
-                type="link">
+                type="link"
+                size="small">
                 删除
             </Button>
         }

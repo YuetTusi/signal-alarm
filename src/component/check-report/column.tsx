@@ -39,7 +39,8 @@ const getColumns = (onDownload: (report: QuickCheckReport) => void) => [{
         }
     }}
         disabled={helper.isNullOrUndefined(record.url)}
-        type="link">{val}</Button>
+        type="link"
+        size="small">{val}</Button>
 }, {
     title: '任务ID',
     key: 'taskId',
@@ -83,7 +84,8 @@ const getColumns = (onDownload: (report: QuickCheckReport) => void) => [{
     render: (_: any, record) => <Button
         onClick={() => onDownload(record)}
         disabled={helper.isNullOrUndefined(record.url)}
-        type="link">
+        type="link"
+        size="small">
         下载
     </Button>
 }] as ColumnsType<QuickCheckReport>;

@@ -31,7 +31,7 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [
         title: '类型',
         key: 'protocol',
         dataIndex: 'protocol',
-        width: 140
+        width: 160
     }, {
         title: '告警级别',
         key: 'warnLevel',
@@ -41,7 +41,8 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [
         title: '告警原因',
         key: 'warnReason',
         dataIndex: 'warnReason',
-        width: 150
+        width: 150,
+        render: (val) => <NoWarpLabel title={val}>{val}</NoWarpLabel>
     }, {
         title: '频点信息名称',
         key: 'arfcn',
@@ -72,12 +73,14 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [
         title: '设备ID',
         key: 'deviceId',
         dataIndex: 'deviceId',
-        width: 140
+        width: 140,
+        render: (val) => <NoWarpLabel width={120} title={val}>{val}</NoWarpLabel>
     }, {
         title: '设备场所',
         key: 'siteName',
         dataIndex: 'siteName',
-        width: 160
+        width: 160,
+        render: (val) => <NoWarpLabel width={140} title={val}>{val}</NoWarpLabel>
     }, {
         title: '时间',
         key: 'captureTime',

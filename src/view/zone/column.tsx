@@ -1,4 +1,3 @@
-import { MouseEvent } from 'react';
 import { Button } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { Zone as ZoneEntity } from '@/schema/zone';
@@ -41,7 +40,8 @@ const getColumns = (handle: ActionHandle): ColumnsType<ZoneEntity> => {
         render(_: string, record) {
             return <Button
                 onClick={() => handle(ActionType.Edit, record)}
-                type="link">
+                type="link"
+                size="small">
                 编辑
             </Button>
         }
@@ -54,7 +54,8 @@ const getColumns = (handle: ActionHandle): ColumnsType<ZoneEntity> => {
         render(_: string, record) {
             return <Button
                 onClick={() => handle(ActionType.Delete, record)}
-                type="link">
+                type="link"
+                size="small">
                 删除
             </Button>
         }
