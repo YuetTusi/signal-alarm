@@ -130,3 +130,15 @@ export const loadCircle = (at: LatLng, color: string, rad: number) => {
     });
     return circle;
 };
+
+/**
+ * 清空地图上所有的marker
+ * @param devices 
+ * @param map 
+ */
+export const disposeAllMarker = (devices: L.Marker[], map: L.Map | null) => {
+    if (map === null) {
+        return;
+    }
+    devices.forEach(item => map.removeLayer(item));
+}

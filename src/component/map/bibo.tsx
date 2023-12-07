@@ -11,7 +11,7 @@ import { Zone } from '@/schema/zone';
 import { DeviceState } from '@/schema/com-device';
 import { Legend } from './legend';
 import { RadarInfo } from './radar-info';
-import { getColor, initMap, loadCircle, loadMap } from './util';
+import { disposeAllMarker, getColor, initMap, loadCircle, loadMap } from './util';
 import { BiboBox, MaskBox } from './styled/box';
 import { MarkerOptionsEx, SearchFormValue } from './prop';
 
@@ -75,16 +75,18 @@ const Bibo: FC<{}> = () => {
      * 间隔n秒查询信号环
      */
     const queryDeviceHandle = async () => {
-        const tasks = devices.map(item => {
-            const { deviceId } = item.options as MarkerOptionsEx;
-            if (map !== null) {
-                const willRemove = circles.filter(i => i.deviceId === deviceId);
-                for (let i = 0; i < willRemove.length; i++) {
-                    map.removeLayer(willRemove[i].circle);
+        const tasks = devices
+            .filter(item => (item.options as MarkerOptionsEx).status === DeviceState.Normal)
+            .map(item => {
+                const { deviceId } = item.options as MarkerOptionsEx;
+                if (map !== null) {
+                    const willRemove = circles.filter(i => i.deviceId === deviceId);
+                    for (let i = 0; i < willRemove.length; i++) {
+                        map.removeLayer(willRemove[i].circle);
+                    }
                 }
-            }
-            return queryDeviceTopAlarms(deviceId);
-        });
+                return queryDeviceTopAlarms(deviceId);
+            });
 
         try {
             await Promise.all(tasks);
@@ -97,78 +99,94 @@ const Bibo: FC<{}> = () => {
 
     useEffect(() => {
 
-        if (alarmsOfDevice === undefined) {
+        if (map === null || alarmsOfDevice === undefined) {
             return;
         }
 
         for (let i = 0; i < devices.length; i++) {
             const { deviceId } = devices[i].options as MarkerOptionsEx;
+            const { lat, lng } = devices[i].getLatLng();
             const alarms = alarmsOfDevice[deviceId];
 
             if (alarms && alarms.length > 0) {
+                //信号环
                 circles = alarms.map(item => {
                     const circle = loadCircle(devices[i].getLatLng(), getColor(item.protocolType!), item.radius);
-                    if (map !== null) {
-                        circle.addTo(map!);
-                    }
+                    circle.addTo(map!);
                     return {
                         deviceId,
                         circle
                     };
                 });
+
+                //更换Icon
+                const nextMarker = L.marker([
+                    lat, lng
+                ], {
+                    icon: warnIcon,
+                    title: (devices[i].options as MarkerOptionsEx).title,
+                    deviceId: (devices[i].options as MarkerOptionsEx).deviceId,
+                    siteName: (devices[i].options as MarkerOptionsEx).siteName,
+                    status: (devices[i].options as MarkerOptionsEx).status,
+                    hasAlarm: true
+                } as MarkerOptionsEx);
+                nextMarker.on('click', (e) => {
+                    const { deviceId, hasAlarm } = e.target.options;
+                    if (hasAlarm) {
+                        setDeviceId(deviceId);
+                        openRadar(true);
+                    } else {
+                        message.destroy();
+                        message.info('暂无告警消息');
+                    }
+                });
+                map.removeLayer(devices[i]);
+                devices[i] = nextMarker.addTo(map);
+            } else {
+                (devices[i].options as MarkerOptionsEx).status === DeviceState.Normal
+                    ? devices[i].setIcon(defaultIcon)
+                    : devices[i].setIcon(offlineIcon);
+                (devices[i].options as MarkerOptionsEx).hasAlarm = false;
             }
         }
     }, [alarmsOfDevice]);
 
     useEffect(() => {
         //地图上标记点变化，更新相关设备
-        devices = devicesOnMap.map(item => {
-            const mark = L.marker([
-                item.lat, item.lon
-            ], {
-                icon: item.status === DeviceState.Normal ? defaultIcon : offlineIcon,
-                title: item.deviceName,
-                deviceId: item.deviceId,
-                siteName: item.siteName,
-                status: item.status,
-                hasAlarm: false
-            } as MarkerOptionsEx);
-            queryDeviceTopAlarms(item.deviceId);
-            mark.on('click', (e) => {
-                const { deviceId, hasAlarm } = e.target.options;
-                if (hasAlarm) {
-                    setDeviceId(deviceId);
-                    openRadar(true);
-                } else {
-                    message.destroy();
-                    message.info('暂无告警消息');
+        devices = devicesOnMap
+            .map(item => {
+                const mark = L.marker([
+                    item.lat, item.lon
+                ], {
+                    icon: item.status === DeviceState.Normal ? defaultIcon : offlineIcon,
+                    title: item.deviceName,
+                    deviceId: item.deviceId,
+                    siteName: item.siteName,
+                    status: item.status,
+                    hasAlarm: false
+                } as MarkerOptionsEx);
+                if (item.status === DeviceState.Normal) {
+                    queryDeviceTopAlarms(item.deviceId);
                 }
+                mark.on('click', (e) => {
+                    const { deviceId, hasAlarm } = e.target.options;
+                    if (hasAlarm) {
+                        setDeviceId(deviceId);
+                        openRadar(true);
+                    } else {
+                        message.destroy();
+                        message.info('暂无告警消息');
+                    }
+                });
+                if (map !== null) {
+                    mark.addTo(map);
+                }
+                return mark;
             });
-            if (map !== null) {
-                mark.addTo(map);
-            }
-            return mark;
-        });
         if (map !== null) {
             map.setZoom(14);
         }
     }, [devicesOnMap]);
-
-    useEffect(() => {
-        for (let i = 0; i < devices.length; i++) {
-            const { deviceId } = devices[i].options as MarkerOptionsEx;
-            if (alarms[deviceId] && alarms[deviceId].length > 0) {
-                devices[i].setIcon(warnIcon);
-                (devices[i].options as MarkerOptionsEx).hasAlarm = true;
-            } else {
-                (devices[i].options as MarkerOptionsEx).status === DeviceState.Normal
-                    ? devices[i].setIcon(defaultIcon)
-                    : devices[i].setIcon(offlineIcon);
-
-                (devices[i].options as MarkerOptionsEx).hasAlarm = false;
-            }
-        }
-    }, [alarms]);
 
     useEffect(() => {
         if (zoneList.length > 0) {
@@ -197,6 +215,8 @@ const Bibo: FC<{}> = () => {
     }, [zoneList]);
 
     useUnmount(() => {
+        console.log('unmount!!!!!!!!!!!!!!');
+        disposeAllMarker(devices, map);
         devices = [];
         circles = [];
         if (map !== null) {
