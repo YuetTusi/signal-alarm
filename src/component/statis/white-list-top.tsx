@@ -125,7 +125,7 @@ const WhiteListTop: FC<{}> = () => {
             <WhiteListItem data={item} key={`WLI_${item.id}`} />);
 
     return <DisplayPanel>
-        <div className="caption">白名单Top10</div>
+        <div className="caption">白名单状态</div>
         <div className="content">
             <ScrollWhiteList ref={scrollBox}>
                 <ul>
