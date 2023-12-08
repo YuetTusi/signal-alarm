@@ -26,7 +26,6 @@ const Point: FC<{
 
     return <div
         style={{
-            display: isOver5Second(data.captureTime!) ? 'none' : 'block',
             top: `${top}%`,
             left: `${left}%`,
             animation: `flash1 2s infinite`

@@ -215,7 +215,6 @@ const Bibo: FC<{}> = () => {
     }, [zoneList]);
 
     useUnmount(() => {
-        console.log('unmount!!!!!!!!!!!!!!');
         disposeAllMarker(devices, map);
         devices = [];
         circles = [];

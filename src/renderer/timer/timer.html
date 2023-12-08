@@ -13,8 +13,15 @@
 			(() => {
 				setInterval(() => {
 					//每20秒查询, 专项数据，报警信号泛围
+					ipcRenderer.send('query-each-5');
+				}, 1000 * 5);
+			})();
+
+			(() => {
+				setInterval(() => {
+					//每20秒查询, 专项数据，报警信号泛围
 					ipcRenderer.send('query-each-20');
-				}, 1000 * 20);
+				}, 1000 * 2000);
 			})();
 
 			(() => {
