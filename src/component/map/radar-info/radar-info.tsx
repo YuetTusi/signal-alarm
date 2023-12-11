@@ -9,7 +9,6 @@ import { Point } from './point';
 import { pointMap, getLoopIndex } from './rnd-point';
 import { RadarBox } from './styled/box';
 import { PointAt, RadarInfoProp } from './prop';
-import { useRerender, useSubscribe, useUnmount } from '@/hook';
 
 let timer: any = null;
 

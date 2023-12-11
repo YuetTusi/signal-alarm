@@ -6,9 +6,8 @@ import {
     UserOutlined, ReloadOutlined, LoadingOutlined,
     KeyOutlined, SettingOutlined, CheckCircleFilled
 } from '@ant-design/icons';
-import { Col, Row, Input, Button, Form, message, App } from 'antd';
+import { App, Col, Row, Input, Button, Form, message } from 'antd';
 import { useModel } from "@/model";
-import { useUnmount } from '@/hook';
 import { AppMode } from '@/schema/conf';
 import { helper } from '@/utility/helper';
 import { StorageKeys } from '@/utility/storage-keys';
@@ -33,6 +32,9 @@ const ipJson = helper.IS_DEV
     : join(cwd, 'resources/ip.json');
 const { mode } = helper.readConf();
 
+/**
+ * 登录页 
+ */
 const Login: FC<{}> = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [networkModalOpen, setNetworkModalOpen] = useState<boolean>(false);
@@ -40,7 +42,7 @@ const Login: FC<{}> = () => {
     const navigate = useNavigate();
     const [formRef] = useForm<FormValue>();
     const {
-        loginRemember,
+        // loginRemember,
         setReading,
         setLoginUserId,
         setLoginUserName,
@@ -48,7 +50,7 @@ const Login: FC<{}> = () => {
         loginByNamePassword,
         queryLoginUserInfo
     } = useModel(state => ({
-        loginRemember: state.loginRemember,
+        // loginRemember: state.loginRemember,
         setReading: state.setReading,
         setLoginUserId: state.setLoginUserId,
         setLoginRemember: state.setLoginRemember,
@@ -57,6 +59,11 @@ const Login: FC<{}> = () => {
         queryLoginUserInfo: state.queryLoginUserInfo
     }));
 
+    /**
+     * 执行登录
+     * @param userName 用户名
+     * @param password 口令
+     */
     const doLogin = async (userName: string, password: string) => {
         setReading(true);
         try {
@@ -64,29 +71,29 @@ const Login: FC<{}> = () => {
             if (ret === null) {
                 message.warning('服务请求失败');
                 return;
-            } else {
-                if (ret.code === 200) {
-                    sessionStorage.setItem(StorageKeys.Token, ret.data.token ?? '');
-                    const res = await queryLoginUserInfo();
-                    if (res !== null && res.code === 200) {
-                        setLoginUserName(res.data.name);
-                        setLoginUserId(res.data.userId.toString());
-                        const userHash = helper.md5(res.data.userId.toString());
-                        const msgKey = helper.md5(res.data.userId.toString() + new Date().getTime());
-                        sessionStorage.setItem(StorageKeys.Hash, userHash);
-                        sessionStorage.setItem(StorageKeys.User, res.data.name);
-                        sessionStorage.setItem(StorageKeys.UserId, res.data.userId.toString());
-                        sessionStorage.setItem(StorageKeys.MsgKey, msgKey);
-                        navigate('/dashboard');
-                    } else {
-                        message.warning(`身份验证失败（${res?.message ?? ''}）`);
-                    }
+            }
+            if (ret.code === 200) {
+                //登录成功，令牌写入SessionStorage
+                sessionStorage.setItem(StorageKeys.Token, ret.data.token ?? '');
+                const res = await queryLoginUserInfo();
+                if (res !== null && res.code === 200) {
+                    setLoginUserName(res.data.name);
+                    setLoginUserId(res.data.userId.toString());
+                    const userHash = helper.md5(res.data.userId.toString());
+                    const msgKey = helper.md5(res.data.userId.toString() + new Date().getTime());
+                    sessionStorage.setItem(StorageKeys.Hash, userHash);
+                    sessionStorage.setItem(StorageKeys.User, res.data.name);//用户名
+                    sessionStorage.setItem(StorageKeys.UserId, res.data.userId.toString());//用户id
+                    sessionStorage.setItem(StorageKeys.MsgKey, msgKey);//消息md5值，用于SSE密钥
+                    navigate('/dashboard');
                 } else {
-                    message.warning(`身份验证失败（${ret.message}）`);
+                    message.warning(`身份验证失败（${res?.message ?? ''}）`);
                 }
+            } else {
+                message.warning(`身份验证失败（${ret.message}）`);
             }
         } catch (error) {
-            // console.clear();
+            console.clear();
             console.warn(error);
         } finally {
             setReading(false);
@@ -99,8 +106,6 @@ const Login: FC<{}> = () => {
             doLogin('admin', '111111');
         }
     }, []);
-
-    // useUnmount(() => console.clear());
 
     /**
      * 登录
@@ -184,17 +189,17 @@ const Login: FC<{}> = () => {
                             <Password prefix={<KeyOutlined style={{ color: '#424242' }} />} />
                         </Item>
                         {/* <Item>
-                <Row gutter={16}>
-                    <Col flex="none">
-                        <Checkbox
-                            onChange={(event) => setLoginRemember(event.target.checked)}
-                            checked={loginRemember}
-                            style={{ verticalAlign: 'text-top' }} >
-                            <label onClick={() => setLoginRemember(!loginRemember)}>记住密码</label>
-                        </Checkbox>
-                    </Col>
-                </Row>
-            </Item> */}
+                            <Row gutter={16}>
+                                <Col flex="none">
+                                    <Checkbox
+                                        onChange={(event) => setLoginRemember(event.target.checked)}
+                                        checked={loginRemember}
+                                        style={{ verticalAlign: 'text-top' }} >
+                                        <label onClick={() => setLoginRemember(!loginRemember)}>记住密码</label>
+                                    </Checkbox>
+                                </Col>
+                            </Row>
+                        </Item> */}
                         <Item>
                             <Row gutter={24} style={{ marginTop: '1rem' }}>
                                 <Col span={12}>
@@ -202,8 +207,7 @@ const Login: FC<{}> = () => {
                                         onClick={onLoginSubmit}
                                         disabled={loading}
                                         type="primary"
-                                        block={true}
-                                    >
+                                        block={true}>
                                         {loading ? <LoadingOutlined /> : <UserOutlined />}
                                         <span>登录</span>
                                     </Button>

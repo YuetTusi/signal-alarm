@@ -17,6 +17,11 @@ export const AlarmTableBox = styled.div`
     }
 `;
 
+export const AlarmChartBox = styled.div`
+    /* width: 100%; */
+    height: 300px;
+`;
+
 export const SelectedPanel = styled.div`
     position: relative;
     display: block;
