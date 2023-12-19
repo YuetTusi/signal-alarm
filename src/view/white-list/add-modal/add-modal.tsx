@@ -1,6 +1,7 @@
-import { FC, MouseEvent } from 'react';
-import { Button, InputNumber, Select, Form, Modal, Col, Row } from 'antd';
+import { FC, MouseEvent, useEffect, useState } from 'react';
+import { Button, Input, InputNumber, Select, Form, Modal, Col, Row } from 'antd';
 import { WhiteListType } from '@/schema/white-list';
+import { Mac } from '@/utility/regex';
 import { AddModalProp, FormValue } from './prop';
 
 const { Item, useForm } = Form;
@@ -14,16 +15,31 @@ const AddModal: FC<AddModalProp> = ({
 }) => {
 
     const [formRef] = useForm<FormValue>();
+    const [type, setType] = useState<WhiteListType>(WhiteListType.MAC);
+
+    useEffect(() => {
+        if (open) {
+            const { setFieldsValue, resetFields } = formRef;
+            setFieldsValue({ type: WhiteListType.MAC });
+        }
+    }, [open]);
+
+    /**
+     * 类型Change
+     */
+    const onTypeChange = (value: WhiteListType) => {
+        setType(value);
+        formRef.resetFields(['mac', 'startFreq', 'endFreq', 'status']);
+    };
 
     const onSubmit = async (event: MouseEvent<HTMLElement>) => {
         event.preventDefault();
         const { validateFields, resetFields } = formRef;
         try {
             const values = await validateFields();
-            values.mac = '';
-            values.type = WhiteListType.Freq;
             onOk(values);
             resetFields();
+            setType(WhiteListType.MAC);
         } catch (error) {
             console.warn(error);
         }
@@ -32,6 +48,7 @@ const AddModal: FC<AddModalProp> = ({
     const onCancelClick = (event: MouseEvent<HTMLElement>) => {
         event.preventDefault();
         formRef.resetFields();
+        setType(WhiteListType.MAC);
         onCancel();
     };
 
@@ -52,11 +69,31 @@ const AddModal: FC<AddModalProp> = ({
             form={formRef}
             layout="vertical"
             style={{ marginTop: '2rem' }}>
-            <Row gutter={24}>
+            <Item
+                name="type"
+                label="类型">
+                <Select onChange={onTypeChange}>
+                    <Option value={WhiteListType.MAC}>MAC</Option>
+                    <Option value={WhiteListType.Freq}>频段</Option>
+                </Select>
+            </Item>
+            <Item
+                rules={[
+                    { required: type === WhiteListType.MAC, message: '请填写MAC地址' },
+                    { pattern: Mac, message: '请填写正确的MAC地址' }
+                ]}
+                style={{ display: type === WhiteListType.MAC ? 'block' : 'none' }}
+                name="mac"
+                label="MAC地址">
+                <Input placeholder="形如：00:13:EF:F3:07:BC" />
+            </Item>
+            <Row
+                style={{ display: type === WhiteListType.Freq ? 'flex' : 'none' }}
+                gutter={24}>
                 <Col span={12}>
                     <Item
                         rules={[
-                            { required: true, message: '请填写起始频段' }
+                            { required: type === WhiteListType.Freq, message: '请填写起始频段' }
                         ]}
                         label="起始频段"
                         name="startFreq">
@@ -66,7 +103,7 @@ const AddModal: FC<AddModalProp> = ({
                 <Col span={12}>
                     <Item
                         rules={[
-                            { required: true, message: '请填写结束频段' },
+                            { required: type === WhiteListType.Freq, message: '请填写结束频段' },
                             ({ getFieldValue }) => ({
                                 validator(_, value) {
                                     if (!value || getFieldValue('startFreq') < value) {
@@ -89,8 +126,8 @@ const AddModal: FC<AddModalProp> = ({
                 label="状态"
                 name="status">
                 <Select>
-                    <Option value={1}>生效中</Option>
-                    <Option value={0}>未生效</Option>
+                    <Option value={0}>生效中</Option>
+                    <Option value={1}>未生效</Option>
                 </Select>
             </Item>
         </Form>

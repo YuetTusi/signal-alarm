@@ -169,7 +169,7 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
                     },
                     centered: true,
                     title: '白名单',
-                    content: `确认将热点「${data.ssid ?? ''}」加入白名单？`,
+                    content: `确认将热点「${data.ssid ?? ''} （${data.mac ?? ''}）」加入白名单？`,
                     okText: '是',
                     cancelText: '否'
                 });
