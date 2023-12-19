@@ -3,6 +3,7 @@ import mapWarnIcon from '@/assets/image/map-warn.png';
 import mapOfflineIcon from '@/assets/image/map-offline.png';
 import L from 'leaflet';
 import { FC, useEffect, useState } from 'react';
+import SyncOutlined from '@ant-design/icons/SyncOutlined';
 import { Button, Form, Spin, Select, Switch, message } from 'antd';
 import { useModel } from '@/model';
 import { useUnmount, useSubscribe, usePhoneAlarm } from '@/hook';
@@ -278,6 +279,16 @@ const Bibo: FC<{}> = () => {
                             style={{ width: '200px' }}>
                             {bindZoneOption()}
                         </Select>
+                    </Item>
+                    <Item>
+                        <Button
+                            onClick={() => queryZoneList()}
+                            style={{ padding: 0 }}
+                            type="link"
+                            size="small"
+                            title="刷新涉密区域">
+                            <SyncOutlined />
+                        </Button>
                     </Item>
                     <Item label="颜色">
                         <Switch
