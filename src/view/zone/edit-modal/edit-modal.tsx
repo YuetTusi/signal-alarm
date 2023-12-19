@@ -46,7 +46,7 @@ const EditModal: FC<EditModalProp> = ({ open, data, onOk, onCancel }) => {
     };
 
     const onCancelClick = () => {
-        formRef.resetFields();
+        // formRef.resetFields();
         onCancel();
     }
 
@@ -60,9 +60,9 @@ const EditModal: FC<EditModalProp> = ({ open, data, onOk, onCancel }) => {
         onCancel={onCancelClick}
         title={data === undefined ? '添加区域' : '编辑区域'}
         centered={true}
-        forceRender={true}
+        forceRender={false}
         maskClosable={false}
-        destroyOnClose={true}
+        destroyOnClose={false}
         getContainer="#app">
         <EditForm formRef={formRef} data={data} />
     </Modal>
