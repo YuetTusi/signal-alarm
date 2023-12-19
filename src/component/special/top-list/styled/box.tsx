@@ -49,7 +49,9 @@ export const ListBox = styled.div`
                 flex-direction: row;
                 align-items: center;
                 justify-content: flex-start;
-
+                &.note{
+                    color:#f6f319;
+                }
             }   
             &>.list-row-val{
                 display: flex;

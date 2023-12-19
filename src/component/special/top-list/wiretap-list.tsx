@@ -16,7 +16,7 @@ const WiretapList: FC<TopListProp> = ({ data, type, loading }) => {
     const renderList = () => data.map(
         (item, index) => <div className="list-row" key={`WL_${index}`}>
             <div className="inner-row">
-                <div className="list-row-txt">
+                <div className="list-row-txt note">
                     <ContentLabel type={type} data={item} />
                     <span className="arf">[{(item as Wap).arfcn}]</span>
                 </div>

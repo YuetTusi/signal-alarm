@@ -47,7 +47,7 @@ const TotalList: FC<TotalListProp> = ({ data, type, loading }) => {
                 } else {
                     return <>
                         <div className="inner-row">
-                            <div className="list-row-txt">
+                            <div className="list-row-txt note">
                                 <ContentLabel type={type} data={item} />
                                 {renderArfcn(item)}
                             </div>

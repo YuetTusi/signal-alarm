@@ -36,7 +36,7 @@ const TerminalList: FC<TopListProp> = ({ data, loading }) => {
             default:
                 return <>
                     <div className="inner-row">
-                        <div className="list-row-txt">
+                        <div className="list-row-txt note">
                             <NoWarpLabel
                                 title={`${(item as TerminalData)?.mac ?? '-'} ${renderOrg(item as TerminalData)}`}
                                 width={340}>

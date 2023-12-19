@@ -14,7 +14,7 @@ import { ProtocolIcon } from './styled/box';
 const Wifi: FC<{ data: Hotspot }> = ({ data }) => {
     return <>
         <div className="inner-row">
-            <div className="list-row-txt">
+            <div className="list-row-txt note">
                 <NoWarpLabel
                     title={`${data?.mac ?? '-'} ${helper.isNullOrUndefined(data?.org) ? '' : `（${data.org}）`}`}
                     width={360}>

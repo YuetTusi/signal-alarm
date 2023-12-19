@@ -37,7 +37,7 @@ const Bluetooth: FC<{ data: BluetoothEntity }> = ({ data }) => {
 
     return <>
         <div className="inner-row">
-            <div className="list-row-txt">
+            <div className="list-row-txt note">
                 <NoWarpLabel
                     title={`${(data as any)?.mac ?? '-'} ${renderOrg(data as any)}`}
                     width={340}>
