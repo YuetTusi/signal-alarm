@@ -74,7 +74,7 @@ const Bibo: FC<{}> = () => {
     /**
      * 间隔n秒查询信号环
      */
-    const queryDeviceHandle = async () => {
+    const queryDeviceHandle = () => {
         const tasks = devices
             .filter(item => (item.options as MarkerOptionsEx).status === DeviceState.Normal)
             .map(item => {
@@ -82,17 +82,12 @@ const Bibo: FC<{}> = () => {
                 if (map !== null) {
                     const willRemove = circles.filter(i => i.deviceId === deviceId);
                     for (let i = 0; i < willRemove.length; i++) {
-                        map.removeLayer(willRemove[i].circle);
+                        willRemove[i].circle.removeFrom(map);
                     }
                 }
                 return queryDeviceTopAlarms(deviceId);
             });
-
-        try {
-            await Promise.all(tasks);
-        } catch (error) {
-            console.warn(error);
-        }
+        Promise.allSettled(tasks);
     };
 
     useSubscribe('query-each-20', queryDeviceHandle);
@@ -151,8 +146,11 @@ const Bibo: FC<{}> = () => {
         }
     }, [alarmsOfDevice]);
 
-    useEffect(() => {
-        //地图上标记点变化，更新相关设备
+    /**
+     * 绑定地图上设备
+     */
+    const bindDeviceOnMap = () => {
+
         devices = devicesOnMap
             .map(item => {
                 const mark = L.marker([
@@ -186,6 +184,16 @@ const Bibo: FC<{}> = () => {
         if (map !== null) {
             map.setZoom(14);
         }
+    };
+
+    useSubscribe('alarm-clean', () => {
+        //每天0时清空报警状态
+        bindDeviceOnMap();
+    });
+
+    useEffect(() => {
+        //地图上标记点变化，更新相关设备
+        bindDeviceOnMap();
     }, [devicesOnMap]);
 
     useEffect(() => {
