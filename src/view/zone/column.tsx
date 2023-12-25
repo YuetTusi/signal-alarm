@@ -11,6 +11,16 @@ const getColumns = (handle: ActionHandle): ColumnsType<ZoneEntity> => {
         key: 'areaName',
         dataIndex: 'areaName'
     }, {
+        title: '区域宽度',
+        key: 'areaWidth',
+        dataIndex: 'areaWidth',
+        width: 120
+    }, {
+        title: '区域高度',
+        key: 'areaHeight',
+        dataIndex: 'areaHeight',
+        width: 120
+    }, {
         title: '创建时间',
         key: 'createTime',
         dataIndex: 'createTime',

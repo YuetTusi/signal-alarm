@@ -18,7 +18,8 @@ const EditModal: FC<EditModalProp> = ({ open, data, onOk, onCancel }) => {
         const { setFieldValue } = formRef;
         if (!helper.isNullOrUndefined(data)) {
             setFieldValue('areaName', data!.areaName);
-
+            setFieldValue('areaWidth', data!.areaWidth ?? 0);
+            setFieldValue('areaHeight', data!.areaHeight ?? 0);
         }
     }, [data]);
 
@@ -34,7 +35,7 @@ const EditModal: FC<EditModalProp> = ({ open, data, onOk, onCancel }) => {
                     message.destroy();
                     message.info('请选择区域图像');
                 } else {
-                    onOk(values, false)
+                    onOk(values, false);
                 }
             } else {
                 //编辑

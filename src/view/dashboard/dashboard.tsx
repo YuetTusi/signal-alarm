@@ -130,7 +130,6 @@ const Dashboard: FC<{}> = memo(() => {
      * 清空所有报警消息
      */
     const alarmDropAll = (_: IpcRendererEvent) => {
-        //todo:~~~~~~~~~~~~~~~~~~~~~~~~~
         setPhoneAlarmData([]);
         if (location.pathname === '/dashboard') {
             // ipcRenderer.send('reload');

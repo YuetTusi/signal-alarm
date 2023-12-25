@@ -2,7 +2,7 @@ import debounce from 'lodash/debounce';
 import electron, { OpenDialogReturnValue } from 'electron';
 import { FC, MouseEvent, useState, useEffect } from 'react';
 import SelectOutlined from '@ant-design/icons/SelectOutlined'
-import { Form, Input, Button, Divider, Image, Empty } from 'antd';
+import { Col, Row, Form, Input, InputNumber, Button, Divider, Image, Empty } from 'antd';
 import { helper } from '@/utility/helper';
 import { EditFormProp } from './prop';
 import { FormBox } from '../styled/box';
@@ -11,6 +11,9 @@ import { ImgBox, UploadBox } from './styled/box';
 const { Item } = Form;
 const { ipcRenderer } = electron;
 
+/**
+ * 区域表单
+ */
 const EditForm: FC<EditFormProp> = ({ formRef, data }) => {
 
     const [imgBase64, setImgBase64] = useState<string>('');
@@ -56,6 +59,24 @@ const EditForm: FC<EditFormProp> = ({ formRef, data }) => {
                 name="areaName">
                 <Input />
             </Item>
+            <Row gutter={24}>
+                <Col span={12}>
+                    <Item
+                        rules={[{ required: true, message: '请填写区域宽度' }]}
+                        label="区域宽度"
+                        name="areaWidth">
+                        <InputNumber min={0} style={{ width: '100%' }} />
+                    </Item>
+                </Col>
+                <Col span={12}>
+                    <Item
+                        rules={[{ required: true, message: '请填写区域高度' }]}
+                        label="区域高度"
+                        name="areaHeight">
+                        <InputNumber min={0} style={{ width: '100%' }} />
+                    </Item>
+                </Col>
+            </Row>
             <Item
                 style={{ display: 'none' }}
                 label="区域图像"
