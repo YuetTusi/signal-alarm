@@ -18,8 +18,8 @@ const AddModal: FC<AddModalProp> = ({
     const [type, setType] = useState<WhiteListType>(WhiteListType.MAC);
 
     useEffect(() => {
+        const { setFieldsValue } = formRef;
         if (open) {
-            const { setFieldsValue, resetFields } = formRef;
             setFieldsValue({ type: WhiteListType.MAC });
         }
     }, [open]);
@@ -32,6 +32,10 @@ const AddModal: FC<AddModalProp> = ({
         formRef.resetFields(['mac', 'startFreq', 'endFreq', 'status']);
     };
 
+    /**
+     * 确定Submit
+     * @param event 
+     */
     const onSubmit = async (event: MouseEvent<HTMLElement>) => {
         event.preventDefault();
         const { validateFields, resetFields } = formRef;
@@ -45,6 +49,10 @@ const AddModal: FC<AddModalProp> = ({
         }
     };
 
+    /**
+     * 取消Click
+     * @param event 
+     */
     const onCancelClick = (event: MouseEvent<HTMLElement>) => {
         event.preventDefault();
         formRef.resetFields();

@@ -2,21 +2,23 @@ import electron, { IpcRendererEvent } from 'electron';
 import { FC, memo, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
 import { useModel } from "@/model";
+import { usePhoneAlarm } from '@/hook';
 import { helper } from '@/utility/helper';
 import { instance, closeSse } from '@/utility/sse';
 import { StorageKeys } from '@/utility/storage-keys';
-import { PhoneAlarmInfo } from '@/schema/phone-alarm-info';
 import { Bibo } from '@/component/map';
-import WapInfo from "@/component/special/wap-info";
-import { AlarmInfo } from '@/component/alarm';
 import { RadarInfo } from '@/component/map/radar-info';
+import { AlarmInfo } from '@/component/alarm';
+import WapInfo from "@/component/special/wap-info";
+import { AlarmType } from '@/schema/conf';
+import { PhoneAlarmInfo } from '@/schema/phone-alarm-info';
 import {
     AlarmTypeChart, WhiteListTop, SpecialTypeChart, AlarmWeekChart
 } from '@/component/statis';
 import CheckReport from '@/component/check-report';
 import { DashboardBox } from "./styled/box";
 import { request } from '@/utility/http';
-import { AlarmType } from '@/schema/conf';
+import dayjs from 'dayjs';
 
 const { ipcRenderer } = electron;
 const { alarmType } = helper.readConf();
@@ -29,21 +31,31 @@ const Dashboard: FC<{}> = memo(() => {
     const location = useLocation();
 
     const {
+        phoneAlarmData,
         queryAlarmTop10Data,
         querySpecialTypeStatisData,
+        queryAlarmWeekStatisData,
+        queryWhiteListTop,
+        queryQuickCheckReport,
         setPhoneAlarmData,
         appendPhoneAlarmData,
         clearPhoneAlarmData
     } = useModel(state => ({
+        phoneAlarmData: state.phoneAlarmData,
         queryAlarmTop10Data: state.queryAlarmTop10Data,
         querySpecialTypeStatisData: state.querySpecialTypeStatisData,
+        queryAlarmWeekStatisData: state.queryAlarmWeekStatisData,
+        queryQuickCheckReport: state.queryQuickCheckReport,
+        queryWhiteListTop: state.queryWhiteListTop,
         setPhoneAlarmData: state.setPhoneAlarmData,
         appendPhoneAlarmData: state.appendPhoneAlarmData,
         clearPhoneAlarmData: state.clearPhoneAlarmData
     }));
 
+    const alarms = usePhoneAlarm(phoneAlarmData);
+
     const onMessage = (event: MessageEvent<any>) => {
-        console.log('SSE message:', event);
+        console.log('SSE message:', event?.data);
         try {
             if (typeof event.data === 'string') {
                 const data: PhoneAlarmInfo = JSON.parse(event.data);
@@ -70,11 +82,30 @@ const Dashboard: FC<{}> = memo(() => {
             //     request.post(`/sse/push-user`, {
             //         hash,
             //         userId,
-            //         message: "{\"arfcn\":1765.0,\"captureTime\":\"2023-08-16T15:00:05\",\"deviceId\":\"RS_071\",\"protocol\":\"中国电信FDD-LTE\",\"protocolType\":7,\"rssi\":-40,\"status\":0,\"warnLevel\":1,\"warnReason\":\"中国电信FDD\"}"
-            //     })
-            //         .then(res => console.log(res))
+            //         message: JSON.stringify({
+            //             rssi: helper.rnd(-90, -50),
+            //             captureTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+            //             deviceId: 'zrt-test-x00003',
+            //             protocol: '协议7',
+            //             protocolType: 7,
+            //             status: 0
+            //         })
+            //     }).then(res => console.log(res))
             //         .catch(err => console.log(err));
-            // }, 1000 * 10);
+            //     request.post(`/sse/push-user`, {
+            //         hash,
+            //         userId,
+            //         message: JSON.stringify({
+            //             rssi: helper.rnd(-50, -10),
+            //             captureTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+            //             deviceId: 'RS_071',
+            //             protocol: '协议6',
+            //             protocolType: 6,
+            //             status: 0
+            //         })
+            //     }).then(res => console.log(res))
+            //         .catch(err => console.log(err));
+            // }, 1000 * 20);
         }
         return () => {
             closeSse();
@@ -99,9 +130,15 @@ const Dashboard: FC<{}> = memo(() => {
      * 清空所有报警消息
      */
     const alarmDropAll = (_: IpcRendererEvent) => {
+        //todo:~~~~~~~~~~~~~~~~~~~~~~~~~
         setPhoneAlarmData([]);
         if (location.pathname === '/dashboard') {
-            ipcRenderer.send('reload');
+            // ipcRenderer.send('reload');
+            querySpecialTypeStatisData(); //今日专项检查分类统计
+            queryAlarmWeekStatisData(); //近7天告警数量统计
+            queryWhiteListTop();//白名单状态
+            queryQuickCheckReport();//检查报告
+            clearPhoneAlarmData();//清空报警
         }
     };
 
@@ -126,6 +163,20 @@ const Dashboard: FC<{}> = memo(() => {
         };
     }, [alarmDropAll]);
 
+    const renderByAlarmType = () => {
+        if (alarmType === AlarmType.Single) {
+            return <div className="phone-panel">
+                <RadarInfo
+                    data={alarms}
+                    open={true} />
+            </div>;
+        } else {
+            return <div className="phone-panel">
+                <Bibo />
+            </div>;
+        }
+    };
+
     return <DashboardBox>
         <div className="left-box">
             {/* <AlarmSiteTopChart /> */}
@@ -137,17 +188,7 @@ const Dashboard: FC<{}> = memo(() => {
         <div className="center-box">
             <div className="main-box">
                 <div className="alarm-bg">
-                    {
-                        alarmType === AlarmType.Single
-                            ? <div className="phone-panel">
-                                <RadarInfo
-                                    data={{}}
-                                    open={true} />
-                            </div>
-                            : <div className="phone-panel">
-                                <Bibo />
-                            </div>
-                    }
+                    {renderByAlarmType()}
                 </div>
             </div>
             <div className="bottom-box">
