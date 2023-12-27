@@ -5,8 +5,8 @@ import { ActionType } from './prop';
 
 type ActionHandle = (action: ActionType, record: ZoneEntity) => void;
 
-const getColumns = (handle: ActionHandle): ColumnsType<ZoneEntity> => {
-    return [{
+const getColumns = (handle: ActionHandle): ColumnsType<ZoneEntity> => [
+    {
         title: '区域名称',
         key: 'areaName',
         dataIndex: 'areaName'
@@ -27,20 +27,6 @@ const getColumns = (handle: ActionHandle): ColumnsType<ZoneEntity> => {
         align: 'center',
         width: 170,
     },
-    // {
-    //     title: '背景',
-    //     key: 'id',
-    //     dataIndex: 'id',
-    //     width: 50,
-    //     align: 'center',
-    //     render(_: string, record) {
-    //         return <Button
-    //             onClick={() => handle(ActionType.Preview, record)}
-    //             type="link">
-    //             背景
-    //         </Button>
-    //     }
-    // },
     {
         title: '编辑',
         key: 'id',
@@ -69,7 +55,7 @@ const getColumns = (handle: ActionHandle): ColumnsType<ZoneEntity> => {
                 删除
             </Button>
         }
-    }];
-};
+    }
+];
 
 export { getColumns };

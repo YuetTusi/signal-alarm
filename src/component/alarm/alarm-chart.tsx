@@ -1,28 +1,31 @@
+import throttle from 'lodash/throttle';
 import * as echarts from 'echarts/core';
-import { BarChart } from 'echarts/charts';
-import {
-    TitleComponent,
-    TooltipComponent,
-    GridComponent,
-    DatasetComponent,
-    TransformComponent,
-    LegendComponent,
-    ToolboxComponent
-} from 'echarts/components';
 import { FC, useEffect, useRef } from 'react';
-import { data } from './mock';
+import { useModel } from '@/model';
+import { useResize } from '@/hook';
 import { AlarmChartBox } from './styled/style';
 
-
+var $chart: echarts.ECharts;
 var option = {
     grid: {
         top: '10%',
         left: '5%',
         right: '5%',
-        bottom: '33%'
+        bottom: '25%'
+    },
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'shadow'
+        },
+        // position: ([x, y]: number[]) => {
+        //     const yPoint = y > 175 ? y - 30 : y + 5;
+        //     return [30, yPoint];
+        // }
     },
     xAxis: {
         type: 'category',
+        interval: 10,
         axisLabel: {
             interval: 0,
             // rotate: 45,
@@ -31,23 +34,45 @@ var option = {
                 // return value;
             }
         },
-        data: data.map(i => i.name)
+        data: []
     },
     yAxis: {
         type: 'value',
     },
     series: [{
-        name: 'start',
+        name: '强度',
         type: 'bar',
-        data: data.map(i => i.start)
-    }, {
-        name: 'end',
-        type: 'bar',
-        data: data.map(i => i.stop)
-    }]
+        data: [],
+        itemStyle: {
+            color: (params: any) => {
+                if (params.value < 50) {
+                    return '#4cd137';
+                } else if (params.value >= 50 && params.value < 70) {
+                    return '#fbc531';
+                } else {
+                    return '#eb2f06';
+                }
+            }
+        }
+    }],
+    dataZoom: [
+        {
+            show: false,
+            type: "slider",
+            showDetail: false
+        }
+    ]
 };
 
-
+const chartResize = (chart: echarts.ECharts | null, containerId: string) => {
+    if (chart !== null) {
+        const outer = document.querySelector(`#${containerId}`);
+        chart.resize({
+            width: outer?.clientWidth ?? document.body.clientWidth - 2,
+            height: outer?.clientHeight ?? document.body.clientHeight - 149
+        });
+    }
+};
 
 /**
  * 预警柱状图
@@ -57,24 +82,43 @@ const AlarmChart: FC<{}> = () => {
 
     const boxRef = useRef<HTMLDivElement>(null);
 
+    const {
+        alarmBarData
+    } = useModel(state => ({
+        alarmBarData: state.alarmBarData
+    }));
+
+    useResize(throttle((_: Event) => {
+        chartResize($chart, 'alarmChart');
+    }, 500, { trailing: true, leading: false }));
+
     useEffect(() => {
 
         if (boxRef.current) {
-            var chart = echarts.init(boxRef.current, 'dark');
-            chart.setOption(option);
+            // boxRef.current.style.width = `${document.querySelector('#alarmChartCaption')!.clientWidth}px`;
+            $chart = echarts.init(boxRef.current, 'dark');
+            $chart.setOption(option);
         }
-
     }, []);
-
 
     useEffect(() => {
+        if ($chart) {
+            $chart.setOption({
+                xAxis: { data: Object.keys(alarmBarData) },
+                series: [{
+                    data: Object.values(alarmBarData)
+                }]
+            });
+            //数据更新后，重新设置宽度
+            $chart.resize({
+                width: document.querySelector('#alarmChartCaption')?.clientWidth,
+            });
+        }
+    }, [alarmBarData]);
 
-
-    }, []);
-
-    return <AlarmChartBox ref={boxRef}>
-
-    </AlarmChartBox>;
+    return <AlarmChartBox
+        ref={boxRef}
+        id="alarmChart" />;
 };
 
 export { AlarmChart };

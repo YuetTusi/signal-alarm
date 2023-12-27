@@ -1,12 +1,9 @@
-import { FC, useEffect, useRef } from 'react';
+import { FC, useRef } from 'react';
 import { useModel } from '@/model';
 import { DisplayPanel } from '@/component/panel';
 import { DetailModal } from './detail-modal';
-import { AlarmTop } from './alarm-top';
 import { AlarmChart } from './alarm-chart';
 import { AlarmInfoBox, FixContentBox } from './styled/style';
-
-var scrollTimer: any = null;
 
 /**
  * 预警信息
@@ -22,17 +19,9 @@ const AlarmInfo: FC<{}> = () => {
         setAlarmDetailModalOpen: state.setAlarmDetailModalOpen
     }));
 
-    const onEnterScroll = (event: MouseEvent) => {
-        event.preventDefault();
-        if (scrollTimer !== null) {
-            clearInterval(scrollTimer);
-            scrollTimer = null;
-        }
-    };
-
     return <AlarmInfoBox>
         <DisplayPanel>
-            <div className="caption">
+            <div className="caption" id="alarmChartCaption">
                 <span>预警信息</span>
                 <a
                     onClick={() => setAlarmDetailModalOpen(true)}

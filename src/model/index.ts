@@ -29,6 +29,7 @@ import { sysRole, SysRoleState } from './sys-role';
 import { zone, ZoneState } from './zone';
 import { bibo, BiboState } from './bibo';
 import { whiteList, WhiteListState } from './white-list';
+import { alarmChart, AlarmChartState } from './alarm-chart';
 
 interface OtherState {
     [stateName: string]: any
@@ -66,7 +67,8 @@ type State = OtherState
     & SysRoleState
     & ZoneState
     & BiboState
-    & WhiteListState;
+    & WhiteListState
+    & AlarmChartState;
 
 type GetState = StoreApi<State>['getState'];
 type SetState = StoreApi<State>['setState'];
@@ -104,7 +106,8 @@ const useModel = create<State>(zustandLog((setState: SetState, getState: GetStat
     ...sysRole(setState, getState),
     ...zone(setState, getState),
     ...bibo(setState, getState),
-    ...whiteList(setState, getState)
+    ...whiteList(setState, getState),
+    ...alarmChart(setState, getState)
 }), false));
 
 export type { State, GetState, SetState };

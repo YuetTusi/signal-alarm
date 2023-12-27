@@ -17,8 +17,8 @@ import {
 } from '@/component/statis';
 import CheckReport from '@/component/check-report';
 import { DashboardBox } from "./styled/box";
-import { request } from '@/utility/http';
-import dayjs from 'dayjs';
+// import { request } from '@/utility/http';
+// import dayjs from 'dayjs';
 
 const { ipcRenderer } = electron;
 const { alarmType } = helper.readConf();
@@ -39,6 +39,7 @@ const Dashboard: FC<{}> = memo(() => {
         queryQuickCheckReport,
         setPhoneAlarmData,
         appendPhoneAlarmData,
+        updateAlarmBarData,
         clearPhoneAlarmData
     } = useModel(state => ({
         phoneAlarmData: state.phoneAlarmData,
@@ -49,16 +50,21 @@ const Dashboard: FC<{}> = memo(() => {
         queryWhiteListTop: state.queryWhiteListTop,
         setPhoneAlarmData: state.setPhoneAlarmData,
         appendPhoneAlarmData: state.appendPhoneAlarmData,
+        updateAlarmBarData: state.updateAlarmBarData,
         clearPhoneAlarmData: state.clearPhoneAlarmData
     }));
 
     const alarms = usePhoneAlarm(phoneAlarmData);
 
     const onMessage = (event: MessageEvent<any>) => {
-        console.log('SSE message:', event?.data);
+        // console.log('SSE message:', event?.data);
         try {
             if (typeof event.data === 'string') {
                 const data: PhoneAlarmInfo = JSON.parse(event.data);
+                const message = JSON.parse(data.message);
+                // console.log(message['warnReason'], message['rssi'] + 100);
+                updateAlarmBarData(message['warnReason'], message['rssi'] + 100);
+
                 if (data.hash) {
                     appendPhoneAlarmData({
                         ...data,
@@ -88,7 +94,8 @@ const Dashboard: FC<{}> = memo(() => {
             //             deviceId: 'zrt-test-x00003',
             //             protocol: '协议7',
             //             protocolType: 7,
-            //             status: 0
+            //             status: 0,
+            //             warnReason: '电信(2G/3G/4G-B5)'
             //         })
             //     }).then(res => console.log(res))
             //         .catch(err => console.log(err));
@@ -101,7 +108,8 @@ const Dashboard: FC<{}> = memo(() => {
             //             deviceId: 'RS_071',
             //             protocol: '协议6',
             //             protocolType: 6,
-            //             status: 0
+            //             status: 0,
+            //             warnReason: '联通(3G),联通/电信(4G-B1/N1)'
             //         })
             //     }).then(res => console.log(res))
             //         .catch(err => console.log(err));

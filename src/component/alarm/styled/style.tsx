@@ -19,7 +19,7 @@ export const AlarmTableBox = styled.div`
 
 export const AlarmChartBox = styled.div`
     /* width: 100%; */
-    height: 300px;
+    height: 270px;
 `;
 
 export const SelectedPanel = styled.div`
@@ -92,7 +92,7 @@ export const SearchBarBox = styled.div`
 
 export const FixContentBox = styled.div`
     height: 272px;
-    overflow-y: hidden;
+    overflow: hidden;
     position: absolute;
     top: 34px;
     left: 0;
