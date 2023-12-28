@@ -16,7 +16,6 @@ const isLinux = platform === 'linux';
 var conf: Conf = { mode: 0, alarmType: 0 };
 var mainWindow: BrowserWindow | null = null;
 var reportWindow: BrowserWindow | null = null;
-var reportWindows: BrowserWindow[] = [];
 var timerWindow: BrowserWindow | null = null;
 
 app.commandLine.appendSwitch('no-sandbox');
@@ -113,6 +112,23 @@ app.on('ready', () => {
     // mainWindow.setMenu(null);
     mainWindow.maximize();
 
+    mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+        //拦截renderer的window.open，将blob开头的pdf请求窗口隐藏菜单
+        if (url.startsWith('blob:')) {
+            return {
+                action: 'allow',
+                overrideBrowserWindowOptions: {
+                    title: '检查报告',
+                    width: 1440,
+                    height: 900,
+                    autoHideMenuBar: true
+                }
+            };
+        } else {
+            return { action: 'deny' };
+        }
+    });
+
     if (isDev) {
         mainWindow.loadURL(`http://127.0.0.1:${port.dev}/`);
         mainWindow.webContents.openDevTools();
@@ -126,11 +142,6 @@ app.on('ready', () => {
 
     mainWindow.on('closed', () => {
 
-        reportWindows.forEach(win => {
-            if (win && !win.isDestroyed()) {
-                win.destroy();
-            }
-        });
         if (reportWindow) {
             reportWindow.destroy();
         }
@@ -157,11 +168,6 @@ ipcMain.on('maximize', (event: IpcMainEvent) => {
 //窗口关闭
 ipcMain.on('close', (event: IpcMainEvent) => {
     event.preventDefault();
-    reportWindows.forEach(win => {
-        if (win && !win.isDestroyed()) {
-            win.close();
-        }
-    });
     if (reportWindow) {
         reportWindow.close();
     }
@@ -175,13 +181,6 @@ ipcMain.on('close', (event: IpcMainEvent) => {
 //退出应用
 ipcMain.on('do-close', (_: IpcMainEvent) => {
     //mainWindow通知退出程序
-
-    reportWindows.forEach(win => {
-        if (win && !win.isDestroyed()) {
-            win.close();
-            win.destroy();
-        }
-    });
     if (reportWindow) {
         reportWindow.close();
         reportWindow.destroy();
@@ -212,30 +211,6 @@ ipcMain.on('do-relaunch', () => {
         timerWindow.destroy();
     }
     app.exit(0);
-});
-
-ipcMain.on('report', (_: IpcMainEvent, fileName: string) => {
-
-    reportWindows.push(new BrowserWindow({
-        title: '查看报告',
-        width: 1440,
-        height: 900,
-        minHeight: 800,
-        minWidth: 1440,
-        show: true,
-        autoHideMenuBar: true,
-        webPreferences: {
-            javascript: true,
-            nodeIntegration: true,
-            contextIsolation: false,
-            webSecurity: false
-        }
-    }));
-
-    reportWindows[reportWindows.length - 1]
-        .loadFile(isLinux
-            ? join(cwd, './_signal_tmp', fileName)
-            : join('C:/_signal_tmp', fileName));
 });
 
 ipcMain.on('query-special-type-statis', (_: IpcMainEvent) => {
@@ -275,13 +250,6 @@ ipcMain.on('reload', (_: IpcMainEvent) => {
 
 app.on('window-all-closed', () => {
 
-    reportWindows.forEach(win => {
-        if (win && !win.isDestroyed()) {
-            win.removeAllListeners();
-            win.destroy();
-        }
-    });
-    reportWindows = [];
     if (reportWindow && !reportWindow.isDestroyed()) {
         reportWindow.destroy();
         reportWindow = null;

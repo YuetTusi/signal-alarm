@@ -51,21 +51,12 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
     /**
      * 浏览报告Click
      */
-    const onPreviewClick = async (report: QuickCheckReport) => {
+    const onPreviewClick = async ({ url }: QuickCheckReport) => {
         setLoading(true);
-        const fileName = basename(report.url, '.pdf');
         try {
-            const exist = await helper.existFile(reportPath);
-            if (!exist) {
-                await mkdir(reportPath);
-            }
-            const chunk = await request.attachment(report.url);
-            const pdf = join(reportPath, fileName + '.pdf');
-            await writeFile(pdf, chunk);
-            // await shell.openExternal(pdf, {
-            //     activate: true
-            // });
-            ipcRenderer.send('report', fileName + '.pdf');
+            const chunk = await request.attachment(url);
+            const blob = new Blob([chunk], { type: 'application/pdf' });
+            window.open(URL.createObjectURL(blob));
         } catch (error) {
             log.error(`打开pdf报告失败 @component/check-report/check-report:${error.message}`);
             log.error(`ErrorStack:${error.stack}`);
