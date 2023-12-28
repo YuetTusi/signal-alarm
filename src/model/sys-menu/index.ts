@@ -7,6 +7,10 @@ interface SysMenuState {
      */
     sysMenuData: SystemMenu[],
     /**
+     * 单机版菜单显示
+     */
+    flatMenuVisible: boolean,
+    /**
      * 预警声音设置框
      */
     voiceConrolModalOpen: boolean,
@@ -14,6 +18,10 @@ interface SysMenuState {
      * 修改密码框
      */
     modifyPasswordModalOpen: boolean,
+    /**
+     * 打开/关闭单机版菜单显示
+     */
+    setFlatMenuVisible: (payload: boolean) => void,
     /**
      * 打开/关闭预警声音设置框
      */

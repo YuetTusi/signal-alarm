@@ -12,6 +12,10 @@ const sysMenu = (setState: SetState, _: GetState): SysMenuState => ({
      */
     sysMenuData: [],
     /**
+     * 单机版菜单显示
+     */
+    flatMenuVisible: false,
+    /**
      * 打开/关闭预警声音设置框
      */
     voiceConrolModalOpen: false,
@@ -24,6 +28,9 @@ const sysMenu = (setState: SetState, _: GetState): SysMenuState => ({
      */
     setSysMenuData(payload: SystemMenu[]) {
         setState({ sysMenuData: payload });
+    },
+    setFlatMenuVisible(payload: boolean) {
+        setState({ flatMenuVisible: payload });
     },
     /**
      * 打开/关闭预警声音设置框

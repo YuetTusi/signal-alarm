@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { FC, PropsWithChildren } from 'react';
 import { App, message } from 'antd';
 import { useModel } from '@/model';
+import { helper } from '@/utility/helper';
 import { closeSse } from '@/utility/sse';
 import { StorageKeys } from '@/utility/storage-keys';
 import Reading from '../reading';
@@ -11,12 +12,14 @@ import DragBar from '../drag-bar';
 import Voice from '../voice';
 import AppTitle from '../app-title';
 import { UserMenuAction } from '../setting-menu';
-import { SettingMenu, UserMenu } from "../setting-menu";
+import { SettingMenu, FlatMenu, UserMenu } from "../setting-menu";
 import { VoiceControlModal } from '../voice-control-modal';
 import { ModifyPasswordModal } from '../modify-password-modal';
 import { LayoutBox } from './styled/styled';
+import { AppMode } from '@/schema/conf';
 
 const { rm } = fs.promises;
+const { mode } = helper.readConf();
 
 /**
  * 布局页
@@ -98,7 +101,8 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
         <Reading />
         <div className="banner">
             <div>
-                <SettingMenu />
+                {mode === AppMode.PC ? <FlatMenu /> : <SettingMenu />}
+                {/* <FlatMenu /> */}
             </div>
             <div className="app-title">
                 <AppTitle />

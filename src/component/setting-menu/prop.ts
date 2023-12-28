@@ -1,3 +1,4 @@
+import { PropsWithChildren } from 'react';
 
 export interface SettingMenuProp {
 };
@@ -6,6 +7,13 @@ export interface UserMenuProp {
 
     onMenuItemClick: (action: UserMenuAction) => void
 };
+
+export interface FlatMenuProp {
+}
+
+export interface FlatProp extends PropsWithChildren {
+
+}
 
 export enum UserMenuAction {
     /**
