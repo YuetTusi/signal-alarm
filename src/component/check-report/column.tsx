@@ -1,7 +1,4 @@
-import fs from 'fs';
-import path from 'path';
 import dayjs from 'dayjs';
-import electron from 'electron';
 import { MouseEvent } from 'react';
 import { Button, message } from 'antd';
 import { ColumnsType } from 'antd/es/table';
@@ -10,28 +7,15 @@ import { log } from '@/utility/log';
 import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';
 
-const { basename, join } = path;
-const { mkdir, writeFile } = fs.promises;
-const { ipcRenderer } = electron;
-
 const getColumns = (onDownload: (report: QuickCheckReport) => void) => [{
     title: '报告ID',
     key: 'reportId',
     dataIndex: 'reportId',
     render: (val: string, record) => <Button onClick={async (_: MouseEvent<HTMLElement>) => {
-        const fileName = basename(record.url, '.pdf');
         try {
-            const exist = await helper.existFile('C:/_signal_tmp');
-            if (!exist) {
-                await mkdir('C:/_signal_tmp');
-            }
             const chunk = await request.attachment(record.url);
-            const pdf = join('C:/_signal_tmp', fileName + '.pdf');
-            await writeFile(pdf, chunk);
-            // shell.openExternal(pdf, {
-            //     activate: true
-            // });
-            ipcRenderer.send('report', fileName + '.pdf');
+            const blob = new Blob([chunk], { type: 'application/pdf' });
+            window.open(URL.createObjectURL(blob));
         } catch (error) {
             log.error(`打开pdf报告失败 @component/check-report/column/getColumns:${error.message}`);
             message.destroy();
@@ -40,7 +24,9 @@ const getColumns = (onDownload: (report: QuickCheckReport) => void) => [{
     }}
         disabled={helper.isNullOrUndefined(record.url)}
         type="link"
-        size="small">{val}</Button>
+        size="small">
+        {val}
+    </Button>
 }, {
     title: '任务ID',
     key: 'taskId',

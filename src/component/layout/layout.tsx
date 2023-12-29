@@ -58,7 +58,6 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
                     closeSse();
                     await logout();
                     await localforage.clear();
-                    await rm('C:/_signal_tmp', { recursive: true });
                     sessionStorage.clear();
                     message.success(`用户${loginUserName}已登出`);
                     navigator('/');
@@ -101,7 +100,7 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
         <Reading />
         <div className="banner">
             <div>
-                {mode === AppMode.PC ? <FlatMenu /> : <SettingMenu />}
+                {mode === AppMode.FullScreen ? <FlatMenu /> : <SettingMenu />}
                 {/* <FlatMenu /> */}
             </div>
             <div className="app-title">

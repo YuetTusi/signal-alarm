@@ -18,8 +18,7 @@ import { CheckReportProp } from './prop';
 
 const { basename, join } = path;
 const { ipcRenderer } = electron;
-const { mkdir, writeFile } = fs.promises;
-const reportPath = helper.PLATFORM === 'linux' ? join(process.cwd(), './_signal_tmp') : 'C:/_signal_tmp'
+const { writeFile } = fs.promises;
 
 /**
  * 检测报告

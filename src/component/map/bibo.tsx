@@ -106,6 +106,10 @@ const Bibo: FC<{}> = () => {
 
             if (alarms && alarms.length > 0) {
                 //信号环
+                if (map !== null) {
+                    //更新前浮空环
+                    circles.forEach(circle => circle.circle.removeFrom(map!));
+                }
                 circles = alarms.map(item => {
                     const circle = loadCircle(devices[i].getLatLng(), getColor(item.protocolType!), item.radius);
                     circle.addTo(map!);

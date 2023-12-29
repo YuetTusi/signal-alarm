@@ -11,11 +11,6 @@ const init = async (isDev: boolean) => {
         } catch (error) {
             await mkdir(join(cwd, './resources'), { mode: 0o777 });
         }
-        try {
-            await access(join(cwd, './_signal_tmp'));
-        } catch (error) {
-            await mkdir(join(cwd, './_signal_tmp'), { mode: 0o777 });
-        }
         if (!isDev) {
             try {
                 await access(join(cwd, './resources/ip.json'));
@@ -26,12 +21,6 @@ const init = async (isDev: boolean) => {
                     { encoding: 'utf-8' }
                 );
             }
-        }
-    } else {
-        try {
-            await access('C:/_signal_tmp');
-        } catch (error) {
-            await mkdir('C:/_signal_tmp');
         }
     }
 };
