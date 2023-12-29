@@ -18,8 +18,8 @@ import { blue } from '@/theme/blue';
 import 'leaflet/dist/leaflet.css';
 
 dayjs.locale('zh-cn');
-dayjs.extend(customParseFormat);
 dayjs.extend(relativeTime);
+dayjs.extend(customParseFormat);
 
 localforage.config({
     driver: [
