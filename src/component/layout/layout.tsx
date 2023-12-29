@@ -1,9 +1,9 @@
-import fs from 'fs';
 import localforage from 'localforage';
+import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FC, PropsWithChildren } from 'react';
 import { App, message } from 'antd';
 import { useModel } from '@/model';
+import { AppMode } from '@/schema/conf';
 import { helper } from '@/utility/helper';
 import { closeSse } from '@/utility/sse';
 import { StorageKeys } from '@/utility/storage-keys';
@@ -16,20 +16,19 @@ import { SettingMenu, FlatMenu, UserMenu } from "../setting-menu";
 import { VoiceControlModal } from '../voice-control-modal';
 import { ModifyPasswordModal } from '../modify-password-modal';
 import { LayoutBox } from './styled/styled';
-import { AppMode } from '@/schema/conf';
+import { LayoutProp } from './prop';
 
-const { rm } = fs.promises;
 const { mode } = helper.readConf();
 
 /**
  * 布局页
  */
-const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
+const Layout: FC<LayoutProp> = ({ children }) => {
 
     const navigator = useNavigate();
     const { modal } = App.useApp();
     const {
-        voiceConrolModalOpen,
+        voiceControlModalOpen,
         modifyPasswordModalOpen,
         loginUserName,
         logout,
@@ -38,7 +37,7 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
         setVoiceConrolModalOpen,
         modifyUserPassword
     } = useModel(state => ({
-        voiceConrolModalOpen: state.voiceConrolModalOpen,
+        voiceControlModalOpen: state.voiceControlModalOpen,
         modifyPasswordModalOpen: state.modifyPasswordModalOpen,
         loginUserName: state.loginUserName,
         logout: state.logout,
@@ -101,7 +100,6 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
         <div className="banner">
             <div>
                 {mode === AppMode.FullScreen ? <FlatMenu /> : <SettingMenu />}
-                {/* <FlatMenu /> */}
             </div>
             <div className="app-title">
                 <AppTitle />
@@ -116,15 +114,13 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
             {children}
         </div>
         <VoiceControlModal
-            open={voiceConrolModalOpen}
+            open={voiceControlModalOpen}
             onCancel={() => setVoiceConrolModalOpen(false)}
             onOk={(voice) => {
                 message.destroy();
                 localStorage.setItem(StorageKeys.Voice, voice ? '1' : '0');
                 setSound(voice);
-                voice
-                    ? message.info('预警声音已打开')
-                    : message.info('预警声音已关闭');
+                message.info(`预警声音已${voice ? '打开' : '关闭'}`);
                 setVoiceConrolModalOpen(false);
             }} />
         <ModifyPasswordModal

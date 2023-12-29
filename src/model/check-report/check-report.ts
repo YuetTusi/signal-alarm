@@ -8,6 +8,9 @@ import { QueryPage } from '@/schema/query-page';
 import { GetState, SetState } from "..";
 import { CheckReportState } from ".";
 
+/**
+ * 检查报告
+ */
 const checkReport = (setState: SetState, _: GetState): CheckReportState => ({
     /**
      * 分页数据
@@ -50,7 +53,7 @@ const checkReport = (setState: SetState, _: GetState): CheckReportState => ({
         });
     },
     /**
-     * 查询专项检查（终端）分页数据
+     * 查询检查报告分页数据
      */
     async queryCheckReportData(pageIndex: number, pageSize: number, condition?: Record<string, any>) {
         message.destroy();

@@ -20,7 +20,6 @@ const SettingMenu: FC<SettingMenuProp> = ({ }) => {
         querySysMenuData
     } = useModel(state => ({
         sysMenuData: state.sysMenuData,
-        voiceConrolModalOpen: state.voiceConrolModalOpen,
         setAlarmDetailModalOpen: state.setAlarmDetailModalOpen,
         setQuickCheckReportDetailModalOpen: state.setQuickCheckReportDetailModalOpen,
         setSpecialDetailModalOpen: state.setSpecialDetailModalOpen,

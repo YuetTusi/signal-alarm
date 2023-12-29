@@ -50,7 +50,7 @@ const FlatMenu: FC<FlatMenuProp> = ({ }) => {
         setSpecialDetailModalOpen,
         querySysMenuData
     } = useModel(state => ({
-        voiceConrolModalOpen: state.voiceConrolModalOpen,
+        voiceControlModalOpen: state.voiceControlModalOpen,
         sysMenuData: state.sysMenuData,
         setFlatMenuVisible: state.setFlatMenuVisible,
         setAlarmDetailModalOpen: state.setAlarmDetailModalOpen,

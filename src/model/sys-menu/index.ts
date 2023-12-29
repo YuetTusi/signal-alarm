@@ -13,7 +13,7 @@ interface SysMenuState {
     /**
      * 预警声音设置框
      */
-    voiceConrolModalOpen: boolean,
+    voiceControlModalOpen: boolean,
     /**
      * 修改密码框
      */

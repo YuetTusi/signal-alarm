@@ -18,7 +18,7 @@ const sysMenu = (setState: SetState, _: GetState): SysMenuState => ({
     /**
      * 打开/关闭预警声音设置框
      */
-    voiceConrolModalOpen: false,
+    voiceControlModalOpen: false,
     /**
      * 修改密码框
      */
@@ -29,6 +29,9 @@ const sysMenu = (setState: SetState, _: GetState): SysMenuState => ({
     setSysMenuData(payload: SystemMenu[]) {
         setState({ sysMenuData: payload });
     },
+    /**
+     * 打开/关闭单机版菜单显示
+     */
     setFlatMenuVisible(payload: boolean) {
         setState({ flatMenuVisible: payload });
     },
@@ -36,7 +39,7 @@ const sysMenu = (setState: SetState, _: GetState): SysMenuState => ({
      * 打开/关闭预警声音设置框
      */
     setVoiceConrolModalOpen(payload: boolean) {
-        setState({ voiceConrolModalOpen: payload });
+        setState({ voiceControlModalOpen: payload });
     },
     /**
      * 打开/关闭修改密码框

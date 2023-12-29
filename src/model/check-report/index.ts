@@ -39,7 +39,7 @@ interface CheckReportState {
      */
     setCheckReportPage: (pageIndex: number, pageSize: number, total: number) => void,
     /**
-     * 查询专项检查（终端）分页数据
+     * 查询检查报告分页数据
      */
     queryCheckReportData: (pageIndex: number, pageSize: number, condition?: Record<string, any>) => void
 }
