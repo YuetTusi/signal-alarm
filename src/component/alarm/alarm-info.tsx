@@ -23,9 +23,9 @@ const AlarmInfo: FC<{}> = () => {
         <DisplayPanel>
             <div className="caption" id="alarmChartCaption">
                 <span>预警信息</span>
-                {/* <a
+                <a
                     onClick={() => setAlarmDetailModalOpen(true)}
-                    style={{ color: '#fff' }}>更多</a> */}
+                    style={{ color: '#fff' }}>更多</a>
             </div>
             <FixContentBox ref={scrollBox}>
                 <AlarmChart />

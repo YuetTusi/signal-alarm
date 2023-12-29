@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { FC } from 'react';
 import { getProtocolName } from '@/schema/protocol';
 import { AlarmMessage } from '@/schema/phone-alarm-info';

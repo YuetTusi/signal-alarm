@@ -12,7 +12,10 @@ import { Zone } from '@/schema/zone';
 import { DeviceState } from '@/schema/com-device';
 import { Legend } from './legend';
 import { RadarInfo } from './radar-info';
-import { disposeAllMarker, getColor, initMap, loadCircle, loadMap } from './util';
+import {
+    disposeAllMarker, getColor, initMap,
+    loadCircle, loadMap
+} from './util';
 import { BiboBox, MaskBox } from './styled/box';
 import { MarkerOptionsEx, SearchFormValue } from './prop';
 
@@ -327,6 +330,14 @@ const Bibo: FC<{}> = () => {
             onClose={() => {
                 openRadar(false);
             }} />
+        {/* <RadarDemo
+            open={radar}
+            data={alarms}
+            deviceId={deviceId}
+            onClose={() => {
+                openRadar(false);
+            }}
+        /> */}
         <MaskBox style={{ display: loading ? 'flex' : 'none' }}>
             <Spin
                 tip="加载中"

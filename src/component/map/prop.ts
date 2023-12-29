@@ -1,5 +1,5 @@
 import { DeviceState } from '@/schema/com-device';
-import { Marker, MarkerOptions } from 'leaflet';
+import { MarkerOptions } from 'leaflet';
 
 export interface MapProp {
     /**
@@ -58,7 +58,7 @@ export enum ProtocolColor {
     /**
      * 中国移动GSM
      */
-    ChinaMobileGSM = '#FFC312',
+    ChinaMobileGSM = '#f6e58d',
     /**
      * 中国联通GSM
      */
@@ -70,11 +70,11 @@ export enum ProtocolColor {
     /**
      * 中国联通WCDMA
      */
-    ChinaUnicomWCDMA = '#FDA7DF',
+    ChinaUnicomWCDMA = '#fbbad0',
     /**
      * 中国移动TDD-LTE
      */
-    ChinaMobileTDDLTE = '#ED4C67',
+    ChinaMobileTDDLTE = '#e72c29',
     /**
      * 中国联通FDD-LTE
      */
@@ -82,7 +82,7 @@ export enum ProtocolColor {
     /**
      * 中国电信FDD-LTE
      */
-    ChinaTelecomFDDLTE = '#A3CB38',
+    ChinaTelecomFDDLTE = '#20bf6b',
     /**
      * WiFi2.4G
      */
@@ -94,11 +94,11 @@ export enum ProtocolColor {
     /**
      * 中国移动5G
      */
-    ChinaMobile5G = '#B53471',
+    ChinaMobile5G = '#8e44ad',
     /**
      * 中国联通5G
      */
-    ChinaUnicom5G = '#FEA47F',
+    ChinaUnicom5G = '#fd79a8',
     /**
      * 中国广电5G
      */
