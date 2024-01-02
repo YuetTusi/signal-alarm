@@ -23,9 +23,10 @@
 		},
 		"asar": true,
 		"asarUnpack": [
+			"dist/index.html",
 			"dist/assets/**/*",
-			"src/renderer/timer/**/*",
-			"dist/index.html"
+			"setting/**/*",
+			"src/renderer/timer/**/*"
 		],
 		"files": [
 			"dist/**/*",
@@ -34,7 +35,15 @@
 			"icon.png",
 			"package.json"
 		],
-		"extraResources": [],
+		"extraResources": [
+			{
+				"from": "./setting",
+				"to": "./",
+				"filter": [
+					"**/*"
+				]
+			}
+		],
 		"win": {
 			"target": [
 				"zip"
