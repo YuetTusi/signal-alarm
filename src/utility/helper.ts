@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import { v4 } from 'uuid';
 import memoize from 'lodash/memoize';
 import { LatLngBoundsLiteral } from 'leaflet';
+import { Band } from '../schema/band';
 import { Protocol } from '../schema/protocol';
 import { ComDevice, ComDeviceDropdown } from '../schema/com-device';
 import { AlarmType, AppMode, Conf } from '../schema/conf';
@@ -56,7 +57,7 @@ const helper = {
         let confPath = '';
         try {
             if (helper.IS_DEV) {
-                confPath = join(cwd, './conf.json');
+                confPath = join(cwd, './setting/conf.json');
             } else {
                 confPath = join(cwd, 'resources/conf.json')
             }
@@ -157,7 +158,7 @@ const helper = {
      */
     getAppSetting: memoize(() => {
         const ipJson = process.env['NODE_ENV'] === 'development'
-            ? join(cwd, './ip.json')
+            ? join(cwd, './setting/ip.json')
             : join(cwd, 'resources/ip.json');
         try {
             const data = fs.readFileSync(ipJson, { encoding: 'utf-8' });
@@ -203,7 +204,7 @@ const helper = {
         let jsonPath = '';
         try {
             if (helper.IS_DEV) {
-                jsonPath = join(cwd, './protocol.json');
+                jsonPath = join(cwd, './setting/protocol.json');
             } else {
                 jsonPath = join(cwd, 'resources/protocol.json')
             }
@@ -212,6 +213,25 @@ const helper = {
             return JSON.parse(chunk) as { value: number, text: string }[];
         } catch (error) {
             console.warn(`读取协议配置失败 @utility/helper/readProtocol() : ${error.message}`);
+            return [];
+        }
+    }),
+    /**
+     * 读取band配置
+     */
+    readBand: memoize((): Band[] => {
+        let jsonPath = '';
+        try {
+            if (helper.IS_DEV) {
+                jsonPath = join(cwd, './setting/band.json');
+            } else {
+                jsonPath = join(cwd, 'resources/band.json')
+            }
+            accessSync(jsonPath);
+            const chunk = readFileSync(jsonPath, { encoding: 'utf8' });
+            return JSON.parse(chunk) as Band[];
+        } catch (error) {
+            console.warn(`读取band配置失败 @utility/helper/readBand() : ${error.message}`);
             return [];
         }
     }),

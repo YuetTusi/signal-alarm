@@ -1,0 +1,74 @@
+[
+	{
+		"value": 1,
+		"text": "中国移动GSM"
+	},
+	{
+		"value": 2,
+		"text": "中国联通GSM"
+	},
+	{
+		"value": 3,
+		"text": "中国电信CDMA"
+	},
+	{
+		"value": 4,
+		"text": "中国联通WCDMA"
+	},
+	{
+		"value": 5,
+		"text": "中国移动TDD-LTE"
+	},
+	{
+		"value": 6,
+		"text": "中国联通FDD-LTE"
+	},
+	{
+		"value": 7,
+		"text": "中国电信FDD-LTE"
+	},
+	{
+		"value": 8,
+		"text": "WiFi2.4G"
+	},
+	{
+		"value": 9,
+		"text": "WiFi5.8G"
+	},
+	{
+		"value": 10,
+		"text": "中国移动5G"
+	},
+	{
+		"value": 11,
+		"text": "中国联通5G"
+	},
+	{
+		"value": 12,
+		"text": "中国广电5G"
+	},
+	{
+		"value": 13,
+		"text": "中国电信5G"
+	},
+	{
+		"value": 14,
+		"text": "蓝牙"
+	},
+	{
+		"value": 15,
+		"text": "窃听器"
+	},
+	{
+		"value": 16,
+		"text": "GPS定位器"
+	},
+	{
+		"value": 17,
+		"text": "摄像头"
+	},
+	{
+		"value": 18,
+		"text": "其他"
+	}
+]

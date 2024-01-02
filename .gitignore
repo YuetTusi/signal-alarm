@@ -183,7 +183,5 @@ $RECYCLE.BIN/
 *.lnk
 
 # myself
-/ip.json
 /_tmp
 /log
-/protocol.json

@@ -8,7 +8,7 @@ import { NetworkModalProp, FormValue } from './prop';
 const cwd = process.cwd();
 const { join } = path;
 const { useForm, Item } = Form;
-const ipJson = helper.IS_DEV ? join(cwd, './ip.json') : join(cwd, 'resources/ip.json');
+const ipJson = helper.IS_DEV ? join(cwd, './setting/ip.json') : join(cwd, 'resources/ip.json');
 
 /**
  * 应用设置

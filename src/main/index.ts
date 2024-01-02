@@ -39,7 +39,7 @@ if (!app.requestSingleInstanceLock()) {
     }
     try {
         const confPath = isDev
-            ? join(cwd, './conf.json')
+            ? join(cwd, './setting/conf.json')
             : join(cwd, 'resources/conf.json');
         accessSync(confPath);
         const chunk = readFileSync(confPath, { encoding: 'utf8' });

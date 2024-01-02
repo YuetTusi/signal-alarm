@@ -28,7 +28,7 @@ const { ipcRenderer } = electron;
 const { Item, useForm } = Form;
 const { Password } = Input;
 const ipJson = helper.IS_DEV
-    ? join(cwd, './ip.json')
+    ? join(cwd, './setting/ip.json')
     : join(cwd, 'resources/ip.json');
 const { mode } = helper.readConf();
 
