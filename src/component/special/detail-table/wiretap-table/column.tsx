@@ -1,6 +1,6 @@
 import { ColumnsType } from 'antd/es/table';
 import { Wap } from '@/schema/wap';
-import { getProtocolLabel } from '@/schema/protocol';
+import { getProtocolText } from '@/schema/protocol';
 import { NoWarpLabel } from '@/component/panel/panel';
 
 const getColumns = (): ColumnsType<Wap> => {
@@ -50,9 +50,7 @@ const getTopColumns = (): ColumnsType<Wap> => {
         title: '类型',
         key: 'protocolType',
         dataIndex: 'protocolType',
-        render: (val: number) => {
-            return getProtocolLabel(val);
-        }
+        render: (val: number) => getProtocolText(val)
     }, {
         title: '设备ID',
         key: 'deviceId',

@@ -1,7 +1,7 @@
 import { Tag } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { Terminal } from '@/schema/terminal';
-import { Protocol, getProtocolLabel } from '@/schema/protocol';
+import { Protocol, getProtocolText } from '@/schema/protocol';
 import { NoWarpLabel } from '@/component/panel/panel';
 
 const getColumns = (): ColumnsType<Terminal> => {
@@ -11,7 +11,7 @@ const getColumns = (): ColumnsType<Terminal> => {
         dataIndex: 'protocolType',
         width: 80,
         align: 'center',
-        render: (val: Protocol) => getProtocolLabel(val)
+        render: (val: Protocol) => getProtocolText(val)
     },
     {
         title: 'MAC地址',

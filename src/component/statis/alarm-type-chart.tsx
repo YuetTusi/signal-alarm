@@ -2,7 +2,7 @@
 import { FC, useEffect } from 'react';
 import useModel from '@/model';
 import { Loop } from '@/component/chart';
-import { getProtocolLabel } from '@/schema/protocol';
+import { getProtocolText } from '@/schema/protocol';
 import { DisplayPanel } from '../panel';
 
 /**
@@ -24,7 +24,7 @@ const AlarmTypeChart: FC<{}> = () => {
 
     const convertData = () =>
         alarmTypeStatisData.map(item => ({
-            name: getProtocolLabel(item.protocolType),
+            name: getProtocolText(item.protocolType),
             value: item.num
         }));
 

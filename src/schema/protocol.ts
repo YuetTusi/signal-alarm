@@ -1,3 +1,5 @@
+import { helper } from "@/utility/helper";
+
 /**
  * 专项检查字典类型
  */
@@ -139,3 +141,18 @@ export const getProtocolLabel = (value: Protocol) => {
  * 获取枚举名称
  */
 export const getProtocolName = (value: Protocol) => Protocol[value];
+
+/**
+ * 返回该协议的文本
+ * @param value 协议
+ */
+export const getProtocolText = (value: number) => {
+
+    const protocols = helper.readProtocol();
+    if (value === -1) {
+        return '全部';
+    }
+
+    const current = protocols.find(i => i.value === value);
+    return current?.text ?? '-';
+};

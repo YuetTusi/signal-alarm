@@ -2,7 +2,7 @@ import { ColumnsType } from 'antd/es/table';
 import PlusOutlined from '@ant-design/icons/PlusOutlined';
 import { Button } from 'antd';
 import { Hotspot } from '@/schema/hotspot';
-import { getProtocolLabel } from '@/schema/protocol';
+import { getProtocolText } from '@/schema/protocol';
 import { NoWarpLabel } from '@/component/panel/panel';
 import { ActionType } from './prop';
 
@@ -13,9 +13,7 @@ const getColumns = (handle: (actionType: ActionType, data: Hotspot) => void): Co
         dataIndex: 'protocolType',
         width: 80,
         align: 'center',
-        render: (val: any) => {
-            return getProtocolLabel(val);
-        }
+        render: (val: any) => getProtocolText(val)
     }, {
         title: '热点',
         key: 'ssid',

@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { helper } from "@/utility/helper";
 import { SpecialBase } from "@/schema/special-base";
-import { getProtocolLabel } from "@/schema/protocol";
+import { getProtocolText } from "@/schema/protocol";
 import { SpiTab } from "../wap-info/prop";
 
 /**
@@ -27,7 +27,7 @@ const ContentLabel: FC<{ type: SpiTab, data: SpecialBase }> = ({ type, data }) =
                     ? '-'
                     : (data as any)?.ssid;
             case SpiTab.Terminal:
-                return getProtocolLabel(data.protocolType)
+                return getProtocolText(data.protocolType)
         }
     };
 

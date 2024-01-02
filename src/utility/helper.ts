@@ -197,6 +197,25 @@ const helper = {
         return protocol.join(',');
     },
     /**
+     * 读取协议配置
+     */
+    readProtocol: memoize((): { value: number, text: string }[] => {
+        let jsonPath = '';
+        try {
+            if (helper.IS_DEV) {
+                jsonPath = join(cwd, './protocol.json');
+            } else {
+                jsonPath = join(cwd, 'resources/protocol.json')
+            }
+            accessSync(jsonPath);
+            const chunk = readFileSync(jsonPath, { encoding: 'utf8' });
+            return JSON.parse(chunk) as { value: number, text: string }[];
+        } catch (error) {
+            console.warn(`读取协议配置失败 @utility/helper/readProtocol() : ${error.message}`);
+            return [];
+        }
+    }),
+    /**
      * 写入日志
      * @param value 日志内容 
      * @param level 日志等级

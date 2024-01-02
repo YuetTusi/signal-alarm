@@ -2,7 +2,7 @@ import PlusOutlined from '@ant-design/icons/PlusOutlined';
 import { Button, Tag } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { Terminal } from '@/schema/terminal';
-import { Protocol, getProtocolLabel } from '@/schema/protocol';
+import { Protocol, getProtocolText } from '@/schema/protocol';
 import { NoWarpLabel } from '@/component/panel/panel';
 import { ActionType } from './prop';
 
@@ -101,9 +101,7 @@ const getTopColumns = (): ColumnsType<Terminal> => {
         title: '类型',
         key: 'protocolType',
         dataIndex: 'protocolType',
-        render: (val: number) => {
-            return getProtocolLabel(val);
-        }
+        render: (val: number) => getProtocolText(val)
     }, {
         title: '设备ID',
         key: 'deviceId',

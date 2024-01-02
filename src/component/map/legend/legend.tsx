@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Protocol, getProtocolLabel } from '@/schema/protocol';
+import { Protocol, getProtocolText } from '@/schema/protocol';
 import { LegendBox } from './styled/box';
 import { ProtocolColor } from '../prop';
 import { LegendProp } from './prop';
@@ -24,7 +24,7 @@ const Legend: FC<LegendProp> = ({ visible }) => {
             ].some(i => i === name))
             .map(([name, color]) => <li key={`L_${name}`}>
                 <i style={{ backgroundColor: color }} />
-                <span>{getProtocolLabel(Protocol[name as any] as any)}</span>
+                <span>{getProtocolText(Protocol[name as any] as any)}</span>
             </li>);
 
     return <LegendBox style={{ display: visible ? 'block' : 'none' }}>
