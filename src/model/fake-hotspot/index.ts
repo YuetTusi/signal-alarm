@@ -1,3 +1,4 @@
+import { RequestResult } from "@/utility/http";
 import { FakeHotspot } from "@/schema/fake-hotspot";
 import { fakeHotspot } from './fake-hotspot';
 
@@ -22,6 +23,11 @@ interface FakeHotspotState {
      * 伪热点分页数据
      */
     fakeHotspotData: FakeHotspot[],
+    /**
+     * 添加伪热点
+     * @param payload
+     */
+    addFakeHotspot: (payload: FakeHotspot) => Promise<RequestResult<any> | null>,
     /**
      * 查询伪热点分页数据
      */

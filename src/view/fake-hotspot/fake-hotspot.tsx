@@ -1,12 +1,14 @@
-import { FC, MouseEvent, useEffect } from 'react';
+import dayjs from 'dayjs';
+import { FC, MouseEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Input, Form, Select, Table } from 'antd';
+import { Button, Input, Form, Select, Table, message } from 'antd';
 import { useModel } from '@/model';
 import { helper } from '@/utility/helper';
 import { FakeHotspot as FakeHotspotEntity } from '@/schema/fake-hotspot';
+import { AddModal } from './add-modal';
 import { FakeHotspotBox, SearchBar, TableBox } from './styled/box';
-import { FakeHotspotProp } from './prop';
 import { getColumns } from './column';
+import { FakeHotspotProp } from './prop';
 
 const { Option } = Select;
 const { Item, useForm } = Form;
@@ -22,6 +24,7 @@ const FakeHotspot: FC<FakeHotspotProp> = () => {
         fakeHotspotPageSize,
         fakeHotspotLoading,
         fakeHotspotTotal,
+        addFakeHotspot,
         queryFakeHotspotData
     } = useModel(state => ({
         fakeHotspotData: state.fakeHotspotData,
@@ -29,10 +32,12 @@ const FakeHotspot: FC<FakeHotspotProp> = () => {
         fakeHotspotPageSize: state.fakeHotspotPageSize,
         fakeHotspotLoading: state.fakeHotspotLoading,
         fakeHotspotTotal: state.fakeHotspotTotal,
+        addFakeHotspot: state.addFakeHotspot,
         queryFakeHotspotData: state.queryFakeHotspotData
     }));
 
     const navigate = useNavigate();
+    const [addModalOpen, setAddModalOpen] = useState(false);
     const [formRef] = useForm<FakeHotspotEntity>();
 
     useEffect(() => {
@@ -57,6 +62,36 @@ const FakeHotspot: FC<FakeHotspotProp> = () => {
     const onGoBackClick = (event: MouseEvent<HTMLElement>) => {
         event.preventDefault();
         navigate('/dashboard');
+    };
+
+    /**
+     * 添加伪热点Save
+     * @param data 表单数据
+     */
+    const onSave = async (data: FakeHotspotEntity) => {
+        message.destroy();
+        const { getFieldsValue } = formRef;
+        const now = dayjs().format('YYYY-MM-DD HH:mm:ss');
+        try {
+            const res = await addFakeHotspot({
+                ...data,
+                count: 0,
+                updateTime: now,
+                createTime: now
+            });
+
+            if (res !== null && res.code === 200) {
+                message.success('添加成功');
+                setAddModalOpen(false);
+                const values = getFieldsValue();
+                await queryFakeHotspotData(1, helper.PAGE_SIZE, values);
+            } else {
+                message.warning('添加失败');
+            }
+        } catch (error) {
+            console.warn(error);
+            message.warning(`添加失败 (${error.message})`);
+        }
     };
 
     const onPageChange = async (pageIndex: number, pageSize: number) => {
@@ -113,7 +148,7 @@ const FakeHotspot: FC<FakeHotspotProp> = () => {
             </div>
             <div>
                 <Button
-                    onClick={() => { }}
+                    onClick={() => setAddModalOpen(true)}
                     type="primary">
                     添加伪热点
                 </Button>
@@ -135,6 +170,11 @@ const FakeHotspot: FC<FakeHotspotProp> = () => {
                 rowKey="id"
             />
         </TableBox>
+        <AddModal
+            open={addModalOpen}
+            onOk={onSave}
+            onClose={() => setAddModalOpen(false)}
+        />
     </FakeHotspotBox>;
 };
 
