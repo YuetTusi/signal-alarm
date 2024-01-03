@@ -90,5 +90,9 @@ export enum MenuPath {
     /**
      * 白名单管理
      */
-    WhiteList = 'whiteList'
+    WhiteList = 'whiteList',
+    /**
+     * 伪热点防护
+     */
+    FakeHotspot = 'fakeHotspot'
 }

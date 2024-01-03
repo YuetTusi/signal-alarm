@@ -95,6 +95,10 @@ const SettingMenu: FC<SettingMenuProp> = ({ }) => {
                 //白名单管理
                 navigator('/white-list');
                 break;
+            case MenuPath.FakeHotspot:
+                //伪热点防护
+                navigator('/fake-hotspot');
+                break;
         }
     };
 

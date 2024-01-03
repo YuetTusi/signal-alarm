@@ -7,6 +7,7 @@ import Device from '@/view/device';
 import Zone from '@/view/zone';
 import SysUser from '@/view/sys-user';
 import WhiteList from '@/view/white-list';
+import FakeHotspot from '@/view/fake-hotspot';
 import {
     RealSpectrum,
     HistorySpectrum,
@@ -82,6 +83,14 @@ export const ViewRouter: FC<{}> = () => <Router>
             element={
                 <Layout>
                     <WhiteList />
+                </Layout>
+            }
+        />
+        <Route
+            path="/fake-hotspot"
+            element={
+                <Layout>
+                    <FakeHotspot />
                 </Layout>
             }
         />
