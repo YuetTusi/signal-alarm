@@ -104,6 +104,10 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, data, deviceId, onClose }) => {
 
     const renderInfo = () => {
 
+        if (points === null || points.length === 0) {
+            return null;
+        }
+
         let alarms: AlarmMessage[] = [];
         if (alarmType === AlarmType.Single) {
             //单机版
@@ -111,9 +115,6 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, data, deviceId, onClose }) => {
         } else {
             //网络版（筛选当前deviceId的最新报警）
             if (deviceId === undefined || data[deviceId] === undefined) {
-                return null;
-            }
-            if (points === null || points.length === 0) {
                 return null;
             }
             alarms = data[deviceId];

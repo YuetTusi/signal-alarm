@@ -93,7 +93,7 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [
         dataIndex: 'read',
         align: 'center',
         width: 60,
-        render: (val: any, record) => {
+        render: (_: any, record) => {
             if (record.status === 0) {
                 return <a onClick={() => {
                     handle(ActionType.Process, record);
@@ -108,7 +108,7 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [
         dataIndex: 'detail',
         align: 'center',
         width: 60,
-        render: (val: any, record) => <a onClick={() => {
+        render: (_: any, record) => <a onClick={() => {
             handle(ActionType.Detail, record);
         }}>详情</a>
     }
@@ -218,7 +218,7 @@ const getTopColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [{
     dataIndex: 'read',
     align: 'center',
     width: 50,
-    render: (val: any, record) => {
+    render: (_: any, record) => {
         if (record.status === 0) {
             return <a
                 onClick={() => {
@@ -235,7 +235,7 @@ const getTopColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [{
     dataIndex: 'detail',
     align: 'center',
     width: 50,
-    render: (val: any, record) => <a onClick={() => {
+    render: (_: any, record) => <a onClick={() => {
         handle(ActionType.Detail, record);
     }}
         style={{ color: '#fff' }}>详情</a>
