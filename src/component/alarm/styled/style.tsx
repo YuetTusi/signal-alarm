@@ -20,6 +20,18 @@ export const AlarmTableBox = styled.div`
 export const AlarmChartBox = styled.div`
     /* width: 100%; */
     height: 270px;
+
+    .bar-tooltip{
+        .tt-caption{
+            padding-bottom: 4px;
+        }
+        .tt-row{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
 `;
 
 export const SelectedPanel = styled.div`

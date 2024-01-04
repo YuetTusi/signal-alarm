@@ -18,10 +18,25 @@ var option = {
         axisPointer: {
             type: 'shadow'
         },
-        // position: ([x, y]: number[]) => {
-        //     const yPoint = y > 175 ? y - 30 : y + 5;
-        //     return [30, yPoint];
-        // }
+        formatter: (params: any[]) => {
+            const [first] = params;
+            return `<div class="bar-tooltip">
+                <div class="tt-caption">
+                ${first.marker}
+                    ${first.name}
+                </div>
+                <div class="tt-row">
+                    <span>
+                        <label>强度：</label>
+                    </span>
+                    <b style="text-align:right;">${first.data.value ?? '-'}</b>
+                </div>
+                <div class="tt-row">
+                    <label>告警时间：</label>
+                    <b>${first.data.captureTime ?? '-'}</b>
+                </div>
+            </div>`;
+        }
     },
     xAxis: {
         type: 'category',
@@ -106,7 +121,10 @@ const AlarmChart: FC<{}> = () => {
             $chart.setOption({
                 xAxis: { data: Object.keys(alarmBarData) },
                 series: [{
-                    data: Object.values(alarmBarData)
+                    data: Object.values(alarmBarData).map(i => ({
+                        ...i,
+                        value: i.rssi
+                    })),
                 }]
             });
             //数据更新后，重新设置宽度

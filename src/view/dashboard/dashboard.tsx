@@ -3,6 +3,8 @@ import { FC, memo, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
 import { useModel } from "@/model";
 import { usePhoneAlarm } from '@/hook';
+import { AlarmType } from '@/schema/conf';
+import { PhoneAlarmInfo } from '@/schema/phone-alarm-info';
 import { helper } from '@/utility/helper';
 import { instance, closeSse } from '@/utility/sse';
 import { StorageKeys } from '@/utility/storage-keys';
@@ -10,11 +12,8 @@ import { Bibo } from '@/component/map';
 import { RadarInfo } from '@/component/map/radar-info';
 import { AlarmInfo } from '@/component/alarm';
 import WapInfo from "@/component/special/wap-info";
-import { AlarmType } from '@/schema/conf';
-import { PhoneAlarmInfo } from '@/schema/phone-alarm-info';
 import {
-    AlarmTypeChart, WhiteListTop, SpecialTypeChart,
-    AlarmWeekChart, FakeHotspotList
+    WhiteListTop, SpecialTypeChart, AlarmWeekChart, FakeHotspotList
 } from '@/component/statis';
 import CheckReport from '@/component/check-report';
 import { DashboardBox } from "./styled/box";
@@ -64,7 +63,10 @@ const Dashboard: FC<{}> = memo(() => {
                 const data: PhoneAlarmInfo = JSON.parse(event.data);
                 const message = JSON.parse(data.message);
                 // console.log(message['warnReason'], message['rssi'] + 100);
-                updateAlarmBarData(message['warnReason'], message['rssi'] + 100);
+                updateAlarmBarData(message['warnReason'], {
+                    rssi: message['rssi'] + 100,
+                    captureTime: message['captureTime']
+                });
 
                 if (data.hash) {
                     appendPhoneAlarmData({
