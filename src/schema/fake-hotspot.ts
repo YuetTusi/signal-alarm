@@ -17,7 +17,7 @@ class FakeHotspot extends BaseEntity {
      */
     public realMac: string = ''
     /**
-     * 数量
+     * 命中数量
      */
     public count: number = 0
     /**

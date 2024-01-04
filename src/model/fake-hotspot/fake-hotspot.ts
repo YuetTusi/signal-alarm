@@ -28,6 +28,10 @@ const fakeHotspot = (setState: SetState, _: GetState): FakeHotspotState => ({
      */
     fakeHotspotData: [],
     /**
+     * 伪热点状态列表
+     */
+    fakeHotspotList: [],
+    /**
      * 添加伪热点
      * @param payload
      */
@@ -37,6 +41,23 @@ const fakeHotspot = (setState: SetState, _: GetState): FakeHotspotState => ({
         try {
             const res = await request.post(url, payload);
             return res;
+        } catch (error) {
+            throw error;
+        }
+    },
+    /**
+     * 查询伪热点状态列表
+     * @param payload
+     */
+    async queryFakeHotspotList() {
+        const url = '/fake-hotspot-protect';
+        try {
+            const res = await request.get<FakeHotspot[]>(url);
+            if (res !== null && res.code === 200) {
+                setState({ fakeHotspotList: res.data });
+            } else {
+                setState({ fakeHotspotList: [] });
+            }
         } catch (error) {
             throw error;
         }

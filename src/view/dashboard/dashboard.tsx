@@ -13,7 +13,8 @@ import WapInfo from "@/component/special/wap-info";
 import { AlarmType } from '@/schema/conf';
 import { PhoneAlarmInfo } from '@/schema/phone-alarm-info';
 import {
-    AlarmTypeChart, WhiteListTop, SpecialTypeChart, AlarmWeekChart
+    AlarmTypeChart, WhiteListTop, SpecialTypeChart,
+    AlarmWeekChart, FakeHotspotList
 } from '@/component/statis';
 import CheckReport from '@/component/check-report';
 import { DashboardBox } from "./styled/box";
@@ -190,7 +191,8 @@ const Dashboard: FC<{}> = memo(() => {
             <WhiteListTop />
             <SpecialTypeChart />
             <AlarmWeekChart />
-            <AlarmTypeChart />
+            {/* <AlarmTypeChart /> */}
+            <FakeHotspotList />
         </div>
         <div className="center-box">
             <div className="main-box">

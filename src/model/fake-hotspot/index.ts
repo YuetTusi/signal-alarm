@@ -24,10 +24,19 @@ interface FakeHotspotState {
      */
     fakeHotspotData: FakeHotspot[],
     /**
+     * 伪热点状态列表
+     */
+    fakeHotspotList: FakeHotspot[],
+    /**
      * 添加伪热点
      * @param payload
      */
     addFakeHotspot: (payload: FakeHotspot) => Promise<RequestResult<any> | null>,
+    /**
+     * 查询伪热点状态列表
+     * @param payload
+     */
+    queryFakeHotspotList: () => void,
     /**
      * 查询伪热点分页数据
      */

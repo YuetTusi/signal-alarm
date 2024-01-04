@@ -11,7 +11,7 @@ export const CenterFixedBox = styled.div`
     overflow: hidden;
 `;
 
-export const ScrollWhiteList = styled.div`
+export const ScrollList = styled.div`
 
     height: 195px;
     overflow: hidden;
@@ -19,6 +19,12 @@ export const ScrollWhiteList = styled.div`
         margin:0;
         padding:0;
         &>li{
+            .fixed{
+                width: 250px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+            }
             list-style-type: none;
             margin:0;
             padding:4px 0;
@@ -34,6 +40,9 @@ export const ScrollWhiteList = styled.div`
                 &:after{
                     content: "：";
                 }
+            }
+            a{
+                color:#fcea00;
             }
         }
     }

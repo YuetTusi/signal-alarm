@@ -4,7 +4,7 @@ import { Tag } from 'antd';
 import useModel from '@/model';
 import { WhiteList, WhiteListType } from '@/schema/white-list';
 import { DisplayPanel } from '../panel';
-import { ScrollWhiteList } from './styled/box';
+import { ScrollList } from './styled/box';
 
 var scrollTimer: any = null;
 
@@ -127,11 +127,11 @@ const WhiteListTop: FC<{}> = () => {
     return <DisplayPanel>
         <div className="caption">白名单状态</div>
         <div className="content">
-            <ScrollWhiteList ref={scrollBox}>
+            <ScrollList ref={scrollBox}>
                 <ul>
                     {renderItem()}
                 </ul>
-            </ScrollWhiteList>
+            </ScrollList>
         </div>
     </DisplayPanel>;
 };

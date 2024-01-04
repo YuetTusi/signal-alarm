@@ -26,7 +26,7 @@ const getColumns = (handle: (actionType: ActionType, record: FakeHotspot) => voi
         render: (val) => <NoWarpLabel width={360} title={val}>{val}</NoWarpLabel>
     },
     {
-        title: '数量',
+        title: '命中数量',
         dataIndex: 'count',
         key: 'count',
         width: 90
