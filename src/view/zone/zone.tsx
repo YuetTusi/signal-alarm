@@ -119,6 +119,7 @@ const Zone: FC<ZoneProp> = () => {
         try {
             if (isEdit) {
                 res = await updateZone(values);
+                editDataRef.current = undefined;
             } else {
                 res = await addZone(values);
             }

@@ -24,7 +24,7 @@ const EditModal: FC<EditModalProp> = ({ open, data, onOk, onCancel }) => {
     }, [data]);
 
     const onOkClick = async () => {
-        const { validateFields } = formRef;
+        const { resetFields, validateFields } = formRef;
 
         try {
             const values = await validateFields();
@@ -40,6 +40,7 @@ const EditModal: FC<EditModalProp> = ({ open, data, onOk, onCancel }) => {
             } else {
                 //编辑
                 onOk({ ...data, ...values }, true);
+                resetFields();
             }
         } catch (error) {
             console.warn(error);
