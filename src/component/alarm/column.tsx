@@ -33,16 +33,11 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [
         dataIndex: 'protocol',
         width: 160
     }, {
-        title: '告警级别',
-        key: 'warnLevel',
-        dataIndex: 'warnLevel',
-        width: 80
-    }, {
-        title: '告警原因',
+        title: '频段信息',
         key: 'warnReason',
         dataIndex: 'warnReason',
-        width: 150,
-        render: (val) => <NoWarpLabel title={val}>{val}</NoWarpLabel>
+        width: 200,
+        render: (val) => <NoWarpLabel width={180} title={val}>{val}</NoWarpLabel>
     }, {
         title: '频点信息名称',
         key: 'arfcn',
@@ -91,7 +86,7 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [
         title: '处理记录',
         key: 'remark',
         dataIndex: 'remark',
-        render: (val) => <NoWarpLabel title={val}>{val}</NoWarpLabel>
+        render: (val) => <NoWarpLabel width={300} title={val}>{val}</NoWarpLabel>
     }, {
         title: '处理',
         key: 'read',

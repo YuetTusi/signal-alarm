@@ -22,7 +22,7 @@ const AlarmInfo: FC<{}> = () => {
     return <AlarmInfoBox>
         <DisplayPanel>
             <div className="caption" id="alarmChartCaption">
-                <span>预警信息</span>
+                <span>频段告警</span>
                 <a
                     onClick={() => setAlarmDetailModalOpen(true)}
                     style={{ color: '#fff' }}>更多</a>

@@ -30,7 +30,7 @@ const DetailModal: FC<DetailModalProp> = ({ open, onCancel }) => {
         footer={null}
         onCancel={onCancelClick}
         open={open}
-        title="预警信息详情"
+        title="频段告警详情"
         getContainer="#app"
         centered={true}
         destroyOnClose={true}
