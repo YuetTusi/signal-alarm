@@ -4,12 +4,12 @@ import { App, Form, Button, Input, Table, message } from 'antd';
 import { useModel } from '@/model';
 import { Zone as ZoneEntity } from '@/schema/zone';
 import { helper } from '@/utility/helper';
+import { RequestResult } from '@/utility/http';
 import { EditModal } from './edit-modal';
 import { BackgroundPreviewModal } from './background-preview-modal';
 import { getColumns } from './column';
-import { ActionType, ZoneProp } from './prop';
 import { SearchBar, TableBox, ZoneBox } from './styled/box';
-import { RequestResult } from '@/utility/http';
+import { ActionType, ZoneProp } from './prop';
 
 const { Item, useForm } = Form;
 

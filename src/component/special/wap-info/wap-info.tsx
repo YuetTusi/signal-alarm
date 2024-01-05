@@ -66,7 +66,7 @@ const toTabItem = (data: SpecialBase[], type: SpiTab, loading: boolean) => [{
     </ScrollPanel>
 }, {
     key: SpiTab.Wiretap,
-    label: '窃听器',
+    label: '摄像头',
     children: <ScrollPanel>
         {
             data.length === 0
@@ -86,7 +86,7 @@ const toTabItem = (data: SpecialBase[], type: SpiTab, loading: boolean) => [{
     </ScrollPanel>
 }, {
     key: SpiTab.Others,
-    label: '其他',
+    label: '窃密信号',
     children: <ScrollPanel>
         {
             data.length === 0
