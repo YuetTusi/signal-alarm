@@ -95,6 +95,7 @@ const Login: FC<{}> = () => {
         } catch (error) {
             console.clear();
             console.warn(error);
+            message.warning(`登录失败 ${error.message}`);
         } finally {
             setReading(false);
         }

@@ -3,6 +3,7 @@ import * as echarts from 'echarts/core';
 import { FC, useEffect, useRef } from 'react';
 import { useModel } from '@/model';
 import { useResize } from '@/hook';
+import { helper } from '@/utility/helper';
 import { AlarmChartBox } from './styled/style';
 
 var $chart: echarts.ECharts;
@@ -18,7 +19,7 @@ var option = {
         axisPointer: {
             type: 'shadow'
         },
-        formatter: (params: any[]) => {
+        formatter(params: any[]) {
             const [first] = params;
             return `<div class="bar-tooltip">
                 <div class="tt-caption">
@@ -44,7 +45,7 @@ var option = {
         axisLabel: {
             interval: 0,
             // rotate: 45,
-            formatter: (value: string) => {
+            formatter(value: string) {
                 return value.split(',').join('\n').split('(').join('\n(');
                 // return value;
             }
@@ -59,7 +60,7 @@ var option = {
         type: 'bar',
         data: [],
         itemStyle: {
-            color: (params: any) => {
+            color(params: any) {
                 if (params.value < 50) {
                     return '#4cd137';
                 } else if (params.value >= 50 && params.value < 70) {
@@ -79,6 +80,11 @@ var option = {
     ]
 };
 
+/**
+ * 窗口resize重置宽高
+ * @param chart 图表实例
+ * @param containerId 容器id
+ */
 const chartResize = (chart: echarts.ECharts | null, containerId: string) => {
     if (chart !== null) {
         const outer = document.querySelector(`#${containerId}`);
@@ -92,6 +98,7 @@ const chartResize = (chart: echarts.ECharts | null, containerId: string) => {
 /**
  * 预警柱状图
  * 数据由SSE推送，以band分类显示
+ * 分类项中文在setting/band.json配置
  */
 const AlarmChart: FC<{}> = () => {
 
@@ -110,22 +117,33 @@ const AlarmChart: FC<{}> = () => {
     useEffect(() => {
 
         if (boxRef.current) {
-            // boxRef.current.style.width = `${document.querySelector('#alarmChartCaption')!.clientWidth}px`;
             $chart = echarts.init(boxRef.current, 'dark');
             $chart.setOption(option);
         }
     }, []);
 
+    const getData = () => {
+        let data: {
+            code: number,
+            value: number | null,
+            captureTime: string
+        }[] = [];
+        for (let [k, v] of alarmBarData.entries()) {
+            data.push({
+                ...v,
+                code: k,
+                value: v.rssi
+            });
+        }
+        return data;
+    };
+
     useEffect(() => {
         if ($chart) {
+            const bands = helper.readBand();
             $chart.setOption({
-                xAxis: { data: Object.keys(alarmBarData) },
-                series: [{
-                    data: Object.values(alarmBarData).map(i => ({
-                        ...i,
-                        value: i.rssi
-                    })),
-                }]
+                xAxis: { data: bands.map(i => i.name) },
+                series: [{ data: getData() }]
             });
             //数据更新后，重新设置宽度
             $chart.resize({

@@ -138,7 +138,7 @@ export const getProtocolLabel = (value: Protocol) => {
 }
 
 /**
- * 获取枚举名称
+ * @deprecated 获取枚举名称
  */
 export const getProtocolName = (value: Protocol) => Protocol[value];
 

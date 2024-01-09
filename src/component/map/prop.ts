@@ -70,7 +70,7 @@ export enum ProtocolColor {
     /**
      * 中国联通WCDMA
      */
-    ChinaUnicomWCDMA = '#fbbad0',
+    ChinaUnicomWCDMA = '#718093',
     /**
      * 中国移动TDD-LTE
      */
