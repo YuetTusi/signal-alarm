@@ -87,7 +87,6 @@ const realSpectrum = (setState: SetState, _: GetState): RealSpectrumState => ({
             }>(url);
 
             if (res !== null && res.code === 200) {
-
                 if (helper.isNullOrUndefined(res.data)) {
                     setState({
                         realSpectrumData: new Array(7499).map(() => '-') as any[],
@@ -115,11 +114,12 @@ const realSpectrum = (setState: SetState, _: GetState): RealSpectrumState => ({
     },
     /**
      * 开始实时频谱比对
+     * @param deviceId 设备id
      * @param freqBaseId 背景频谱id
-     * @param cmpName 比较名称
+     * @param offset 偏移量
      */
-    async startRealCompare(freqBaseId: string, cmpName: string) {
-        const url = `/freq/start-cmp-realtime?freqBaseId=${freqBaseId}&cmpName=${encodeURIComponent(cmpName)}`;
+    async startRealCompare(deviceId: string, freqBaseId: string, offset: number) {
+        const url = `/freq/start-cmp-realtime?deviceId=${deviceId}&freqBaseId=${freqBaseId}&offset=${offset}`;
         // const url = `/freq/start-cmp-realtime?freqBaseId=1704679178101649409&cmpName=${encodeURIComponent(cmpName)}`;
         try {
             const res = await request.get<any>(url);
@@ -132,17 +132,17 @@ const realSpectrum = (setState: SetState, _: GetState): RealSpectrumState => ({
                 return false;
             }
         } catch (error) {
-            log.error(`开始实时频谱比对失败@model/real-spectrum/startRealCompare('${freqBaseId}','${cmpName}'):${error.message}`);
+            log.error(`开始实时频谱比对失败@model/real-spectrum/startRealCompare('${deviceId}','${freqBaseId}',${offset}):${error.message}`);
             return false;
         }
     },
     /**
      * 停止实时频谱比对
+     * @param deviceId 设备id
      * @param freqBaseId 背景频谱id
-     * @param cmpName 比较名称
      */
-    async stopRealCompare(freqBaseId: string, cmpName: string) {
-        const url = `/freq/stop-cmp-realtime?freqBaseId=${freqBaseId}&cmpName=${encodeURIComponent(cmpName)}`;
+    async stopRealCompare(deviceId: string, freqBaseId: string) {
+        const url = `/freq/stop-cmp-realtime?deviceId=${deviceId}&freqBaseId=${freqBaseId}`;
         // const url = `/freq/stop-cmp-realtime?freqBaseId=1704679178101649409&cmpName=${encodeURIComponent(cmpName)}`;
         try {
             const res = await request.get<any>(url);
@@ -155,7 +155,7 @@ const realSpectrum = (setState: SetState, _: GetState): RealSpectrumState => ({
                 return false;
             }
         } catch (error) {
-            log.error(`停止实时频谱比对失败@model/real-spectrum/stopRealCompare('${freqBaseId}','${cmpName}'):${error.message}`);
+            log.error(`停止实时频谱比对失败@model/real-spectrum/stopRealCompare('${deviceId}','${freqBaseId}'):${error.message}`);
             return false;
         }
     },
@@ -166,7 +166,7 @@ const realSpectrum = (setState: SetState, _: GetState): RealSpectrumState => ({
      */
     async queryCompareRealSpectrum(deviceId: string, cmpName: string) {
         const realUrl = `/freq/real-time?deviceId=${deviceId}`;
-        const compareUrl = `/freq/get-cmp-res?cmpName=${encodeURIComponent(cmpName)}&captureTime=${dayjs().unix()}`;
+        const compareUrl = `/freq/get-cmp-res/1/10?deviceId=${deviceId}&createTimeBegin=${dayjs().add(-10, 'second').format('YYYY-MM-DD HH:mm:ss')}&createTimeEnd=${dayjs().format('YYYY-MM-DD HH:mm:ss')}`;
 
         // const compareUrl = `/freq/get-cmp-res?cmpName=${encodeURIComponent('历史比对测试1111')}&captureTime=${1694974384}`;
         try {

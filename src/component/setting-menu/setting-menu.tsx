@@ -34,8 +34,8 @@ const SettingMenu: FC<SettingMenuProp> = ({ }) => {
         if (type !== 1) {
             return;
         }
-        console.clear();
-        console.log(type, path);
+        // console.clear();
+        // console.log(type, path);
         switch (path) {
             case MenuPath.SpiSearch:
                 //专项检查

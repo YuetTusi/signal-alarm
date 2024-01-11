@@ -152,7 +152,7 @@ const RealSpectrum: FC<RealSpectrumProp> = () => {
         }
         setCompareSpectrumModalOpen(false);
         message.destroy();
-        const success = await startRealCompare(freqBaseId, cmpName);
+        const success = await startRealCompare('', freqBaseId, 15);
         if (success) {
             message.info('比对开始');
             clearSpectrumData();

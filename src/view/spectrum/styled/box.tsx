@@ -8,6 +8,55 @@ export const SpectrumBox = styled.div`
     bottom:0;
 `;
 
+export const LiveBox = styled.div`
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    display: flex;
+    flex-direction: row;
+
+    .chart-box{
+        background-color: #100c2a;
+        flex:1;
+        .ant-tag{
+            margin-right: 0;
+        }
+    }
+    .fn-box{
+        position: relative;
+        flex: none;
+        box-sizing: border-box;
+        width: 400px;
+        height: 100%;
+        /* border: 1px solid yellow; */
+    }
+    .content-box{
+        position: absolute;
+        top:34px;
+        left:0;
+        right:0;
+        bottom:0;
+        padding: 10px;
+    }
+    .btn-box{
+        margin-top: 20px;
+        display:flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        .ant-btn{
+            &:first-child{
+                margin-right: 5px;
+            }
+            &:last-child{
+                margin-left: 5px;
+            }
+        }
+    }
+`;
+
 export const TableBox = styled.div`
     position: absolute;
     top:60px;

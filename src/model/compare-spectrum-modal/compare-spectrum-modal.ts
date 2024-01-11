@@ -15,6 +15,15 @@ const compareSpectrumModal = (setState: SetState, _: GetState): CompareSpectrumM
      */
     compareBaseSpectrumLoading: false,
     /**
+     * 清空背景频谱数据
+     */
+    clearCompareBaseSpectrumData() {
+        setState({
+            compareBaseSpectrumLoading: false,
+            compareBaseSpectrumData: []
+        });
+    },
+    /**
      * 更新背景频谱数据
      */
     setCompareBaseSpectrumData(payload: BaseFreq[]) {

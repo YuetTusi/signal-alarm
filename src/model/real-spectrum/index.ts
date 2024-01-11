@@ -52,16 +52,17 @@ interface RealSpectrumState {
     queryRealSpectrumData: (deviceId: string) => void,
     /**
      * 开始实时频谱比对
+     * @param deviceId 设备id
      * @param freqBaseId 背景频谱id
-     * @param cmpName 比较名称
+     * @param offset 偏移量
      */
-    startRealCompare: (freqBaseId: string, cmpName: string) => Promise<boolean>,
+    startRealCompare: (deviceId: string, freqBaseId: string, offset: number) => Promise<boolean>,
     /**
      * 停止实时频谱比对
+     * @param deviceId 设备id
      * @param freqBaseId 背景频谱id
-     * @param cmpName 比较名称
      */
-    stopRealCompare: (freqBaseId: string, cmpName: string) => Promise<boolean>,
+    stopRealCompare: (deviceId: string, freqBaseId: string) => Promise<boolean>,
     /**
      * 查询实时比对数据
      * @param deviceId 设备id

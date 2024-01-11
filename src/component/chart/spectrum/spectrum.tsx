@@ -1,6 +1,5 @@
 import throttle from 'lodash/throttle';
 import { FC, useEffect, useRef } from 'react';
-import { Empty } from 'antd';
 import * as echarts from 'echarts/core';
 import { LineChart } from 'echarts/charts';
 import {
@@ -15,10 +14,9 @@ import {
 } from 'echarts/components';
 import { LabelLayout, UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
-import { useResize } from '@/hook';
+import { useResize, useUnmount } from '@/hook';
 import { ChartBox, EmptyBox } from './styled/box';
 import { SpectrumProp } from './prop';
-
 
 // 注册必须的组件
 echarts.use([
@@ -42,8 +40,7 @@ const chartResize = (chart: echarts.ECharts | null, containerId: string) => {
     if (chart !== null) {
         const outer = document.querySelector(`#${containerId}`);
         chart.resize({
-            width: outer?.clientWidth ?? document.body.clientWidth - 2,
-            height: outer?.clientHeight ?? document.body.clientHeight - 149
+            width: outer?.clientWidth ?? document.body.clientWidth - 400
         });
     }
 }
@@ -83,8 +80,8 @@ const Spectrum: FC<SpectrumProp> = ({
                 legend: {
                     show: true,
                     orient: 'vertical',
-                    x: 20,
-                    y: 50,
+                    x: 'right',
+                    y: 60,
                     data: [
                         { name: '实时频谱' },
                         { name: '比对频谱' }
@@ -109,6 +106,7 @@ const Spectrum: FC<SpectrumProp> = ({
                 xAxis: {
                     type: 'category',
                     axisLabel: {
+                        inside: false,
                         interval(index: number, value: any) {
                             if (index % 599 === 0) {
                                 return value;
@@ -120,8 +118,9 @@ const Spectrum: FC<SpectrumProp> = ({
                 },
                 yAxis: {
                     type: 'value',
+                    interval: 10,
                     axisLabel: {
-                        inside: true,
+                        inside: false,
                         formatter(value: string) {
                             return value + '';
                         }
@@ -132,7 +131,7 @@ const Spectrum: FC<SpectrumProp> = ({
                 series: [],
                 dataZoom: [
                     {
-                        show: true,
+                        show: false,
                         type: "slider",
                         showDetail: false,
                         bottom: 20
@@ -185,11 +184,9 @@ const Spectrum: FC<SpectrumProp> = ({
     }, [realData, compareData, arfcn]);
 
     return <>
-        <EmptyBox style={{ display: realData.length === 0 && compareData?.length === 0 ? 'flex' : 'none' }}>
-            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-        </EmptyBox>
         <ChartBox
-            style={{ display: realData.length === 0 && compareData?.length === 0 ? 'none' : 'flex' }}
+            width={800}
+            height={550}
             id="spectrumBox"
             ref={chartDom} />
     </>;

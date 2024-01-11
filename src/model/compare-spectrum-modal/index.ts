@@ -13,6 +13,10 @@ export interface CompareSpectrumModalState {
      */
     compareBaseSpectrumLoading: boolean,
     /**
+     * 清空背景频谱数据
+     */
+    clearCompareBaseSpectrumData: () => void,
+    /**
      * 更新背景频谱数据
      */
     setCompareBaseSpectrumData: (payload: BaseFreq[]) => void,

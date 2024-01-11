@@ -44,6 +44,13 @@ export const GlobalStyle = createGlobalStyle`
         background-color: rgba(25, 35, 104, .7);
     }
 
+    .fn-hidden{
+        display: none;
+    }
+    .fn-show{
+        display: block;
+    }
+
     //Webkit滚动条样式
     ::-webkit-scrollbar {
         width: 10px;

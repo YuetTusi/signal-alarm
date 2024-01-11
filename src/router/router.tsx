@@ -11,7 +11,8 @@ import FakeHotspot from '@/view/fake-hotspot';
 import {
     RealSpectrum,
     HistorySpectrum,
-    BaseSpectrum
+    BaseSpectrum,
+    Live,
 } from '@/view/spectrum';
 
 /**
@@ -35,7 +36,8 @@ export const ViewRouter: FC<{}> = () => <Router>
             path="/real-spectrum"
             element={
                 <Layout>
-                    <RealSpectrum />
+                    {/* <RealSpectrum /> */}
+                    <Live />
                 </Layout>
             }
         />
