@@ -36,8 +36,8 @@ export const ViewRouter: FC<{}> = () => <Router>
             path="/real-spectrum"
             element={
                 <Layout>
-                    <RealSpectrum />
-                    {/* <Live /> */}
+                    {/* <RealSpectrum /> */}
+                    <Live />
                 </Layout>
             }
         />

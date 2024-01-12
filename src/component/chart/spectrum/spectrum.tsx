@@ -84,7 +84,7 @@ const Spectrum: FC<SpectrumProp> = ({
                     y: 60,
                     data: [
                         { name: '实时频谱' },
-                        { name: '比对频谱' }
+                        { name: '背景频谱' }
                     ],
                     // right: '50%',
                     // trigger: 'item',
@@ -162,7 +162,7 @@ const Spectrum: FC<SpectrumProp> = ({
             if (compareData !== undefined) {
                 seriseData.push({
                     data: compareData,
-                    name: `比对频谱`,
+                    name: `背景频谱`,
                     type: 'line',
                     smooth: false,
                     itemStyle: {
@@ -186,7 +186,7 @@ const Spectrum: FC<SpectrumProp> = ({
     return <>
         <ChartBox
             width={800}
-            height={580}
+            height={540}
             id="spectrumBox"
             ref={chartDom} />
     </>;

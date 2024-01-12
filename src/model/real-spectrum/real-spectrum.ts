@@ -125,24 +125,36 @@ const realSpectrum = (setState: SetState, _: GetState): RealSpectrumState => ({
      */
     async startRealCompare(deviceId: string, freqBaseId: string, offset: number) {
         const url = `/freq/start-cmp-realtime?deviceId=${deviceId}&freqBaseId=${freqBaseId}&offset=${offset}`;
-        // const url = `/freq/start-cmp-realtime?freqBaseId=1704679178101649409&cmpName=${encodeURIComponent(cmpName)}`;
         try {
             const res = await request.get<{
                 freqCmpResList: FreqCompare[],
                 currentArray: string
             }>(url);
             if (res !== null && res.code === 200) {
+                console.log(res.data);
+                const temp: any[] = [];
+                for (let i = 0; i < 7400; i++) {
+                    if (i > 200 && i < 500) {
+                        continue;
+                    }
+                    temp.push({
+                        freq: i,
+                        currentOffsetSignal: helper.rnd(0, 30)
+                    });
+                }
                 setState({
                     realSpectrumData: JSON.parse(res.data.currentArray),
-                    freqCmpResList: res.data.freqCmpResList ?? []
+                    freqCmpResList: temp
                 });
                 return true;
             } else {
-                message.destroy();
-                message.warning('频谱比对失败');
                 return false;
             }
         } catch (error) {
+            setState({
+                realSpectrumData: [],
+                freqCmpResList: []
+            });
             log.error(`开始实时频谱比对失败@model/real-spectrum/startRealCompare('${deviceId}','${freqBaseId}',${offset}):${error.message}`);
             return false;
         }
@@ -154,7 +166,6 @@ const realSpectrum = (setState: SetState, _: GetState): RealSpectrumState => ({
      */
     async stopRealCompare(deviceId: string, freqBaseId: string) {
         const url = `/freq/stop-cmp-realtime?deviceId=${deviceId}&freqBaseId=${freqBaseId}`;
-        // const url = `/freq/stop-cmp-realtime?freqBaseId=1704679178101649409&cmpName=${encodeURIComponent(cmpName)}`;
         try {
             const res = await request.get<any>(url);
             if (res !== null && res.code === 200) {
@@ -168,58 +179,6 @@ const realSpectrum = (setState: SetState, _: GetState): RealSpectrumState => ({
         } catch (error) {
             log.error(`停止实时频谱比对失败@model/real-spectrum/stopRealCompare('${deviceId}','${freqBaseId}'):${error.message}`);
             return false;
-        }
-    },
-    /**
-     * 查询实时比对数据
-     * @param deviceId 设备id
-     * @param cmpName 比较名称
-     */
-    async queryCompareRealSpectrum(deviceId: string, cmpName: string) {
-        const realUrl = `/freq/real-time?deviceId=${deviceId}`;
-        const compareUrl = `/freq/get-cmp-res/1/10?deviceId=${deviceId}&createTimeBegin=${dayjs().add(-10, 'second').format('YYYY-MM-DD HH:mm:ss')}&createTimeEnd=${dayjs().format('YYYY-MM-DD HH:mm:ss')}`;
-
-        // const compareUrl = `/freq/get-cmp-res?cmpName=${encodeURIComponent('历史比对测试1111')}&captureTime=${1694974384}`;
-        try {
-            const [real, compare] = await Promise.all([
-                request.get(realUrl),
-                request.get(compareUrl)
-            ]);
-            if (real === null || compare === null) {
-                return;
-            }
-
-            if (real.code === 200) {
-                const dbArray: number[] = typeof real.data?.dbArray === 'string'
-                    ? JSON.parse(real.data.dbArray)
-                    : real.data.dbArray;
-                setState({
-                    realSpectrumData: dbArray.length === 0
-                        ? new Array(7499).fill('-') as any[]
-                        : dbArray.map(item => item === 0 ? '-' : item)
-                }); //如果实时数据为空，则将每个空坐标点填满图表
-            } else {
-                setState({
-                    realSpectrumData: new Array(7499).fill('-') as any[]
-                });
-            }
-            if (compare.code === 200) {
-                const dbArray: number[] = typeof compare.data?.dbArray === 'string'
-                    ? JSON.parse(compare.data.dbArray)
-                    : real.data.dbArray;
-                setState({
-                    bgSpectrumData: dbArray.length === 0
-                        ? new Array(7499).fill('-') as any[]
-                        : dbArray.map(item => item === 0 ? '-' : item)
-                });
-            } else {
-                setState({
-                    bgSpectrumData: new Array(7499).fill('-') as any[]
-                });
-            }
-        } catch (error) {
-            console.warn(error);
-            log.error(`查询频谱比对结果失败@model/real-spectrum/queryCompareRealSpectrum('${deviceId}','${cmpName}'):${error.message}`);
         }
     }
 });

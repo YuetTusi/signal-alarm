@@ -219,6 +219,18 @@ ipcMain.on('query-special-type-statis', (_: IpcMainEvent) => {
     }
 });
 
+ipcMain.on('query-each-1', (_: IpcMainEvent) => {
+    if (mainWindow) {
+        mainWindow.webContents.send('query-each-1');
+    }
+});
+
+ipcMain.on('query-each-5', (_: IpcMainEvent) => {
+    if (mainWindow) {
+        mainWindow.webContents.send('query-each-5');
+    }
+});
+
 ipcMain.on('query-each-20', (_: IpcMainEvent) => {
     if (mainWindow) {
         mainWindow.webContents.send('query-each-20');

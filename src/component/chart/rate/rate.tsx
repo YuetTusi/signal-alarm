@@ -1,6 +1,7 @@
 import { throttle } from 'lodash';
 import * as echarts from 'echarts/core';
 import { FC, useEffect } from 'react';
+import { useModel } from '@/model';
 import { useResize, useUnmount } from '@/hook';
 import { ChartBox } from './styled/box';
 import { RateProp } from './prop';
@@ -92,6 +93,10 @@ const chartResize = (chart: echarts.ECharts | null, containerId: string) => {
  */
 const Rate: FC<RateProp> = ({ realData, compareData }) => {
 
+    const { freqCmpResList } = useModel(state => ({
+        freqCmpResList: state.freqCmpResList
+    }));
+
     useEffect(() => {
         if (realChart === null) {
             realChart = echarts.init(document.querySelector('#realRate')!, 'dark');
@@ -119,25 +124,26 @@ const Rate: FC<RateProp> = ({ realData, compareData }) => {
             return;
         }
         realOption.xAxis.data = new Array(SIZE).fill(0).map((item, i) => item + i);
-        realOption.series[0].data = realData.map(value => {
+        realOption.series[0].data = realData.map((value, i) => {
+            const has = freqCmpResList.find(item => item.freq === i);
+            //若当前索引柱击中了freq字段，则根据currentOffsetSignal值来判断颜色
             let itemStyle: Record<string, any> = {};
-            if (value >= 10 && value <= 20) {
-                itemStyle = { color: '#FFA500' };
-            } else if (value > 20) {
-                itemStyle = { color: '#FF0000' };
+            if (has === undefined) {
+                itemStyle = { color: '#008000' };
+            } else {
+                if (has.currentOffsetSignal >= 10 && has.currentOffsetSignal <= 20) {
+                    itemStyle = { color: '#FFA500' };
+                } else if (has.currentOffsetSignal > 20) {
+                    itemStyle = { color: '#FF0000' };
+                } else {
+                    itemStyle = { color: '#008000' };
+                }
             }
-            // if (value < -80) {
-            //     itemStyle = { color: '#008000' };
-            // } else if (value >= -80 && value <= -70) {
-            //     itemStyle = { color: '#FFA500' };
-            // } else {
-            //     itemStyle = { color: '#FF0000' };
-            // }
             value = 100;
             return { value, itemStyle };
         });
         realChart.setOption(realOption);
-    }, [realData]);
+    }, [realData, freqCmpResList]);
 
     useEffect(() => {
         if (compareChart === null) {

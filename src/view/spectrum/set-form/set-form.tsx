@@ -1,9 +1,10 @@
 import { FC, useEffect, useState } from 'react';
 import { Key } from 'antd/es/table/interface';
-import { Form, Input, InputNumber, Select, Table, Tag } from 'antd';
+import { App, Button, Form, Input, InputNumber, Select, Table, Tag } from 'antd';
 import { useModel } from '@/model';
 import { useUnmount } from '@/hook';
 import { BaseFreq } from '@/schema/base-freq';
+import { BgDesc } from './bg-desc';
 import { toSelectData } from '../tool';
 import { SetFormProp } from './prop';
 
@@ -14,6 +15,7 @@ const { Item } = Form;
  */
 const SetForm: FC<SetFormProp> = ({ formRef }) => {
 
+    const { modal } = App.useApp();
     const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([]);
     const {
         comparing,
@@ -102,13 +104,21 @@ const SetForm: FC<SetFormProp> = ({ formRef }) => {
             columns={[{
                 title: '背景频谱',
                 key: 'baseFreqName',
-                dataIndex: 'baseFreqName'
+                dataIndex: 'baseFreqName',
+                render(val: string, record) {
+                    return <Button
+                        onClick={() => modal.info({
+                            content: <BgDesc data={record} />,
+                            title: '背景频谱详情',
+                            okText: '确定',
+                            centered: true,
+                            width: 600
+                        })}
+                        type="link">
+                        {val}
+                    </Button>
+                }
             },
-            // {
-            //     title: '设备ID',
-            //     key: 'deviceId',
-            //     dataIndex: 'deviceId'
-            // }, 
             {
                 title: '状态',
                 key: 'status',
@@ -129,7 +139,7 @@ const SetForm: FC<SetFormProp> = ({ formRef }) => {
             dataSource={compareBaseSpectrumData}
             loading={compareBaseSpectrumLoading}
             pagination={false}
-            // scroll={{ x: 'max-content', y: 200 }}
+            scroll={{ y: 320 }}
             rowKey={'freqBaseId'}
             onRow={(record) => ({
                 onClick() {

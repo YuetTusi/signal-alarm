@@ -67,13 +67,7 @@ interface RealSpectrumState {
      * @param deviceId 设备id
      * @param freqBaseId 背景频谱id
      */
-    stopRealCompare: (deviceId: string, freqBaseId: string) => Promise<boolean>,
-    /**
-     * 查询实时比对数据
-     * @param deviceId 设备id
-     * @param cmpName 比较名称
-     */
-    queryCompareRealSpectrum: (deviceId: string, cmpName: string) => void
+    stopRealCompare: (deviceId: string, freqBaseId: string) => Promise<boolean>
 }
 
 export type { RealSpectrumState };
