@@ -5,6 +5,7 @@ import { useResize, useUnmount } from '@/hook';
 import { ChartBox } from './styled/box';
 import { RateProp } from './prop';
 
+const SIZE = 7499;
 let realChart: echarts.ECharts | null = null;
 let compareChart: echarts.ECharts | null = null;
 
@@ -117,7 +118,7 @@ const Rate: FC<RateProp> = ({ realData, compareData }) => {
         if (realChart === null) {
             return;
         }
-        realOption.xAxis.data = new Array(1499).fill(0).map((item, i) => item + i);
+        realOption.xAxis.data = new Array(SIZE).fill(0).map((item, i) => item + i);
         realOption.series[0].data = realData.map(value => {
             let itemStyle: Record<string, any> = {};
             if (value >= 10 && value <= 20) {
@@ -149,7 +150,7 @@ const Rate: FC<RateProp> = ({ realData, compareData }) => {
         //     }
         // }
 
-        compareOption.xAxis.data = new Array(1499).fill(0).map((item, i) => item + i);
+        compareOption.xAxis.data = new Array(SIZE).fill(0).map((item, i) => item + i);
         compareOption.series[0].data = compareData.map(value => {
             let itemStyle: Record<string, any> = {};
             if (value >= 10 && value <= 20) {

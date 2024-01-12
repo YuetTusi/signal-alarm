@@ -1,5 +1,6 @@
 import { ComDevice } from "@/schema/com-device";
 import { realSpectrum } from './real-spectrum';
+import { FreqCompare } from "@/schema/freq-compare";
 
 /**
  * 实时频谱
@@ -15,9 +16,13 @@ interface RealSpectrumState {
      */
     realSpectrumData: number[],
     /**
-     * 比对数据
+     * 背景频谱
      */
-    compareSpectrumData?: number[],
+    bgSpectrumData?: number[],
+    /**
+     * 比较数据
+     */
+    freqCmpResList: FreqCompare[],
     /**
      * 时间
      */

@@ -25,23 +25,22 @@ const Live: FC<{}> = () => {
 
     const {
         comparing,
+        bgSpectrumData,
         realSpectrumData,
         realSpectrumDeviceId,
         realSpectrumCaptureTime,
         setComparing,
         clearSpectrumData,
-        queryRealSpectrumData,
         startRealCompare,
         stopRealCompare
     } = useModel(state => ({
         comparing: state.comparing,
-        compareSpectrumData: state.compareSpectrumData,
+        bgSpectrumData: state.bgSpectrumData,
         realSpectrumCaptureTime: state.realSpectrumCaptureTime,
         realSpectrumDeviceId: state.realSpectrumDeviceId,
         realSpectrumData: state.realSpectrumData,
         setComparing: state.setComparing,
         clearSpectrumData: state.clearSpectrumData,
-        queryRealSpectrumData: state.queryRealSpectrumData,
         startRealCompare: state.startRealCompare,
         stopRealCompare: state.stopRealCompare
     }));
@@ -81,14 +80,13 @@ const Live: FC<{}> = () => {
             } else {
                 //开始
                 const success = await startRealCompare(device, freqBaseId, offset);
-                setComparing(true);
                 prevDevice.current = device;
                 prevFreqBaseId.current = freqBaseId;
                 if (success) {
-                    await queryRealSpectrumData(device);
+                    setComparing(true);
                     timer = setInterval(() => {
                         (async () => {
-                            await queryRealSpectrumData(device);
+                            await startRealCompare(device, freqBaseId, offset);
                         })()
                     }, 1000);
                 } else {
@@ -110,16 +108,6 @@ const Live: FC<{}> = () => {
     }, 500, { leading: true, trailing: false });
 
     return <LiveBox>
-        <div className="chart-box">
-            <Spectrum
-                domId="realOuterBox"
-                realData={realSpectrumData}
-                // compareData={compareSpectrumData}
-                serieName={realSpectrumDeviceId}
-                captureTime={realSpectrumCaptureTime}
-                arfcn={Array.from(new Array(7499).keys()).map(i => Math.trunc(1 + i * 0.8))} />
-            <Rate realData={realSpectrumData} compareData={[]} />
-        </div>
         <div className="fn-box">
             <DisplayPanel style={{
                 height: '100%',
@@ -144,6 +132,16 @@ const Live: FC<{}> = () => {
                     </div>
                 </div>
             </DisplayPanel>
+        </div>
+        <div className="chart-box">
+            <Spectrum
+                domId="realOuterBox"
+                realData={realSpectrumData}
+                compareData={realSpectrumData.map(i => i + 5)}
+                serieName={realSpectrumDeviceId}
+                captureTime={realSpectrumCaptureTime}
+                arfcn={Array.from(new Array(7499).keys()).map(i => Math.trunc(1 + i * 0.8))} />
+            <Rate realData={realSpectrumData} compareData={[]} />
         </div>
     </LiveBox>;
 };

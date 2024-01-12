@@ -6,6 +6,7 @@ import { request } from "@/utility/http";
 import { ComDevice } from "@/schema/com-device";
 import { RealSpectrumState } from ".";
 import { GetState, SetState } from "..";
+import { FreqCompare } from '@/schema/freq-compare';
 
 const realSpectrum = (setState: SetState, _: GetState): RealSpectrumState => ({
     /**
@@ -17,9 +18,13 @@ const realSpectrum = (setState: SetState, _: GetState): RealSpectrumState => ({
      */
     realSpectrumData: [],
     /**
-     * 比对数据
+     * 背景频谱
      */
-    compareSpectrumData: [],
+    bgSpectrumData: [],
+    /**
+     * 比较数据
+     */
+    freqCmpResList: [],
     /**
      * 时间
      */
@@ -48,7 +53,7 @@ const realSpectrum = (setState: SetState, _: GetState): RealSpectrumState => ({
     clearSpectrumData() {
         setState({
             realSpectrumData: [],
-            compareSpectrumData: [],
+            bgSpectrumData: [],
             realSpectrumCaptureTime: 0,
             realSpectrumDeviceId: ''
         });
@@ -92,7 +97,7 @@ const realSpectrum = (setState: SetState, _: GetState): RealSpectrumState => ({
                         realSpectrumData: new Array(7499).map(() => '-') as any[],
                         realSpectrumCaptureTime: 0,
                         realSpectrumDeviceId: deviceId,
-                        compareSpectrumData: undefined
+                        bgSpectrumData: undefined
                     });
                 } else {
                     const next: any[] = typeof res.data.dbArray === 'string' ? JSON.parse(res.data.dbArray) : res.data.dbArray;
@@ -100,7 +105,7 @@ const realSpectrum = (setState: SetState, _: GetState): RealSpectrumState => ({
                         realSpectrumData: next.map(item => item === 0 ? '-' : item),
                         realSpectrumCaptureTime: Number.parseInt(res.data.captureTime),
                         realSpectrumDeviceId: deviceId,
-                        compareSpectrumData: undefined
+                        bgSpectrumData: undefined
                     });
                 }
             } else {
@@ -122,9 +127,15 @@ const realSpectrum = (setState: SetState, _: GetState): RealSpectrumState => ({
         const url = `/freq/start-cmp-realtime?deviceId=${deviceId}&freqBaseId=${freqBaseId}&offset=${offset}`;
         // const url = `/freq/start-cmp-realtime?freqBaseId=1704679178101649409&cmpName=${encodeURIComponent(cmpName)}`;
         try {
-            const res = await request.get<any>(url);
+            const res = await request.get<{
+                freqCmpResList: FreqCompare[],
+                currentArray: string
+            }>(url);
             if (res !== null && res.code === 200) {
-                setState({ comparing: true });
+                setState({
+                    realSpectrumData: JSON.parse(res.data.currentArray),
+                    freqCmpResList: res.data.freqCmpResList ?? []
+                });
                 return true;
             } else {
                 message.destroy();
@@ -197,13 +208,13 @@ const realSpectrum = (setState: SetState, _: GetState): RealSpectrumState => ({
                     ? JSON.parse(compare.data.dbArray)
                     : real.data.dbArray;
                 setState({
-                    compareSpectrumData: dbArray.length === 0
+                    bgSpectrumData: dbArray.length === 0
                         ? new Array(7499).fill('-') as any[]
                         : dbArray.map(item => item === 0 ? '-' : item)
                 });
             } else {
                 setState({
-                    compareSpectrumData: new Array(7499).fill('-') as any[]
+                    bgSpectrumData: new Array(7499).fill('-') as any[]
                 });
             }
         } catch (error) {

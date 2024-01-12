@@ -34,7 +34,7 @@ const RealSpectrum: FC<RealSpectrumProp> = () => {
         realSpectrumDeviceId,
         realSpectrumDeviceList,
         realSpectrumData,
-        compareSpectrumData,
+        bgSpectrumData,
         realSpectrumCaptureTime,
         setReading,
         setComparing,
@@ -49,7 +49,7 @@ const RealSpectrum: FC<RealSpectrumProp> = () => {
         realSpectrumDeviceId: state.realSpectrumDeviceId,
         realSpectrumDeviceList: state.realSpectrumDeviceList,
         realSpectrumData: state.realSpectrumData,
-        compareSpectrumData: state.compareSpectrumData,
+        bgSpectrumData: state.bgSpectrumData,
         realSpectrumCaptureTime: state.realSpectrumCaptureTime,
         setReading: state.setReading,
         setComparing: state.setComparing,
@@ -221,7 +221,7 @@ const RealSpectrum: FC<RealSpectrumProp> = () => {
             <Spectrum
                 domId="realOuterBox"
                 realData={realSpectrumData}
-                compareData={compareSpectrumData}
+                compareData={bgSpectrumData}
                 serieName={realSpectrumDeviceId}
                 captureTime={realSpectrumCaptureTime}
                 arfcn={Array.from(new Array(7499).keys()).map(i => Math.trunc(1 + i * 0.8))} />
