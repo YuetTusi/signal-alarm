@@ -12,13 +12,21 @@ interface RealSpectrumState {
      */
     realSpectrumDeviceList: ComDevice[],
     /**
+     * 所有背景频谱数据
+     */
+    allFreqList: {
+        freqBaseId: string,
+        freqArray: string,
+        deviceId: string
+    }[],
+    /**
      * 实时数据
      */
     realSpectrumData: number[],
     /**
      * 背景频谱
      */
-    bgSpectrumData?: number[],
+    bgSpectrumData: number[],
     /**
      * 比较数据
      */
@@ -47,6 +55,11 @@ interface RealSpectrumState {
      * 清空比对及实时数据
      */
     clearSpectrumData: () => void,
+    /**
+     * 查询所有背景频谱数据
+     * @returns 
+     */
+    queryAllFreqList: () => void,
     /**
      * 查询设备下拉数据
      */

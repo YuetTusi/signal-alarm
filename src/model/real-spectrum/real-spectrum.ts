@@ -4,11 +4,11 @@ import { log } from "@/utility/log";
 import { helper } from "@/utility/helper";
 import { request } from "@/utility/http";
 import { ComDevice } from "@/schema/com-device";
+import { FreqCompare } from '@/schema/freq-compare';
 import { RealSpectrumState } from ".";
 import { GetState, SetState } from "..";
-import { FreqCompare } from '@/schema/freq-compare';
 
-const realSpectrum = (setState: SetState, _: GetState): RealSpectrumState => ({
+const realSpectrum = (setState: SetState, getState: GetState): RealSpectrumState => ({
     /**
      * 设备下拉数据
      */
@@ -17,6 +17,10 @@ const realSpectrum = (setState: SetState, _: GetState): RealSpectrumState => ({
      * 实时数据
      */
     realSpectrumData: [],
+    /**
+     * 所有背景频谱数据
+     */
+    allFreqList: [],
     /**
      * 背景频谱
      */
@@ -57,6 +61,28 @@ const realSpectrum = (setState: SetState, _: GetState): RealSpectrumState => ({
             realSpectrumCaptureTime: 0,
             realSpectrumDeviceId: ''
         });
+    },
+    /**
+     * 查询所有背景频谱数据
+     */
+    async queryAllFreqList() {
+        const url = '/freq/get-all-freq-list';
+        try {
+            const res = await request.get<{
+                freqBaseId: string,
+                freqArray: string,
+                deviceId: string
+            }[]
+            >(url);
+            if (res !== null && res.code === 200) {
+                setState({ allFreqList: res.data });
+            } else {
+                setState({ allFreqList: [] });
+            }
+        } catch (error) {
+            setState({ allFreqList: [] });
+            log.error(`查询设备下拉失败@model/real-spectrum/queryAllFreqList():${error.message}`);
+        }
     },
     /**
      * 查询设备下拉数据
@@ -128,23 +154,18 @@ const realSpectrum = (setState: SetState, _: GetState): RealSpectrumState => ({
         try {
             const res = await request.get<{
                 freqCmpResList: FreqCompare[],
-                currentArray: string
+                currentArray: string,
+                baseArray: string
             }>(url);
+
             if (res !== null && res.code === 200) {
-                console.log(res.data);
-                const temp: any[] = [];
-                for (let i = 0; i < 7400; i++) {
-                    if (i > 200 && i < 500) {
-                        continue;
-                    }
-                    temp.push({
-                        freq: i,
-                        currentOffsetSignal: helper.rnd(0, 30)
-                    });
-                }
+                const cmp = getState().allFreqList.find(i => i.freqBaseId === freqBaseId);
+                //找到当前背景频谱数据
+                let bgList = cmp === undefined ? [] : JSON.parse(cmp.freqArray) as number[];
                 setState({
+                    freqCmpResList: res.data.freqCmpResList,
                     realSpectrumData: JSON.parse(res.data.currentArray),
-                    freqCmpResList: temp
+                    bgSpectrumData: bgList // 背景频谱，黄色对比曲线
                 });
                 return true;
             } else {
@@ -156,7 +177,7 @@ const realSpectrum = (setState: SetState, _: GetState): RealSpectrumState => ({
                 freqCmpResList: []
             });
             log.error(`开始实时频谱比对失败@model/real-spectrum/startRealCompare('${deviceId}','${freqBaseId}',${offset}):${error.message}`);
-            return false;
+            throw error;
         }
     },
     /**

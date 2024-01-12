@@ -1,8 +1,8 @@
 import debounce from 'lodash/debounce';
 import { FC, MouseEvent, useEffect, useRef } from 'react';
-import { useUnmount } from '@/hook';
+import { useSubscribe } from '@/hook';
 import { useModel } from '@/model';
-import { LiveBox } from './styled/box';
+import { LiveBox, SearchBar } from './styled/box';
 import { Button, Form, Table, Tag, message } from 'antd';
 import { BaseFreq } from '@/schema/base-freq';
 import { Key } from 'antd/es/table/interface';
@@ -11,6 +11,7 @@ import { getColumns } from './compare-spectrum-modal/column';
 import { DisplayPanel } from '@/component/panel';
 import { helper } from '@/utility/helper';
 import { Spectrum, Rate } from '@/component/chart';
+import { useNavigate } from 'react-router-dom';
 
 let timer: NodeJS.Timer | null = null;
 
@@ -19,6 +20,7 @@ let timer: NodeJS.Timer | null = null;
  */
 const Live: FC<{}> = () => {
 
+    const navigate = useNavigate();
     const [formRef] = Form.useForm<FormValue>();
     const prevDevice = useRef('');
     const prevFreqBaseId = useRef('');
@@ -32,7 +34,8 @@ const Live: FC<{}> = () => {
         setComparing,
         clearSpectrumData,
         startRealCompare,
-        stopRealCompare
+        stopRealCompare,
+        queryAllFreqList
     } = useModel(state => ({
         comparing: state.comparing,
         bgSpectrumData: state.bgSpectrumData,
@@ -42,8 +45,14 @@ const Live: FC<{}> = () => {
         setComparing: state.setComparing,
         clearSpectrumData: state.clearSpectrumData,
         startRealCompare: state.startRealCompare,
-        stopRealCompare: state.stopRealCompare
+        stopRealCompare: state.stopRealCompare,
+        queryAllFreqList: state.queryAllFreqList
     }));
+
+    useEffect(() => {
+        //查询所有背景频谱数据
+        queryAllFreqList();
+    }, []);
 
     useEffect(() => {
         return () => {
@@ -58,6 +67,14 @@ const Live: FC<{}> = () => {
             clearSpectrumData();
         };
     }, [comparing]);
+
+    /**
+     * 返回Click
+     */
+    const onGoBackClick = (event: MouseEvent) => {
+        event.preventDefault();
+        navigate('/dashboard');
+    };
 
     const onCompareClick = debounce(async (event: MouseEvent<HTMLElement>) => {
         event.preventDefault();
@@ -76,6 +93,7 @@ const Live: FC<{}> = () => {
                     clearInterval(timer);
                 }
                 await stopRealCompare(device, freqBaseId);
+                clearSpectrumData();
                 setComparing(false);
             } else {
                 //开始
@@ -90,6 +108,7 @@ const Live: FC<{}> = () => {
                         })()
                     }, 1000);
                 } else {
+                    message.warning('频谱比对失败');
                     setComparing(false);
                     if (timer) {
                         clearInterval(timer);
@@ -98,8 +117,10 @@ const Live: FC<{}> = () => {
                 }
             }
         } catch (error) {
+            message.warning(`频谱比对失败 ${error.message}`);
             console.warn(error);
             setComparing(false);
+
             if (timer) {
                 clearInterval(timer);
                 timer = null;
@@ -107,43 +128,45 @@ const Live: FC<{}> = () => {
         }
     }, 500, { leading: true, trailing: false });
 
-    return <LiveBox>
-        <div className="fn-box">
-            <DisplayPanel style={{
-                height: '100%',
-                boxSizing: 'border-box'
-            }}>
-                <div className="caption">查询设置</div>
-                <div className="content-box">
-                    <SetForm formRef={formRef} />
+    return <div>
+        <SearchBar>
+            <Button
+                onClick={onGoBackClick}
+                type="default">返回主页</Button>
+        </SearchBar>
+        <LiveBox>
+            <div className="fn-box">
+                <DisplayPanel style={{
+                    height: '100%',
+                    boxSizing: 'border-box'
+                }}>
+                    <div className="caption">查询设置</div>
+                    <div className="content-box">
+                        <SetForm formRef={formRef} />
 
-                    <div className="btn-box">
-                        {/* <Button
-                            onClick={onSearchClick}
-                            type="primary">
-                            查询
-                        </Button> */}
-                        <Button
-                            onClick={onCompareClick}
-                            type="primary"
-                            style={{ width: '120px' }}>
-                            {comparing ? '停止' : '查询'}
-                        </Button>
+                        <div className="btn-box">
+                            <Button
+                                onClick={onCompareClick}
+                                type="primary"
+                                style={{ width: '120px' }}>
+                                {comparing ? '停止' : '查询'}
+                            </Button>
+                        </div>
                     </div>
-                </div>
-            </DisplayPanel>
-        </div>
-        <div className="chart-box">
-            <Spectrum
-                domId="realOuterBox"
-                realData={realSpectrumData}
-                compareData={realSpectrumData.map(i => i + 5)}
-                serieName={realSpectrumDeviceId}
-                captureTime={realSpectrumCaptureTime}
-                arfcn={Array.from(new Array(7499).keys()).map(i => Math.trunc(1 + i * 0.8))} />
-            <Rate realData={realSpectrumData} compareData={[]} />
-        </div>
-    </LiveBox>;
+                </DisplayPanel>
+            </div>
+            <div className="chart-box">
+                <Spectrum
+                    domId="realOuterBox"
+                    realData={realSpectrumData}
+                    compareData={bgSpectrumData}
+                    serieName={realSpectrumDeviceId}
+                    captureTime={realSpectrumCaptureTime}
+                    arfcn={Array.from(new Array(7499).keys()).map(i => Math.trunc(1 + i * 0.8))} />
+                <Rate realData={realSpectrumData} compareData={[]} />
+            </div>
+        </LiveBox>
+    </div>;
 };
 
 export { Live };
