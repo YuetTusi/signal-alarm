@@ -15,7 +15,7 @@ const alarmChart = (setState: SetState, getState: GetState): AlarmChartState => 
      */
     updateAlarmBarData(code: number, value: { rssi: number | null, captureTime: string }) {
         const prev = getState().alarmBarData;
-        prev.set(code, value);
+        prev.set(Number(code), value);
         setState({ alarmBarData: new Map(prev) });
     }
 });

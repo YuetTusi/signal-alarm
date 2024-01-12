@@ -123,24 +123,31 @@ const AlarmChart: FC<{}> = () => {
     }, []);
 
     const getData = () => {
-        let data: {
-            code: number,
-            value: number | null,
-            captureTime: string
-        }[] = [];
-        for (let [k, v] of alarmBarData.entries()) {
-            data.push({
-                ...v,
-                code: k,
-                value: v.rssi
-            });
-        }
-        return data;
+        // console.log(alarmBarData.entries());
+        const bands = helper.readBand();
+        return bands.map(item => {
+            if (alarmBarData.has(item.code)) {
+                const data = alarmBarData.get(item.code);
+                return {
+                    code: item.code,
+                    value: data?.rssi ?? null,
+                    captureTime: data?.captureTime ?? ''
+                };
+            } else {
+                return {
+                    code: item.code,
+                    value: null,
+                    captureTime: ''
+                };
+            }
+        });
     };
 
     useEffect(() => {
         if ($chart) {
             const bands = helper.readBand();
+            // console.log(bands);
+            // console.log(getData());
             $chart.setOption({
                 xAxis: { data: bands.map(i => i.name) },
                 series: [{ data: getData() }]

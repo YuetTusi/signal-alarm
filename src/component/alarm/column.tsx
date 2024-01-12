@@ -1,10 +1,3 @@
-import { Tag } from 'antd';
-import { ColumnsType } from 'antd/es/table';
-import { AlarmMsg } from '@/schema/alarm-msg';
-import { Protocol } from '@/schema/protocol';
-import { Icon } from './icon';
-import { GrayText, NoWarpLabel, RedText } from '../panel';
-import { ActionType } from './prop';
 import ChinaMobileGSM from '@/assets/image/chinamobilegsm.png';
 import ChinaUnicomGSM from '@/assets/image/chinaunicomgsm.png';
 import ChinaTelecomCDMA from '@/assets/image/chinatelecomcdma.png';
@@ -23,6 +16,16 @@ import Wifi58 from '@/assets/image/wifi58.png';
 import GpsLocator from '@/assets/image/gpslocator.png';
 import Camera from '@/assets/image/camera.png';
 import Others from '@/assets/image/others.png';
+import { Tag } from 'antd';
+import { ColumnsType } from 'antd/es/table';
+import { helper } from '@/utility/helper';
+import { AlarmMsg } from '@/schema/alarm-msg';
+import { Protocol } from '@/schema/protocol';
+import { Icon } from './icon';
+import { GrayText, NoWarpLabel, RedText } from '../panel';
+import { ActionType } from './prop';
+
+const brands = helper.readBand();
 
 type ActionHandle = (action: ActionType, record: AlarmMsg) => void;
 
@@ -31,13 +34,16 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [
         title: '类型',
         key: 'protocol',
         dataIndex: 'protocol',
-        width: 160
+        width: 140
     }, {
         title: '频段信息',
         key: 'warnReason',
         dataIndex: 'warnReason',
-        width: 200,
-        render: (val) => <NoWarpLabel width={180} title={val}>{val}</NoWarpLabel>
+        width: 220,
+        render: (val: string) => {
+            const current = brands.find(i => i.code.toString() == val);
+            return <NoWarpLabel width={220} title={current?.name}>{current?.name ?? '-'}</NoWarpLabel>;
+        }
     }, {
         title: '频点信息名称',
         key: 'arfcn',
