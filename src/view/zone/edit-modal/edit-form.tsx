@@ -2,7 +2,7 @@ import debounce from 'lodash/debounce';
 import electron, { OpenDialogReturnValue } from 'electron';
 import { FC, MouseEvent, useState, useEffect } from 'react';
 import SelectOutlined from '@ant-design/icons/SelectOutlined'
-import { Col, Row, Form, Input, InputNumber, Button, Divider, Image, Empty } from 'antd';
+import { Col, Row, Form, Input, InputNumber, Button, Divider, Image, Empty, message } from 'antd';
 import { helper } from '@/utility/helper';
 import { EditFormProp } from './prop';
 import { FormBox } from '../styled/box';
@@ -38,9 +38,15 @@ const EditForm: FC<EditFormProp> = ({ formRef, data }) => {
                 });
 
             if (filePaths.length > 0) {
-                const base64 = await helper.fileToBase64(filePaths[0]);
-                setImgBase64('data:image/png;base64,' + base64);
-                setFieldValue('areaBg', base64);
+                const size = await helper.fileSize(filePaths[0], 'k');
+                if (size > 500) {
+                    message.warning('图像过大，选择文件应小于500KB');
+                } else {
+                    const base64 = await helper.fileToBase64(filePaths[0]);
+                    console.log(base64);
+                    setImgBase64('data:image/png;base64,' + base64);
+                    setFieldValue('areaBg', base64);
+                }
             }
         } catch (error) {
             console.warn(error);
@@ -92,6 +98,7 @@ const EditForm: FC<EditFormProp> = ({ formRef, data }) => {
                     <SelectOutlined />
                     <span>选择文件</span>
                 </Button>
+                <b>图像小于500KB</b>
             </UploadBox>
             <Divider />
             <ImgBox>

@@ -6,10 +6,17 @@ export const UploadBox = styled.div`
     em{
         font-size: 16px;
         color:#dc4446;
-        font-family: SimSun,sans-serif;
+        font-family:"SimSun","sans-serif";
         text-decoration: none;
         font-style: normal;
         margin-inline-end:4px;
+    }
+    b{
+        font-size: 14px;
+        color:#dc4446;
+        font-weight: normal;
+        font-style: normal;
+        margin-left: 14px;
     }
     label{
         margin-right: 10px;

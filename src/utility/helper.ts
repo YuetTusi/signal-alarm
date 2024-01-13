@@ -208,9 +208,9 @@ const helper = {
             } else {
                 jsonPath = join(cwd, 'resources/protocol.json')
             }
-            accessSync(jsonPath);
             const chunk = readFileSync(jsonPath, { encoding: 'utf8' });
-            return JSON.parse(chunk) as { value: number, text: string }[];
+            // return destr<{ value: number, text: string }[]>(chunk);
+            return JSON.parse(chunk.trim()) as { value: number, text: string }[];
         } catch (error) {
             console.warn(`读取协议配置失败 @utility/helper/readProtocol() : ${error.message}`);
             return [];
@@ -225,11 +225,10 @@ const helper = {
             if (helper.IS_DEV) {
                 jsonPath = join(cwd, './setting/band.json');
             } else {
-                jsonPath = join(cwd, 'resources/band.json')
+                jsonPath = join(cwd, 'resources/band.json');
             }
-            accessSync(jsonPath);
             const chunk = readFileSync(jsonPath, { encoding: 'utf8' });
-            return JSON.parse(chunk) as Band[];
+            return JSON.parse(chunk.trim()) as Band[];
         } catch (error) {
             console.warn(`读取band配置失败 @utility/helper/readBand() : ${error.message}`);
             return [];
@@ -313,6 +312,26 @@ const helper = {
         try {
             const chunk = await readFile(filePath);
             return chunk.toString('base64');
+        } catch (error) {
+            throw error;
+        }
+    },
+    /**
+     * 读取文件大小
+     * @param filePath 文件路径
+     * @param unit
+     */
+    async fileSize(filePath: string, unit?: 'k' | 'm') {
+        try {
+            const stat = await fs.promises.stat(filePath);
+            switch (unit) {
+                case 'k':
+                    return stat.size / 1024;
+                case 'm':
+                    return stat.size / 1024 / 1024;
+                default:
+                    return stat.size;
+            }
         } catch (error) {
             throw error;
         }
