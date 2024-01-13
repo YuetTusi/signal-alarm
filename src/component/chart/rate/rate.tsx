@@ -124,8 +124,6 @@ const Rate: FC<RateProp> = ({ realData, compareData }) => {
             return;
         }
         realOption.xAxis.data = new Array(SIZE).fill(0).map((item, i) => item + i);
-        console.log(realData.length, freqCmpResList.length);
-        console.log('======================================');
         realOption.series[0].data = realData.map((value, i) => {
             const has = freqCmpResList.find(item => item.freq === i);
             //若当前索引柱击中了freq字段，则根据currentOffsetSignal值来判断颜色

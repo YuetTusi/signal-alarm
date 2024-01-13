@@ -80,13 +80,21 @@ const Live: FC<{}> = () => {
         event.preventDefault();
         const { validateFields } = formRef;
         message.destroy();
+        let device = '', offset = 15, freqBaseId = '';
         try {
-            const { device, offset, freqBaseId } = await validateFields();
-            if (helper.isNullOrUndefined(freqBaseId) || freqBaseId === '') {
-                message.warning('请选择背景频谱');
-                return;
-            }
-
+            const values = await validateFields();
+            device = values.device;
+            offset = values.offset;
+            freqBaseId = values.freqBaseId;
+        } catch (error) {
+            console.warn(error);
+            return;
+        }
+        if (helper.isNullOrUndefined(freqBaseId) || freqBaseId === '') {
+            message.warning('请选择背景频谱');
+            return;
+        }
+        try {
             if (comparing) {
                 //停止
                 if (timer !== null) {
@@ -117,10 +125,9 @@ const Live: FC<{}> = () => {
                 }
             }
         } catch (error) {
-            message.warning(`频谱比对失败 ${error.message}`);
             console.warn(error);
+            message.warning(`频谱比对失败 ${error.message}`);
             setComparing(false);
-
             if (timer) {
                 clearInterval(timer);
                 timer = null;
