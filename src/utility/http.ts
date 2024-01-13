@@ -136,6 +136,25 @@ class HttpRequest {
         return this._request<T>(fetchUrl, parameters, 'DELETE');
     }
     /**
+     * 发送文件
+     * @param fetchUrl URL
+     * @param formData 数据
+     */
+    file<T = any>(fetchUrl: string, formData: FormData) {
+        return new Promise<T>((resolve, reject) => {
+            fetch(
+                request._getFetchUrl(fetchUrl), {
+                headers: { 'token': sessionStorage.getItem('token') ?? '' },
+                method: 'POST',
+                body: formData
+            }).then(res => {
+                return res.json();
+            }).then((json: T) => {
+                resolve(json);
+            }).catch(err => reject(err));
+        });
+    }
+    /**
      * 文件
      * @param fetchUrl URL
      */

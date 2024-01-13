@@ -36,6 +36,7 @@ const EditModal: FC<EditModalProp> = ({ open, data, onOk, onCancel }) => {
                     message.info('请选择区域图像');
                 } else {
                     onOk(values, false);
+                    resetFields();
                 }
             } else {
                 //编辑
