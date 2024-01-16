@@ -68,10 +68,7 @@ const Live: FC<{}> = () => {
 
     useUnmount(() => {
         if (timer !== null) {
-            console.clear();
-            if (specOperate === SpecOperate.Compare) {
-                stopRealCompare(prevDevice.current, prevFreqBaseId.current);
-            }
+            stopRealCompare(prevDevice.current, prevFreqBaseId.current);
             clearInterval(timer);
             timer = null;
         }

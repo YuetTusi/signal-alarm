@@ -221,6 +221,9 @@ const realSpectrum = (setState: SetState, getState: GetState): RealSpectrumState
      */
     async stopRealCompare(deviceId: string, freqBaseId: string) {
         const url = `/freq/stop-cmp-realtime?deviceId=${deviceId}&freqBaseId=${freqBaseId}`;
+        if (getState().specOperate !== SpecOperate.Compare) {
+            return false;
+        }
         try {
             const res = await request.get<any>(url);
             if (res !== null && res.code === 200) {
