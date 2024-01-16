@@ -30,6 +30,10 @@ const realSpectrum = (setState: SetState, getState: GetState): RealSpectrumState
      */
     freqCmpResList: [],
     /**
+     * 比较展示数据（表格）
+     */
+    freqComDisplayList: [],
+    /**
      * 时间
      */
     realSpectrumCaptureTime: 0,
@@ -162,12 +166,25 @@ const realSpectrum = (setState: SetState, getState: GetState): RealSpectrumState
                 const cmp = getState().allFreqList.find(i => i.freqBaseId === freqBaseId);
                 //找到当前背景频谱数据
                 let bgList = cmp === undefined ? [] : JSON.parse(cmp.freqArray) as number[];
+                const realSpectrumData = JSON.parse(res.data.currentArray) as number[];
+                const display = realSpectrumData.reduce((acc, _, index) => {
+                    const has = res.data.freqCmpResList.find(item =>
+                        Math.trunc(1 + item.freq * 0.8) === index);
+                    if (has) {
+                        acc.push(has);
+                    }
+                    return acc;
+                }, [] as FreqCompare[]);
                 setState({
                     freqCmpResList: res.data.freqCmpResList,
                     realSpectrumData: JSON.parse(res.data.currentArray),
-                    bgSpectrumData: bgList // 背景频谱，黄色对比曲线
+                    bgSpectrumData: bgList, // 背景频谱，黄色对比曲线
+                    freqComDisplayList: display
                 });
                 return true;
+            } else if (res?.code === 201) {
+                message.warning(res?.message ?? '频谱比对失败');
+                return false;
             } else {
                 return false;
             }

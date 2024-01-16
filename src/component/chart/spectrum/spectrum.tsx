@@ -186,7 +186,7 @@ const Spectrum: FC<SpectrumProp> = ({
     return <>
         <ChartBox
             width={800}
-            height={540}
+            height={460}
             id="spectrumBox"
             ref={chartDom} />
     </>;

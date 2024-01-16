@@ -38,7 +38,8 @@ const compareSpectrumModal = (setState: SetState, _: GetState): CompareSpectrumM
         try {
             const res = await request.get<QueryPage<BaseFreq>>(url);
             if (res !== null && res.code === 200) {
-                setState({ compareBaseSpectrumData: res.data.records });
+                const { records } = res.data;
+                setState({ compareBaseSpectrumData: records.filter(i => i.status === 1) });
             } else {
                 setState({ compareBaseSpectrumData: [] });
             }

@@ -139,7 +139,7 @@ const SetForm: FC<SetFormProp> = ({ formRef }) => {
             dataSource={compareBaseSpectrumData}
             loading={compareBaseSpectrumLoading}
             pagination={false}
-            scroll={{ y: 320 }}
+            scroll={{ y: 400 }}
             rowKey={'freqBaseId'}
             onRow={(record) => ({
                 onClick() {
@@ -150,7 +150,8 @@ const SetForm: FC<SetFormProp> = ({ formRef }) => {
             rowSelection={{
                 type: 'radio',
                 selectedRowKeys,
-                onChange: onSelectChange
+                onChange: onSelectChange,
+                getCheckboxProps: (_) => ({ disabled: comparing })
             }}
             style={{ marginTop: '40px' }}
         />

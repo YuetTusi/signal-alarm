@@ -1,13 +1,9 @@
 import debounce from 'lodash/debounce';
 import { FC, MouseEvent, useEffect, useRef } from 'react';
-import { useSubscribe } from '@/hook';
 import { useModel } from '@/model';
 import { LiveBox, SearchBar } from './styled/box';
-import { Button, Form, Table, Tag, message } from 'antd';
-import { BaseFreq } from '@/schema/base-freq';
-import { Key } from 'antd/es/table/interface';
+import { Button, Form, message } from 'antd';
 import { SetForm, FormValue } from './set-form';
-import { getColumns } from './compare-spectrum-modal/column';
 import { DisplayPanel } from '@/component/panel';
 import { helper } from '@/utility/helper';
 import { Spectrum, Rate } from '@/component/chart';
@@ -42,6 +38,7 @@ const Live: FC<{}> = () => {
         realSpectrumCaptureTime: state.realSpectrumCaptureTime,
         realSpectrumDeviceId: state.realSpectrumDeviceId,
         realSpectrumData: state.realSpectrumData,
+        freqComDisplayList: state.freqComDisplayList,
         setComparing: state.setComparing,
         clearSpectrumData: state.clearSpectrumData,
         startRealCompare: state.startRealCompare,
@@ -52,6 +49,15 @@ const Live: FC<{}> = () => {
     useEffect(() => {
         //查询所有背景频谱数据
         queryAllFreqList();
+    }, []);
+
+    useEffect(() => {
+        const nodes = document.querySelectorAll<HTMLElement>('.context-box');
+        if (nodes.length > 0) {
+            const contextBox = nodes[0];
+            contextBox.style.overflowX = 'hidden';
+            contextBox.style.overflowY = 'hidden';
+        }
     }, []);
 
     useEffect(() => {
@@ -116,7 +122,6 @@ const Live: FC<{}> = () => {
                         })()
                     }, 1000);
                 } else {
-                    message.warning('频谱比对失败');
                     setComparing(false);
                     if (timer) {
                         clearInterval(timer);

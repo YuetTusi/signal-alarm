@@ -32,6 +32,10 @@ interface RealSpectrumState {
      */
     freqCmpResList: FreqCompare[],
     /**
+     * 比较展示数据（表格）
+     */
+    freqComDisplayList: FreqCompare[],
+    /**
      * 时间
      */
     realSpectrumCaptureTime: number,

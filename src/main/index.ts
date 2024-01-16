@@ -81,7 +81,7 @@ app.on('ready', () => {
         title: '文档生成',
         width: conf.mode === AppMode.PC ? 1660 : 1920,
         height: conf.mode === AppMode.PC ? 900 : 1200,
-        minHeight: conf.mode === AppMode.PC ? 800 : 1200,
+        minHeight: conf.mode === AppMode.PC ? 900 : 1200,
         minWidth: conf.mode === AppMode.PC ? 1660 : 1920,
         show: true,
         frame: false,

@@ -18,6 +18,7 @@ export const LiveBox = styled.div`
     flex-direction: row;
 
     .chart-box{
+        position: relative;
         background-color: #100c2a;
         flex:1;
         .ant-tag{
@@ -41,7 +42,7 @@ export const LiveBox = styled.div`
         padding: 10px;
     }
     .btn-box{
-        margin-top: 20px;
+        margin-top: 14px;
         display:flex;
         flex-direction: row;
         justify-content: center;
@@ -77,28 +78,6 @@ export const TableBox = styled.div`
         margin-right: 0;
     }
 `;
-
-// export const TableBox = styled.div`
-//     position: absolute;
-//     top:60px;
-//     left:0;
-//     right:0;
-//     bottom:0;
-//     border:1px solid #303030;
-//     padding: 5px;
-//     margin-bottom: 5px;
-//     border-radius: ${props => props.theme['borderRadius']}px;
-//     background-color: ${props => props.theme['colorBgContainer']};
-//     overflow-y: auto;
-
-//     .ant-table{
-//         border-left: 1px solid #303030;
-//         border-right: 1px solid #303030;
-//     }
-//     .ant-tag{
-//         margin-right: 0;
-//     }
-// `;
 
 export const SearchBar = styled.div`
 
