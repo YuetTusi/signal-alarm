@@ -1,13 +1,14 @@
 import debounce from 'lodash/debounce';
 import { FC, MouseEvent, useEffect, useRef } from 'react';
-import { useModel } from '@/model';
-import { LiveBox, SearchBar } from './styled/box';
-import { Button, Form, message } from 'antd';
-import { SetForm, FormValue } from './set-form';
-import { DisplayPanel } from '@/component/panel';
-import { helper } from '@/utility/helper';
-import { Spectrum, Rate } from '@/component/chart';
 import { useNavigate } from 'react-router-dom';
+import { Button, Form, message } from 'antd';
+import { useUnmount } from '@/hook';
+import { useModel } from '@/model';
+import { helper } from '@/utility/helper';
+import { DisplayPanel } from '@/component/panel';
+import { Spectrum, Rate } from '@/component/chart';
+import { SetForm, FormValue } from './set-form';
+import { LiveBox, SearchBar } from './styled/box';
 
 let timer: NodeJS.Timer | null = null;
 
@@ -60,19 +61,29 @@ const Live: FC<{}> = () => {
         }
     }, []);
 
-    useEffect(() => {
-        return () => {
-            if (comparing) {
-                setComparing(false);
-                stopRealCompare(prevDevice.current, prevFreqBaseId.current);
-                if (timer !== null) {
-                    clearInterval(timer);
-                    timer = null;
-                }
-            }
-            clearSpectrumData();
-        };
-    }, [comparing]);
+    useUnmount(() => {
+        if (timer !== null) {
+            console.clear();
+            setComparing(false);
+            stopRealCompare(prevDevice.current, prevFreqBaseId.current);
+            clearInterval(timer);
+            timer = null;
+        }
+    });
+
+    // useEffect(() => {
+    //     return () => {
+    //         if (comparing) {
+    //             setComparing(false);
+    //             stopRealCompare(prevDevice.current, prevFreqBaseId.current);
+    //             if (timer !== null) {
+    //                 clearInterval(timer);
+    //                 timer = null;
+    //             }
+    //         }
+    //         // clearSpectrumData();
+    //     };
+    // }, [comparing]);
 
     /**
      * 返回Click
@@ -106,8 +117,9 @@ const Live: FC<{}> = () => {
                 if (timer !== null) {
                     clearInterval(timer);
                 }
+                console.log('stop...');
                 await stopRealCompare(device, freqBaseId);
-                clearSpectrumData();
+                // clearSpectrumData();
                 setComparing(false);
             } else {
                 //开始
