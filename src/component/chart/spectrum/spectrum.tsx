@@ -49,7 +49,7 @@ const chartResize = (chart: echarts.ECharts | null, containerId: string) => {
  * 实时频谱线图
  */
 const Spectrum: FC<SpectrumProp> = ({
-    domId, realData, compareData, arfcn, serieName, captureTime
+    domId, realData, compareData, arfcn
 }) => {
 
     const chartDom = useRef<HTMLDivElement>(null);
@@ -63,6 +63,17 @@ const Spectrum: FC<SpectrumProp> = ({
     useResize(throttle((event: Event) => {
         chartResize(myChart, domId);
     }, 500, { trailing: true, leading: false }));
+
+    /**
+     * 图例配置
+     */
+    const getLegend = () => {
+        const legends = [{ name: '实时频谱' }];
+        if (compareData && compareData.length > 0) {
+            legends.push({ name: '背景频谱' });
+        }
+        return legends;
+    };
 
     useEffect(() => {
         if (chartDom.current) {
@@ -82,10 +93,7 @@ const Spectrum: FC<SpectrumProp> = ({
                     orient: 'vertical',
                     x: 'right',
                     y: 60,
-                    data: [
-                        { name: '实时频谱' },
-                        { name: '背景频谱' }
-                    ],
+                    data: [],
                     // right: '50%',
                     // trigger: 'item',
                     // pageIconColor: '#256bec',
@@ -145,7 +153,7 @@ const Spectrum: FC<SpectrumProp> = ({
 
         if (myChart !== null) {
 
-            const seriseData: any[] = [{
+            let seriseData: any[] = [{
                 data: realData,
                 name: `实时频谱`,
                 type: 'line',
@@ -159,7 +167,8 @@ const Spectrum: FC<SpectrumProp> = ({
                     }
                 }
             }];
-            if (compareData !== undefined) {
+            if (compareData && compareData.length > 0) {
+
                 seriseData.push({
                     data: compareData,
                     name: `背景频谱`,
@@ -176,10 +185,19 @@ const Spectrum: FC<SpectrumProp> = ({
                 });
             }
 
+            const prev = myChart.getOption();
+
             myChart.setOption({
+                ...prev,
+                legend: {
+                    orient: 'vertical',
+                    x: 'right',
+                    y: 60,
+                    data: getLegend()
+                },
                 xAxis: { data: arfcn },
                 series: seriseData
-            });
+            }, true);
         }
     }, [realData, compareData, arfcn]);
 
@@ -194,9 +212,8 @@ const Spectrum: FC<SpectrumProp> = ({
 
 Spectrum.defaultProps = {
     domId: '',
-    serieName: '',
     realData: [],
-    compareData: undefined
+    compareData: []
 }
 
 export { Spectrum };

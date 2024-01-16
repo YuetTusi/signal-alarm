@@ -7,6 +7,7 @@ import { ComDevice } from "@/schema/com-device";
 import { FreqCompare } from '@/schema/freq-compare';
 import { RealSpectrumState } from ".";
 import { GetState, SetState } from "..";
+import { SpecOperate } from '@/view/spectrum/prop';
 
 const realSpectrum = (setState: SetState, getState: GetState): RealSpectrumState => ({
     /**
@@ -46,14 +47,24 @@ const realSpectrum = (setState: SetState, getState: GetState): RealSpectrumState
      */
     realSpectrumLoading: false,
     /**
-     * 比较中
+     * 操作类型（0:未执行操作,1:查询,2:为比对）
      */
-    comparing: false,
+    specOperate: SpecOperate.Nothing,
+    /**
+     * 正在查询中
+     */
+    specLiving: false,
+    /**
+     * 更新操作类型
+     */
+    setSpecOperate(payload: SpecOperate) {
+        setState({ specOperate: payload });
+    },
     /**
      * 更新比对中
      */
-    setComparing(payload: boolean) {
-        setState({ comparing: payload });
+    setSpecLiving(payload: boolean) {
+        setState({ specLiving: payload });
     },
     /**
      * 清空比对及实时数据
@@ -65,6 +76,12 @@ const realSpectrum = (setState: SetState, getState: GetState): RealSpectrumState
             realSpectrumCaptureTime: 0,
             realSpectrumDeviceId: ''
         });
+    },
+    /**
+     * 清空背景频谱
+     */
+    clearBgSpectrumData() {
+        setState({ bgSpectrumData: [] });
     },
     /**
      * 查询所有背景频谱数据
@@ -207,7 +224,7 @@ const realSpectrum = (setState: SetState, getState: GetState): RealSpectrumState
         try {
             const res = await request.get<any>(url);
             if (res !== null && res.code === 200) {
-                setState({ comparing: false });
+                setState({ specLiving: false });
                 return true;
             } else {
                 message.destroy();

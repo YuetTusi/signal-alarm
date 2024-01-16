@@ -18,7 +18,7 @@ const SetForm: FC<SetFormProp> = ({ formRef }) => {
     const { modal } = App.useApp();
     const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([]);
     const {
-        comparing,
+        specLiving,
         realSpectrumDeviceList,
         compareBaseSpectrumData,
         compareBaseSpectrumLoading,
@@ -26,7 +26,7 @@ const SetForm: FC<SetFormProp> = ({ formRef }) => {
         queryRealSpectrumDeviceList,
         queryBaseSpectrumDataByDeviceId
     } = useModel(state => ({
-        comparing: state.comparing,
+        specLiving: state.specLiving,
         realSpectrumDeviceList: state.realSpectrumDeviceList,
         compareBaseSpectrumData: state.compareBaseSpectrumData,
         compareBaseSpectrumLoading: state.compareBaseSpectrumLoading,
@@ -67,7 +67,7 @@ const SetForm: FC<SetFormProp> = ({ formRef }) => {
     };
 
     return <>
-        <Form disabled={comparing} form={formRef} layout="vertical">
+        <Form disabled={specLiving} form={formRef} layout="vertical">
             <Item
                 rules={[
                     { required: true, message: '请选择设备' }
@@ -151,7 +151,7 @@ const SetForm: FC<SetFormProp> = ({ formRef }) => {
                 type: 'radio',
                 selectedRowKeys,
                 onChange: onSelectChange,
-                getCheckboxProps: (_) => ({ disabled: comparing })
+                getCheckboxProps: (_) => ({ disabled: specLiving })
             }}
             style={{ marginTop: '40px' }}
         />

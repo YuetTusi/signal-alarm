@@ -36,3 +36,21 @@ export interface BaseSearchForm {
     beginTime: Dayjs,
     endTime: Dayjs
 }
+
+/**
+ * 操作类型
+ */
+export enum SpecOperate {
+    /**
+     * 未操作
+     */
+    Nothing,
+    /**
+     * 查询
+     */
+    Search,
+    /**
+     * 比对
+     */
+    Compare
+}

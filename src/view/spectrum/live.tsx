@@ -9,6 +9,7 @@ import { DisplayPanel } from '@/component/panel';
 import { Spectrum, Rate } from '@/component/chart';
 import { SetForm, FormValue } from './set-form';
 import { LiveBox, SearchBar } from './styled/box';
+import { SpecOperate } from './prop';
 
 let timer: NodeJS.Timer | null = null;
 
@@ -23,28 +24,32 @@ const Live: FC<{}> = () => {
     const prevFreqBaseId = useRef('');
 
     const {
-        comparing,
+        specOperate,
+        specLiving,
         bgSpectrumData,
         realSpectrumData,
-        realSpectrumDeviceId,
-        realSpectrumCaptureTime,
-        setComparing,
+        setSpecOperate,
+        setSpecLiving,
         // clearSpectrumData,
+        clearBgSpectrumData,
         startRealCompare,
         stopRealCompare,
-        queryAllFreqList
+        queryAllFreqList,
+        queryRealSpectrumData
     } = useModel(state => ({
-        comparing: state.comparing,
+        specOperate: state.specOperate,
+        specLiving: state.specLiving,
         bgSpectrumData: state.bgSpectrumData,
-        realSpectrumCaptureTime: state.realSpectrumCaptureTime,
-        realSpectrumDeviceId: state.realSpectrumDeviceId,
         realSpectrumData: state.realSpectrumData,
         freqComDisplayList: state.freqComDisplayList,
-        setComparing: state.setComparing,
+        setSpecOperate: state.setSpecOperate,
+        setSpecLiving: state.setSpecLiving,
         // clearSpectrumData: state.clearSpectrumData,
+        clearBgSpectrumData: state.clearBgSpectrumData,
         startRealCompare: state.startRealCompare,
         stopRealCompare: state.stopRealCompare,
-        queryAllFreqList: state.queryAllFreqList
+        queryAllFreqList: state.queryAllFreqList,
+        queryRealSpectrumData: state.queryRealSpectrumData
     }));
 
     useEffect(() => {
@@ -64,11 +69,14 @@ const Live: FC<{}> = () => {
     useUnmount(() => {
         if (timer !== null) {
             console.clear();
-            setComparing(false);
-            stopRealCompare(prevDevice.current, prevFreqBaseId.current);
+            if (specOperate === SpecOperate.Compare) {
+                stopRealCompare(prevDevice.current, prevFreqBaseId.current);
+            }
             clearInterval(timer);
             timer = null;
         }
+        setSpecOperate(SpecOperate.Nothing);
+        setSpecLiving(false);
     });
 
     /**
@@ -79,6 +87,55 @@ const Live: FC<{}> = () => {
         navigate('/dashboard');
     };
 
+    /**
+     * 查询Click
+     */
+    const onSearchClick = debounce(async (event: MouseEvent<HTMLElement>) => {
+        event.preventDefault();
+        const { validateFields } = formRef;
+        message.destroy();
+        let device = ''
+        try {
+            const values = await validateFields(['device']);
+            device = values.device;
+        } catch (error) {
+            console.warn(error);
+            return;
+        }
+        try {
+            if (specLiving) {
+                //停止
+                if (timer !== null) {
+                    clearInterval(timer);
+                }
+                setSpecLiving(false);
+                setSpecOperate(SpecOperate.Nothing);
+            } else {
+                clearBgSpectrumData();
+                setSpecOperate(SpecOperate.Search);
+                await queryRealSpectrumData(device);
+                setSpecLiving(true);
+                timer = setInterval(() => {
+                    (async () => {
+                        await queryRealSpectrumData(device);
+                    })()
+                }, 1000);
+            }
+        } catch (error) {
+            console.warn(error);
+            message.warning(`频谱查询失败 ${error.message}`);
+            setSpecLiving(false);
+            if (timer) {
+                clearInterval(timer);
+                timer = null;
+            }
+        }
+
+    }, 500, { leading: true, trailing: false });
+
+    /**
+     * 比对Click
+     */
     const onCompareClick = debounce(async (event: MouseEvent<HTMLElement>) => {
         event.preventDefault();
         const { validateFields } = formRef;
@@ -98,28 +155,30 @@ const Live: FC<{}> = () => {
             return;
         }
         try {
-            if (comparing) {
+            if (specLiving) {
                 //停止
                 if (timer !== null) {
                     clearInterval(timer);
                 }
                 await stopRealCompare(device, freqBaseId);
                 // clearSpectrumData();
-                setComparing(false);
+                setSpecLiving(false);
+                setSpecOperate(SpecOperate.Nothing);
             } else {
                 //开始
+                setSpecOperate(SpecOperate.Compare);
                 const success = await startRealCompare(device, freqBaseId, offset);
                 prevDevice.current = device;
                 prevFreqBaseId.current = freqBaseId;
                 if (success) {
-                    setComparing(true);
+                    setSpecLiving(true);
                     timer = setInterval(() => {
                         (async () => {
                             await startRealCompare(device, freqBaseId, offset);
                         })()
                     }, 1000);
                 } else {
-                    setComparing(false);
+                    setSpecLiving(false);
                     if (timer) {
                         clearInterval(timer);
                         timer = null;
@@ -129,7 +188,7 @@ const Live: FC<{}> = () => {
         } catch (error) {
             console.warn(error);
             message.warning(`频谱比对失败 ${error.message}`);
-            setComparing(false);
+            setSpecLiving(false);
             if (timer) {
                 clearInterval(timer);
                 timer = null;
@@ -155,10 +214,18 @@ const Live: FC<{}> = () => {
 
                         <div className="btn-box">
                             <Button
-                                onClick={onCompareClick}
+                                onClick={onSearchClick}
+                                disabled={specOperate === SpecOperate.Compare}
                                 type="primary"
                                 style={{ width: '120px' }}>
-                                {comparing ? '停止' : '查询'}
+                                {specLiving && specOperate === SpecOperate.Search ? '停止' : '查询'}
+                            </Button>
+                            <Button
+                                onClick={onCompareClick}
+                                disabled={specOperate === SpecOperate.Search}
+                                type="primary"
+                                style={{ width: '120px' }}>
+                                {specLiving && specOperate === SpecOperate.Compare ? '停止' : '比对'}
                             </Button>
                         </div>
                     </div>
@@ -169,8 +236,6 @@ const Live: FC<{}> = () => {
                     domId="realOuterBox"
                     realData={realSpectrumData}
                     compareData={bgSpectrumData}
-                    serieName={realSpectrumDeviceId}
-                    captureTime={realSpectrumCaptureTime}
                     arfcn={
                         Array
                             .from(new Array(7499).keys())

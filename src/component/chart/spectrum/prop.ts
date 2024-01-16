@@ -4,11 +4,9 @@ export interface SpectrumProp {
     /**
      * 实时曲线数据
      */
-    realData: any[],
+    realData: number[],
     /**
-     * 比对曲线数据 （比对功能用，实时功能此数据为undefined）
+     * 比对曲线数据 （比对功能用，实时功能此数据为空）
      */
-    compareData?: any[],
-    captureTime: number, //时刻
-    serieName: string
+    compareData: number[]
 };

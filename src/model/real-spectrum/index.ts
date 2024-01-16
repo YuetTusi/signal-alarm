@@ -1,6 +1,7 @@
 import { ComDevice } from "@/schema/com-device";
-import { realSpectrum } from './real-spectrum';
 import { FreqCompare } from "@/schema/freq-compare";
+import { realSpectrum } from './real-spectrum';
+import { SpecOperate } from "@/view/spectrum/prop";
 
 /**
  * 实时频谱
@@ -48,17 +49,29 @@ interface RealSpectrumState {
      */
     realSpectrumLoading: boolean,
     /**
-     * 比较中
+     * 操作类型（0:未执行操作,1:查询,2:为比对）
      */
-    comparing: boolean,
+    specOperate: SpecOperate,
     /**
-     * 更新比对中
+     * 正在查询中
      */
-    setComparing: (payload: boolean) => void,
+    specLiving: boolean,
     /**
-     * 清空比对及实时数据
+     * 更新正在查询中
+     */
+    setSpecLiving: (payload: boolean) => void,
+    /**
+     * 更新操作类型
+     */
+    setSpecOperate: (payload: SpecOperate) => void,
+    /**
+     * 清空比对及实时数据（全部数据）
      */
     clearSpectrumData: () => void,
+    /**
+     * 清空背景频谱
+     */
+    clearBgSpectrumData: () => void,
     /**
      * 查询所有背景频谱数据
      * @returns 
