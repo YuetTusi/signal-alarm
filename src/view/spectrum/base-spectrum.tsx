@@ -6,11 +6,10 @@ import { Button, Input, DatePicker, Select, Form, Table, message } from 'antd';
 import { BaseFreq } from '@/schema/base-freq';
 import { CalcModal, FormValue } from './calc-modal';
 import { toSelectData } from './tool';
-import { BaseSearchForm } from './prop';
 import { getBaseColumns } from './column';
 import { SearchBar, SpectrumBox, TableBox } from './styled/box';
+import { BaseSearchForm } from './prop';
 
-const { Option } = Select;
 const { useForm, Item } = Form;
 
 /**

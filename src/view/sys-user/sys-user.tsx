@@ -1,6 +1,6 @@
 import { FC, MouseEvent, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { App, Input, Button, Select, Form, Table, message } from 'antd';
+import { Input, Button, Select, Form, Table } from 'antd';
 import { SearchBar, SysUserBox, TableBox } from './styled/box';
 import useModel from '@/model';
 import { SystemUser } from '@/schema/system-user';

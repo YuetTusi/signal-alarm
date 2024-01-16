@@ -2,7 +2,6 @@ import { FC, useEffect, useState, useRef, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { App, Input, Button, Select, Form, Table, message } from 'antd';
 import { useModel } from '@/model';
-import { helper } from '@/utility/helper';
 import { ComDevice, DeviceState } from '@/schema/com-device';
 import { AddModal } from './add-modal';
 import { SetModal } from './set-modal';

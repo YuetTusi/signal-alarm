@@ -29,7 +29,7 @@ const Live: FC<{}> = () => {
         realSpectrumDeviceId,
         realSpectrumCaptureTime,
         setComparing,
-        clearSpectrumData,
+        // clearSpectrumData,
         startRealCompare,
         stopRealCompare,
         queryAllFreqList
@@ -41,7 +41,7 @@ const Live: FC<{}> = () => {
         realSpectrumData: state.realSpectrumData,
         freqComDisplayList: state.freqComDisplayList,
         setComparing: state.setComparing,
-        clearSpectrumData: state.clearSpectrumData,
+        // clearSpectrumData: state.clearSpectrumData,
         startRealCompare: state.startRealCompare,
         stopRealCompare: state.stopRealCompare,
         queryAllFreqList: state.queryAllFreqList
@@ -70,20 +70,6 @@ const Live: FC<{}> = () => {
             timer = null;
         }
     });
-
-    // useEffect(() => {
-    //     return () => {
-    //         if (comparing) {
-    //             setComparing(false);
-    //             stopRealCompare(prevDevice.current, prevFreqBaseId.current);
-    //             if (timer !== null) {
-    //                 clearInterval(timer);
-    //                 timer = null;
-    //             }
-    //         }
-    //         // clearSpectrumData();
-    //     };
-    // }, [comparing]);
 
     /**
      * 返回Click
@@ -117,7 +103,6 @@ const Live: FC<{}> = () => {
                 if (timer !== null) {
                     clearInterval(timer);
                 }
-                console.log('stop...');
                 await stopRealCompare(device, freqBaseId);
                 // clearSpectrumData();
                 setComparing(false);
@@ -186,7 +171,11 @@ const Live: FC<{}> = () => {
                     compareData={bgSpectrumData}
                     serieName={realSpectrumDeviceId}
                     captureTime={realSpectrumCaptureTime}
-                    arfcn={Array.from(new Array(7499).keys()).map(i => Math.trunc(1 + i * 0.8))} />
+                    arfcn={
+                        Array
+                            .from(new Array(7499).keys())
+                            .map(i => Math.trunc(1 + i * 0.8))
+                    } />
                 <Rate realData={realSpectrumData} compareData={[]} />
             </div>
         </LiveBox>
