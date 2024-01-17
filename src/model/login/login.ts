@@ -1,5 +1,4 @@
 import { log } from '@/utility/log';
-import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';
 import { GetState, SetState } from '..';
 import { LoginState } from '../login';

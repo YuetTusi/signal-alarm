@@ -3,9 +3,9 @@ import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';
 import { Terminal } from '@/schema/terminal';
 import { Protocol } from '@/schema/protocol';
+import { QueryPage } from '@/schema/query-page';
 import { SpecialTerminalState } from '.';
 import { GetState, SetState } from '..';
-import { QueryPage } from '@/schema/query-page';
 
 const specialTerminal = (setState: SetState, _: GetState): SpecialTerminalState => ({
 

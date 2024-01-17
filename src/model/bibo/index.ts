@@ -1,6 +1,6 @@
 import { ComDevice } from '@/schema/com-device';
-import { bibo } from './bibo';
 import { AlarmMessage } from '@/schema/phone-alarm-info';
+import { bibo } from './bibo';
 
 interface BiboState {
     /**

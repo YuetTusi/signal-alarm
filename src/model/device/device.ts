@@ -4,9 +4,9 @@ import { log } from '@/utility/log';
 import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';
 import { ComDevice } from '@/schema/com-device';
+import { QueryPage } from '@/schema/query-page';
 import { GetState, SetState } from '..';
 import { DeviceState } from './index';
-import { QueryPage } from '@/schema/query-page';
 
 const device = (setState: SetState, _: GetState): DeviceState => ({
     /**

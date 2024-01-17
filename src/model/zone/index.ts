@@ -1,6 +1,6 @@
 import { Zone as ZoneEntity } from '@/schema/zone';
-import { zone } from './zone';
 import { RequestResult } from '@/utility/http';
+import { zone } from './zone';
 
 interface ZoneState {
     /**

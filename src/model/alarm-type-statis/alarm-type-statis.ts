@@ -1,8 +1,8 @@
-import { GetState, SetState } from '..';
-import { AlarmTypeStatisState } from './index';
+import { message } from 'antd';
 import { request } from '@/utility/http';
 import { AlarmType } from '@/schema/alarm-type';
-import { message } from 'antd';
+import { GetState, SetState } from '..';
+import { AlarmTypeStatisState } from './index';
 
 const alarmTypeStatis = (setState: SetState, _: GetState): AlarmTypeStatisState => ({
 

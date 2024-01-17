@@ -1,8 +1,8 @@
+import { message } from 'antd';
+import { request } from '@/utility/http';
+import { AlarmWeek } from '@/schema/alarm-week';
 import { GetState, SetState } from '..';
 import { AlarmWeekStatisState } from './index';
-import { request } from '@/utility/http';
-import { message } from 'antd';
-import { AlarmWeek } from '@/schema/alarm-week';
 
 const alarmWeekStatis = (setState: SetState, _: GetState): AlarmWeekStatisState => ({
 

@@ -1,9 +1,9 @@
+import { log } from "@/utility/log";
+import { helper } from "@/utility/helper";
+import { request } from "@/utility/http";
 import { ComDevice } from "@/schema/com-device";
 import { HistorySpectrumState } from ".";
 import { GetState, SetState } from "..";
-import { helper } from "@/utility/helper";
-import { request } from "@/utility/http";
-import { log } from "@/utility/log";
 
 const historySpectrum = (setState: SetState, _: GetState): HistorySpectrumState => ({
     /**

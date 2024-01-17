@@ -1,8 +1,8 @@
-import { GetState, SetState } from '..';
-import { AlarmSiteTopStatisState } from './index';
 import { message } from 'antd';
 import { request } from '@/utility/http';
 import { AlarmSiteTop } from '@/schema/alarm-site-top';
+import { GetState, SetState } from '..';
+import { AlarmSiteTopStatisState } from './index';
 
 const alarmSiteTopStatis = (setState: SetState, _: GetState): AlarmSiteTopStatisState => ({
 

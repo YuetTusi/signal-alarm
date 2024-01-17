@@ -1,11 +1,11 @@
 import dayjs from 'dayjs';
+import { QueryPage } from '@/schema/query-page';
+import { WhiteList as WhiteListEntity } from '@/schema/white-list';
+import { request } from '@/utility/http';
+import { helper } from '@/utility/helper';
+import { FormValue } from '@/view/white-list/add-modal/prop';
 import { GetState, SetState } from '..';
 import { WhiteListState } from '../white-list';
-import { QueryPage } from '@/schema/query-page';
-import { FormValue } from '@/view/white-list/add-modal/prop';
-import { WhiteList as WhiteListEntity } from '@/schema/white-list';
-import { request, RequestResult } from '@/utility/http';
-import { helper } from '@/utility/helper';
 
 const whiteList = (setState: SetState, _: GetState): WhiteListState => ({
     /**

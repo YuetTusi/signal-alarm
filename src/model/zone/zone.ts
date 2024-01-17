@@ -1,10 +1,8 @@
 import dayjs from 'dayjs';
 import { message } from 'antd';
 import { request } from '@/utility/http';
-import { QueryPage } from '@/schema/query-page';
-import { SystemRole } from '@/schema/system-role';
-import { log } from '@/utility/log';
 import { helper } from '@/utility/helper';
+import { QueryPage } from '@/schema/query-page';
 import { Zone as ZoneEntity } from '@/schema/zone';
 import { GetState, SetState } from "..";
 import { ZoneState } from '.';

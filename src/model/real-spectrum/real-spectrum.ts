@@ -1,13 +1,12 @@
-import dayjs from 'dayjs';
 import { message } from "antd";
 import { log } from "@/utility/log";
 import { helper } from "@/utility/helper";
 import { request } from "@/utility/http";
 import { ComDevice } from "@/schema/com-device";
 import { FreqCompare } from '@/schema/freq-compare';
+import { SpecOperate } from '@/view/spectrum/prop';
 import { RealSpectrumState } from ".";
 import { GetState, SetState } from "..";
-import { SpecOperate } from '@/view/spectrum/prop';
 
 const realSpectrum = (setState: SetState, getState: GetState): RealSpectrumState => ({
     /**
@@ -141,7 +140,7 @@ const realSpectrum = (setState: SetState, getState: GetState): RealSpectrumState
             if (res !== null && res.code === 200) {
                 if (helper.isNullOrUndefined(res.data)) {
                     setState({
-                        realSpectrumData: new Array(7499).map(() => '-') as any[],
+                        realSpectrumData: new Array(7499).map<any>(() => '-'),
                         realSpectrumCaptureTime: 0,
                         realSpectrumDeviceId: deviceId,
                         bgSpectrumData: undefined

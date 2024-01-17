@@ -1,12 +1,9 @@
-import { helper } from "@/utility/helper";
-import { SpecialBluetoothState } from ".";
-import { GetState, SetState } from "..";
 import { message } from "antd";
 import { request } from "@/utility/http";
+import { helper } from "@/utility/helper";
 import { QueryPage } from "@/schema/query-page";
-import { Protocol } from "@/schema/protocol";
-
-//todo:  此model未完成，待开发完主页报警后继续
+import { SpecialBluetoothState } from ".";
+import { GetState, SetState } from "..";
 
 export const specialBluetooth = (setState: SetState, _: GetState): SpecialBluetoothState => ({
     /**

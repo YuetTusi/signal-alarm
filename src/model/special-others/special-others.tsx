@@ -3,9 +3,9 @@ import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';
 import { Wap } from '@/schema/wap';
 import { Protocol } from '@/schema/protocol';
+import { QueryPage } from '@/schema/query-page';
 import { SpecialOthersState } from '.';
 import { GetState, SetState } from '..';
-import { QueryPage } from '@/schema/query-page';
 
 const specialOthers = (setState: SetState, _: GetState): SpecialOthersState => ({
 

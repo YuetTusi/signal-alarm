@@ -3,9 +3,9 @@ import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';
 import { Protocol } from '@/schema/protocol';
 import { Hotspot } from '@/schema/hotspot';
+import { QueryPage } from '@/schema/query-page';
 import { SpecialHotspotState } from '.';
 import { GetState, SetState } from '..';
-import { QueryPage } from '@/schema/query-page';
 
 const specialHotspot = (setState: SetState, _: GetState): SpecialHotspotState => ({
 
