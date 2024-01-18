@@ -3,35 +3,26 @@ import { FC, useEffect, useRef } from 'react';
 import * as echarts from 'echarts/core';
 import { LineChart } from 'echarts/charts';
 import {
-    TitleComponent,
-    TooltipComponent,
+    VisualMapComponent,
+    CalendarComponent,
     GridComponent,
-    DatasetComponent,
-    TransformComponent,
-    LegendComponent,
-    ToolboxComponent,
-    DataZoomComponent,
+    TimelineComponent,
+    LegendComponent
 } from 'echarts/components';
-import { LabelLayout, UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
-import { useResize, useUnmount } from '@/hook';
-import { ChartBox, EmptyBox } from './styled/box';
+import { useResize } from '@/hook';
+import { ChartBox } from './styled/box';
 import { SpectrumProp } from './prop';
 
 // 注册必须的组件
 echarts.use([
-    TitleComponent,
-    TooltipComponent,
     GridComponent,
-    DatasetComponent,
-    TransformComponent,
-    LineChart,
+    VisualMapComponent,
+    CalendarComponent,
+    TimelineComponent,
     LegendComponent,
-    LabelLayout,
-    UniversalTransition,
-    CanvasRenderer,
-    ToolboxComponent,
-    DataZoomComponent
+    LineChart,
+    CanvasRenderer
 ]);
 
 var myChart: echarts.ECharts | null = null;
@@ -205,7 +196,7 @@ const Spectrum: FC<SpectrumProp> = ({
         <ChartBox
             width={800}
             height={460}
-            id="spectrumBox"
+            id="pastBox"
             ref={chartDom} />
     </>;
 };

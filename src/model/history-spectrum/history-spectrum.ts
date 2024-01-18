@@ -2,18 +2,31 @@ import { log } from "@/utility/log";
 import { helper } from "@/utility/helper";
 import { request } from "@/utility/http";
 import { ComDevice } from "@/schema/com-device";
+import { PastOperate } from "@/view/spectrum/prop";
 import { HistorySpectrumState } from ".";
 import { GetState, SetState } from "..";
 
 const historySpectrum = (setState: SetState, _: GetState): HistorySpectrumState => ({
     /**
+     * 操作类型
+     */
+    pastOperate: PastOperate.Nothing,
+    /**
+     * 正在播放中
+     */
+    specPlaying: false,
+    /**
      * 设备下拉数据
      */
     historySpectrumDeviceList: [],
     /**
-     * 实时数据
+     * 历史数据
      */
     historySpectrumData: [],
+    /**
+     * 
+     */
+    allBgFreqList: [],
     /**
      * 时间
      */
@@ -27,6 +40,18 @@ const historySpectrum = (setState: SetState, _: GetState): HistorySpectrumState 
      */
     historySpectrumLoading: false,
     /**
+     * 更新操作类型
+     */
+    setPastOperate(payload: PastOperate) {
+        setState({ pastOperate: payload });
+    },
+    /**
+     * 更新播放中
+     */
+    setSpecPlaying(payload: boolean) {
+        setState({ specPlaying: payload });
+    },
+    /**
      * 清空历史频谱数据
      */
     clearHistorySpectrumData() {
@@ -36,6 +61,28 @@ const historySpectrum = (setState: SetState, _: GetState): HistorySpectrumState 
             historySpectrumDeviceId: '',
             historySpectrumLoading: false
         });
+    },
+    /**
+     * 查询所有背景频谱数据
+     */
+    async queryAllBgFreqList() {
+        const url = '/freq/get-all-freq-list';
+        try {
+            const res = await request.get<{
+                freqBaseId: string,
+                freqArray: string,
+                deviceId: string
+            }[]
+            >(url);
+            if (res !== null && res.code === 200) {
+                setState({ allBgFreqList: res.data });
+            } else {
+                setState({ allBgFreqList: [] });
+            }
+        } catch (error) {
+            setState({ allBgFreqList: [] });
+            log.error(`查询所有背景频谱@model/history-spectrum/queryAllBgFreqList():${error.message}`);
+        }
     },
     /**
      * 查询设备下拉数据

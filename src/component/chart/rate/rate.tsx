@@ -1,13 +1,14 @@
 import { throttle } from 'lodash';
 import * as echarts from 'echarts/core';
 import { FC, useEffect, useRef } from 'react';
+import { Table } from 'antd';
 import { useModel } from '@/model';
 import { useResize, useUnmount } from '@/hook';
-import { ChartBox, PanelBox, TableBox } from './styled/box';
-import { RateProp } from './prop';
-import { Table } from 'antd';
+import { helper } from '@/utility/helper';
 import { FreqCompare } from '@/schema/freq-compare';
 import { getCompareColumns } from './column';
+import { ChartBox, PanelBox, TableBox } from './styled/box';
+import { RateProp } from './prop';
 
 const SIZE = 7499;
 let realChart: echarts.ECharts | null = null;
@@ -63,17 +64,10 @@ const chartResize = (chart: echarts.ECharts | null, containerId: string) => {
     }
 };
 
-const tableResize = (dom: HTMLElement | null, containerId: string) => {
-    if (dom !== null) {
-        const outer = document.querySelector(`#${containerId}`);
-        dom.style.width = `${outer?.clientWidth ?? document.body.clientWidth - 400}px`;
-    }
-};
-
 /**
  * 频率图表
  */
-const Rate: FC<RateProp> = ({ realData, compareData }) => {
+const Rate: FC<RateProp> = ({ realData, compareData, outerDomId }) => {
 
     const tableRef = useRef<any>(null);
     const {
@@ -87,11 +81,11 @@ const Rate: FC<RateProp> = ({ realData, compareData }) => {
     useEffect(() => {
         if (realChart === null) {
             realChart = echarts.init(document.querySelector('#realRate')!, 'dark');
-            chartResize(realChart, 'realOuterBox');
+            chartResize(realChart, outerDomId);
         }
         if (compareChart === null) {
             compareChart = echarts.init(document.querySelector('#compareRate')!, 'dark');
-            chartResize(compareChart, 'realOuterBox');
+            chartResize(compareChart, outerDomId);
         }
     }, []);
 
@@ -161,9 +155,8 @@ const Rate: FC<RateProp> = ({ realData, compareData }) => {
     }, [compareData]);
 
     useResize(throttle((_: Event) => {
-        chartResize(realChart, 'realOuterBox');
-        chartResize(compareChart, 'realOuterBox');
-        // tableResize(tableRef.current, 'realOuterBox');
+        chartResize(realChart, outerDomId);
+        chartResize(compareChart, outerDomId);
     }, 500, { trailing: true, leading: false }));
 
     return <>
@@ -194,7 +187,7 @@ const Rate: FC<RateProp> = ({ realData, compareData }) => {
                     //         createTime: ''
                     //     }
                     // ]}
-                    rowKey={(_, index) => `FCT_${index}`}
+                    rowKey={() => helper.nextId(8)}
                     pagination={false}
                     size="small"
                     scroll={{ y: 160 }}

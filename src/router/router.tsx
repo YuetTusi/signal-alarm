@@ -12,6 +12,7 @@ import {
     HistorySpectrum,
     BaseSpectrum,
     Live,
+    Past
 } from '@/view/spectrum';
 
 /**
@@ -43,7 +44,8 @@ export const ViewRouter: FC<{}> = () => <Router>
             path="/history-spectrum"
             element={
                 <Layout>
-                    <HistorySpectrum />
+                    <Past />
+                    {/* <HistorySpectrum /> */}
                 </Layout>
             }
         />

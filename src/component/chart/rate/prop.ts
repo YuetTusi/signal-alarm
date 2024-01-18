@@ -6,5 +6,9 @@ export interface RateProp {
     /**
      * 比对数据
      */
-    compareData: number[]
+    compareData: number[],
+    /**
+     * 外层容器DOM
+     */
+    outerDomId: string
 }

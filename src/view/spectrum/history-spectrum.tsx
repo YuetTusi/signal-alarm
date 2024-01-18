@@ -58,6 +58,7 @@ const HistorySpectrum: FC<HistorySpectrumProp> = () => {
         historySpectrumCaptureTime,
         historySpectrumDeviceId,
         setReading,
+        setPastOperate,
         clearHistorySpectrumData,
         queryRealSpectrumDeviceList,
         queryHistorySpectrumData
@@ -67,6 +68,7 @@ const HistorySpectrum: FC<HistorySpectrumProp> = () => {
         historySpectrumCaptureTime: state.historySpectrumCaptureTime,
         historySpectrumDeviceId: state.historySpectrumDeviceId,
         setReading: state.setReading,
+        setPastOperate: state.setPastOperate,
         clearHistorySpectrumData: state.clearHistorySpectrumData,
         queryRealSpectrumDeviceList: state.queryRealSpectrumDeviceList,
         queryHistorySpectrumData: state.queryHistorySpectrumData,
@@ -210,8 +212,7 @@ const HistorySpectrum: FC<HistorySpectrumProp> = () => {
             <Spectrum
                 domId="historyOuterBox"
                 realData={historySpectrumData}
-                serieName={`${historySpectrumDeviceId} 频谱`}
-                captureTime={historySpectrumCaptureTime}
+                compareData={[]}
                 arfcn={Array.from(new Array(7499).keys()).map(i => Math.trunc(1 + i * 0.8))} />
         </TableBox>
     </SpectrumBox>;

@@ -11,6 +11,11 @@ export interface RealSpectrumProp { };
 export interface HistorySpectrumProp { };
 
 /**
+ * 历史频谱
+ */
+export interface PastProp { };
+
+/**
  * 查询表单
  */
 export interface SearchForm {
@@ -49,6 +54,21 @@ export enum SpecOperate {
      * 查询
      */
     Search,
+    /**
+     * 比对
+     */
+    Compare
+}
+
+export enum PastOperate {
+    /**
+     * 未操作
+     */
+    Nothing,
+    /**
+     * 播放
+     */
+    Play,
     /**
      * 比对
      */

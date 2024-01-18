@@ -228,7 +228,7 @@ const Live: FC<{}> = () => {
                     </div>
                 </DisplayPanel>
             </div>
-            <div className="chart-box">
+            <div id="realOuterBox" className="chart-box">
                 <Spectrum
                     domId="realOuterBox"
                     realData={realSpectrumData}
@@ -238,7 +238,10 @@ const Live: FC<{}> = () => {
                             .from(new Array(7499).keys())
                             .map(i => Math.trunc(1 + i * 0.8))
                     } />
-                <Rate realData={realSpectrumData} compareData={[]} />
+                <Rate
+                    realData={realSpectrumData}
+                    compareData={[]}
+                    outerDomId="realOuterBox" />
             </div>
         </LiveBox>
     </div>;

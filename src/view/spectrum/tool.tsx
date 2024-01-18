@@ -30,4 +30,4 @@ export const toSelectData = (devices: ComDevice[], useAll = false) => {
     }
 
     return data
-}
+};

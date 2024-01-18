@@ -29,7 +29,7 @@ export const LiveBox = styled.div`
         position: relative;
         flex: none;
         box-sizing: border-box;
-        width: 400px;
+        width: 430px;
         height: 100%;
         /* border: 1px solid yellow; */
     }
@@ -93,4 +93,9 @@ export const SearchBar = styled.div`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+`;
+
+export const ClockBox = styled.span`
+
+    color:#f6f319;
 `;
