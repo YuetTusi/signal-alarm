@@ -49,6 +49,16 @@ export const LayoutBox = styled.div`
             &:last-child{
                 top:32px;
                 padding-right: 5px;
+                display: flex;
+                flex-direction: row;
+                .web-setting{
+                    position: relative;
+                    top:-4px;
+                    color:#ffffffd9;
+                    font-size: 1.4rem;
+                    vertical-align: sub;
+                    margin-right: 10px;
+                }
             }
         }
     }

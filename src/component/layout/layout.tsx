@@ -1,12 +1,18 @@
+import path from 'path';
+import electron from 'electron';
 import localforage from 'localforage';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { App, message } from 'antd';
+import CheckCircleFilled from '@ant-design/icons/CheckCircleFilled';
+import SettingOutlined from '@ant-design/icons/SettingOutlined';
+import { App, Button, message } from 'antd';
 import { useModel } from '@/model';
 import { AppMode } from '@/schema/conf';
 import { helper } from '@/utility/helper';
 import { closeSse } from '@/utility/sse';
 import { StorageKeys } from '@/utility/storage-keys';
+import { Auth } from '@/component/auth';
+import NetworkModal from '@/component/network-modal';
 import Reading from '../reading';
 import DragBar from '../drag-bar';
 import Voice from '../voice';
@@ -18,6 +24,12 @@ import { ModifyPasswordModal } from '../modify-password-modal';
 import { LayoutBox } from './styled/styled';
 import { LayoutProp } from './prop';
 
+const { join } = path;
+const { ipcRenderer } = electron;
+const cwd = process.cwd();
+const ipJson = helper.IS_DEV
+    ? join(cwd, './setting/ip.json')
+    : join(cwd, 'resources/ip.json');
 const { mode } = helper.readConf();
 
 /**
@@ -27,6 +39,7 @@ const Layout: FC<LayoutProp> = ({ children }) => {
 
     const navigator = useNavigate();
     const { modal } = App.useApp();
+    const [networkModalOpen, setNetworkModalOpen] = useState<boolean>(false);
     const {
         voiceControlModalOpen,
         modifyPasswordModalOpen,
@@ -91,6 +104,38 @@ const Layout: FC<LayoutProp> = ({ children }) => {
         }
     };
 
+    const onNetworkModalOk = async (appName: string, ip: string, port: number) => {
+        try {
+            const success = await helper.writeJson(ipJson, { appName, ip, port });
+            if (success) {
+                setNetworkModalOpen(false);
+                modal.confirm({
+                    onOk() {
+                        ipcRenderer.send('do-relaunch');
+                    },
+                    icon: <CheckCircleFilled style={{ color: "#52c41a" }} />,
+                    title: '成功',
+                    content: '应用配置更新成功，请重启生效新配置',
+                    okText: '重启',
+                    cancelText: '取消',
+                    centered: true
+                });
+            } else {
+                modal.warning({
+                    title: '失败',
+                    content: '更新失败',
+                    okText: '确定'
+                });
+            }
+        } catch (error) {
+            modal.warning({
+                title: '失败',
+                content: `应用配置更新失败(${error.message})`,
+                okText: '确定'
+            });
+        }
+    };
+
     return <LayoutBox>
         <DragBar />
         <Voice />
@@ -103,6 +148,17 @@ const Layout: FC<LayoutProp> = ({ children }) => {
                 <AppTitle />
             </div>
             <div>
+                <Auth deny={mode === AppMode.PC}>
+                    <span>
+                        <Button
+                            onClick={() => setNetworkModalOpen(true)}
+                            className="web-setting"
+                            type="link">
+                            <SettingOutlined />
+                            <span>设置</span>
+                        </Button>
+                    </span>
+                </Auth>
                 <span>
                     <UserMenu onMenuItemClick={onUserMenuClick} />
                 </span>
@@ -129,6 +185,10 @@ const Layout: FC<LayoutProp> = ({ children }) => {
                 setModifyPasswordModalOpen(false);
             }}
         />
+        <NetworkModal
+            open={networkModalOpen}
+            onCancel={() => setNetworkModalOpen(false)}
+            onOk={onNetworkModalOk} />
     </LayoutBox >
 };
 

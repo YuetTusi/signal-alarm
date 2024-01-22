@@ -232,7 +232,7 @@ const Login: FC<{}> = () => {
                 </LoginBox>
             </LoginOuterBox>;
         }
-    }
+    };
 
     return <>
         <DragBar />
