@@ -1,3 +1,5 @@
+import { FreqCompare } from "@/schema/freq-compare";
+
 export interface RateProp {
     /**
      * 实时数据
@@ -6,7 +8,11 @@ export interface RateProp {
     /**
      * 比对数据
      */
-    compareData: number[],
+    compareData: FreqCompare[],
+    /**
+     * 表格数据
+     */
+    displayData: FreqCompare[],
     /**
      * 外层容器DOM
      */

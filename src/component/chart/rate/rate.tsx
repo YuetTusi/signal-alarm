@@ -2,7 +2,6 @@ import { throttle } from 'lodash';
 import * as echarts from 'echarts/core';
 import { FC, useEffect, useRef } from 'react';
 import { Table } from 'antd';
-import { useModel } from '@/model';
 import { useResize, useUnmount } from '@/hook';
 import { helper } from '@/utility/helper';
 import { FreqCompare } from '@/schema/freq-compare';
@@ -15,26 +14,6 @@ let realChart: echarts.ECharts | null = null;
 let compareChart: echarts.ECharts | null = null;
 
 let realOption: any = {
-    xAxis: {
-        show: false,
-        type: 'category',
-        data: []
-    },
-    yAxis: {
-        show: false,
-        type: 'value'
-    },
-    series: [
-        {
-            type: 'bar',
-            data: []
-        }
-    ],
-    tooltip: {
-        show: false
-    }
-};
-let compareOption: any = {
     xAxis: {
         show: false,
         type: 'category',
@@ -67,16 +46,9 @@ const chartResize = (chart: echarts.ECharts | null, containerId: string) => {
 /**
  * 频率图表
  */
-const Rate: FC<RateProp> = ({ realData, compareData, outerDomId }) => {
+const Rate: FC<RateProp> = ({ realData, compareData, displayData, outerDomId }) => {
 
     const tableRef = useRef<any>(null);
-    const {
-        freqCmpResList,
-        freqComDisplayList
-    } = useModel(state => ({
-        freqCmpResList: state.freqCmpResList,
-        freqComDisplayList: state.freqComDisplayList
-    }));
 
     useEffect(() => {
         if (realChart === null) {
@@ -106,7 +78,7 @@ const Rate: FC<RateProp> = ({ realData, compareData, outerDomId }) => {
         }
         realOption.xAxis.data = new Array(SIZE).fill(0).map((item, i) => item + i);
         realOption.series[0].data = realData.map((value, i) => {
-            const has = freqCmpResList.find(item => Math.trunc(1 + item.freq * 0.8) === i);
+            const has = compareData.find(item => Math.trunc(1 + item.freq * 0.8) === i);
             //若当前索引柱击中了freq字段，则根据currentOffsetSignal值来判断颜色
             let itemStyle: Record<string, any> = {};
             if (has === undefined) {
@@ -124,35 +96,7 @@ const Rate: FC<RateProp> = ({ realData, compareData, outerDomId }) => {
             return { value, itemStyle };
         });
         realChart.setOption(realOption);
-    }, [realData, freqCmpResList]);
-
-    useEffect(() => {
-        if (compareChart === null) {
-            return;
-        }
-
-        // if (compareData.length === 0) {
-        //     for (let i = 0; i < 1499; i++) {
-        //         (compareData as any[]).push(null);
-        //     }
-        // }
-
-        compareOption.xAxis.data = new Array(SIZE).fill(0).map((item, i) => item + i);
-        compareOption.series[0].data = compareData.map(value => {
-            let itemStyle: Record<string, any> = {};
-            if (value >= 10 && value <= 20) {
-                itemStyle = { color: '#FFA500' };
-            } else {
-                itemStyle = { color: '#FF0000' };
-            }
-            (value as any) = null;
-            return { value, itemStyle };
-        });
-        // const { valueData, categoryData } = generateData();
-        // compareOption.xAxis = categoryData;
-        // compareOption.series = valueData
-        compareChart.setOption(compareOption);
-    }, [compareData]);
+    }, [realData, compareData]);
 
     useResize(throttle((_: Event) => {
         chartResize(realChart, outerDomId);
@@ -172,7 +116,7 @@ const Rate: FC<RateProp> = ({ realData, compareData, outerDomId }) => {
             <TableBox ref={tableRef}>
                 <Table<FreqCompare>
                     columns={getCompareColumns(() => { })}
-                    dataSource={freqComDisplayList}
+                    dataSource={displayData}
                     // dataSource={[
                     //     {
                     //         freq: 994,

@@ -1,7 +1,7 @@
 import { ComDevice } from "@/schema/com-device";
-import { historySpectrum } from './history-spectrum';
-import { Dayjs } from "dayjs";
 import { PastOperate } from "@/view/spectrum/prop";
+import { historySpectrum } from './history-spectrum';
+import { FreqCompare } from "@/schema/freq-compare";
 
 /**
  * 历史频谱
@@ -17,6 +17,10 @@ interface HistorySpectrumState {
      */
     specPlaying: boolean,
     /**
+     * 读取中
+     */
+    searchHistoryLoading: boolean,
+    /**
      * 设备下拉数据
      */
     historySpectrumDeviceList: ComDevice[],
@@ -29,21 +33,33 @@ interface HistorySpectrumState {
         deviceId: string
     }[],
     /**
-     * 历史数据
+     * 历史频谱数据
      */
     historySpectrumData: number[],
     /**
-     * 时间
+     * 历史背景频谱
      */
-    historySpectrumCaptureTime: number,
+    historyBgSpectrumData: number[],
     /**
-     * 设备id
+     * 比较数据
      */
-    historySpectrumDeviceId: string,
+    historyCmpResList: FreqCompare[],
     /**
-     * 读取状态
+     * 比较展示数据（表格）
      */
-    historySpectrumLoading: boolean,
+    historyComDisplayList: FreqCompare[],
+    /**
+     * 更新历史背景频谱
+     */
+    setHistoryBgSpectrumData: (payload: number[]) => void,
+    /**
+     * 更新比较数据
+     */
+    setHistoryCmpResList: (payload: FreqCompare[]) => void,
+    /**
+     * 更新比较展示数据（表格）
+     */
+    setHistoryComDisplayList: (payload: FreqCompare[]) => void,
     /**
      * 更新操作类型
      */
@@ -70,12 +86,13 @@ interface HistorySpectrumState {
     queryHistorySpectrumData: (deviceId: string, captureTime: number) => void,
     /**
      * 查询历史比对数据
-     * @param freqBaseId 
-     * @param startTime 
-     * @param endTime 
-     * @param cmpName 
+     * @param deviceId 设备id
+     * @param freqBaseId 背景频谱id
+     * @param startTime 起始时间
+     * @param endTime 结束时间
+     * @param offset 偏移值
      */
-    queryHistoryCompareSpectrumData: (freqBaseId: string, startTime: number, endTime: number, cmpName: string) => void
+    queryHistoryCompareSpectrumData: (deviceId: string, freqBaseId: string, startTime: number, endTime: number, offset: number) => void
 }
 
 export type { HistorySpectrumState };

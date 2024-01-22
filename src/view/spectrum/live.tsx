@@ -28,6 +28,8 @@ const Live: FC<{}> = () => {
         specLiving,
         bgSpectrumData,
         realSpectrumData,
+        freqCmpResList,
+        freqComDisplayList,
         setSpecOperate,
         setSpecLiving,
         // clearSpectrumData,
@@ -42,6 +44,7 @@ const Live: FC<{}> = () => {
         bgSpectrumData: state.bgSpectrumData,
         realSpectrumData: state.realSpectrumData,
         freqComDisplayList: state.freqComDisplayList,
+        freqCmpResList: state.freqCmpResList,
         setSpecOperate: state.setSpecOperate,
         setSpecLiving: state.setSpecLiving,
         // clearSpectrumData: state.clearSpectrumData,
@@ -240,7 +243,8 @@ const Live: FC<{}> = () => {
                     } />
                 <Rate
                     realData={realSpectrumData}
-                    compareData={[]}
+                    compareData={freqCmpResList}
+                    displayData={freqComDisplayList}
                     outerDomId="realOuterBox" />
             </div>
         </LiveBox>

@@ -2,11 +2,13 @@ import { log } from "@/utility/log";
 import { helper } from "@/utility/helper";
 import { request } from "@/utility/http";
 import { ComDevice } from "@/schema/com-device";
+import { FreqCompare } from "@/schema/freq-compare";
 import { PastOperate } from "@/view/spectrum/prop";
 import { HistorySpectrumState } from ".";
 import { GetState, SetState } from "..";
+import { message } from "antd";
 
-const historySpectrum = (setState: SetState, _: GetState): HistorySpectrumState => ({
+const historySpectrum = (setState: SetState, getState: GetState): HistorySpectrumState => ({
     /**
      * 操作类型
      */
@@ -16,29 +18,33 @@ const historySpectrum = (setState: SetState, _: GetState): HistorySpectrumState 
      */
     specPlaying: false,
     /**
+     * 读取中
+     */
+    searchHistoryLoading: false,
+    /**
      * 设备下拉数据
      */
     historySpectrumDeviceList: [],
     /**
-     * 历史数据
+     * 历史频谱数据
      */
     historySpectrumData: [],
     /**
-     * 
+     * 所有背景频谱数据
      */
     allBgFreqList: [],
     /**
-     * 时间
+     * 比较数据
      */
-    historySpectrumCaptureTime: 0,
+    historyCmpResList: [],
     /**
-     * 设备id
+     * 历史背景频谱
      */
-    historySpectrumDeviceId: '',
+    historyBgSpectrumData: [],
     /**
-     * 读取状态
+     * 比较展示数据（表格）
      */
-    historySpectrumLoading: false,
+    historyComDisplayList: [],
     /**
      * 更新操作类型
      */
@@ -52,14 +58,35 @@ const historySpectrum = (setState: SetState, _: GetState): HistorySpectrumState 
         setState({ specPlaying: payload });
     },
     /**
+     * 更新历史背景频谱
+     */
+    setHistoryBgSpectrumData(payload: number[]) {
+        setState({ historyBgSpectrumData: payload });
+    },
+    /**
+    * 更新比较数据
+    */
+    setHistoryCmpResList(payload: FreqCompare[]) {
+        setState({ historyCmpResList: payload });
+    },
+    /**
+     * 更新比较展示数据（表格）
+     */
+    setHistoryComDisplayList(payload: FreqCompare[]) {
+        setState({ historyComDisplayList: payload });
+    },
+    /**
      * 清空历史频谱数据
      */
     clearHistorySpectrumData() {
         setState({
             historySpectrumData: [],
-            historySpectrumCaptureTime: 0,
-            historySpectrumDeviceId: '',
-            historySpectrumLoading: false
+            historyCmpResList: [],
+            historyBgSpectrumData: [],
+            historyComDisplayList: [],
+            allBgFreqList: [],
+            specPlaying: false,
+            pastOperate: PastOperate.Nothing
         });
     },
     /**
@@ -75,6 +102,7 @@ const historySpectrum = (setState: SetState, _: GetState): HistorySpectrumState 
             }[]
             >(url);
             if (res !== null && res.code === 200) {
+                console.log(res);
                 setState({ allBgFreqList: res.data });
             } else {
                 setState({ allBgFreqList: [] });
@@ -104,12 +132,11 @@ const historySpectrum = (setState: SetState, _: GetState): HistorySpectrumState 
         }
     },
     /**
-     * 查询当前设备实时频谱数据
+     * 查询当前设备历史频谱数据
      * @param deviceId  设备id
      * @param time 时间戳
      */
     async queryHistorySpectrumData(deviceId: string, captureTime: number) {
-        setState({ historySpectrumLoading: true });
         const url = `/freq/history?deviceId=${deviceId}&captureTime=${captureTime}`;
         try {
             const res = await request.get<{
@@ -121,15 +148,11 @@ const historySpectrum = (setState: SetState, _: GetState): HistorySpectrumState 
             if (res !== null && res.code === 200) {
                 if (helper.isNullOrUndefined(res.data)) {
                     setState({
-                        historySpectrumData: new Array(7499).fill('-') as any[],
-                        historySpectrumCaptureTime: 0,
-                        historySpectrumDeviceId: ''
+                        historySpectrumData: new Array(7499).fill('-') as any[]
                     });
                 } else {
                     setState({
-                        historySpectrumData: typeof res.data.dbArray === 'string' ? JSON.parse(res.data.dbArray) : res.data!.dbArray,
-                        historySpectrumCaptureTime: Number.parseInt(res.data.captureTime),
-                        historySpectrumDeviceId: res.data.deviceId ?? ''
+                        historySpectrumData: typeof res.data.dbArray === 'string' ? JSON.parse(res.data.dbArray) : res.data!.dbArray
                     });
                 }
             } else {
@@ -138,23 +161,62 @@ const historySpectrum = (setState: SetState, _: GetState): HistorySpectrumState 
         } catch (error) {
             console.warn(error);
             log.error(`查询历史频谱数据失败@model/history-spectrum/queryHistorySpectrumData():${error.message}`);
-        } finally {
-            setState({ historySpectrumLoading: false });
         }
     },
     /**
      * 查询历史比对数据
-     * @param freqBaseId 
-     * @param startTime 
-     * @param endTime 
-     * @param cmpName 
+     * @param deviceId 设备id
+     * @param freqBaseId 背景频谱id
+     * @param startTime 起始时间
+     * @param endTime 结束时间
+     * @param offset 偏移值
      */
-    async queryHistoryCompareSpectrumData(freqBaseId: string, startTime: number, endTime: number, cmpName: string) {
-        const url = `/freq/cmp-history?freqBaseId=${freqBaseId}&startTime=${startTime}&endTime=${endTime}&cmpName=${encodeURIComponent(cmpName)}`;
+    async queryHistoryCompareSpectrumData(
+        deviceId: string, freqBaseId: string,
+        startTime: number, endTime: number, offset: number) {
 
-        const res = await request.get(url);
+        const url = `/freq/cmp-history?deviceId=${deviceId}&freqBaseId=${freqBaseId}&startTime=${startTime}&endTime=${endTime}&offset=${offset}`;
 
-        console.log(res);
+        try {
+            setState({ searchHistoryLoading: true });
+            const res = await request.get<{
+                freqCmpResList: FreqCompare[],
+                currentArray: string,
+                baseArray: string
+            }>(url);
+            if (res !== null && res.code === 200) {
+                const cmp = getState().allBgFreqList.find(i => i.freqBaseId === freqBaseId);
+                //找到当前背景频谱数据
+                let bgList = cmp === undefined ? [] : JSON.parse(cmp.freqArray ?? '[]') as number[];
+                // const historySpectrumData = JSON.parse(res.data.currentArray ?? '[]') as number[];
+                // const display = historySpectrumData.reduce((acc, _, index) => {
+                //     const has = (res.data.freqCmpResList ?? []).find(item =>
+                //         Math.trunc(1 + item.freq * 0.8) === index);
+                //     if (has) {
+                //         acc.push(has);
+                //     }
+                //     return acc;
+                // }, [] as FreqCompare[]);
+
+                setState({
+                    historyCmpResList: res.data.freqCmpResList,
+                    // historySpectrumData: JSON.parse(res.data.currentArray ?? '[]') as number[],
+                    historyBgSpectrumData: bgList, // 背景频谱，黄色对比曲线
+                    // historyComDisplayList: display
+                });
+                return true;
+            } else if (res?.code === 201) {
+                message.warning(res?.message ?? '频谱比对失败');
+                return false;
+            } else {
+                return false;
+            }
+        } catch (error) {
+            console.warn(error);
+            throw error;
+        } finally {
+            setState({ searchHistoryLoading: false });
+        }
     }
 });
 

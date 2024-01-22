@@ -179,10 +179,11 @@ const realSpectrum = (setState: SetState, getState: GetState): RealSpectrumState
             }>(url);
 
             if (res !== null && res.code === 200) {
+                console.log(res.data);
                 const cmp = getState().allFreqList.find(i => i.freqBaseId === freqBaseId);
                 //找到当前背景频谱数据
-                let bgList = cmp === undefined ? [] : JSON.parse(cmp.freqArray) as number[];
-                const realSpectrumData = JSON.parse(res.data.currentArray) as number[];
+                let bgList = cmp === undefined ? [] : JSON.parse(cmp.freqArray ?? '[]') as number[];
+                const realSpectrumData = JSON.parse(res.data.currentArray ?? '[]') as number[];
                 const display = realSpectrumData.reduce((acc, _, index) => {
                     const has = res.data.freqCmpResList.find(item =>
                         Math.trunc(1 + item.freq * 0.8) === index);
@@ -193,7 +194,7 @@ const realSpectrum = (setState: SetState, getState: GetState): RealSpectrumState
                 }, [] as FreqCompare[]);
                 setState({
                     freqCmpResList: res.data.freqCmpResList,
-                    realSpectrumData: JSON.parse(res.data.currentArray),
+                    realSpectrumData: JSON.parse(res.data.currentArray ?? '[]'),
                     bgSpectrumData: bgList, // 背景频谱，黄色对比曲线
                     freqComDisplayList: display
                 });

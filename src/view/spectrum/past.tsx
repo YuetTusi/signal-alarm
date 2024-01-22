@@ -1,11 +1,13 @@
 import dayjs from 'dayjs';
 import debounce from 'lodash/debounce';
-import { FC, MouseEvent, useEffect, useRef, useState } from 'react';
+import { FC, MouseEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import LoadingOutlined from '@ant-design/icons/LoadingOutlined';
 import { App, Button, Form, message } from 'antd';
 import { useUnmount } from '@/hook';
 import { useModel } from '@/model';
 import { helper } from '@/utility/helper';
+import { FreqCompare } from '@/schema/freq-compare';
 import { DisplayPanel } from '@/component/panel';
 import { Spectrum, Rate } from '@/component/chart';
 import { PastForm, FormValue } from './past-form';
@@ -53,26 +55,39 @@ const Past: FC<PastProp> = () => {
     const { modal } = App.useApp();
     const [formRef] = Form.useForm<FormValue>();
     const [clock, setClock] = useState<string>('-');
-    const prevDevice = useRef('');
-    const prevFreqBaseId = useRef('');
 
     const {
         pastOperate,
         specPlaying,
+        searchHistoryLoading,
         historySpectrumData,
+        historyCmpResList,
+        historyBgSpectrumData,
+        historyComDisplayList,
         setPastOperate,
         setSpecPlaying,
+        setHistoryBgSpectrumData,
+        setHistoryComDisplayList,
+        setHistoryCmpResList,
         queryAllBgFreqList,
-        queryHistorySpectrumData
+        queryHistorySpectrumData,
+        queryHistoryCompareSpectrumData
     } = useModel(state => ({
         pastOperate: state.pastOperate,
         specPlaying: state.specPlaying,
+        searchHistoryLoading: state.searchHistoryLoading,
         historySpectrumData: state.historySpectrumData,
+        historyCmpResList: state.historyCmpResList,
+        historyBgSpectrumData: state.historyBgSpectrumData,
+        historyComDisplayList: state.historyComDisplayList,
         setPastOperate: state.setPastOperate,
         setSpecPlaying: state.setSpecPlaying,
+        setHistoryCmpResList: state.setHistoryCmpResList,
+        setHistoryBgSpectrumData: state.setHistoryBgSpectrumData,
+        setHistoryComDisplayList: state.setHistoryComDisplayList,
         queryAllBgFreqList: state.queryAllBgFreqList,
-        queryHistorySpectrumDeviceList: state.queryHistorySpectrumDeviceList,
         queryHistorySpectrumData: state.queryHistorySpectrumData,
+        queryHistoryCompareSpectrumData: state.queryHistoryCompareSpectrumData
     }));
 
     useEffect(() => {
@@ -88,6 +103,18 @@ const Past: FC<PastProp> = () => {
             contextBox.style.overflowY = 'hidden';
         }
     }, []);
+
+    useEffect(() => {
+        const display = historySpectrumData.reduce((acc, _, index) => {
+            const has = (historyCmpResList ?? []).find(item =>
+                Math.trunc(1 + item.freq * 0.8) === index);
+            if (has) {
+                acc.push(has);
+            }
+            return acc;
+        }, [] as FreqCompare[]); //表格数据
+        setHistoryComDisplayList(display);
+    }, [historySpectrumData, historyCmpResList]);
 
     useUnmount(() => {
         if (timer !== null) {
@@ -136,6 +163,9 @@ const Past: FC<PastProp> = () => {
             } else {
                 setSpecPlaying(true);
                 setPastOperate(PastOperate.Play);
+                setHistoryBgSpectrumData([]);
+                setHistoryComDisplayList([]);
+                setHistoryCmpResList([]);
                 await queryHistorySpectrumData(device, startTime.unix());
                 play(
                     { startTime, endTime, device },
@@ -159,6 +189,7 @@ const Past: FC<PastProp> = () => {
             console.log(error);
             message.warning(`频谱播放失败 ${error.message}`);
             setSpecPlaying(false);
+            setPastOperate(PastOperate.Nothing);
             if (timer) {
                 clearInterval(timer);
                 timer = null;
@@ -174,12 +205,14 @@ const Past: FC<PastProp> = () => {
         event.preventDefault();
         const { validateFields } = formRef;
         message.destroy();
-        let device = '', offset = 15, freqBaseId = '';
+        let device = '', offset = 15, freqBaseId = '', startTime = dayjs(), endTime = dayjs();
         try {
             const values = await validateFields();
             device = values.device;
             offset = values.offset;
             freqBaseId = values.freqBaseId;
+            startTime = values.startTime;
+            endTime = values.endTime;
         } catch (error) {
             console.warn(error);
             return;
@@ -199,29 +232,33 @@ const Past: FC<PastProp> = () => {
                 setPastOperate(PastOperate.Nothing);
             } else {
                 //开始
+                await queryHistoryCompareSpectrumData(device, freqBaseId, startTime.unix(), endTime.unix(), offset);
+                setSpecPlaying(true);
                 setPastOperate(PastOperate.Compare);
-                // const success = await startRealCompare(device, freqBaseId, offset);
-                // prevDevice.current = device;
-                // prevFreqBaseId.current = freqBaseId;
-                // if (success) {
-                //     setSpecPlaying(true);
-                //     timer = setInterval(() => {
-                //         (async () => {
-                //             await startRealCompare(device, freqBaseId, offset);
-                //         })()
-                //     }, 1000);
-                // } else {
-                //     setSpecPlaying(false);
-                //     if (timer) {
-                //         clearInterval(timer);
-                //         timer = null;
-                //     }
-                // }
+
+                play(
+                    { startTime, endTime, device },
+                    (device: string, time: number) => {
+                        setClock('播放时间：' + dayjs.unix(time).format('YYYY-MM-DD HH:mm:ss'));
+                        queryHistorySpectrumData(device, time);
+                    },
+                    () => {
+                        setPastOperate(PastOperate.Nothing);
+                        setSpecPlaying(false);
+                        modal.info({
+                            title: '信息',
+                            content: '已结束',
+                            centered: true,
+                            okText: '确定'
+                        });
+                    }
+                );
             }
         } catch (error) {
             console.warn(error);
             message.warning(`频谱比对失败 ${error.message}`);
             setSpecPlaying(false);
+            setPastOperate(PastOperate.Nothing);
             if (timer) {
                 clearInterval(timer);
                 timer = null;
@@ -245,21 +282,21 @@ const Past: FC<PastProp> = () => {
                     <div className="caption">查询设置</div>
                     <div className="content-box">
                         <PastForm formRef={formRef} />
-
                         <div className="btn-box">
                             <Button
                                 onClick={onSearchClick}
-                                disabled={pastOperate === PastOperate.Compare}
+                                disabled={pastOperate === PastOperate.Compare || searchHistoryLoading}
                                 type="primary"
                                 style={{ width: '120px' }}>
                                 {specPlaying && pastOperate === PastOperate.Play ? '停止' : '播放'}
                             </Button>
                             <Button
                                 onClick={onCompareClick}
-                                disabled={pastOperate === PastOperate.Play}
+                                disabled={specPlaying && pastOperate === PastOperate.Play || searchHistoryLoading}
                                 type="primary"
                                 style={{ width: '120px' }}>
-                                {specPlaying && pastOperate === PastOperate.Compare ? '停止' : '比对'}
+                                {searchHistoryLoading ? <LoadingOutlined /> : null}
+                                {specPlaying && pastOperate === PastOperate.Compare ? '停 止' : '比 对'}
                             </Button>
                         </div>
                     </div>
@@ -269,7 +306,7 @@ const Past: FC<PastProp> = () => {
                 <Spectrum
                     domId="pastOuterBox"
                     realData={historySpectrumData}
-                    compareData={[]}
+                    compareData={historyBgSpectrumData}
                     arfcn={
                         Array
                             .from(new Array(7499).keys())
@@ -277,7 +314,8 @@ const Past: FC<PastProp> = () => {
                     } />
                 <Rate
                     realData={historySpectrumData}
-                    compareData={[]}
+                    compareData={historyCmpResList}
+                    displayData={historyComDisplayList}
                     outerDomId="pastOuterBox" />
             </div>
         </LiveBox>

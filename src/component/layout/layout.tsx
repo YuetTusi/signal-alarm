@@ -21,7 +21,7 @@ import { LayoutProp } from './prop';
 const { mode } = helper.readConf();
 
 /**
- * 布局页
+ * 布局
  */
 const Layout: FC<LayoutProp> = ({ children }) => {
 
@@ -52,16 +52,14 @@ const Layout: FC<LayoutProp> = ({ children }) => {
      */
     const doLogout = () => {
         modal.confirm({
-            onOk: async () => {
+            async onOk() {
                 try {
                     closeSse();
                     await logout();
                     await localforage.clear();
-                    sessionStorage.clear();
-                    message.success(`用户${loginUserName}已登出`);
-                    navigator('/');
                 } catch (error) {
                     console.warn(error);
+                } finally {
                     sessionStorage.clear();
                     message.success(`用户${loginUserName}已登出`);
                     navigator('/');

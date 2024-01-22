@@ -26,6 +26,7 @@ const PastForm: FC<PastFormProp> = ({ formRef }) => {
         historySpectrumDeviceList,
         compareBaseSpectrumData,
         compareBaseSpectrumLoading,
+        clearCompareBaseSpectrumData,
         clearHistorySpectrumData,
         queryHistorySpectrumDeviceList,
         queryBaseSpectrumDataByDeviceId
@@ -35,6 +36,7 @@ const PastForm: FC<PastFormProp> = ({ formRef }) => {
         allBgFreqList: state.allBgFreqList,
         compareBaseSpectrumData: state.compareBaseSpectrumData,
         compareBaseSpectrumLoading: state.compareBaseSpectrumLoading,
+        clearCompareBaseSpectrumData: state.clearCompareBaseSpectrumData,
         clearHistorySpectrumData: state.clearHistorySpectrumData,
         queryHistorySpectrumDeviceList: state.queryHistorySpectrumDeviceList,
         queryBaseSpectrumDataByDeviceId: state.queryBaseSpectrumDataByDeviceId
@@ -43,8 +45,8 @@ const PastForm: FC<PastFormProp> = ({ formRef }) => {
     useEffect(() => {
         const { setFieldsValue } = formRef;
         setFieldsValue({ offset: 15 });
-        // setFieldsValue({ startTime: dayjs().add(-5, 'minute') });
-        setFieldsValue({ startTime: dayjs().add(-5, 'second') });
+        setFieldsValue({ startTime: dayjs().add(-5, 'minute') });
+        // setFieldsValue({ startTime: dayjs().add(-5, 'second') });
         setFieldsValue({ endTime: dayjs() });
         queryHistorySpectrumDeviceList();
     }, []);
@@ -53,6 +55,7 @@ const PastForm: FC<PastFormProp> = ({ formRef }) => {
         const { setFieldsValue } = formRef;
         setFieldsValue({ offset: 15 });
         clearHistorySpectrumData();
+        clearCompareBaseSpectrumData();
     });
 
     /**
@@ -97,7 +100,6 @@ const PastForm: FC<PastFormProp> = ({ formRef }) => {
                             ({ getFieldValue }) => ({
                                 validator(_, value) {
                                     const start = getFieldValue('startTime');
-                                    console.log(value.diff(start, 'minute'));
                                     if (value.diff(start, 'minute') < 10) {
                                         return Promise.resolve();
                                     } else {

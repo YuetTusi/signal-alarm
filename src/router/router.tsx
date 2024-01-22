@@ -9,7 +9,6 @@ import SysUser from '@/view/sys-user';
 import WhiteList from '@/view/white-list';
 import FakeHotspot from '@/view/fake-hotspot';
 import {
-    HistorySpectrum,
     BaseSpectrum,
     Live,
     Past
