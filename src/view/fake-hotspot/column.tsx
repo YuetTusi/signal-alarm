@@ -63,12 +63,6 @@ const getColumns = (handle: (actionType: ActionType, record: FakeHotspot) => voi
         align: 'center',
         width: 170
     }, {
-        title: '创建时间',
-        dataIndex: 'createTime',
-        key: 'createTime',
-        align: 'center',
-        width: 170
-    }, {
         title: '详情',
         dataIndex: 'detail',
         key: 'detail',

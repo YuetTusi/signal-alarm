@@ -72,7 +72,7 @@ const getColumns = (handle: (actionType: ActionType, data: Hotspot) => void): Co
         title: '设备场所',
         key: 'siteName',
         dataIndex: 'siteName',
-        width: 160,
+        width: 150,
         render(val: string) {
             return <NoWarpLabel title={val} width={150}>{val}</NoWarpLabel>;
         }
@@ -87,7 +87,7 @@ const getColumns = (handle: (actionType: ActionType, data: Hotspot) => void): Co
         key: 'whiteList',
         dataIndex: 'whiteList',
         align: 'center',
-        width: 70,
+        width: 65,
         render(_: any, record) {
             return <Button
                 onClick={() => handle(ActionType.AddToWhiteList, record)}

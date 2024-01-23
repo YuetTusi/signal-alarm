@@ -86,11 +86,12 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
     /**
      * 查询
      */
-    const onSearch = async (beginTime: Dayjs, endTime: Dayjs, type: string, deviceId?: string) => {
+    const onSearch = async (beginTime: Dayjs, endTime: Dayjs, hotspotName: string, type: string, deviceId?: string) => {
         try {
             await querySpecialHotspotData(1, helper.PAGE_SIZE, {
                 beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
                 endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
+                hotspotName,
                 protocolTypes: type,
                 deviceId
             });
@@ -118,6 +119,7 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
                 const data = await exportSpecialHotspotData(specialHotspotPageIndex, specialHotspotPageSize, {
                     beginTime: condition.beginTime.format('YYYY-MM-DD HH:mm:ss'),
                     endTime: condition.endTime.format('YYYY-MM-DD HH:mm:ss'),
+                    hotspotName: condition.hotspotName,
                     protocolTypes: getTypes(condition.type),
                     deviceId: helper.getDeviceIdFromDropdown(condition.site)
                 });

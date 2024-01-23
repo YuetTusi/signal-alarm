@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { FC, useEffect, MouseEvent } from 'react';
-import { Form, Button, DatePicker, TreeSelect } from 'antd';
+import { Form, Button, Input, DatePicker, TreeSelect } from 'antd';
 import { useModel } from '@/model';
 import { helper } from '@/utility/helper';
 import { SearchBarBox } from './styled/box';
@@ -33,9 +33,11 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
      */
     const onSubmitClick = (event: MouseEvent) => {
         event.preventDefault();
-        const { beginTime, endTime, type, site } = formRef.getFieldsValue();
+        const {
+            beginTime, endTime, hotspotName, type, site
+        } = formRef.getFieldsValue();
         const deviceId = helper.getDeviceIdFromDropdown(site);
-        onSearch(beginTime, endTime, getTypes(type), deviceId);
+        onSearch(beginTime, endTime, hotspotName, getTypes(type), deviceId);
     };
 
     /**
@@ -43,9 +45,11 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
      */
     const onExportClick = (event: MouseEvent) => {
         event.preventDefault();
-        const { beginTime, endTime, type, site } = formRef.getFieldsValue();
+        const {
+            beginTime, endTime, hotspotName, type, site
+        } = formRef.getFieldsValue();
         const deviceId = helper.getDeviceIdFromDropdown(site);
-        onExport(beginTime, endTime, getTypes(type), deviceId);
+        onExport(beginTime, endTime, hotspotName, getTypes(type), deviceId);
     };
 
     return <SearchBarBox>
@@ -68,6 +72,11 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
                         allowClear={false}
                         inputReadOnly={true}
                         style={{ width: '200px' }} />
+                </Item>
+                <Item
+                    name="hotspotName"
+                    label="热点名称">
+                    <Input style={{ width: '160px' }} />
                 </Item>
                 <Item
                     name="type"
@@ -95,7 +104,7 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
                         maxTagCount={2}
                         maxTagTextLength={3}
                         listHeight={520}
-                        style={{ width: '280px' }} />
+                        style={{ width: '260px' }} />
                 </Item>
                 <Item>
                     <Button
