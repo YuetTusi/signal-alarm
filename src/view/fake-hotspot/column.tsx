@@ -1,10 +1,18 @@
-import { Tag } from 'antd';
+import { MouseEvent } from 'react';
+import { Button, Tag } from 'antd';
 import { ColumnsType } from "antd/es/table";
 import { FakeHotspot } from "@/schema/fake-hotspot";
 import { NoWarpLabel } from '@/component/panel';
 
 enum ActionType {
-    Add
+    /**
+     * 详情
+     */
+    Detail,
+    /**
+     * 命中数量
+     */
+    Count
 }
 
 const getColumns = (handle: (actionType: ActionType, record: FakeHotspot) => void): ColumnsType<FakeHotspot> => [
@@ -12,12 +20,6 @@ const getColumns = (handle: (actionType: ActionType, record: FakeHotspot) => voi
         title: '名称',
         dataIndex: 'hotspotName',
         key: 'hotspotName'
-    },
-    {
-        title: '伪MAC地址',
-        dataIndex: 'fakeMac',
-        key: 'fakeMac',
-        render: (val) => <NoWarpLabel width={360} title={val}>{val}</NoWarpLabel>
     },
     {
         title: '真实MAC地址',
@@ -29,7 +31,15 @@ const getColumns = (handle: (actionType: ActionType, record: FakeHotspot) => voi
         title: '命中数量',
         dataIndex: 'count',
         key: 'count',
-        width: 90
+        width: 90,
+        render: (val, record) => <Button
+            onClick={(event: MouseEvent<HTMLElement>) => {
+                event.preventDefault();
+                handle(ActionType.Count, record);
+            }}
+            type="link">
+            {val}
+        </Button>
     },
     {
         title: '状态',
@@ -52,7 +62,27 @@ const getColumns = (handle: (actionType: ActionType, record: FakeHotspot) => voi
         key: 'createTime',
         align: 'center',
         width: 170
+    }, {
+        title: '创建时间',
+        dataIndex: 'createTime',
+        key: 'createTime',
+        align: 'center',
+        width: 170
+    }, {
+        title: '详情',
+        dataIndex: 'detail',
+        key: 'detail',
+        align: 'center',
+        width: 50,
+        render: (_, record) => <Button
+            onClick={(event: MouseEvent<HTMLElement>) => {
+                event.preventDefault();
+                handle(ActionType.Detail, record);
+            }}
+            type="link">
+            详情
+        </Button>
     }
 ];
 
-export { getColumns };
+export { ActionType, getColumns };

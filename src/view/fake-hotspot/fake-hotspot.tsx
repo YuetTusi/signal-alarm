@@ -1,13 +1,14 @@
 import dayjs from 'dayjs';
-import { FC, MouseEvent, useEffect, useState } from 'react';
+import { FC, MouseEvent, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Input, Form, Select, Table, message } from 'antd';
 import { useModel } from '@/model';
 import { helper } from '@/utility/helper';
 import { FakeHotspot as FakeHotspotEntity } from '@/schema/fake-hotspot';
 import { AddModal } from './add-modal';
+import { CountModal } from './count-modal';
+import { getColumns, ActionType } from './column';
 import { FakeHotspotBox, SearchBar, TableBox } from './styled/box';
-import { getColumns } from './column';
 import { FakeHotspotProp } from './prop';
 
 const { Option } = Select;
@@ -37,7 +38,9 @@ const FakeHotspot: FC<FakeHotspotProp> = () => {
     }));
 
     const navigate = useNavigate();
+    const countData = useRef<FakeHotspotEntity>();
     const [addModalOpen, setAddModalOpen] = useState(false);
+    const [countModalOpen, setCountModalOpen] = useState(false);
     const [formRef] = useForm<FakeHotspotEntity>();
 
     useEffect(() => {
@@ -94,6 +97,11 @@ const FakeHotspot: FC<FakeHotspotProp> = () => {
         }
     };
 
+    /**
+     * 翻页Change
+     * @param pageIndex 页码
+     * @param pageSize 尺寸
+     */
     const onPageChange = async (pageIndex: number, pageSize: number) => {
         const { getFieldsValue } = formRef;
         try {
@@ -101,6 +109,29 @@ const FakeHotspot: FC<FakeHotspotProp> = () => {
             await queryFakeHotspotData(pageIndex, pageSize, values);
         } catch (error) {
             console.warn(error);
+        }
+    };
+
+    /**
+     * 表格列action
+     * @param type 类型
+     */
+    const onColumnAction = (type: ActionType, data: FakeHotspotEntity) => {
+        switch (type) {
+            /**
+             * 命中数量
+             */
+            case ActionType.Count:
+                countData.current = data;
+                setCountModalOpen(true);
+                break;
+            /**
+             * 详情
+             */
+            case ActionType.Detail:
+                break;
+            default:
+                break;
         }
     };
 
@@ -156,7 +187,7 @@ const FakeHotspot: FC<FakeHotspotProp> = () => {
         </SearchBar>
         <TableBox>
             <Table<FakeHotspotEntity>
-                columns={getColumns(() => { })}
+                columns={getColumns(onColumnAction)}
                 dataSource={fakeHotspotData}
                 loading={fakeHotspotLoading}
                 pagination={
@@ -174,6 +205,11 @@ const FakeHotspot: FC<FakeHotspotProp> = () => {
             open={addModalOpen}
             onOk={onSave}
             onClose={() => setAddModalOpen(false)}
+        />
+        <CountModal
+            data={countData.current}
+            open={countModalOpen}
+            onCancel={() => setCountModalOpen(false)}
         />
     </FakeHotspotBox>;
 };
