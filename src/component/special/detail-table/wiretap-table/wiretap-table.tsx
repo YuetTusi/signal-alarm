@@ -29,7 +29,6 @@ const WiretapTable: FC<WiretapTableProp> = () => {
         specialWiretapTotal,
         specialWiretapData,
         specialWiretapLoading,
-        addWhiteList,
         querySpecialWiretapData,
         exportSpecialWiretapData
     } = useModel(state => ({
@@ -38,12 +37,9 @@ const WiretapTable: FC<WiretapTableProp> = () => {
         specialWiretapTotal: state.specialWiretapTotal,
         specialWiretapData: state.specialWiretapData,
         specialWiretapLoading: state.specialWiretapLoading,
-        addWhiteList: state.addWhiteList,
         querySpecialWiretapData: state.querySpecialWiretapData,
         exportSpecialWiretapData: state.exportSpecialWiretapData
     }));
-
-    console.log(specialWiretapData);
 
     useEffect(() => {
         querySpecialWiretapData(1, helper.PAGE_SIZE, {

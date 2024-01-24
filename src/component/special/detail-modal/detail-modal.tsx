@@ -5,6 +5,7 @@ import {
     HotspotTable,
     TerminalTable,
     BluetoothTable,
+    CameraTable,
     WiretapTable,
     OthersTable
 } from '../detail-table';
@@ -82,8 +83,10 @@ const DetailModel: FC<DetailModalProp> = ({ open, defaultTabKey, onCancel }) => 
                         children: <BluetoothTable parentOpen={open} />
                     }, {
                         key: SpiTab.Wiretap,
-                        label: '窃听器',
-                        children: <WiretapTable parentOpen={open} />
+                        // label: '窃听器',
+                        label: '摄像头',
+                        children: <CameraTable parentOpen={open} />
+                        // children: <WiretapTable parentOpen={open} />
                     }, {
                         key: SpiTab.Terminal,
                         label: '终端',
