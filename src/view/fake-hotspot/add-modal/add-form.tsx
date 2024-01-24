@@ -20,7 +20,7 @@ const AddForm: FC<AddFormProp> = ({
             label="名称">
             <Input />
         </Item>
-        <Item
+        {/* <Item
             rules={[
                 { required: true, message: '请填写伪MAC地址' },
                 { pattern: Mac, message: '请填写正确的MAC地址' }
@@ -28,10 +28,9 @@ const AddForm: FC<AddFormProp> = ({
             name="fakeMac"
             label="伪MAC地址">
             <Input placeholder="形如：00:13:EF:F3:07:BC" />
-        </Item>
+        </Item> */}
         <Item
             rules={[
-                { required: true, message: '请填写真实MAC地址' },
                 { pattern: Mac, message: '请填写正确的MAC地址' }
             ]}
             name="realMac"

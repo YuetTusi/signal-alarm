@@ -1,15 +1,19 @@
 
-import { FC, useEffect, useRef } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { App, Tag } from 'antd';
 import { helper } from '@/utility/helper';
 import { useModel } from '@/model';
 import { FakeHotspot } from '@/schema/fake-hotspot';
+import { CountModal } from '@/view/fake-hotspot';
 import { DisplayPanel } from '../panel';
 import { ScrollList } from './styled/box';
 
 var scrollTimer: any = null;
 
-const HotspotItem: FC<{ data: FakeHotspot }> = ({ data }) => {
+const HotspotItem: FC<{
+    data: FakeHotspot,
+    onClick: (data: FakeHotspot) => void
+}> = ({ data, onClick }) => {
 
     const { modal } = App.useApp();
 
@@ -28,12 +32,7 @@ const HotspotItem: FC<{ data: FakeHotspot }> = ({ data }) => {
         if (helper.isNullOrUndefined(data?.count) || data.count === 0) {
             return <span>（0）</span>;
         } else {
-            return <a onClick={() => modal.info({
-                okText: '确定',
-                title: data.hotspotName,
-                content: `MAC地址：${data.realMac ?? '-'}`,
-                centered: true
-            })}>
+            return <a onClick={() => onClick(data)}>
                 （{data.count}）
             </a>;
         }
@@ -56,6 +55,8 @@ const HotspotItem: FC<{ data: FakeHotspot }> = ({ data }) => {
 const FakeHotspotList: FC<{}> = () => {
 
     const scrollBox = useRef<HTMLDivElement>(null);
+    const detailData = useRef<FakeHotspot>();
+    const [countModalOpen, setCountModalOpen] = useState<boolean>(false);
 
     const {
         fakeHotspotList,
@@ -130,18 +131,31 @@ const FakeHotspotList: FC<{}> = () => {
 
     const renderItem = () =>
         fakeHotspotList.map(item =>
-            <HotspotItem data={item} key={`FHI_${item.id}`} />);
+            <HotspotItem
+                onClick={(data) => {
+                    detailData.current = data;
+                    setCountModalOpen(true);
+                }}
+                data={item}
+                key={`FHI_${item.id}`} />);
 
-    return <DisplayPanel>
-        <div className="caption">伪热点防护</div>
-        <div className="content">
-            <ScrollList ref={scrollBox}>
-                <ul>
-                    {renderItem()}
-                </ul>
-            </ScrollList>
-        </div>
-    </DisplayPanel>;
+    return <>
+        <DisplayPanel>
+            <div className="caption">伪热点防护</div>
+            <div className="content">
+                <ScrollList ref={scrollBox}>
+                    <ul>
+                        {renderItem()}
+                    </ul>
+                </ScrollList>
+            </div>
+        </DisplayPanel>
+        <CountModal
+            open={countModalOpen}
+            data={detailData.current}
+            onCancel={() => setCountModalOpen(false)}
+        />
+    </>;
 };
 
 export { FakeHotspotList };
