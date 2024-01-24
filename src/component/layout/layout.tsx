@@ -23,6 +23,7 @@ import { VoiceControlModal } from '../voice-control-modal';
 import { ModifyPasswordModal } from '../modify-password-modal';
 import { LayoutBox } from './styled/styled';
 import { LayoutProp } from './prop';
+import { FormValue } from '../network-modal/prop';
 
 const { join } = path;
 const { ipcRenderer } = electron;
@@ -30,6 +31,9 @@ const cwd = process.cwd();
 const ipJson = helper.IS_DEV
     ? join(cwd, './setting/ip.json')
     : join(cwd, 'resources/ip.json');
+const confJson = helper.IS_DEV
+    ? join(cwd, './setting/conf.json')
+    : join(cwd, 'resources/conf.json');
 const { mode } = helper.readConf();
 
 /**
@@ -104,10 +108,23 @@ const Layout: FC<LayoutProp> = ({ children }) => {
         }
     };
 
-    const onNetworkModalOk = async (appName: string, ip: string, port: number) => {
+    const onNetworkModalOk = async (values: FormValue) => {
         try {
-            const success = await helper.writeJson(ipJson, { appName, ip, port });
-            if (success) {
+
+            const prevConf = await helper.readJson(confJson);
+
+            const [ipSuccess, confSuccess] = await Promise.all([
+                helper.writeJson(ipJson, {
+                    appName: values.appName,
+                    ip: values.ip,
+                    port: values.port
+                }),
+                helper.writeJson(confJson, {
+                    ...prevConf,
+                    mode: values.mode
+                })
+            ]);
+            if (ipSuccess && confSuccess) {
                 setNetworkModalOpen(false);
                 modal.confirm({
                     onOk() {

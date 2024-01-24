@@ -18,6 +18,7 @@ import { AppTitle } from '@/component/app-title';
 import {
     BackgroundBox, LoginBox, LoginOuterBox
 } from "./styled/styled";
+import { FormValue as NetworkFormValue } from "@/component/network-modal/prop";
 import { FormValue } from "./prop";
 // import { log } from '@/utility/log';
 // import L from 'leaflet';
@@ -30,6 +31,9 @@ const { Password } = Input;
 const ipJson = helper.IS_DEV
     ? join(cwd, './setting/ip.json')
     : join(cwd, 'resources/ip.json');
+const confJson = helper.IS_DEV
+    ? join(cwd, './setting/conf.json')
+    : join(cwd, 'resources/conf.json');
 const { mode } = helper.readConf();
 
 /**
@@ -128,10 +132,24 @@ const Login: FC<{}> = () => {
         }
     };
 
-    const onNetworkModalOk = async (appName: string, ip: string, port: number) => {
+    const onNetworkModalOk = async (values: NetworkFormValue) => {
+
         try {
-            const success = await helper.writeJson(ipJson, { appName, ip, port });
-            if (success) {
+
+            const prevConf = await helper.readJson(confJson);
+
+            const [ipSuccess, confSuccess] = await Promise.all([
+                helper.writeJson(ipJson, {
+                    appName: values.appName,
+                    ip: values.ip,
+                    port: values.port
+                }),
+                helper.writeJson(confJson, {
+                    ...prevConf,
+                    mode: values.mode
+                })
+            ]);
+            if (ipSuccess && confSuccess) {
                 setNetworkModalOpen(false);
                 modal.confirm({
                     onOk() {

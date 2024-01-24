@@ -1,3 +1,5 @@
+import { AppMode } from "@/schema/conf"
+
 export interface NetworkModalProp {
 
     /**
@@ -7,7 +9,7 @@ export interface NetworkModalProp {
     /**
      * 确定
      */
-    onOk: (appName: string, ip: string, port: number) => void,
+    onOk: (values: FormValue) => void,
     /**
      * 取消
      */
@@ -27,5 +29,9 @@ export interface FormValue {
     /**
      * 端口号
      */
-    port: number
+    port: number,
+    /**
+     * 应用模式（单机版,网络版）
+     */
+    mode: AppMode
 }

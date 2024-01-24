@@ -1,14 +1,17 @@
 import path from 'path';
 import { FC, MouseEvent, useEffect } from 'react';
-import { Button, Modal, Form, Input } from 'antd';
+import { Button, Radio, Modal, Form, Input, RadioChangeEvent } from 'antd';
 import { IP, Port } from '@/utility/regex';
 import { APP_NAME, FETCH_IP, FETCH_PORT, helper } from '@/utility/helper';
 import { NetworkModalProp, FormValue } from './prop';
+import { AppMode } from '@/schema/conf';
 
 const cwd = process.cwd();
 const { join } = path;
 const { useForm, Item } = Form;
+const { Group } = Radio;
 const ipJson = helper.IS_DEV ? join(cwd, './setting/ip.json') : join(cwd, 'resources/ip.json');
+const confJson = helper.IS_DEV ? join(cwd, './setting/conf.json') : join(cwd, 'resources/conf.json');
 
 /**
  * 应用设置
@@ -24,8 +27,11 @@ const NetworkModal: FC<NetworkModalProp> = ({
         if (open) {
             (async () => {
                 try {
-                    const exist = await helper.existFile(ipJson);
-                    if (exist) {
+                    const [ipExist, confExist] = await Promise.all([
+                        helper.existFile(ipJson),
+                        helper.existFile(confJson)
+                    ]);
+                    if (ipExist) {
                         const values = await helper.readJson(ipJson);
                         setFieldsValue({
                             appName: values?.appName ?? APP_NAME,
@@ -38,6 +44,12 @@ const NetworkModal: FC<NetworkModalProp> = ({
                             ip: FETCH_IP,
                             port: FETCH_PORT
                         });
+                    }
+                    if (confExist) {
+                        const values = await helper.readJson(confJson);
+                        setFieldsValue({ mode: values.mode ?? AppMode.PC });
+                    } else {
+                        setFieldsValue({ mode: AppMode.PC });
                     }
                 } catch (error) {
                     console.error(`读取ip.json失败:${error.message}`);
@@ -58,8 +70,8 @@ const NetworkModal: FC<NetworkModalProp> = ({
         event.preventDefault();
         const { validateFields } = formRef;
         try {
-            const { appName, ip, port } = await validateFields();
-            onOk(appName, ip, port);
+            const values = await validateFields();
+            onOk(values);
         } catch (error) {
             console.warn(error);
         }
@@ -73,7 +85,11 @@ const NetworkModal: FC<NetworkModalProp> = ({
         const { resetFields } = formRef;
         resetFields();
         onCancel();
-    }
+    };
+
+    const onModeChange = (value: RadioChangeEvent) => {
+        console.log(value);
+    };
 
     return <Modal
         footer={[
@@ -88,7 +104,10 @@ const NetworkModal: FC<NetworkModalProp> = ({
         width={400}
         title="应用设置"
         getContainer="#app">
-        <Form form={formRef} layout="vertical">
+        <Form
+            form={formRef}
+            layout="vertical"
+            style={{ marginTop: '20px' }}>
             <Item
                 rules={[
                     { required: true, message: '请填写应用名称' }
@@ -114,6 +133,15 @@ const NetworkModal: FC<NetworkModalProp> = ({
                 name="port"
                 label="端口号">
                 <Input />
+            </Item>
+            <Item
+                rules={[{ required: true, message: '请填写端口号' }]}
+                name="mode"
+                label="版本">
+                <Group onChange={onModeChange}>
+                    <Radio value={AppMode.PC}>单机版</Radio>
+                    <Radio value={AppMode.FullScreen}>网络版</Radio>
+                </Group>
             </Item>
         </Form>
     </Modal>
