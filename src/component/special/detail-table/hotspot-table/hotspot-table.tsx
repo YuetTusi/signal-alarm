@@ -34,6 +34,7 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
         specialHotspotTotal,
         specialHotspotData,
         specialHotspotLoading,
+        specialDefaultHotspotName,
         querySpecialHotspotData,
         exportSpecialHotspotData,
         addWhiteList,
@@ -44,6 +45,7 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
         specialHotspotTotal: state.specialHotspotTotal,
         specialHotspotData: state.specialHotspotData,
         specialHotspotLoading: state.specialHotspotLoading,
+        specialDefaultHotspotName: state.specialDefaultHotspotName,
         querySpecialHotspotData: state.querySpecialHotspotData,
         exportSpecialHotspotData: state.exportSpecialHotspotData,
         addWhiteList: state.addWhiteList,
@@ -57,13 +59,14 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
             {
                 beginTime: dayjs().add(-1, 'w').format('YYYY-MM-DD 00:00:00'),
                 endTime: dayjs().format('YYYY-MM-DD 23:59:59'),
+                hotspotName: specialDefaultHotspotName, //从伪热点跳转会有此条件
                 protocolTypes: helper.protocolToString([
                     Protocol.WiFi58G,
                     Protocol.WiFi24G
                 ])
             }
         );
-    }, []);
+    }, [specialDefaultHotspotName]);
 
     /**
      * 翻页Change

@@ -4,7 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Input, Form, Select, Table, message } from 'antd';
 import { useModel } from '@/model';
 import { helper } from '@/utility/helper';
+import { Protocol } from '@/schema/protocol';
 import { FakeHotspot as FakeHotspotEntity } from '@/schema/fake-hotspot';
+import { SpiTab } from '@/component/special/wap-info/prop';
 import { AddModal } from './add-modal';
 import { CountModal } from './count-modal';
 import { getColumns, ActionType } from './column';
@@ -25,16 +27,24 @@ const FakeHotspot: FC<FakeHotspotProp> = () => {
         fakeHotspotPageSize,
         fakeHotspotLoading,
         fakeHotspotTotal,
+        setSpecialActiveKey,
+        setSpecialDetailModalOpen,
+        setSpecialDefaultHotspotName,
         addFakeHotspot,
-        queryFakeHotspotData
+        queryFakeHotspotData,
+        // querySpecialHotspotData
     } = useModel(state => ({
         fakeHotspotData: state.fakeHotspotData,
         fakeHotspotPageIndex: state.fakeHotspotPageIndex,
         fakeHotspotPageSize: state.fakeHotspotPageSize,
         fakeHotspotLoading: state.fakeHotspotLoading,
         fakeHotspotTotal: state.fakeHotspotTotal,
+        setSpecialActiveKey: state.setSpecialActiveKey,
+        setSpecialDetailModalOpen: state.setSpecialDetailModalOpen,
+        setSpecialDefaultHotspotName: state.setSpecialDefaultHotspotName,
         addFakeHotspot: state.addFakeHotspot,
-        queryFakeHotspotData: state.queryFakeHotspotData
+        queryFakeHotspotData: state.queryFakeHotspotData,
+        // querySpecialHotspotData: state.querySpecialHotspotData
     }));
 
     const navigate = useNavigate();
@@ -129,6 +139,19 @@ const FakeHotspot: FC<FakeHotspotProp> = () => {
              * 详情
              */
             case ActionType.Detail:
+                navigate('/dashboard');
+                setSpecialDetailModalOpen(true);
+                setSpecialActiveKey(SpiTab.Hotspot);
+                setSpecialDefaultHotspotName(data.hotspotName);
+                // querySpecialHotspotData(1, helper.PAGE_SIZE, {
+                //     beginTime: dayjs().add(-1, 'w').format('YYYY-MM-DD 00:00:00'),
+                //     endTime: dayjs().format('YYYY-MM-DD 23:59:59'),
+                //     hotspotName: data.hotspotName,
+                //     protocolTypes: helper.protocolToString([
+                //         Protocol.WiFi58G,
+                //         Protocol.WiFi24G
+                //     ])
+                // });
                 break;
             default:
                 break;

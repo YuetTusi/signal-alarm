@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { Protocol } from '@/schema/protocol';
 import { SpecialBase } from '@/schema/special-base';
 import { request } from '@/utility/http';
+import { SpiTab } from '@/component/special/wap-info/prop';
 import { SpecialTopState } from './index';
 import { GetState, SetState } from '..';
 
@@ -10,6 +11,14 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
      * 专项检查详情框打开/关闭
      */
     specialDetailModalOpen: false,
+    /**
+     * 激活页签key
+     */
+    specialActiveKey: SpiTab.All,
+    /**
+     * 默认热点名称（从伪热点页跳转的默认查询条件）
+     */
+    specialDefaultHotspotName: undefined,
     /**
      * 热像头，手机信号等Top10数据
      */
@@ -40,6 +49,18 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
      */
     setSpecialDetailModalOpen(open: boolean) {
         setState({ specialDetailModalOpen: open });
+    },
+    /**
+     * 更新打开页签key
+     */
+    setSpecialActiveKey(payload: SpiTab) {
+        setState({ specialActiveKey: payload });
+    },
+    /**
+     * 更新默认热点名称
+     */
+    setSpecialDefaultHotspotName(payload: string | undefined) {
+        setState({ specialDefaultHotspotName: payload });
     },
     /**
      * 清空所有Top10数据

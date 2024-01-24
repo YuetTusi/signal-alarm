@@ -19,8 +19,12 @@ import { DetailModalProp } from './prop';
 const DetailModel: FC<DetailModalProp> = ({ open, defaultTabKey, onCancel }) => {
 
     const [tabKey, setTabKey] = useState<string>();
-    const { queryDeviceList } = useModel(state => ({
-        queryDeviceList: state.queryDeviceList
+    const {
+        queryDeviceList,
+        setSpecialDefaultHotspotName
+    } = useModel(state => ({
+        queryDeviceList: state.queryDeviceList,
+        setSpecialDefaultHotspotName: state.setSpecialDefaultHotspotName
     }));
 
     useEffect(() => {
@@ -45,6 +49,7 @@ const DetailModel: FC<DetailModalProp> = ({ open, defaultTabKey, onCancel }) => 
     const onCancelClick = (event: MouseEvent) => {
         event.preventDefault();
         setTabKey(SpiTab.Signal);
+        setSpecialDefaultHotspotName(undefined);
         onCancel();
     };
 

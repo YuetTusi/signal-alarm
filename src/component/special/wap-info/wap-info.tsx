@@ -102,8 +102,6 @@ const toTabItem = (data: SpecialBase[], type: SpiTab, loading: boolean) => [{
  */
 const WapInfo: FC<WapInfoProp> = ({ }) => {
 
-    const [activeKey, setActiveKey] = useState<string>(SpiTab.All);
-
     const {
         specialTopLoading,
         specialWapTopData,
@@ -112,6 +110,8 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
         specialWiretapTopData,
         specialBluetoothTopData,
         specialDetailModalOpen,
+        specialActiveKey,
+        setSpecialActiveKey,
         setSpecialDetailModalOpen,
         clearAllTopData,
         getAllTopData,
@@ -128,6 +128,8 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
         specialBluetoothTopData: state.specialBluetoothTopData,
         specialWiretapTopData: state.specialWiretapTopData,
         specialDetailModalOpen: state.specialDetailModalOpen,
+        specialActiveKey: state.specialActiveKey,
+        setSpecialActiveKey: state.setSpecialActiveKey,
         setSpecialDetailModalOpen: state.setSpecialDetailModalOpen,
         clearAllTopData: state.clearAllTopData,
         getAllTopData: state.getAllTopData,
@@ -227,7 +229,7 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
     };
 
     const autoQueryData = () => {
-        queryData(activeKey);
+        queryData(specialActiveKey);
     };
 
     useEffect(() => {
@@ -235,11 +237,11 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
         return () => {
             ipcRenderer.off('query-each-20', autoQueryData);
         };
-    }, [autoQueryData, activeKey]);
+    }, [autoQueryData, specialActiveKey]);
 
     useEffect(() => {
-        queryData(activeKey);
-    }, [activeKey]);
+        queryData(specialActiveKey);
+    }, [specialActiveKey]);
 
     const getData = (activeKey: string): SpecialBase[] => {
         switch (activeKey) {
@@ -263,7 +265,7 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
 
     const onTabChange = (tabKey: string) => {
         clearAllTopData();
-        setActiveKey(tabKey.toString());
+        setSpecialActiveKey(tabKey as SpiTab);
     };
 
     return <WapInfoBox>
@@ -277,8 +279,8 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
             <div className="content">
                 <Tabs
                     onChange={onTabChange}
-                    items={toTabItem(getData(activeKey), activeKey as SpiTab, specialTopLoading)}
-                    activeKey={activeKey}
+                    items={toTabItem(getData(specialActiveKey), specialActiveKey, specialTopLoading)}
+                    activeKey={specialActiveKey}
                     defaultActiveKey={SpiTab.All}
                     destroyInactiveTabPane={false}
                     moreIcon={<DoubleRightOutlined />}
@@ -287,7 +289,7 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
         </DisplayPanel>
         <DetailModal
             open={specialDetailModalOpen}
-            defaultTabKey={activeKey as SpiTab}
+            defaultTabKey={specialActiveKey as SpiTab}
             onCancel={() => setSpecialDetailModalOpen(false)}
             onOk={() => setSpecialDetailModalOpen(false)} />
     </WapInfoBox>;

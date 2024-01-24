@@ -43,6 +43,9 @@ const specialHotspot = (setState: SetState, _: GetState): SpecialHotspotState =>
             if (condition?.endTime) {
                 q.push(`createTimeEnd=${condition.endTime}`);
             }
+            if (condition?.hotspotName) {
+                q.push(`hotspotName=${encodeURIComponent(condition.hotspotName)}`);
+            }
             if (condition?.protocolTypes) {
                 q.push(`protocolTypes=${encodeURIComponent(condition.protocolTypes)}`);
             }
@@ -92,6 +95,9 @@ const specialHotspot = (setState: SetState, _: GetState): SpecialHotspotState =>
             }
             if (condition?.endTime) {
                 q.push(`createTimeEnd=${condition?.endTime}`);
+            }
+            if (condition?.hotspotName) {
+                q.push(`hotspotName=${encodeURIComponent(condition?.hotspotName)}`);
             }
             if (condition?.protocolTypes) {
                 q.push(`protocolTypes=${encodeURIComponent(condition?.protocolTypes)}`);
