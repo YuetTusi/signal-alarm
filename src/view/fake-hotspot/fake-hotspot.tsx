@@ -1,10 +1,9 @@
 import dayjs from 'dayjs';
 import { FC, MouseEvent, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Input, Form, Select, Table, message } from 'antd';
+import { App, Button, Input, Form, Select, Table, message } from 'antd';
 import { useModel } from '@/model';
 import { helper } from '@/utility/helper';
-import { Protocol } from '@/schema/protocol';
 import { FakeHotspot as FakeHotspotEntity } from '@/schema/fake-hotspot';
 import { SpiTab } from '@/component/special/wap-info/prop';
 import { AddModal } from './add-modal';
@@ -21,6 +20,7 @@ const { Item, useForm } = Form;
  */
 const FakeHotspot: FC<FakeHotspotProp> = () => {
 
+    const { modal } = App.useApp();
     const {
         fakeHotspotData,
         fakeHotspotPageIndex,
@@ -31,8 +31,8 @@ const FakeHotspot: FC<FakeHotspotProp> = () => {
         setSpecialDetailModalOpen,
         setSpecialDefaultHotspotName,
         addFakeHotspot,
-        queryFakeHotspotData,
-        // querySpecialHotspotData
+        delFakeHotspotByName,
+        queryFakeHotspotData
     } = useModel(state => ({
         fakeHotspotData: state.fakeHotspotData,
         fakeHotspotPageIndex: state.fakeHotspotPageIndex,
@@ -43,6 +43,7 @@ const FakeHotspot: FC<FakeHotspotProp> = () => {
         setSpecialDetailModalOpen: state.setSpecialDetailModalOpen,
         setSpecialDefaultHotspotName: state.setSpecialDefaultHotspotName,
         addFakeHotspot: state.addFakeHotspot,
+        delFakeHotspotByName: state.delFakeHotspotByName,
         queryFakeHotspotData: state.queryFakeHotspotData,
         // querySpecialHotspotData: state.querySpecialHotspotData
     }));
@@ -152,6 +153,31 @@ const FakeHotspot: FC<FakeHotspotProp> = () => {
                 //         Protocol.WiFi24G
                 //     ])
                 // });
+                break;
+            case ActionType.Del:
+                modal.confirm({
+                    async onOk() {
+                        message.destroy();
+                        try {
+                            const res = await delFakeHotspotByName(data.hotspotName);
+                            if (res !== null && res.code === 200) {
+                                message.success('删除成功');
+                                formRef.setFieldsValue({ status: -1 });
+                                queryFakeHotspotData(1, helper.PAGE_SIZE, { status: -1 });
+                            } else {
+                                message.warning(`删除失败 （${res?.message ?? ''}）`);
+                            }
+                        } catch (error) {
+                            console.warn(error);
+                            message.warning(`删除失败 （${error.message ?? ''}）`);
+                        }
+                    },
+                    okText: '是',
+                    cancelText: '否',
+                    title: '删除',
+                    content: `确认删除「${data.hotspotName}」？`,
+                    centered: true
+                });
                 break;
             default:
                 break;

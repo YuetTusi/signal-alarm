@@ -46,6 +46,18 @@ const fakeHotspot = (setState: SetState, _: GetState): FakeHotspotState => ({
         }
     },
     /**
+     * 删除伪热点
+     */
+    async delFakeHotspotByName(payload: string) {
+        const url = `/fake-hotspot-protect/remove?hotspotName=${encodeURIComponent(payload)}`;
+        try {
+            const res = await request.del(url);
+            return res;
+        } catch (error) {
+            throw error;
+        }
+    },
+    /**
      * 查询伪热点状态列表
      * @param payload
      */

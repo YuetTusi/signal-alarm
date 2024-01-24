@@ -33,6 +33,10 @@ interface FakeHotspotState {
      */
     addFakeHotspot: (payload: FakeHotspot) => Promise<RequestResult<any> | null>,
     /**
+     * 删除伪热点
+     */
+    delFakeHotspotByName: (payload: string) => Promise<RequestResult<any> | null>,
+    /**
      * 查询伪热点状态列表
      * @param payload
      */

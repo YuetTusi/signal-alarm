@@ -12,7 +12,11 @@ enum ActionType {
     /**
      * 命中数量
      */
-    Count
+    Count,
+    /**
+     * 删除
+     */
+    Del
 }
 
 const getColumns = (handle: (actionType: ActionType, record: FakeHotspot) => void): ColumnsType<FakeHotspot> => [
@@ -75,6 +79,20 @@ const getColumns = (handle: (actionType: ActionType, record: FakeHotspot) => voi
             }}
             type="link">
             详情
+        </Button>
+    }, {
+        title: '删除',
+        dataIndex: 'del',
+        key: 'del',
+        align: 'center',
+        width: 50,
+        render: (_, record) => <Button
+            onClick={(event: MouseEvent<HTMLElement>) => {
+                event.preventDefault();
+                handle(ActionType.Del, record);
+            }}
+            type="link">
+            删除
         </Button>
     }
 ];
