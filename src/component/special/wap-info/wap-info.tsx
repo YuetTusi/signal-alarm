@@ -214,7 +214,8 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
                     break;
                 case SpiTab.Wiretap:
                     await querySpecialWiretapTopData([
-                        Protocol.Detectaphone
+                        // Protocol.Detectaphone
+                        Protocol.Camera //NOTE:2024-01-08,摄像头暂为查询枚举值15
                     ]);
                     break;
                 case SpiTab.Others:
