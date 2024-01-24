@@ -1,6 +1,6 @@
 
 import { FC, useEffect, useRef, useState } from 'react';
-import { App, Tag } from 'antd';
+import { Tag } from 'antd';
 import { helper } from '@/utility/helper';
 import { useModel } from '@/model';
 import { FakeHotspot } from '@/schema/fake-hotspot';
@@ -14,8 +14,6 @@ const HotspotItem: FC<{
     data: FakeHotspot,
     onClick: (data: FakeHotspot) => void
 }> = ({ data, onClick }) => {
-
-    const { modal } = App.useApp();
 
     const renderStatusText = (status: number) => {
         switch (status) {
