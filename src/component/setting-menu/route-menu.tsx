@@ -1,65 +1,33 @@
 import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import CloseCircleOutlined from '@ant-design/icons/CloseCircleOutlined';
-import LeftCircleOutlined from '@ant-design/icons/LeftCircleOutlined';
-import MenuOutlined from '@ant-design/icons/MenuOutlined';
-import { Button, Tabs, TabsProps } from 'antd';
+import { MenuOutlined } from '@ant-design/icons';
+import { Button, Modal, Tabs } from 'antd';
 import { useModel } from '@/model';
 import { FlatButtons } from './flat-buttons';
-import { FlatBox, FlatMenuBox } from './styled/box';
-import { FlatMenuProp, FlatProp, MenuPath } from './prop';
+import { FlatBox } from './styled/box';
+import { MenuPath, RouteMenuProp } from './prop';
 
-const Flat: FC<FlatProp> = ({ children }) => {
-
-    const {
-        flatMenuVisible,
-        setFlatMenuVisible
-    } = useModel(state => ({
-        flatMenuVisible: state.flatMenuVisible,
-        setFlatMenuVisible: state.setFlatMenuVisible
-    }));
-
-    return <FlatBox style={{ display: flatMenuVisible ? 'block' : 'none' }}>
-        {/* <Button size="large" type="link" className="back-flat-button">
-            <LeftCircleOutlined />
-        </Button> */}
-        <Button
-            onClick={() => setFlatMenuVisible(false)}
-            size="large"
-            type="link"
-            className="close-flat-button">
-            <CloseCircleOutlined />
-        </Button>
-        <div className="menu-inner-box">
-            {children}
-        </div>
-    </FlatBox>
-};
-
-/**
- * 单机版菜单
- */
-const FlatMenu: FC<FlatMenuProp> = ({ }) => {
+const RouteMenu: FC<RouteMenuProp> = () => {
 
     const navigator = useNavigate();
+    const [activeKey, setActiveKey] = useState<string>('');
     const {
-        setFlatMenuVisible,
+        routeMenuOpen,
         sysMenuData,
+        setRouteMenuOpen,
+        setSpecialDetailModalOpen,
         setAlarmDetailModalOpen,
         setQuickCheckReportDetailModalOpen,
-        setSpecialDetailModalOpen,
         querySysMenuData
     } = useModel(state => ({
-        voiceControlModalOpen: state.voiceControlModalOpen,
+        routeMenuOpen: state.routeMenuOpen,
         sysMenuData: state.sysMenuData,
-        setFlatMenuVisible: state.setFlatMenuVisible,
+        setRouteMenuOpen: state.setRouteMenuOpen,
+        setSpecialDetailModalOpen: state.setSpecialDetailModalOpen,
         setAlarmDetailModalOpen: state.setAlarmDetailModalOpen,
         setQuickCheckReportDetailModalOpen: state.setQuickCheckReportDetailModalOpen,
-        setSpecialDetailModalOpen: state.setSpecialDetailModalOpen,
         querySysMenuData: state.querySysMenuData
     }));
-
-    const [activeKey, setActiveKey] = useState<string>('');
 
     useEffect(() => {
         querySysMenuData();
@@ -78,7 +46,9 @@ const FlatMenu: FC<FlatMenuProp> = ({ }) => {
                 key: `${item.id}`,
                 label: item.name,
                 children: <FlatButtons
-                    menus={item.children}
+                    menus={item
+                        .children
+                        .sort((a, b) => a.sortValue - b.sortValue)}
                     onClick={({ path }) => {
                         switch (path) {
                             case MenuPath.SpiSearch:
@@ -119,6 +89,9 @@ const FlatMenu: FC<FlatMenuProp> = ({ }) => {
                                 //中间件
                                 navigator('/middleware');
                                 break;
+                            case MenuPath.FakeHotspot:
+                                navigator('/fake-hotspot');
+                                break;
                             case MenuPath.SysMenu:
                                 //系统菜单
                                 break;
@@ -140,27 +113,41 @@ const FlatMenu: FC<FlatMenuProp> = ({ }) => {
                                 navigator('/white-list');
                                 break;
                         }
-                        setFlatMenuVisible(false);
+                        setRouteMenuOpen(false);
                     }} />
             };
         });
     };
 
-    return <FlatMenuBox>
+    return <div>
         <Button
-            onClick={() => setFlatMenuVisible(true)}
+            onClick={() => setRouteMenuOpen(true)}
             type="primary">
             <MenuOutlined />
             <span>菜单</span>
         </Button>
-        <Flat>
-            <Tabs
-                onChange={(activeKey) => setActiveKey(activeKey)}
-                items={bindTabPane()}
-                activeKey={activeKey}>
-            </Tabs>
-        </Flat>
-    </FlatMenuBox>;
+        <Modal
+            footer={[
+                <Button
+                    onClick={() => setRouteMenuOpen(false)}
+                    type="default"
+                    key="RM_0">取消</Button>
+            ]}
+            onCancel={() => setRouteMenuOpen(false)}
+            open={routeMenuOpen}
+            width={1000}
+            centered={true}
+            maskClosable={false}
+            getContainer="#app">
+            <FlatBox>
+                <Tabs
+                    onChange={(activeKey) => setActiveKey(activeKey)}
+                    items={bindTabPane()}
+                    activeKey={activeKey}>
+                </Tabs>
+            </FlatBox>
+        </Modal>
+    </div>
 };
 
-export { FlatMenu };
+export { RouteMenu };

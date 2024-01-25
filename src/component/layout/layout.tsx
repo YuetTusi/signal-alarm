@@ -18,7 +18,7 @@ import DragBar from '../drag-bar';
 import Voice from '../voice';
 import AppTitle from '../app-title';
 import { UserMenuAction } from '../setting-menu';
-import { SettingMenu, FlatMenu, UserMenu } from "../setting-menu";
+import { RouteMenu, UserMenu } from "../setting-menu";
 import { VoiceControlModal } from '../voice-control-modal';
 import { ModifyPasswordModal } from '../modify-password-modal';
 import { LayoutBox } from './styled/styled';
@@ -159,7 +159,7 @@ const Layout: FC<LayoutProp> = ({ children }) => {
         <Reading />
         <div className="banner">
             <div>
-                {mode === AppMode.FullScreen ? <FlatMenu /> : <SettingMenu />}
+                <RouteMenu />
             </div>
             <div className="app-title">
                 <AppTitle />

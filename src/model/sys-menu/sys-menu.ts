@@ -14,7 +14,7 @@ const sysMenu = (setState: SetState, _: GetState): SysMenuState => ({
     /**
      * 单机版菜单显示
      */
-    flatMenuVisible: false,
+    routeMenuOpen: false,
     /**
      * 打开/关闭预警声音设置框
      */
@@ -32,8 +32,8 @@ const sysMenu = (setState: SetState, _: GetState): SysMenuState => ({
     /**
      * 打开/关闭单机版菜单显示
      */
-    setFlatMenuVisible(payload: boolean) {
-        setState({ flatMenuVisible: payload });
+    setRouteMenuOpen(payload: boolean) {
+        setState({ routeMenuOpen: payload });
     },
     /**
      * 打开/关闭预警声音设置框
@@ -60,7 +60,7 @@ const sysMenu = (setState: SetState, _: GetState): SysMenuState => ({
             }
 
             if (res.code === 200) {
-                setState({ sysMenuData: res.data })
+                setState({ sysMenuData: res.data.sort((a, b) => a.sortValue - b.sortValue) });
             }
         } catch (error) {
             log.error(`查询菜单数据失败 @model/sys-menu/querySysMenuData:${error.message}`);

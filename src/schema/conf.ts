@@ -7,7 +7,7 @@ export enum AppMode {
      */
     PC,
     /**
-     * 全屏版
+     * 网络版（全屏版）
      */
     FullScreen
 }

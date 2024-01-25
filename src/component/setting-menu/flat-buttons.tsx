@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import PaperClipOutlined from '@ant-design/icons/PaperClipOutlined';
 import { Col, Row, Button } from 'antd';
 import { SystemMenu } from '@/schema/system-menu';
 import { ButtonPanel } from './styled/box';
@@ -26,7 +25,7 @@ const FlatButtons: FC<{
     onClick: (data: SystemMenu) => void
 }> = ({ menus, onClick }) => {
 
-    const buttons = flatten(menus);
+    const buttons = flatten(menus).filter(i => i.name !== '日志管理');
 
     const renderButtons = () => {
         return buttons.map(item => {
@@ -35,7 +34,7 @@ const FlatButtons: FC<{
                     onClick={() => onClick(item)}
                     type="button"
                     className="flat-button">
-                    <PaperClipOutlined />
+                    <i className={item.path} />
                     <span>{item.name}</span>
                 </button>
             </Col>;

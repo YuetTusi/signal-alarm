@@ -8,11 +8,11 @@ export interface UserMenuProp {
     onMenuItemClick: (action: UserMenuAction) => void
 };
 
-export interface FlatMenuProp {
-}
-
 export interface FlatProp extends PropsWithChildren {
 
+}
+
+export interface RouteMenuProp extends PropsWithChildren {
 }
 
 export enum UserMenuAction {
