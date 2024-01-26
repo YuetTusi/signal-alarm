@@ -30,8 +30,15 @@ let realOption: any = {
         }
     ],
     tooltip: {
-        show: false
-    }
+        show: true
+    },
+    dataZoom: [
+        {
+            show: false,
+            type: "slider",
+            showDetail: false
+        }
+    ]
 };
 
 const chartResize = (chart: echarts.ECharts | null, containerId: string) => {
@@ -77,23 +84,13 @@ const Rate: FC<RateProp> = ({ realData, compareData, displayData, outerDomId }) 
             return;
         }
         realOption.xAxis.data = new Array(SIZE).fill(0).map((item, i) => item + i);
-        realOption.series[0].data = realData.map((value, i) => {
-            const has = compareData.find(item => Math.trunc(1 + item.freq * 0.8) === i);
-            //若当前索引柱击中了freq字段，则根据currentOffsetSignal值来判断颜色
-            let itemStyle: Record<string, any> = {};
-            if (has === undefined) {
-                itemStyle = { color: '#008000' };
+        realOption.series[0].data = realData.map((_, index) => {
+
+            if (compareData[index]) {
+                return { value: 100, itemStyle: compareData[index].itemStyle };
             } else {
-                if (has.currentOffsetSignal >= 10 && has.currentOffsetSignal <= 20) {
-                    itemStyle = { color: '#FFA500' };
-                } else if (has.currentOffsetSignal > 20) {
-                    itemStyle = { color: '#FF0000' };
-                } else {
-                    itemStyle = { color: '#008000' };
-                }
+                return { value: 100, itemStyle: { color: '#008000' } };
             }
-            value = 100;
-            return { value, itemStyle };
         });
         realChart.setOption(realOption);
     }, [realData, compareData]);

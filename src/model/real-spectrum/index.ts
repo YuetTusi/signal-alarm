@@ -31,7 +31,11 @@ interface RealSpectrumState {
     /**
      * 比较数据
      */
-    freqCmpResList: FreqCompare[],
+    // freqCmpResList: FreqCompare[],
+    /**
+     * 比对频谱柱图数据
+     */
+    compareBarData: { currentOffsetSignal: number | undefined, itemStyle: any }[],
     /**
      * 比较展示数据（表格）
      */
@@ -56,6 +60,10 @@ interface RealSpectrumState {
      * 正在查询中
      */
     specLiving: boolean,
+    /**
+     * 重置柱图数据
+     */
+    resetCompareBarData: () => void,
     /**
      * 更新正在查询中
      */

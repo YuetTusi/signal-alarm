@@ -1,3 +1,4 @@
+import maxBy from 'lodash/maxBy';
 import { message } from "antd";
 import { log } from "@/utility/log";
 import { helper } from "@/utility/helper";
@@ -28,7 +29,11 @@ const realSpectrum = (setState: SetState, getState: GetState): RealSpectrumState
     /**
      * 比较数据
      */
-    freqCmpResList: [],
+    // freqCmpResList: [],
+    /**
+     * 比对频谱柱图数据
+     */
+    compareBarData: [],
     /**
      * 比较展示数据（表格）
      */
@@ -53,6 +58,16 @@ const realSpectrum = (setState: SetState, getState: GetState): RealSpectrumState
      * 正在查询中
      */
     specLiving: false,
+    /**
+     * 重置柱图数据
+     */
+    resetCompareBarData() {
+        const data: { currentOffsetSignal: number | undefined, itemStyle: any }[] = [];
+        for (let i = 0; i < 7499; i++) {
+            data.push({ currentOffsetSignal: undefined, itemStyle: { color: '#008000' } });
+        }
+        setState({ compareBarData: data });
+    },
     /**
      * 更新操作类型
      */
@@ -179,24 +194,43 @@ const realSpectrum = (setState: SetState, getState: GetState): RealSpectrumState
             }>(url);
 
             if (res !== null && res.code === 200) {
-                console.log(res.data);
+                console.log(res.data.freqCmpResList.length);
                 const cmp = getState().allFreqList.find(i => i.freqBaseId === freqBaseId);
                 //找到当前背景频谱数据
                 let bgList = cmp === undefined ? [] : JSON.parse(cmp.freqArray ?? '[]') as number[];
-                const realSpectrumData = JSON.parse(res.data.currentArray ?? '[]') as number[];
-                const display = realSpectrumData.reduce((acc, _, index) => {
-                    const has = res.data.freqCmpResList.find(item =>
-                        Math.trunc(1 + item.freq * 0.8) === index);
-                    if (has) {
-                        acc.push(has);
+
+                const prev = getState().compareBarData;
+                const realData = JSON.parse(res.data.currentArray ?? '[]') as number[];
+                const bar = realData.map((_, index) => {
+                    const has = res.data.freqCmpResList.find(j => j.freq === index); //找到实时x轴索引与比对频率一致的数据
+                    if (has === undefined) {
+                        return prev[index];
                     }
-                    return acc;
-                }, [] as FreqCompare[]);
+
+                    if (prev[index].currentOffsetSignal === undefined || has.currentOffsetSignal > prev[index].currentOffsetSignal!) {
+                        //如果偏移值比之前大，才更新
+                        const modify: any = { currentOffsetSignal: has.currentOffsetSignal };
+                        if (has.currentOffsetSignal >= 10 && has.currentOffsetSignal <= 20) {
+                            modify.itemStyle = { color: '#FFA500' };
+                        } else if (has.currentOffsetSignal > 20) {
+                            modify.itemStyle = { color: '#FF0000' };
+                        } else {
+                            modify.itemStyle = { color: '#008000' };
+                        }
+                        return modify;
+                    } else {
+                        return prev[index];
+                    }
+                });
+
                 setState({
-                    freqCmpResList: res.data.freqCmpResList,
-                    realSpectrumData: JSON.parse(res.data.currentArray ?? '[]'),
+                    realSpectrumData: realData,//实时曲线数据
                     bgSpectrumData: bgList, // 背景频谱，黄色对比曲线
-                    freqComDisplayList: display
+                    freqComDisplayList: res.data.freqCmpResList, //频谱表格数据
+                    compareBarData: bar.map((item, index) => ({
+                        ...prev[index],
+                        ...item
+                    }))
                 });
                 return true;
             } else if (res?.code === 201) {
@@ -207,8 +241,7 @@ const realSpectrum = (setState: SetState, getState: GetState): RealSpectrumState
             }
         } catch (error) {
             setState({
-                realSpectrumData: [],
-                freqCmpResList: []
+                realSpectrumData: []
             });
             log.error(`开始实时频谱比对失败@model/real-spectrum/startRealCompare('${deviceId}','${freqBaseId}',${offset}):${error.message}`);
             throw error;

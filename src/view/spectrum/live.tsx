@@ -28,12 +28,13 @@ const Live: FC<{}> = () => {
         specLiving,
         bgSpectrumData,
         realSpectrumData,
-        freqCmpResList,
+        // freqCmpResList,
+        compareBarData,
         freqComDisplayList,
         setSpecOperate,
         setSpecLiving,
-        // clearSpectrumData,
-        clearBgSpectrumData,
+        resetCompareBarData,
+        clearSpectrumData,
         startRealCompare,
         stopRealCompare,
         queryAllFreqList,
@@ -44,11 +45,12 @@ const Live: FC<{}> = () => {
         bgSpectrumData: state.bgSpectrumData,
         realSpectrumData: state.realSpectrumData,
         freqComDisplayList: state.freqComDisplayList,
-        freqCmpResList: state.freqCmpResList,
+        // freqCmpResList: state.freqCmpResList,
+        compareBarData: state.compareBarData,
         setSpecOperate: state.setSpecOperate,
         setSpecLiving: state.setSpecLiving,
-        // clearSpectrumData: state.clearSpectrumData,
-        clearBgSpectrumData: state.clearBgSpectrumData,
+        resetCompareBarData: state.resetCompareBarData,
+        clearSpectrumData: state.clearSpectrumData,
         startRealCompare: state.startRealCompare,
         stopRealCompare: state.stopRealCompare,
         queryAllFreqList: state.queryAllFreqList,
@@ -58,6 +60,8 @@ const Live: FC<{}> = () => {
     useEffect(() => {
         //查询所有背景频谱数据
         queryAllFreqList();
+        //还原柱图初始数据
+        resetCompareBarData();
     }, []);
 
     useEffect(() => {
@@ -77,6 +81,13 @@ const Live: FC<{}> = () => {
         }
         setSpecOperate(SpecOperate.Nothing);
         setSpecLiving(false);
+        clearSpectrumData();
+        const nodes = document.querySelectorAll<HTMLElement>('.context-box');
+        if (nodes.length > 0) {
+            const contextBox = nodes[0];
+            contextBox.style.overflowX = 'auto';
+            contextBox.style.overflowY = 'auto';
+        }
     });
 
     /**
@@ -94,6 +105,8 @@ const Live: FC<{}> = () => {
         event.preventDefault();
         const { validateFields } = formRef;
         message.destroy();
+        //还原柱图初始数据
+        resetCompareBarData();
         let device = ''
         try {
             const values = await validateFields(['device']);
@@ -111,7 +124,6 @@ const Live: FC<{}> = () => {
                 setSpecLiving(false);
                 setSpecOperate(SpecOperate.Nothing);
             } else {
-                clearBgSpectrumData();
                 setSpecOperate(SpecOperate.Search);
                 await queryRealSpectrumData(device);
                 setSpecLiving(true);
@@ -161,12 +173,13 @@ const Live: FC<{}> = () => {
                     clearInterval(timer);
                 }
                 await stopRealCompare(device, freqBaseId);
-                // clearSpectrumData();
                 setSpecLiving(false);
                 setSpecOperate(SpecOperate.Nothing);
             } else {
                 //开始
                 setSpecOperate(SpecOperate.Compare);
+                //还原柱图初始数据
+                resetCompareBarData();
                 const success = await startRealCompare(device, freqBaseId, offset);
                 prevDevice.current = device;
                 prevFreqBaseId.current = freqBaseId;
@@ -244,7 +257,8 @@ const Live: FC<{}> = () => {
                     } />
                 <Rate
                     realData={realSpectrumData}
-                    compareData={freqCmpResList}
+                    // compareData={freqCmpResList}
+                    compareData={compareBarData}
                     displayData={freqComDisplayList}
                     outerDomId="realOuterBox" />
             </div>
