@@ -1,6 +1,9 @@
 import { FC, useEffect, useState } from 'react';
 import { Key } from 'antd/es/table/interface';
-import { App, Button, Form, Input, InputNumber, Select, Table, Tag } from 'antd';
+import {
+    App, Col, Row, Button, Form,
+    Input, InputNumber, Select, Table, Tag
+} from 'antd';
 import { useModel } from '@/model';
 import { useUnmount } from '@/hook';
 import { BaseFreq } from '@/schema/base-freq';
@@ -8,6 +11,7 @@ import { BgDesc } from './bg-desc';
 import { toSelectData } from '../tool';
 import { SetFormProp } from './prop';
 
+const { Option } = Select;
 const { Item } = Form;
 
 /**
@@ -17,6 +21,7 @@ const SetForm: FC<SetFormProp> = ({ formRef }) => {
 
     const { modal } = App.useApp();
     const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([]);
+    const [isSelfValue, setIsSelfValue] = useState<boolean>(false);
     const {
         specLiving,
         realSpectrumDeviceList,
@@ -37,13 +42,21 @@ const SetForm: FC<SetFormProp> = ({ formRef }) => {
 
     useEffect(() => {
         const { setFieldsValue } = formRef;
-        setFieldsValue({ offset: 15 });
+        // setFieldsValue({
+        //     // offset: 10
+        //     // selfOffset: undefined,
+        //     // presetOffset: undefined
+        // });
         queryRealSpectrumDeviceList();
     }, []);
 
     useUnmount(() => {
         const { setFieldsValue } = formRef;
-        setFieldsValue({ offset: 15 });
+        // setFieldsValue({
+        //     // offset: 10
+        //     // selfOffset: undefined,
+        //     // presetOffset: undefined
+        // });
         clearCompareBaseSpectrumData();
     });
 
@@ -85,17 +98,65 @@ const SetForm: FC<SetFormProp> = ({ formRef }) => {
                     style={{ width: '100%' }}
                 />
             </Item>
-            <Item
-                rules={[
-                    { required: true, message: '填写偏移值' }
-                ]}
-                label="偏移值"
-                name="offset">
-                <InputNumber
-                    min={15}
-                    max={90}
-                    style={{ width: '100%' }} />
-            </Item>
+            <Row
+                style={{ display: isSelfValue ? 'flex' : 'none' }}
+                align="middle"
+                gutter={16}>
+                <Col flex={1}>
+                    <Item
+                        rules={[
+                            { required: isSelfValue, message: '请填写偏移值' }
+                        ]}
+                        label="偏移值"
+                        name="offset">
+                        <InputNumber
+                            min={10}
+                            max={35}
+                            placeholder="范围10 ~ 35"
+                            style={{ width: '100%' }} />
+                    </Item>
+                </Col>
+                <Col flex="none">
+                    <Button
+                        onClick={() => {
+                            formRef.setFieldValue('offset', undefined);
+                            setIsSelfValue(false);
+                        }}
+                        style={{ top: '4px' }}
+                        type="default">预设值</Button>
+                </Col>
+            </Row>
+            <Row
+                style={{ display: !isSelfValue ? 'flex' : 'none' }}
+                align="middle"
+                gutter={16}>
+                <Col flex={1}>
+                    <Item
+                        rules={[
+                            { required: !isSelfValue, message: '请选择偏移值' }
+                        ]}
+                        label="偏移值"
+                        name="offset">
+                        <Select placeholder="请选择偏移值">
+                            <Option value={10}>10</Option>
+                            <Option value={15}>15</Option>
+                            <Option value={20}>20</Option>
+                            <Option value={25}>25</Option>
+                            <Option value={30}>30</Option>
+                            <Option value={35}>35</Option>
+                        </Select>
+                    </Item>
+                </Col>
+                <Col flex="none">
+                    <Button
+                        onClick={() => {
+                            formRef.setFieldValue('offset', undefined);
+                            setIsSelfValue(true);
+                        }}
+                        style={{ top: '4px' }}
+                        type="default">自定义</Button>
+                </Col>
+            </Row>
             <Item name="freqBaseId" className="fn-hidden">
                 <Input readOnly={true} />
             </Item>
@@ -153,7 +214,7 @@ const SetForm: FC<SetFormProp> = ({ formRef }) => {
                 onChange: onSelectChange,
                 getCheckboxProps: (_) => ({ disabled: specLiving })
             }}
-            style={{ marginTop: '40px' }}
+            style={{ marginTop: '10px' }}
         />
     </>;
 };

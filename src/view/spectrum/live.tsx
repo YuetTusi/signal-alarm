@@ -179,6 +179,7 @@ const Live: FC<{}> = () => {
                     }, 1000);
                 } else {
                     setSpecLiving(false);
+                    setSpecOperate(SpecOperate.Nothing);
                     if (timer) {
                         clearInterval(timer);
                         timer = null;
