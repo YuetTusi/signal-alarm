@@ -61,9 +61,11 @@ const Past: FC<PastProp> = () => {
         specPlaying,
         searchHistoryLoading,
         historySpectrumData,
+        historyBarData,
         historyCmpResList,
         historyBgSpectrumData,
         historyComDisplayList,
+        resetHistoryBarData,
         setPastOperate,
         setSpecPlaying,
         setHistoryBgSpectrumData,
@@ -77,9 +79,11 @@ const Past: FC<PastProp> = () => {
         specPlaying: state.specPlaying,
         searchHistoryLoading: state.searchHistoryLoading,
         historySpectrumData: state.historySpectrumData,
+        historyBarData: state.historyBarData,
         historyCmpResList: state.historyCmpResList,
         historyBgSpectrumData: state.historyBgSpectrumData,
         historyComDisplayList: state.historyComDisplayList,
+        resetHistoryBarData: state.resetHistoryBarData,
         setPastOperate: state.setPastOperate,
         setSpecPlaying: state.setSpecPlaying,
         setHistoryCmpResList: state.setHistoryCmpResList,
@@ -93,6 +97,8 @@ const Past: FC<PastProp> = () => {
     useEffect(() => {
         //查询所有背景频谱数据
         queryAllBgFreqList();
+        //还原柱图初始数据
+        resetHistoryBarData();
     }, []);
 
     useEffect(() => {
@@ -105,9 +111,12 @@ const Past: FC<PastProp> = () => {
     }, []);
 
     useEffect(() => {
+        // console.log('===========================');
+        // console.log(historySpectrumData);
+        // console.log(historyCmpResList);
         const display = historySpectrumData.reduce((acc, _, index) => {
-            const has = (historyCmpResList ?? []).find(item =>
-                Math.trunc(1 + item.freq * 0.8) === index);
+            const has = (historyCmpResList ?? []).find(item => item.freq === index);
+            // Math.trunc(1 + item.freq * 0.8) === index);
             if (has) {
                 acc.push(has);
             }
@@ -124,6 +133,34 @@ const Past: FC<PastProp> = () => {
         setPastOperate(PastOperate.Nothing);
         setSpecPlaying(false);
     });
+
+    /**
+     * 生成柱图数据，为柱着色
+     */
+    const getBarData = () => {
+        const result = (historySpectrumData ?? []).map((_, index) => {
+            const has = (historyCmpResList ?? []).find(item => item.freq === index); //找到实时x轴索引与比对频率一致的数据
+            if (has === undefined) {
+                return historyBarData[index];
+            }
+
+            if (historyBarData[index].currentOffsetSignal === undefined || has.currentOffsetSignal > historyBarData[index].currentOffsetSignal!) {
+                //如果偏移值比之前大，才更新
+                const modify: any = { currentOffsetSignal: has.currentOffsetSignal };
+                if (has.currentOffsetSignal >= 10 && has.currentOffsetSignal <= 20) {
+                    modify.itemStyle = { color: '#FFA500' };
+                } else if (has.currentOffsetSignal > 20) {
+                    modify.itemStyle = { color: '#FF0000' };
+                } else {
+                    modify.itemStyle = { color: '#008000' };
+                }
+                return modify;
+            } else {
+                return historyBarData[index];
+            }
+        });
+        return result;
+    };
 
     /**
      * 返回Click
@@ -163,6 +200,7 @@ const Past: FC<PastProp> = () => {
             } else {
                 setSpecPlaying(true);
                 setPastOperate(PastOperate.Play);
+                resetHistoryBarData();
                 setHistoryBgSpectrumData([]);
                 setHistoryComDisplayList([]);
                 setHistoryCmpResList([]);
@@ -232,6 +270,7 @@ const Past: FC<PastProp> = () => {
                 setPastOperate(PastOperate.Nothing);
             } else {
                 //开始
+                resetHistoryBarData();
                 await queryHistoryCompareSpectrumData(device, freqBaseId, startTime.unix(), endTime.unix(), offset);
                 setSpecPlaying(true);
                 setPastOperate(PastOperate.Compare);
@@ -314,7 +353,8 @@ const Past: FC<PastProp> = () => {
                     } />
                 <Rate
                     realData={historySpectrumData}
-                    compareData={historyCmpResList}
+                    // compareData={historyBarData}
+                    compareData={getBarData()}
                     displayData={historyComDisplayList}
                     outerDomId="pastOuterBox" />
             </div>

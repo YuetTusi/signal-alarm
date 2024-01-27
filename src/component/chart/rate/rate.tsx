@@ -4,11 +4,13 @@ import { FC, useEffect, useRef } from 'react';
 import { Table } from 'antd';
 import { useResize, useUnmount } from '@/hook';
 import { helper } from '@/utility/helper';
+import { AppMode } from '@/schema/conf';
 import { FreqCompare } from '@/schema/freq-compare';
 import { getCompareColumns } from './column';
 import { ChartBox, PanelBox, TableBox } from './styled/box';
 import { RateProp } from './prop';
 
+const { mode } = helper.readConf();
 const SIZE = 7499;
 let realChart: echarts.ECharts | null = null;
 let compareChart: echarts.ECharts | null = null;
@@ -30,7 +32,7 @@ let realOption: any = {
         }
     ],
     tooltip: {
-        show: true
+        show: false
     },
     dataZoom: [
         {
@@ -131,7 +133,7 @@ const Rate: FC<RateProp> = ({ realData, compareData, displayData, outerDomId }) 
                     rowKey={() => helper.nextId(8)}
                     pagination={false}
                     size="small"
-                    scroll={{ y: 160 }}
+                    scroll={{ y: mode === AppMode.FullScreen ? 290 : 160 }}
                 />
             </TableBox>
         </PanelBox>

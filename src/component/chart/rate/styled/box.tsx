@@ -1,4 +1,8 @@
 import styled from 'styled-components';
+import { helper } from '@/utility/helper';
+import { AppMode } from '@/schema/conf';
+
+const { mode } = helper.readConf();
 
 export const PanelBox = styled.div`
     display: block;
@@ -29,4 +33,9 @@ export const TableBox = styled.div`
     left:0;
     right:0;
     bottom:0;
+    height: ${mode === AppMode.FullScreen ? 380 : 200}px;
+
+    .ant-table-body{
+        height: ${mode === AppMode.FullScreen ? 290 : 160}px !important;
+    }
 `;

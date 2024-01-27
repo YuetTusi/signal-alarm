@@ -48,7 +48,7 @@ const PastForm: FC<PastFormProp> = ({ formRef }) => {
         const { setFieldsValue } = formRef;
         setFieldsValue({ offset: 15 });
         setFieldsValue({ startTime: dayjs().add(-5, 'minute') });
-        // setFieldsValue({ startTime: dayjs().add(-5, 'second') });
+        // setFieldsValue({ startTime: dayjs().add(-10, 'second') });
         setFieldsValue({ endTime: dayjs() });
         queryHistorySpectrumDeviceList();
     }, []);

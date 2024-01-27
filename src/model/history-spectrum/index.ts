@@ -41,6 +41,10 @@ interface HistorySpectrumState {
      */
     historyBgSpectrumData: number[],
     /**
+     * 比对频谱柱图数据
+     */
+    historyBarData: { currentOffsetSignal: number | undefined, itemStyle: any }[],
+    /**
      * 比较数据
      */
     historyCmpResList: FreqCompare[],
@@ -48,6 +52,10 @@ interface HistorySpectrumState {
      * 比较展示数据（表格）
      */
     historyComDisplayList: FreqCompare[],
+    /**
+     * 重置比对频谱柱图数据
+     */
+    resetHistoryBarData: () => void,
     /**
      * 更新历史背景频谱
      */

@@ -30,6 +30,10 @@ const historySpectrum = (setState: SetState, getState: GetState): HistorySpectru
      */
     historySpectrumData: [],
     /**
+     * 比对频谱柱图数据
+     */
+    historyBarData: [],
+    /**
      * 所有背景频谱数据
      */
     allBgFreqList: [],
@@ -45,6 +49,16 @@ const historySpectrum = (setState: SetState, getState: GetState): HistorySpectru
      * 比较展示数据（表格）
      */
     historyComDisplayList: [],
+    /**
+     * 重置比对频谱柱图数据
+     */
+    resetHistoryBarData() {
+        const data: { currentOffsetSignal: number | undefined, itemStyle: any }[] = [];
+        for (let i = 0; i < 7499; i++) {
+            data.push({ currentOffsetSignal: undefined, itemStyle: { color: '#008000' } });
+        }
+        setState({ historyBarData: data });
+    },
     /**
      * 更新操作类型
      */
@@ -185,24 +199,41 @@ const historySpectrum = (setState: SetState, getState: GetState): HistorySpectru
                 baseArray: string
             }>(url);
             if (res !== null && res.code === 200) {
+                // const prev = getState().historyBarData;
+                // const historySpectrumData = getState().historySpectrumData;
                 const cmp = getState().allBgFreqList.find(i => i.freqBaseId === freqBaseId);
                 //找到当前背景频谱数据
                 let bgList = cmp === undefined ? [] : JSON.parse(cmp.freqArray ?? '[]') as number[];
-                // const historySpectrumData = JSON.parse(res.data.currentArray ?? '[]') as number[];
-                // const display = historySpectrumData.reduce((acc, _, index) => {
-                //     const has = (res.data.freqCmpResList ?? []).find(item =>
-                //         Math.trunc(1 + item.freq * 0.8) === index);
-                //     if (has) {
-                //         acc.push(has);
+
+                // const bar = historySpectrumData.map((_, index) => {
+                //     const has = res.data.freqCmpResList.find(j => j.freq === index); //找到实时x轴索引与比对频率一致的数据
+                //     if (has === undefined) {
+                //         return prev[index];
                 //     }
-                //     return acc;
-                // }, [] as FreqCompare[]);
+
+                //     if (prev[index].currentOffsetSignal === undefined || has.currentOffsetSignal > prev[index].currentOffsetSignal!) {
+                //         //如果偏移值比之前大，才更新
+                //         const modify: any = { currentOffsetSignal: has.currentOffsetSignal };
+                //         if (has.currentOffsetSignal >= 10 && has.currentOffsetSignal <= 20) {
+                //             modify.itemStyle = { color: '#FFA500' };
+                //         } else if (has.currentOffsetSignal > 20) {
+                //             modify.itemStyle = { color: '#FF0000' };
+                //         } else {
+                //             modify.itemStyle = { color: '#008000' };
+                //         }
+                //         return modify;
+                //     } else {
+                //         return prev[index];
+                //     }
+                // });
 
                 setState({
                     historyCmpResList: res.data.freqCmpResList,
-                    // historySpectrumData: JSON.parse(res.data.currentArray ?? '[]') as number[],
                     historyBgSpectrumData: bgList, // 背景频谱，黄色对比曲线
-                    // historyComDisplayList: display
+                    // historyBarData: bar.map((item, index) => ({
+                    //     ...prev[index],
+                    //     ...item
+                    // }))
                 });
                 return true;
             } else if (res?.code === 201) {
