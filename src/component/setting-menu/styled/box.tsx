@@ -128,12 +128,11 @@ export const FlatBox = styled.div`
                 //登录日志
                 background-image: url(${sysLoginLog});
             }
-            
         }
 
         &>span{
             margin-top: 14px;
-            font-size: 1.6rem;
+            font-size: 2rem;
             color:#fff;
         }
         &:hover{

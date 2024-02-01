@@ -134,6 +134,7 @@ const WiretapTable: FC<WiretapTableProp> = () => {
             }}
             scroll={{ x: 'max-content' }}
             rowKey="id"
+            size="middle"
         />
     </>
 };

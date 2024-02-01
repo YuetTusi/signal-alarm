@@ -285,7 +285,8 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
                     defaultActiveKey={SpiTab.All}
                     destroyInactiveTabPane={false}
                     moreIcon={<DoubleRightOutlined />}
-                    type="card" />
+                    type="card"
+                    className="wap-tab" />
             </div>
         </DisplayPanel>
         <DetailModal

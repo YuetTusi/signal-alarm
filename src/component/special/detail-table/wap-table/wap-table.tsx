@@ -161,6 +161,7 @@ const WapTable: FC<WapTableProp> = ({ parentOpen }) => {
                 showTotal: (total) => `共${total}条`
             }}
             rowKey="id"
+            size="middle"
         />
     </>
 };

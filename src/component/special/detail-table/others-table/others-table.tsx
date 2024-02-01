@@ -136,6 +136,7 @@ const OthersTable: FC<OthersTableProp> = () => {
             }}
             scroll={{ x: 'max-content' }}
             rowKey="id"
+            size="middle"
         />
     </>
 };

@@ -35,7 +35,7 @@ const getColumns = (handle: (actionType: ActionType, record: FakeHotspot) => voi
         title: '命中数量',
         dataIndex: 'count',
         key: 'count',
-        width: 90,
+        width: 100,
         render: (val, record) => <Button
             onClick={(event: MouseEvent<HTMLElement>) => {
                 event.preventDefault();
@@ -59,13 +59,13 @@ const getColumns = (handle: (actionType: ActionType, record: FakeHotspot) => voi
         dataIndex: 'updateTime',
         key: 'updateTime',
         align: 'center',
-        width: 170
+        width: 220
     }, {
         title: '创建时间',
         dataIndex: 'createTime',
         key: 'createTime',
         align: 'center',
-        width: 170
+        width: 220
     }, {
         title: '详情',
         dataIndex: 'detail',
@@ -77,7 +77,8 @@ const getColumns = (handle: (actionType: ActionType, record: FakeHotspot) => voi
                 event.preventDefault();
                 handle(ActionType.Detail, record);
             }}
-            type="link">
+            type="link"
+            size="middle">
             详情
         </Button>
     }, {
@@ -91,7 +92,8 @@ const getColumns = (handle: (actionType: ActionType, record: FakeHotspot) => voi
                 event.preventDefault();
                 handle(ActionType.Del, record);
             }}
-            type="link">
+            type="link"
+            size="middle">
             删除
         </Button>
     }

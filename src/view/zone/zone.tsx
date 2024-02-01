@@ -176,7 +176,8 @@ const Zone: FC<ZoneProp> = () => {
                 }}
                 loading={zoneLoading}
                 dataSource={zoneData}
-                rowKey="id" />
+                rowKey="id"
+                size="middle" />
         </TableBox>
         <EditModal
             open={editModalOpen}

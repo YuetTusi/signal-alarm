@@ -59,7 +59,7 @@ const EditModal: FC<EditModalProp> = ({ open, data, onOk, onCancel }) => {
             <Button onClick={onOkClick} type="primary" key="EM_1">确定</Button>
         ]}
         open={open}
-        width={460}
+        width={560}
         onCancel={onCancelClick}
         title={data === undefined ? '添加区域' : '编辑区域'}
         centered={true}

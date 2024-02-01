@@ -92,7 +92,7 @@ const PastForm: FC<PastFormProp> = ({ formRef }) => {
                         <DatePicker
                             showTime={true}
                             allowClear={false}
-                            style={{ width: '200px' }} />
+                            style={{ width: '270px' }} />
                     </Item>
                 </Col>
                 <Col>
@@ -116,7 +116,7 @@ const PastForm: FC<PastFormProp> = ({ formRef }) => {
                         <DatePicker
                             showTime={true}
                             allowClear={false}
-                            style={{ width: '200px' }} />
+                            style={{ width: '270px' }} />
                     </Item>
                 </Col>
             </Row>
@@ -161,7 +161,7 @@ const PastForm: FC<PastFormProp> = ({ formRef }) => {
                             formRef.setFieldValue('offset', undefined);
                             setIsSelfValue(false);
                         }}
-                        style={{ top: '4px' }}
+                        style={{ top: '12px' }}
                         type="default">预设值</Button>
                 </Col>
             </Row>
@@ -192,7 +192,7 @@ const PastForm: FC<PastFormProp> = ({ formRef }) => {
                             formRef.setFieldValue('offset', undefined);
                             setIsSelfValue(true);
                         }}
-                        style={{ top: '4px' }}
+                        style={{ top: '12px' }}
                         type="default">自定义</Button>
                 </Col>
             </Row>
@@ -214,7 +214,8 @@ const PastForm: FC<PastFormProp> = ({ formRef }) => {
                             centered: true,
                             width: 600
                         })}
-                        type="link">
+                        type="link"
+                        size="middle">
                         {val}
                     </Button>
                 }
@@ -224,7 +225,7 @@ const PastForm: FC<PastFormProp> = ({ formRef }) => {
                 key: 'status',
                 dataIndex: 'status',
                 align: 'center',
-                width: 60,
+                width: 70,
                 render: (val: number) => {
                     switch (val) {
                         case 0:
@@ -239,7 +240,7 @@ const PastForm: FC<PastFormProp> = ({ formRef }) => {
             dataSource={compareBaseSpectrumData}
             loading={compareBaseSpectrumLoading}
             pagination={false}
-            scroll={{ y: 285 }}
+            scroll={{ y: 220 }}
             rowKey={'freqBaseId'}
             onRow={(record) => ({
                 onClick() {
@@ -253,7 +254,8 @@ const PastForm: FC<PastFormProp> = ({ formRef }) => {
                 onChange: onSelectChange,
                 getCheckboxProps: (_) => ({ disabled: specPlaying })
             }}
-            style={{ marginTop: '40px' }}
+            style={{ marginTop: '20px' }}
+            size="middle"
         />
     </>;
 };

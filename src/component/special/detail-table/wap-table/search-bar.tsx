@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { FC, useEffect, MouseEvent } from 'react';
-import { Form, Button, DatePicker, TreeSelect, TreeNodeProps } from 'antd';
+import { Col, Row, Form, Button, DatePicker, TreeSelect } from 'antd';
 import { useModel } from '@/model';
 import { helper } from '@/utility/helper';
 import { SearchBarBox } from './styled/box';
@@ -62,7 +62,7 @@ const SearchBar: FC<SearchBarProp> = ({
                         showTime={true}
                         allowClear={false}
                         inputReadOnly={true}
-                        style={{ width: '200px' }} />
+                        style={{ width: '270px' }} />
                 </Item>
                 <Item
                     name="endTime"
@@ -71,7 +71,7 @@ const SearchBar: FC<SearchBarProp> = ({
                         showTime={true}
                         allowClear={false}
                         inputReadOnly={true}
-                        style={{ width: '200px' }} />
+                        style={{ width: '270px' }} />
                 </Item>
                 <Item
                     name="type"
@@ -81,7 +81,7 @@ const SearchBar: FC<SearchBarProp> = ({
                         treeDefaultExpandAll={true}
                         treeLine={true}
                         listHeight={520}
-                        style={{ width: '220px' }} />
+                        style={{ width: '280px' }} />
                 </Item>
                 <Item
                     name="site"
@@ -99,7 +99,7 @@ const SearchBar: FC<SearchBarProp> = ({
                         maxTagCount={2}
                         maxTagTextLength={3}
                         listHeight={520}
-                        style={{ width: '280px' }} />
+                        style={{ width: '300px' }} />
                 </Item>
                 <Item>
                     <Button

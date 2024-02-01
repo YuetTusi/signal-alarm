@@ -10,6 +10,7 @@ import { BaseFreq } from '@/schema/base-freq';
 import { BgDesc } from './bg-desc';
 import { toSelectData } from '../tool';
 import { SetFormProp } from './prop';
+import { NoWarpLabel } from '@/component/panel';
 
 const { Option } = Select;
 const { Item } = Form;
@@ -122,7 +123,7 @@ const SetForm: FC<SetFormProp> = ({ formRef }) => {
                             formRef.setFieldValue('offset', undefined);
                             setIsSelfValue(false);
                         }}
-                        style={{ top: '4px' }}
+                        style={{ top: '12px' }}
                         type="default">预设值</Button>
                 </Col>
             </Row>
@@ -153,7 +154,7 @@ const SetForm: FC<SetFormProp> = ({ formRef }) => {
                             formRef.setFieldValue('offset', undefined);
                             setIsSelfValue(true);
                         }}
-                        style={{ top: '4px' }}
+                        style={{ top: '12px' }}
                         type="default">自定义</Button>
                 </Col>
             </Row>
@@ -175,8 +176,9 @@ const SetForm: FC<SetFormProp> = ({ formRef }) => {
                             centered: true,
                             width: 600
                         })}
-                        type="link">
-                        {val}
+                        type="link"
+                        size="small">
+                        <span>{val}</span>
                     </Button>
                 }
             },
@@ -185,7 +187,7 @@ const SetForm: FC<SetFormProp> = ({ formRef }) => {
                 key: 'status',
                 dataIndex: 'status',
                 align: 'center',
-                width: 60,
+                width: 70,
                 render: (val: number) => {
                     switch (val) {
                         case 0:
@@ -200,7 +202,7 @@ const SetForm: FC<SetFormProp> = ({ formRef }) => {
             dataSource={compareBaseSpectrumData}
             loading={compareBaseSpectrumLoading}
             pagination={false}
-            scroll={{ y: 400 }}
+            scroll={{ y: 320 }}
             rowKey={'freqBaseId'}
             onRow={(record) => ({
                 onClick() {
@@ -214,7 +216,8 @@ const SetForm: FC<SetFormProp> = ({ formRef }) => {
                 onChange: onSelectChange,
                 getCheckboxProps: (_) => ({ disabled: specLiving })
             }}
-            style={{ marginTop: '10px' }}
+            style={{ marginTop: '20px' }}
+            size="small"
         />
     </>;
 };

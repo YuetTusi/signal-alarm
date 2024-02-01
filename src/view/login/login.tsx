@@ -187,7 +187,7 @@ const Login: FC<{}> = () => {
                     <h3>用户登录</h3>
                     <Form
                         form={formRef}
-                        style={{ width: '240px' }}
+                        style={{ width: '290px' }}
                         layout="vertical">
                         <Item
                             rules={[{

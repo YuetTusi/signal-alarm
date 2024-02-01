@@ -10,7 +10,7 @@ export const SpectrumBox = styled.div`
 
 export const LiveBox = styled.div`
     position: absolute;
-    top:60px;
+    top:70px;
     left:0;
     right:0;
     bottom:0;
@@ -29,7 +29,7 @@ export const LiveBox = styled.div`
         position: relative;
         flex: none;
         box-sizing: border-box;
-        width: 430px;
+        width: 570px;
         height: 100%;
         /* border: 1px solid yellow; */
     }
@@ -75,7 +75,7 @@ export const TableBox = styled.div`
         border-right: 1px solid #303030;
     }
     .ant-tag{
-        margin-right: 0;
+        margin-right: 0 !important;
     }
 `;
 
@@ -87,7 +87,7 @@ export const SearchBar = styled.div`
     background-color: ${props => props.theme['colorBgContainer']};
     position: relative;
     top:6px;
-    height:25px;
+    height:35px;
 
     display: flex;
     flex-direction: row;

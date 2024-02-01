@@ -52,7 +52,7 @@ const getColumns = (handle: (actionType: ActionType, data: Hotspot) => void): Co
         title: '第二频点',
         key: 'secondChannel',
         dataIndex: 'secondChannel',
-        width: 80
+        width: 100
     },
     {
         title: '上行流量',
@@ -81,13 +81,13 @@ const getColumns = (handle: (actionType: ActionType, data: Hotspot) => void): Co
         key: 'captureTime',
         dataIndex: 'captureTime',
         align: 'center',
-        width: 170
+        width: 220
     }, {
         title: '白名单',
         key: 'whiteList',
         dataIndex: 'whiteList',
         align: 'center',
-        width: 65,
+        width: 80,
         render(_: any, record) {
             return <Button
                 onClick={() => handle(ActionType.AddToWhiteList, record)}

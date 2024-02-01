@@ -25,7 +25,7 @@ const getColumns = (handle: ActionHandle): ColumnsType<ZoneEntity> => [
         key: 'createTime',
         dataIndex: 'createTime',
         align: 'center',
-        width: 170,
+        width: 210,
     },
     {
         title: '编辑',

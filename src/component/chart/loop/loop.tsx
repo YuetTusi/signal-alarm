@@ -69,6 +69,9 @@ const Loop: FC<LoopProp> = ({ data, serieName }) => {
                     pageIconInactiveColor: '#b8b8b8',
                     pageIconSize: 10,
                     pageTextStyle: { color: '#ffffffd9' },
+                    textStyle: {
+                        fontSize: 16
+                    },
                     formatter: (name: string) => {
                         const item = data.find((i) => i.name === name);
                         if (item) {
@@ -82,7 +85,7 @@ const Loop: FC<LoopProp> = ({ data, serieName }) => {
                     {
                         name: serieName,
                         label: { show: false },
-                        center: [80, '50%'],
+                        center: [100, '50%'],
                         type: 'pie',
                         radius: ['40%', '70%'],
                         itemStyle: {
@@ -100,8 +103,8 @@ const Loop: FC<LoopProp> = ({ data, serieName }) => {
             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
         </EmptyBox>
         : <ChartBox
-            width={320}
-            height={200}
+            width={420}
+            height={260}
             ref={chartDom} />;
 };
 

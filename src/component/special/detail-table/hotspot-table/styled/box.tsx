@@ -11,4 +11,8 @@ export const SearchBarBox = styled.div`
     justify-content: space-between;
     align-items: center;
     margin-bottom: 14px;
+
+    .ant-form-item{
+        margin-bottom: 5px;
+    }
 `;

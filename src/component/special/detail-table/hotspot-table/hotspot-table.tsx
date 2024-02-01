@@ -203,6 +203,7 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
             }}
             scroll={{ x: 'max-content' }}
             rowKey="id"
+            size="middle"
         />
     </>
 };

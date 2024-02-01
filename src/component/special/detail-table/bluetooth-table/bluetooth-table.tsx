@@ -183,6 +183,7 @@ const BluetoothTable: FC<BluetoothTableProp> = () => {
             }}
             scroll={{ x: 'max-content' }}
             rowKey="id"
+            size="middle"
         />
     </>
 };

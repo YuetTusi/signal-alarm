@@ -3,10 +3,16 @@ import styled from 'styled-components';
 export const WapInfoBox = styled.div`
 
     position: relative;
-    width: 475px;
+    width: 625px;
 
     .ant-tabs-nav{
         margin:0 !important;
+    }
+
+    .wap-tab{
+    }
+    .ant-tabs-tab-btn{
+        font-weight: lighter;
     }
 `;
 

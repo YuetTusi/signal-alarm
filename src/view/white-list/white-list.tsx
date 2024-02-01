@@ -153,7 +153,7 @@ const WhiteList: FC<WhiteListProp> = () => {
                         label="类型"
                         name="type">
                         <Select
-                            style={{ width: '90px' }}>
+                            style={{ width: '120px' }}>
                             <Option value={-1}>全部</Option>
                             <Option value={WhiteListType.MAC}>MAC</Option>
                             <Option value={WhiteListType.Freq}>频段</Option>
@@ -162,7 +162,7 @@ const WhiteList: FC<WhiteListProp> = () => {
                     <Item
                         label="状态"
                         name="status">
-                        <Select style={{ width: '90px' }}>
+                        <Select style={{ width: '120px' }}>
                             <Option value={-1}>全部</Option>
                             <Option value={1}>启用</Option>
                             <Option value={0}>停用</Option>
@@ -201,6 +201,7 @@ const WhiteList: FC<WhiteListProp> = () => {
                 dataSource={whiteListData}
                 loading={whiteListLoading}
                 rowKey="id"
+                size="middle"
             />
         </TableBox>
         <AddModal

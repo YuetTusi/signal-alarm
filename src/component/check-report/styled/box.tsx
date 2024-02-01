@@ -7,7 +7,7 @@ export const ScrollBox = styled.div`
     display: flex;
     flex-direction: row;
     width: auto;
-    height: 277px;
+    height: 295px;
     padding: 5px;
     overflow-y: auto;
 `;
@@ -42,7 +42,7 @@ export const ReportBox = styled.div`
         margin-bottom: 24px;
         span{
             display: block;
-            max-width: 180px;
+            max-width: 200px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -56,7 +56,7 @@ export const ReportBox = styled.div`
     }
 
     &>.info{
-        font-size: 1.4rem;
+        font-size: 1.8rem;
         ul,li{
             margin:0;
             padding:0;
@@ -91,7 +91,7 @@ export const ReportBox = styled.div`
 
 export const ModalBox = styled.div`
 
-    height: 680px;
+    height: 710px;
 `;
 
 export const SearchBarBox = styled.div`

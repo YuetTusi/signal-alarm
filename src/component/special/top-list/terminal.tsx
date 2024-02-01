@@ -47,12 +47,12 @@ const Terminal: FC<{ data: TerminalData }> = ({ data }) => {
         <div className="inner-row">
             <div className="list-row-txt">
                 {renderIcon(data)}
-                <NoWarpLabel title={`${data?.ssid ?? ''}（${data?.siteName ?? '-'}）`} width={230}>
+                <NoWarpLabel title={`${data?.ssid ?? ''}（${data?.siteName ?? '-'}）`} width={210}>
                     {`${data?.ssid ?? ''}（${data?.siteName ?? '-'}）`}
                 </NoWarpLabel>
             </div>
             <div className="list-row-val">
-                <NoWarpLabel width={130}>{data.captureTime}</NoWarpLabel>
+                <NoWarpLabel width={185}>{data.captureTime}</NoWarpLabel>
             </div>
         </div>
     </>;

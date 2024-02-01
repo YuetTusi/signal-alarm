@@ -115,7 +115,9 @@ const ReportTable: FC<{}> = () => {
             columns={getColumns(onDownload)}
             dataSource={checkReportData}
             loading={checkReportLoading}
+            scroll={{ x: 'max-content' }}
             rowKey="taskId"
+            size="middle"
         />
     </>
 };

@@ -7,7 +7,7 @@ export const ReadingBox = styled.div`
     justify-content: center;
     align-items: center;
     position: fixed;
-    top:20px;
+    top:28px;
     left:0;
     right:0;
     bottom:0;

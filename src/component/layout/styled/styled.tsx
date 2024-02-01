@@ -38,7 +38,7 @@ export const LayoutBox = styled.div`
         &>div{
             position: relative;
             &:first-child{
-                top:28px;
+                top:20px;
                 padding-left: 5px;
             }
             &.app-title{
@@ -47,7 +47,7 @@ export const LayoutBox = styled.div`
                 color:#daf5fe;
             }
             &:last-child{
-                top:32px;
+                top:28px;
                 padding-right: 5px;
                 display: flex;
                 flex-direction: row;
@@ -55,7 +55,7 @@ export const LayoutBox = styled.div`
                     position: relative;
                     top:-4px;
                     color:#ffffffd9;
-                    font-size: 1.4rem;
+                    font-size: 1.8rem;
                     vertical-align: sub;
                     margin-right: 10px;
                 }
@@ -64,7 +64,7 @@ export const LayoutBox = styled.div`
     }
     .context-box{
         position: absolute;
-        top:93px;
+        top:100px;
         left:0;
         right:0;
         bottom:0;

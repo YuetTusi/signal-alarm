@@ -270,8 +270,9 @@ const AlarmTable: FC<AlarmTopProp> = () => {
                 }}
                 dataSource={alarmData}
                 loading={alarmLoading}
-                scroll={{ x: 'max-content', y: 500 }}
+                scroll={{ y: 500 }}
                 rowKey="id"
+                size="middle"
             />
         </AlarmTableBox>
         <ProcessModal

@@ -5,8 +5,8 @@ export const SignalBox = styled.div`
     flex-direction: row;
     &>i{
         display: inline-block;
-        width: 6px;
-        height: 14px;
+        width: 8px;
+        height: 18px;
         margin-left: 1px;
         border-radius: 1px;
 

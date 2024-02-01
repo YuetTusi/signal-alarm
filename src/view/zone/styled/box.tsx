@@ -10,7 +10,7 @@ export const ZoneBox = styled.div`
 
 export const TableBox = styled.div`
     position: absolute;
-    top:68px;
+    top:75px;
     left:0;
     right:0;
     bottom:0;

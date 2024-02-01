@@ -56,7 +56,7 @@ const Bluetooth: FC<{ data: BluetoothEntity }> = ({ data }) => {
                 {helper.isNullOrUndefined(data?.siteName) || data?.siteName === '' ? '-' : data?.siteName}
             </div>
             <div className="list-row-val">
-                <NoWarpLabel width={130}>{data.captureTime}</NoWarpLabel>
+                <NoWarpLabel width={185}>{data.captureTime}</NoWarpLabel>
             </div>
         </div>
     </>;

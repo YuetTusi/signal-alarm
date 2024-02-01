@@ -33,12 +33,12 @@ const Wifi: FC<{ data: Hotspot }> = ({ data }) => {
                     data.protocolType === Protocol.WiFi24G
                         ? <ProtocolIcon url={wifi24} /> : <ProtocolIcon url={wifi58} />
                 }
-                <NoWarpLabel title={`${data?.ssid ?? ''}（${data?.siteName ?? '-'}）`} width={230}>
+                <NoWarpLabel title={`${data?.ssid ?? ''}（${data?.siteName ?? '-'}）`} width={210}>
                     {`${data?.ssid ?? ''}（${data?.siteName ?? '-'}）`}
                 </NoWarpLabel>
             </div>
             <div className="list-row-val">
-                <NoWarpLabel width={130}>{data.captureTime}</NoWarpLabel>
+                <NoWarpLabel width={185}>{data.captureTime}</NoWarpLabel>
             </div>
         </div>
     </>;

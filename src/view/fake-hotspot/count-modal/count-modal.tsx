@@ -28,12 +28,12 @@ const CountModal: CountModalComp = ({ open, data, onCancel }) => <Modal
         size="small"
         style={{ marginTop: '14px' }}>
         <Item
-            label={<NoWarpLabel width={90}>命中数量</NoWarpLabel>}
-            labelStyle={{ width: '120px' }}>
+            label={<NoWarpLabel width={120}>命中数量</NoWarpLabel>}
+            labelStyle={{ width: '150px' }}>
             {data?.count ?? '-'}
         </Item>
         <Item
-            label={<NoWarpLabel width={90}>伪MAC地址</NoWarpLabel>}>
+            label={<NoWarpLabel width={120}>伪MAC地址</NoWarpLabel>}>
             {data?.fakeMac ?? '-'}
         </Item>
     </Descriptions>

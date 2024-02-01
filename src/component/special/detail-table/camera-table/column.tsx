@@ -40,7 +40,7 @@ const getColumns = (): ColumnsType<Terminal> => {
         key: 'isConnect',
         dataIndex: 'isConnect',
         align: 'center',
-        width: 80,
+        width: 100,
         render: (val: number) => val === 0
             ? <Tag color="orange" style={{ marginRight: 0 }}>未连接</Tag>
             : <Tag color="green" style={{ marginRight: 0 }}>已连接</Tag>
@@ -69,7 +69,7 @@ const getColumns = (): ColumnsType<Terminal> => {
         key: 'captureTime',
         dataIndex: 'captureTime',
         align: 'center',
-        width: 170
+        width: 200
     }];
 };
 

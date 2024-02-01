@@ -7,7 +7,7 @@ export const getColumns = (): ColumnsType<Wap> => {
         title: '类型',
         key: 'protocolName',
         dataIndex: 'protocolName',
-        width: 160,
+        width: 200,
         align: 'center'
     }, {
         title: '频点',
@@ -40,6 +40,6 @@ export const getColumns = (): ColumnsType<Wap> => {
         key: 'captureTime',
         dataIndex: 'captureTime',
         align: 'center',
-        width: 170
+        width: 200
     }];
 };

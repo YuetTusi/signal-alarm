@@ -34,31 +34,31 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [
         title: '类型',
         key: 'protocol',
         dataIndex: 'protocol',
-        width: 140
+        width: 200
     }, {
         title: '频段信息',
         key: 'warnReason',
         dataIndex: 'warnReason',
-        width: 220,
+        width: 260,
         render: (val: string) => {
             const current = brands.find(i => i.code.toString() == val);
-            return <NoWarpLabel width={220} title={current?.name}>{current?.name ?? '-'}</NoWarpLabel>;
+            return <NoWarpLabel width={260} title={current?.name}>{current?.name ?? '-'}</NoWarpLabel>;
         }
     }, {
         title: '频点信息名称',
         key: 'arfcn',
         dataIndex: 'arfcn',
-        width: 120
+        width: 140
     }, {
         title: '强度',
         key: 'rssi',
         dataIndex: 'rssi',
-        width: 60
+        width: 80
     }, {
         title: '状态',
         key: 'status',
         dataIndex: 'status',
-        width: 50,
+        width: 80,
         align: 'center',
         render: (val: number) => {
             switch (val) {
@@ -74,25 +74,25 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [
         title: '设备ID',
         key: 'deviceId',
         dataIndex: 'deviceId',
-        width: 140,
-        render: (val) => <NoWarpLabel width={120} title={val}>{val}</NoWarpLabel>
+        width: 160,
+        render: (val) => <NoWarpLabel width={160} title={val}>{val}</NoWarpLabel>
     }, {
         title: '设备场所',
         key: 'siteName',
         dataIndex: 'siteName',
         width: 160,
-        render: (val) => <NoWarpLabel width={140} title={val}>{val}</NoWarpLabel>
+        render: (val) => <NoWarpLabel width={160} title={val}>{val}</NoWarpLabel>
     }, {
         title: '时间',
         key: 'captureTime',
         dataIndex: 'captureTime',
         align: 'center',
-        width: 170,
+        width: 200,
     }, {
         title: '处理记录',
         key: 'remark',
         dataIndex: 'remark',
-        render: (val) => <NoWarpLabel width={300} title={val}>{val}</NoWarpLabel>
+        render: (val) => <NoWarpLabel width={130} title={val}>{val}</NoWarpLabel>
     }, {
         title: '处理',
         key: 'read',

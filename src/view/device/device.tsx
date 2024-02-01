@@ -52,7 +52,7 @@ const Device: FC<DeviceProp> = () => {
     }));
 
     useEffect(() => {
-        queryDeviceData(1, 15);
+        queryDeviceData(1, 10);
     }, []);
 
     /**
@@ -62,7 +62,7 @@ const Device: FC<DeviceProp> = () => {
         event.preventDefault();
         const { getFieldsValue } = formRef;
         const values = getFieldsValue();
-        queryDeviceData(1, 15, values);
+        queryDeviceData(1, 10, values);
     };
 
     /**
@@ -154,7 +154,7 @@ const Device: FC<DeviceProp> = () => {
                     message.warning('编辑失败');
                 } else if (res.code === 200) {
                     editData.current = undefined;
-                    await queryDeviceData(1, 15);
+                    await queryDeviceData(1, 10);
                     message.success('编辑成功');
                 } else {
                     message.warning(`编辑失败(${res.message})`);
@@ -176,7 +176,7 @@ const Device: FC<DeviceProp> = () => {
             try {
                 const res = await setDevice(setData.current, uploadLevel);
                 if (res !== null && res.code === 200) {
-                    await queryDeviceData(1, 15);
+                    await queryDeviceData(1, 10);
                     setSetModalOpen(false);
                     setData.current = undefined;
                     message.success('下发成功');
@@ -243,6 +243,7 @@ const Device: FC<DeviceProp> = () => {
                     showSizeChanger: false,
                     showTotal: (total) => `共${total}条`
                 }}
+                size="middle"
             />
         </TableBox>
         <AddModal

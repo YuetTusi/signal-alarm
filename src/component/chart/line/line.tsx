@@ -73,12 +73,16 @@ const Line: FC<LineProp> = ({ data, days, serieName }) => {
                 },
                 xAxis: {
                     type: 'category',
-                    data: days
+                    data: days,
+                    axisLabel: {
+                        fontSize: 16
+                    }
                 },
                 yAxis: {
                     type: 'value',
                     axisLabel: {
                         inside: true,
+                        fontSize: 16,
                         formatter: function (value: string) {
                             return value + '';
                         }
@@ -110,8 +114,8 @@ const Line: FC<LineProp> = ({ data, days, serieName }) => {
             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
         </EmptyBox>
         : <ChartBox
-            width={320}
-            height={210}
+            width={420}
+            height={260}
             ref={chartDom} />;
 };
 

@@ -11,7 +11,7 @@ export const AlarmInfoBox = styled.div`
 
 export const AlarmTableBox = styled.div`
 
-    height:680px;
+    height:740px;
     .ant-tag{
         margin-right: 0 !important;
     }
@@ -19,7 +19,7 @@ export const AlarmTableBox = styled.div`
 
 export const AlarmChartBox = styled.div`
     /* width: 100%; */
-    height: 270px;
+    height: 360px;
 
     .bar-tooltip{
         .tt-caption{
@@ -49,7 +49,7 @@ export const SelectedPanel = styled.div`
         justify-content: space-between;
         align-items: center;
         padding:5px 10px;
-        font-weight:bold;
+        font-weight:500;
         color:${props => props.theme['colorInfo']};
         background:linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(11,29,139,1) 33%, rgba(11,29,139,0) 100%);;
         border-top-left-radius:${(props) => `${props.theme['borderRadius']}px`};
@@ -96,17 +96,23 @@ export const SearchBarBox = styled.div`
     margin-top: 20px;
 
     &>div:last-child{
+        display: flex;
+        flex-wrap: nowrap;
         .ant-btn{
             margin-left: 16px;
         }
     }
+
+    .ant-form-item{
+        margin-bottom: 5px;
+    }
 `;
 
 export const FixContentBox = styled.div`
-    height: 272px;
+    height: 360px;
     overflow: hidden;
     position: absolute;
-    top: 34px;
+    top: 40px;
     left: 0;
     right: 0;
     bottom: 0;

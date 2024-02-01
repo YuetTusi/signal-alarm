@@ -35,7 +35,7 @@ export const AddModal: FC<AddModalProp> = ({ open, onOk, onClose }) => {
             <Button onClick={onCancelClick} type="default" key="FAM_1">取消</Button>
         ]}
         onCancel={onCancelClick}
-        width={400}
+        width={500}
         open={open}
         title="添加伪热点"
         getContainer="#app"

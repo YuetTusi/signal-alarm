@@ -40,7 +40,7 @@ export const DisplayPanel = styled(BoxPanel)`
         justify-content: space-between;
         align-items: center;
         padding:5px 10px;
-        font-weight:bold;
+        font-weight:500;
         color:${props => props.theme['colorInfo']};
         background:linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(11,29,139,1) 33%, rgba(11,29,139,0) 100%);;
         border-top-left-radius:${(props) => `${props.theme['borderRadius']}px`};
@@ -52,7 +52,7 @@ export const ScrollPanel = styled.div<{ height?: number }>`
 
     position: relative;
     display: block;
-    height: ${props => props.height ?? 570}px;
+    height: ${props => props.height ?? 705}px;
     width: auto;
     overflow-y: auto;
 `;
@@ -66,6 +66,7 @@ export const NoWarpLabel = styled.div<{ width?: number }>`
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    text-align: left;
 `;
 
 export const RedText = styled.span`

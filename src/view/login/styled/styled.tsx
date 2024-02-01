@@ -41,23 +41,23 @@ export const LoginBox = styled.div`
 export const LoginOuterBox = styled.div`
 
     position: absolute;
-    top:45%;
+    top:40%;
     left:50%;
     margin-top: -250px;
-    margin-left: -195px;
+    margin-left: -225px;
     border:1px solid #3775a8;
     border-radius: 2px;
     box-shadow:0px 1px 10px 10px rgb(55, 117, 168, 50%);
     background-color: rgba(32,71,136,0.5);
     height:auto;
-    width: 400px;
+    width: 450px;
 `;
 
 
 export const BackgroundBox = styled.div`
     display: block;
     position: absolute;
-    top:22px;
+    top:28px;
     left:0;
     right:0;
     bottom: 0;

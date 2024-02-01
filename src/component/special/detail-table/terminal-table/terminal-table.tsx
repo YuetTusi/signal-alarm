@@ -189,6 +189,7 @@ const TerminalTable: FC<TerminalTableProp> = () => {
             }}
             scroll={{ x: 'max-content' }}
             rowKey="id"
+            size="middle"
         />
     </>
 };

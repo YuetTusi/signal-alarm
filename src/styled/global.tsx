@@ -23,14 +23,14 @@ export const GlobalStyle = createGlobalStyle`
         width:auto;
         height: 100%;
         color:#ffffffd9;
-        font-size: 1.4rem;
+        font-size: 2rem;
         /* font-weight: 400; */
         font-family: "Microsoft YaHei","NSimSun","Arial";
         background-color: #02002f;
     }
     //重写部分antd样式
     .ant-modal-mask,.ant-modal-wrap{
-        top:22px !important;
+        top:28px !important;
     }
     .ant-tabs-nav-more{
         color:#fff !important;

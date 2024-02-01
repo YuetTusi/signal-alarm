@@ -67,7 +67,7 @@ const AddModal: FC<AddModalProp> = ({
         ]}
         onCancel={onCancelClick}
         open={open}
-        width={400}
+        width={500}
         getContainer="#app"
         centered={true}
         maskClosable={false}

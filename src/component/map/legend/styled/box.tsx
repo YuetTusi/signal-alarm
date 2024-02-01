@@ -23,12 +23,12 @@ export const LegendBox = styled.ul`
     }
     i{
         display: inline-block;
-        width: 16px;
-        height: 16px;
+        width: 20px;
+        height: 20px;
         border-radius: 2px;
     }
     span{
-        font-size: 1.4rem;
+        font-size: 2rem;
         padding-left: 5px;
     }
 `;

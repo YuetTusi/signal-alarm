@@ -65,14 +65,14 @@ const getColumns = (handle: (actionType: ActionType, record: WhiteList) => void)
         title: '创建时间',
         key: 'createTime',
         dataIndex: 'createTime',
-        width: 180,
+        width: 220,
         align: 'center',
     },
     {
         title: '删除',
         key: 'delete',
         dataIndex: 'delete',
-        width: 70,
+        width: 60,
         align: 'center',
         render(_: any, record) {
             return <a

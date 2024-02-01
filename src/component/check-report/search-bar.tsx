@@ -34,7 +34,7 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch }) => {
                         showTime={true}
                         allowClear={false}
                         inputReadOnly={true}
-                        style={{ width: '200px' }} />
+                        style={{ width: '270px' }} />
                 </Item>
                 <Item
                     name="endTime"
@@ -43,7 +43,7 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch }) => {
                         showTime={true}
                         allowClear={false}
                         inputReadOnly={true}
-                        style={{ width: '200px' }} />
+                        style={{ width: '270px' }} />
                 </Item>
                 <Item>
                     <Button

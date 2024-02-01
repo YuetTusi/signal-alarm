@@ -81,8 +81,12 @@ app.on('ready', () => {
         title: '文档生成',
         width: conf.mode === AppMode.PC ? 1660 : 1920,
         height: conf.mode === AppMode.PC ? 900 : 1200,
-        minHeight: conf.mode === AppMode.PC ? 900 : 1200,
         minWidth: conf.mode === AppMode.PC ? 1660 : 1920,
+        minHeight: conf.mode === AppMode.PC ? 900 : 1200,
+        // width: 1920,
+        // height: 1200,
+        // minHeight: 1200,
+        // minWidth: 1920,
         show: true,
         frame: false,
         fullscreen: conf.mode === AppMode.FullScreen,
@@ -201,13 +205,13 @@ ipcMain.on('do-close', (_: IpcMainEvent) => {
 ipcMain.on('do-relaunch', () => {
     app.relaunch();
     globalShortcut.unregisterAll();
-    if (mainWindow) {
+    if (mainWindow && !mainWindow.isDestroyed()) {
         mainWindow.destroy();
     }
-    if (reportWindow) {
+    if (reportWindow && !reportWindow.isDestroyed()) {
         reportWindow.destroy();
     }
-    if (timerWindow) {
+    if (timerWindow && !timerWindow.isDestroyed()) {
         timerWindow.destroy();
     }
     app.exit(0);

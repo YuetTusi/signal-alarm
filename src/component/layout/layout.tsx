@@ -170,7 +170,8 @@ const Layout: FC<LayoutProp> = ({ children }) => {
                         <Button
                             onClick={() => setNetworkModalOpen(true)}
                             className="web-setting"
-                            type="link">
+                            type="link"
+                            size="large">
                             <SettingOutlined />
                             <span>设置</span>
                         </Button>

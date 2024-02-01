@@ -11,7 +11,7 @@ const getColumns = (handle: (actionType: ActionType, data: Bluetooth) => void): 
         title: '蓝牙类型',
         key: 'type',
         dataIndex: 'type',
-        width: 100,
+        width: 140,
         align: 'center',
         render: (val: 'ble' | 'classic') => val === 'ble' ? '低功耗蓝牙' : '经典蓝牙'
     },
@@ -32,7 +32,7 @@ const getColumns = (handle: (actionType: ActionType, data: Bluetooth) => void): 
         key: 'isConnect',
         dataIndex: 'isConnect',
         align: 'center',
-        width: 80,
+        width: 110,
         render: (val: number) => val === 0
             ? <Tag color="orange" style={{ marginRight: 0 }}>未连接</Tag>
             : <Tag color="green" style={{ marginRight: 0 }}>已连接</Tag>
@@ -70,13 +70,13 @@ const getColumns = (handle: (actionType: ActionType, data: Bluetooth) => void): 
         key: 'captureTime',
         dataIndex: 'captureTime',
         align: 'center',
-        width: 170
+        width: 200
     }, {
         title: '白名单',
         key: 'whiteList',
         dataIndex: 'whiteList',
         align: 'center',
-        width: 70,
+        width: 90,
         render(_: any, record) {
             return <Button
                 onClick={() => handle(ActionType.AddToWhiteList, record)}

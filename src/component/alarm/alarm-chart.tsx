@@ -45,6 +45,7 @@ var option = {
         axisLabel: {
             interval: 0,
             // rotate: 45,
+            fontSize: 14,
             formatter(value: string) {
                 return value.split(',').join('\n').split('(').join('\n(');
                 // return value;
@@ -54,6 +55,9 @@ var option = {
     },
     yAxis: {
         type: 'value',
+        axisLabel: {
+            fontSize: 16
+        }
     },
     series: [{
         name: '强度',

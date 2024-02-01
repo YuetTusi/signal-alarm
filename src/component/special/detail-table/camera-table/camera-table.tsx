@@ -137,6 +137,7 @@ const CameraTable: FC<CameraTableProp> = () => {
             }}
             scroll={{ x: 'max-content' }}
             rowKey="id"
+            size="middle"
         />
     </>
 };

@@ -62,7 +62,7 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
                         showTime={true}
                         allowClear={false}
                         inputReadOnly={true}
-                        style={{ width: '200px' }} />
+                        style={{ width: '270px' }} />
                 </Item>
                 <Item
                     name="endTime"
@@ -71,12 +71,12 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
                         showTime={true}
                         allowClear={false}
                         inputReadOnly={true}
-                        style={{ width: '200px' }} />
+                        style={{ width: '270px' }} />
                 </Item>
                 <Item
                     name="hotspotName"
                     label="热点名称">
-                    <Input style={{ width: '160px' }} />
+                    <Input />
                 </Item>
                 <Item
                     name="type"
@@ -86,7 +86,7 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
                         treeDefaultExpandAll={true}
                         treeLine={true}
                         listHeight={520}
-                        style={{ width: '140px' }} />
+                        style={{ width: '160px' }} />
                 </Item>
                 <Item
                     name="site"
@@ -104,7 +104,7 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
                         maxTagCount={2}
                         maxTagTextLength={3}
                         listHeight={520}
-                        style={{ width: '260px' }} />
+                        style={{ width: '280px' }} />
                 </Item>
                 <Item>
                     <Button

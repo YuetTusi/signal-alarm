@@ -39,7 +39,7 @@ const App = () => <ConfigProvider
             image={Empty.PRESENTED_IMAGE_SIMPLE} />
     }
     locale={zhCN}
-    componentSize="middle">
+    componentSize="large">
     <Crash>
         <AntdApp>
             <ThemeProvider theme={blue}>

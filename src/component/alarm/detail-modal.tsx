@@ -35,8 +35,7 @@ const DetailModal: FC<DetailModalProp> = ({ open, onCancel }) => {
         centered={true}
         destroyOnClose={true}
         maskClosable={false}
-        width={1640}
-    >
+        width={1640}>
         <AlarmTable />
     </Modal>
 };

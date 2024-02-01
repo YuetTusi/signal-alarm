@@ -90,7 +90,7 @@ const SysUser: FC<{}> = () => {
                         initialValue={-1}
                         name="roleId"
                         label="角色">
-                        <Select style={{ width: '120px' }}>
+                        <Select style={{ width: '180px' }}>
                             {[
                                 <Option value={-1}>全部</Option>,
                                 ...renderOption()
@@ -125,6 +125,7 @@ const SysUser: FC<{}> = () => {
                     showSizeChanger: false,
                     showTotal: (total) => `共${total}条`
                 }}
+                size="middle"
             />
         </TableBox>
     </SysUserBox>;

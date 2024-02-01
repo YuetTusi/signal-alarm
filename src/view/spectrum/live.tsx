@@ -11,7 +11,7 @@ import { SetForm, FormValue } from './set-form';
 import { LiveBox, SearchBar } from './styled/box';
 import { SpecOperate } from './prop';
 
-let timer: NodeJS.Timer | null = null;
+let timer: any = null;
 
 /**
  * 实时频谱

@@ -6,7 +6,7 @@ export const DashboardBox = styled.div`
 
     display: flex;
     flex-direction: row;
-
+    box-sizing: border-box;
     position: absolute;
     top:0;
     left:0;
@@ -14,12 +14,14 @@ export const DashboardBox = styled.div`
     bottom:0;
 
     &>.left-box{
+        box-sizing: border-box;
         flex:none;
         &>div{
             margin-bottom: 5px;
         }
     }
     &>.center-box{
+        box-sizing: border-box;
         flex:1;
         padding: 0 5px;
 
@@ -29,18 +31,20 @@ export const DashboardBox = styled.div`
 
         }
         &>.bottom-box{
+            box-sizing: border-box;
             position: relative;
             margin-top:5px;
         }
     }
     &>.right-box{
+        box-sizing: border-box;
         flex:none;
     }
 
     .alarm-bg{
         position: relative;
         width: 100%;
-        height: 648px;
+        height: 720px;
         background-image: url(${alarmBg});
         background-repeat: no-repeat;
         background-size: 100% 100%;

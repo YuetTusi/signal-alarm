@@ -36,14 +36,14 @@ const getColumns = (onDownload: (report: QuickCheckReport) => void) => [{
     key: 'startTime',
     dataIndex: 'startTime',
     align: 'center',
-    width: 170,
+    width: 200,
     render: (val: number) => dayjs(val).format('YYYY-MM-DD HH:mm:ss')
 }, {
     title: '持续时间',
     key: 'sec',
     dataIndex: 'sec',
     align: 'center',
-    width: 100,
+    width: 120,
     render: (_: any, { startTime, endTime }) => {
         const diff = dayjs(endTime).diff(startTime);
         return dayjs('00:00:00', 'HH:mm:ss').add(diff, 'ms').format('HH:mm:ss')
@@ -53,14 +53,14 @@ const getColumns = (onDownload: (report: QuickCheckReport) => void) => [{
     key: 'endTime',
     dataIndex: 'endTime',
     align: 'center',
-    width: 170,
+    width: 200,
     render: (val: any) => dayjs(val).format('YYYY-MM-DD HH:mm:ss')
 }, {
     title: '创建时间',
     key: 'createTime',
     dataIndex: 'createTime',
     align: 'center',
-    width: 170
+    width: 200
 }, {
     title: '下载',
     key: 'download',
@@ -70,8 +70,7 @@ const getColumns = (onDownload: (report: QuickCheckReport) => void) => [{
     render: (_: any, record) => <Button
         onClick={() => onDownload(record)}
         disabled={helper.isNullOrUndefined(record.url)}
-        type="link"
-        size="small">
+        type="link">
         下载
     </Button>
 }] as ColumnsType<QuickCheckReport>;

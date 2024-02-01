@@ -14,7 +14,7 @@ import { PastForm, FormValue } from './past-form';
 import { ClockBox, LiveBox, SearchBar } from './styled/box';
 import { PastOperate, PastProp } from './prop';
 
-let timer: NodeJS.Timer | null = null;
+let timer: any = null;
 
 /**
  * 播放
@@ -129,6 +129,12 @@ const Past: FC<PastProp> = () => {
         if (timer !== null) {
             clearInterval(timer);
             timer = null;
+        }
+        const nodes = document.querySelectorAll<HTMLElement>('.context-box');
+        if (nodes.length > 0) {
+            const contextBox = nodes[0];
+            contextBox.style.overflowX = 'auto';
+            contextBox.style.overflowY = 'auto';
         }
         setPastOperate(PastOperate.Nothing);
         setSpecPlaying(false);

@@ -11,7 +11,7 @@ const getColumns = (handle: (actionType: ActionType, data: Terminal) => void): C
         title: '类型',
         key: 'protocolType',
         dataIndex: 'protocolType',
-        width: 80,
+        width: 120,
         align: 'center',
         render: (val: Protocol) => {
             switch (val) {
@@ -49,7 +49,7 @@ const getColumns = (handle: (actionType: ActionType, data: Terminal) => void): C
         key: 'isConnect',
         dataIndex: 'isConnect',
         align: 'center',
-        width: 80,
+        width: 100,
         render: (val: number) => val === 0
             ? <Tag color="orange" style={{ marginRight: 0 }}>未连接</Tag>
             : <Tag color="green" style={{ marginRight: 0 }}>已连接</Tag>
@@ -78,13 +78,13 @@ const getColumns = (handle: (actionType: ActionType, data: Terminal) => void): C
         key: 'captureTime',
         dataIndex: 'captureTime',
         align: 'center',
-        width: 170
+        width: 200
     }, {
         title: '白名单',
         key: 'whiteList',
         dataIndex: 'whiteList',
         align: 'center',
-        width: 70,
+        width: 100,
         render(_: any, record) {
             return <Button
                 onClick={() => handle(ActionType.AddToWhiteList, record)}

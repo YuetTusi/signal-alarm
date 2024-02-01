@@ -191,22 +191,22 @@ const FakeHotspot: FC<FakeHotspotProp> = () => {
                     <Item
                         label="名称"
                         name="hotspotName">
-                        <Input />
+                        <Input style={{ width: '210px' }} />
                     </Item>
                     <Item
                         label="伪MAC地址"
                         name="fakeMac">
-                        <Input style={{ width: '150px' }} />
+                        <Input style={{ width: '210px' }} />
                     </Item>
                     <Item
                         label="真实MAC地址"
                         name="realMac">
-                        <Input style={{ width: '150px' }} />
+                        <Input style={{ width: '210px' }} />
                     </Item>
                     <Item
                         label="状态"
                         name="status">
-                        <Select style={{ width: '100px' }}>
+                        <Select style={{ width: '130px' }}>
                             <Option value={-1}>全部</Option>
                             <Option value={0}>已生效</Option>
                             <Option value={1}>未生效</Option>
@@ -248,6 +248,7 @@ const FakeHotspot: FC<FakeHotspotProp> = () => {
                     }
                 }
                 rowKey="id"
+                size="middle"
             />
         </TableBox>
         <AddModal
