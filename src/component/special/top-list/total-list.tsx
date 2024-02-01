@@ -1,25 +1,24 @@
 import { FC } from 'react';
-import { Spin } from 'antd';
 import { helper } from '@/utility/helper';
 import { NoWarpLabel } from '@/component/panel/panel';
 import { Hotspot } from '@/schema/hotspot';
 import { SpecialBase } from '@/schema/special-base';
 import { Protocol } from '@/schema/protocol';
 import { Terminal as TerminalData } from '@/schema/terminal';
+import { Bluetooth as BluetoothEntity } from '@/schema/bluetooth';
 import Signal from '@/component/signal';
 import { ContentLabel } from './content-label';
 import { Wifi } from './wifi';
 import { Terminal } from './terminal';
 import { CategoryTag } from './category-tag';
+import { Bluetooth } from './bluetooth';
 import { ListBox } from './styled/box';
 import { TotalListProp } from './prop';
-import { Bluetooth } from './bluetooth';
-import { Bluetooth as BluetoothEntity } from '@/schema/bluetooth';
 
 /**
  * Top10全部列表组件
  */
-const TotalList: FC<TotalListProp> = ({ data, type, loading }) => {
+const TotalList: FC<TotalListProp> = ({ data, type }) => {
 
     /**
      * 渲染频点值
@@ -74,16 +73,13 @@ const TotalList: FC<TotalListProp> = ({ data, type, loading }) => {
             {renderContent(item)}
         </div>);
 
-    return <Spin tip="加载中" spinning={loading}>
-        <ListBox>
-            {renderList()}
-        </ListBox>
-    </Spin>
+    return <ListBox>
+        {renderList()}
+    </ListBox>
 };
 
 TotalList.defaultProps = {
-    data: [],
-    loading: false
+    data: []
 };
 
 export { TotalList };

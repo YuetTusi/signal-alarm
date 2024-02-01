@@ -1,5 +1,5 @@
 import electron from 'electron';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { DoubleRightOutlined } from '@ant-design/icons';
 import { Empty, Tabs, message } from 'antd';
 import { useModel } from '@/model';
@@ -26,13 +26,12 @@ const { ipcRenderer } = electron;
  * 数据转TabItem
  * @param data 专项检查数据
  * @param type 标签页枚举
- * @param loading 加载中
  */
-const toTabItem = (data: SpecialBase[], type: SpiTab, loading: boolean) => [{
+const toTabItem = (data: SpecialBase[], type: SpiTab) => [{
     key: SpiTab.All,
     label: '全部',
     children: <ScrollPanel>
-        <TotalList data={data} type={type} loading={loading} />
+        <TotalList data={data} type={type} />
     </ScrollPanel>
 }, {
     key: SpiTab.Signal,
@@ -41,7 +40,7 @@ const toTabItem = (data: SpecialBase[], type: SpiTab, loading: boolean) => [{
         {
             data.length === 0
                 ? <EmptyBox><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></EmptyBox>
-                : <WapList data={data} type={type} loading={loading} />
+                : <WapList data={data} type={type} />
         }
     </ScrollPanel>
 }, {
@@ -51,7 +50,7 @@ const toTabItem = (data: SpecialBase[], type: SpiTab, loading: boolean) => [{
         {
             data.length === 0
                 ? <EmptyBox><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></EmptyBox>
-                : <HotspotList data={data} type={type} loading={loading} />
+                : <HotspotList data={data} type={type} />
         }
     </ScrollPanel>
 }, {
@@ -61,7 +60,7 @@ const toTabItem = (data: SpecialBase[], type: SpiTab, loading: boolean) => [{
         {
             data.length === 0
                 ? <EmptyBox><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></EmptyBox>
-                : <BluetoothList data={data} type={type} loading={loading} />
+                : <BluetoothList data={data} type={type} />
         }
     </ScrollPanel>
 }, {
@@ -71,7 +70,7 @@ const toTabItem = (data: SpecialBase[], type: SpiTab, loading: boolean) => [{
         {
             data.length === 0
                 ? <EmptyBox><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></EmptyBox>
-                : <WiretapList data={data} type={type} loading={loading} />
+                : <WiretapList data={data} type={type} />
         }
     </ScrollPanel>
 }, {
@@ -81,7 +80,7 @@ const toTabItem = (data: SpecialBase[], type: SpiTab, loading: boolean) => [{
         {
             data.length === 0
                 ? <EmptyBox><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></EmptyBox>
-                : <TerminalList data={data} type={type} loading={loading} />
+                : <TerminalList data={data} type={type} />
         }
     </ScrollPanel>
 }, {
@@ -91,7 +90,7 @@ const toTabItem = (data: SpecialBase[], type: SpiTab, loading: boolean) => [{
         {
             data.length === 0
                 ? <EmptyBox><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></EmptyBox>
-                : <TopList data={data} type={type} loading={loading} />
+                : <TopList data={data} type={type} />
         }
     </ScrollPanel>
 }];
@@ -103,7 +102,6 @@ const toTabItem = (data: SpecialBase[], type: SpiTab, loading: boolean) => [{
 const WapInfo: FC<WapInfoProp> = ({ }) => {
 
     const {
-        specialTopLoading,
         specialWapTopData,
         specialHotsportTopData,
         specialTerminalTopData,
@@ -115,13 +113,13 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
         setSpecialDetailModalOpen,
         clearAllTopData,
         getAllTopData,
+        queryAllTopData,
         querySpecialWapTopData,
         querySpecialHotspotTopData,
         querySpecialTerminalTopData,
         querySpecialBluetoothTopData,
         querySpecialWiretapTopData
     } = useModel(state => ({
-        specialTopLoading: state.specialTopLoading,
         specialWapTopData: state.specialWapTopData,
         specialHotsportTopData: state.specialHotsportTopData,
         specialTerminalTopData: state.specialTerminalTopData,
@@ -133,6 +131,7 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
         setSpecialDetailModalOpen: state.setSpecialDetailModalOpen,
         clearAllTopData: state.clearAllTopData,
         getAllTopData: state.getAllTopData,
+        queryAllTopData: state.queryAllTopData,
         querySpecialWapTopData: state.querySpecialWapTopData,
         querySpecialHotspotTopData: state.querySpecialHotspotTopData,
         querySpecialTerminalTopData: state.querySpecialTerminalTopData,
@@ -141,38 +140,9 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
     }));
 
     /**
-     * 并发查询3个接口数据（全部）
+     * 查询全部Top10
      */
-    const queryAllTop = () => Promise.allSettled([
-        querySpecialWapTopData([
-            Protocol.ChinaMobileGSM,
-            Protocol.ChinaUnicomGSM,
-            Protocol.ChinaTelecomCDMA,
-            Protocol.ChinaUnicomWCDMA,
-            Protocol.ChinaMobileTDDLTE,
-            Protocol.ChinaUnicomFDDLTE,
-            Protocol.ChinaTelecomFDDLTE,
-            Protocol.ChinaMobile5G,
-            Protocol.ChinaUnicom5G,
-            Protocol.ChinaBroadnet5G,
-            Protocol.ChinaTelecom5G,
-            Protocol.Detectaphone,
-            Protocol.GPSLocator,
-            Protocol.Others
-        ]),
-        querySpecialHotspotTopData([
-            Protocol.WiFi24G,
-            Protocol.WiFi58G
-        ]),
-        querySpecialTerminalTopData([
-            Protocol.WiFi24G,
-            Protocol.WiFi58G
-        ]),
-        querySpecialBluetoothTopData(),
-        querySpecialWiretapTopData([
-            Protocol.Detectaphone
-        ])
-    ]);
+    const queryAllTop = () => queryAllTopData();
 
     const queryData = async (activeKey: string) => {
         message.destroy();
@@ -280,7 +250,7 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
             <div className="content">
                 <Tabs
                     onChange={onTabChange}
-                    items={toTabItem(getData(specialActiveKey), specialActiveKey, specialTopLoading)}
+                    items={toTabItem(getData(specialActiveKey), specialActiveKey)}
                     activeKey={specialActiveKey}
                     defaultActiveKey={SpiTab.All}
                     destroyInactiveTabPane={false}

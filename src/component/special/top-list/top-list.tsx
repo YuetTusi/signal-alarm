@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { Spin } from 'antd';
 import { Wap } from '@/schema/wap';
 import Signal from '@/component/signal';
 import { NoWarpLabel } from '@/component/panel/panel';
@@ -11,7 +10,7 @@ import { TopListProp } from './prop';
 /**
  * Top10列表组件
  */
-const TopList: FC<TopListProp> = ({ data, type, loading }) => {
+const TopList: FC<TopListProp> = ({ data, type }) => {
 
     const renderList = () => data.map(
         (item, index) => <div className="list-row" key={`WL_${index}`}>
@@ -35,16 +34,13 @@ const TopList: FC<TopListProp> = ({ data, type, loading }) => {
             </div>
         </div>);
 
-    return <Spin tip="加载中" spinning={loading}>
-        <ListBox>
-            {renderList()}
-        </ListBox>
-    </Spin>
+    return <ListBox>
+        {renderList()}
+    </ListBox>
 };
 
 TopList.defaultProps = {
-    data: [],
-    loading: false
+    data: []
 };
 
 export { TopList };

@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { Spin } from 'antd';
 import { helper } from '@/utility/helper';
 import { NoWarpLabel } from '@/component/panel/panel';
 import Signal from '@/component/signal';
@@ -14,7 +13,7 @@ import { TopListProp } from './prop';
 /**
  * 终端,摄像头Top10列表组件
  */
-const TerminalList: FC<TopListProp> = ({ data, loading }) => {
+const TerminalList: FC<TopListProp> = ({ data }) => {
 
     /**
      * 渲染广商名称
@@ -67,16 +66,13 @@ const TerminalList: FC<TopListProp> = ({ data, loading }) => {
             {renderContent(item)}
         </div>);
 
-    return <Spin tip="加载中" spinning={loading}>
-        <ListBox>
-            {renderList()}
-        </ListBox>
-    </Spin>
+    return <ListBox>
+        {renderList()}
+    </ListBox>
 };
 
 TerminalList.defaultProps = {
-    data: [],
-    loading: false
+    data: []
 };
 
 export { TerminalList };

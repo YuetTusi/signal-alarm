@@ -63,6 +63,10 @@ interface SpecialTopState {
      */
     getAllTopData: () => SpecialBase[],
     /**
+     * 查询全部Top10数据
+     */
+    queryAllTopData: () => void,
+    /**
      * 查询热像头，手机信号等Top10数据
      */
     querySpecialWapTopData: (type: Protocol[]) => void,

@@ -91,6 +91,32 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
         return data;
     },
     /**
+     * 查询全部Top10数据
+     */
+    async queryAllTopData() {
+        setState({ specialTopLoading: true });
+        try {
+            const res = await request.get<{
+                captureTime: string,
+                content: string
+            }[]>('/spi/wap/all-new');
+
+            if (res !== null && res.code === 200) {
+
+                setState({
+                    specialWapTopData: res.data.sort((a, b) =>
+                        dayjs(a.captureTime, 'YYYY-MM-DD HH:mm:ss')
+                            .isAfter(dayjs(b.captureTime, 'YYYY-MM-DD HH:mm:ss')) ? -1 : 1)
+                        .map(item => ({ ...JSON.parse(item.content) }))
+                });
+            }
+        } catch (error) {
+            throw error;
+        } finally {
+            setState({ specialTopLoading: false });
+        }
+    },
+    /**
      * 查询热像头，手机信号等Top10数据
      */
     async querySpecialWapTopData(type: Protocol[]) {

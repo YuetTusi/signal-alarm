@@ -10,11 +10,7 @@ export interface TopListProp {
     /**
      * 类型
      */
-    type: SpiTab,
-    /**
-     * 加载中
-     */
-    loading: boolean
+    type: SpiTab
 };
 
 export interface TotalListProp {
@@ -26,9 +22,5 @@ export interface TotalListProp {
     /**
      * 类型
      */
-    type: SpiTab,
-    /**
-     * 加载中
-     */
-    loading: boolean
+    type: SpiTab
 };
