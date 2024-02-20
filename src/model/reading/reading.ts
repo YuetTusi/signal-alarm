@@ -1,6 +1,7 @@
+import { ReadingState } from ".";
 import { GetState, SetState } from "..";
 
-const reading = (setState: SetState, _: GetState) => ({
+const reading = (setState: SetState, _: GetState): ReadingState => ({
 
     /**
      * 读取中状态
