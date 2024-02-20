@@ -17,7 +17,7 @@
 	"build": {
 		"appId": "4c9e34def3049532",
 		"productName": "信号哨兵长时检测系统",
-		"copyright": "Copyright © 2023 北京万盛华通科技有限公司",
+		"copyright": "Copyright © 2024 北京万盛华通科技有限公司",
 		"directories": {
 			"buildResources": "static"
 		},
@@ -58,6 +58,10 @@
 				{
 					"target": "AppImage",
 					"arch": "arm64"
+				},
+				{
+					"target": "deb",
+					"arch": "x64"
 				}
 			],
 			"maintainer": "wsht"
