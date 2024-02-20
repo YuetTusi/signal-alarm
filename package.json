@@ -60,7 +60,7 @@
 					"arch": "arm64"
 				},
 				{
-					"target": "deb",
+					"target": "AppImage",
 					"arch": "x64"
 				}
 			],
