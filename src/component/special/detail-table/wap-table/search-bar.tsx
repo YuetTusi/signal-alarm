@@ -55,57 +55,71 @@ const SearchBar: FC<SearchBarProp> = ({
     return <SearchBarBox>
         <div>
             <Form form={formRef} layout="inline">
-                <Item
-                    name="beginTime"
-                    label="起始时间">
-                    <DatePicker
-                        showTime={true}
-                        allowClear={false}
-                        inputReadOnly={true}
-                        style={{ width: '270px' }} />
-                </Item>
-                <Item
-                    name="endTime"
-                    label="结束时间">
-                    <DatePicker
-                        showTime={true}
-                        allowClear={false}
-                        inputReadOnly={true}
-                        style={{ width: '270px' }} />
-                </Item>
-                <Item
-                    name="type"
-                    label="类型">
-                    <TreeSelect
-                        treeData={getTypeSelectSource()}
-                        treeDefaultExpandAll={true}
-                        treeLine={true}
-                        listHeight={520}
-                        style={{ width: '280px' }} />
-                </Item>
-                <Item
-                    name="site"
-                    label="设备场所">
-                    <TreeSelect
-                        treeData={helper.toDeviceDropdown(deviceList)}
-                        allowClear={true}
-                        autoClearSearchValue={false}
-                        treeCheckable={true}
-                        filterTreeNode={true}
-                        treeNodeFilterProp="title"
-                        showCheckedStrategy={TreeSelect.SHOW_PARENT}
-                        treeDefaultExpandAll={true}
-                        treeLine={true}
-                        maxTagCount={2}
-                        maxTagTextLength={3}
-                        listHeight={520}
-                        style={{ width: '300px' }} />
-                </Item>
-                <Item>
-                    <Button
-                        onClick={onSubmitClick}
-                        type="primary">查询</Button>
-                </Item>
+                <Row>
+                    <Col>
+                        <Item
+                            name="beginTime"
+                            label="起始时间">
+                            <DatePicker
+                                showTime={true}
+                                allowClear={false}
+                                inputReadOnly={true}
+                                style={{ width: '270px' }} />
+                        </Item>
+                    </Col>
+                    <Col>
+                        <Item
+                            name="endTime"
+                            label="结束时间">
+                            <DatePicker
+                                showTime={true}
+                                allowClear={false}
+                                inputReadOnly={true}
+                                style={{ width: '270px' }} />
+                        </Item>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Item
+                            name="type"
+                            label="类型">
+                            <TreeSelect
+                                treeData={getTypeSelectSource()}
+                                treeDefaultExpandAll={true}
+                                treeLine={true}
+                                listHeight={520}
+                                style={{ width: '300px' }} />
+                        </Item>
+                    </Col>
+                    <Col>
+                        <Item
+                            name="site"
+                            label="设备场所">
+                            <TreeSelect
+                                treeData={helper.toDeviceDropdown(deviceList)}
+                                allowClear={true}
+                                autoClearSearchValue={false}
+                                treeCheckable={true}
+                                filterTreeNode={true}
+                                treeNodeFilterProp="title"
+                                showCheckedStrategy={TreeSelect.SHOW_PARENT}
+                                treeDefaultExpandAll={true}
+                                treeLine={true}
+                                maxTagCount={2}
+                                maxTagTextLength={3}
+                                listHeight={520}
+                                style={{ width: '360px' }} />
+                        </Item>
+                    </Col>
+                    <Col>
+                        <Item>
+                            <Button
+                                onClick={onSubmitClick}
+                                type="primary">查询</Button>
+                        </Item>
+                    </Col>
+                </Row>
             </Form>
         </div>
         <div>

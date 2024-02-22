@@ -65,5 +65,9 @@ export enum ActionType {
     /**
      * 加至白名单
      */
-    AddToWhiteList
+    AddToWhiteList,
+    /**
+     * 加至伪热点
+     */
+    AddToFakeHotspot
 }

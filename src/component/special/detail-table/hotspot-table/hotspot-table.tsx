@@ -8,12 +8,15 @@ import { App, message, Form, Table } from 'antd';
 import { useModel } from '@/model';
 import { Hotspot } from '@/schema/hotspot';
 import { Protocol } from '@/schema/protocol';
+import { FakeHotspot } from '@/schema/fake-hotspot';
 import { WhiteListType } from '@/schema/white-list';
 import { helper } from '@/utility/helper';
 import { SearchBar } from './search-bar';
 import { getColumns } from './column';
 import { getTypes } from './data-source';
-import { ActionType, HotspotTableProp, SearchFormValue } from './prop';
+import {
+    ActionType, HotspotTableProp, SearchFormValue
+} from './prop';
 
 const { ipcRenderer } = electron;
 const { writeFile } = fs.promises;
@@ -38,7 +41,9 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
         querySpecialHotspotData,
         exportSpecialHotspotData,
         addWhiteList,
-        setReading
+        setReading,
+        addFakeHotspot,
+        queryFakeHotspotList
     } = useModel(state => ({
         specialHotspotPageIndex: state.specialHotspotPageIndex,
         specialHotspotPageSize: state.specialHotspotPageSize,
@@ -46,10 +51,12 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
         specialHotspotData: state.specialHotspotData,
         specialHotspotLoading: state.specialHotspotLoading,
         specialDefaultHotspotName: state.specialDefaultHotspotName,
-        querySpecialHotspotData: state.querySpecialHotspotData,
-        exportSpecialHotspotData: state.exportSpecialHotspotData,
+        setReading: state.setReading,
         addWhiteList: state.addWhiteList,
-        setReading: state.setReading
+        addFakeHotspot: state.addFakeHotspot,
+        queryFakeHotspotList: state.queryFakeHotspotList,
+        querySpecialHotspotData: state.querySpecialHotspotData,
+        exportSpecialHotspotData: state.exportSpecialHotspotData
     }));
 
     useEffect(() => {
@@ -152,6 +159,7 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
         message.destroy();
         switch (actionType) {
             case ActionType.AddToWhiteList:
+                //加至白名单
                 modal.confirm({
                     async onOk() {
                         try {
@@ -172,14 +180,50 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
                             message.warning(`添加失败 ${error.message}`);
                         }
                     },
+                    width: 450,
                     centered: true,
-                    title: '白名单',
+                    title: '添加白名单',
                     content: `确认将热点「${data.ssid ?? ''} （${data.mac ?? ''}）」加入白名单？`,
                     okText: '是',
                     cancelText: '否'
                 });
                 break;
+            case ActionType.AddToFakeHotspot:
+                //加至伪热点
+                modal.confirm({
+                    async onOk() {
+                        const now = dayjs().format('YYYY-MM-DD HH:mm:ss');
+                        const next = new FakeHotspot();
+                        next.hotspotName = data.ssid ?? '';
+                        next.fakeMac = '';
+                        next.realMac = data.mac;
+                        next.count = 0;
+                        next.isDeleted = 0;
+                        next.createTime = now;
+                        next.updateTime = now;
+                        try {
+                            const res = await addFakeHotspot(next);
+                            if (res !== null && res.code === 200) {
+                                message.success('成功添加至伪热点');
+                                queryFakeHotspotList();
+                            } else {
+                                message.warning('添加失败');
+                            }
+                        } catch (error) {
+                            console.warn(error);
+                            message.warning(`添加失败 ${error.message}`);
+                        }
+                    },
+                    width: 450,
+                    centered: true,
+                    title: '添加伪热点',
+                    content: `确认将热点「${data.ssid ?? ''} （${data.mac ?? ''}）」加入伪热点？`,
+                    okText: '是',
+                    cancelText: '否'
+                });
+                break;
             default:
+                console.warn('无列类型命中');
                 break;
         }
     }, 500, { leading: true, trailing: false });
@@ -201,7 +245,7 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
                 showSizeChanger: false,
                 showTotal: (total) => `共${total}条`
             }}
-            scroll={{ x: 'max-content' }}
+            scroll={{ x: 1660 }}
             rowKey="id"
             size="middle"
         />

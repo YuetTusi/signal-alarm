@@ -6,7 +6,7 @@ import {
     TerminalTable,
     BluetoothTable,
     CameraTable,
-    WiretapTable,
+    // WiretapTable,
     OthersTable
 } from '../detail-table';
 import { useModel } from '@/model';

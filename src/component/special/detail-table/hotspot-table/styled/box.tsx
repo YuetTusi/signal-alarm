@@ -12,6 +12,10 @@ export const SearchBarBox = styled.div`
     align-items: center;
     margin-bottom: 14px;
 
+    &>div:last-child{
+        align-self: flex-end;
+    }
+
     .ant-form-item{
         margin-bottom: 5px;
     }
