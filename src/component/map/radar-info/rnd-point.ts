@@ -33,7 +33,7 @@ const getLoopIndex = (rssi: number) => {
 const pointMap: Map<number, OnePoint[]> = new Map();
 
 pointMap.set(10, [{
-    top: 3,
+    top: 0,
     left: 43
 }, {
     top: 4,
@@ -72,32 +72,32 @@ pointMap.set(10, [{
     top: 93,
     left: 36
 }, {
-    top: 90,
-    left: 24
+    top: 89,
+    left: 25
 }, {
     top: 82,
-    left: 11
+    left: 16
 }, {
     top: 74,
-    left: 4
+    left: 8
 }, {
     top: 67,
-    left: 1
+    left: 4
 }, {
     top: 58,
-    left: -2
+    left: 0
 }, {
     top: 49,
-    left: -3
+    left: -1
 }, {
     top: 40,
-    left: -2
+    left: 0
 }, {
     top: 27,
     left: 3
 }, {
     top: 20,
-    left: 5
+    left: 7
 }, {
     top: 12,
     left: 15
@@ -484,14 +484,14 @@ pointMap.set(3, [{
     top: 55,
     left: 54
 }, {
-    top: 60,
-    left: 44
+    top: 58,
+    left: 45
 }, {
     top: 55,
-    left: 34
+    left: 36
 }, {
     top: 50,
-    left: 32
+    left: 34
 }, {
     top: 44,
     left: 33
@@ -507,22 +507,25 @@ pointMap.set(2, [{
     left: 50
 }, {
     top: 48,
-    left: 55
+    left: 52
 }, {
     top: 52,
     left: 50
 }, {
     top: 53,
-    left: 40
+    left: 42
 }, {
     top: 46,
-    left: 36
+    left: 39
 }]);
 pointMap.set(1, [{
-    top: 41,
+    top: 45,
     left: 45
 }, {
-    top: 48,
-    left: 44
+    top: 47,
+    left: 48
+}, {
+    top: 46,
+    left: 46
 }]);
 export { pointMap, getLoopIndex };

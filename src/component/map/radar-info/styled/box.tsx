@@ -1,16 +1,16 @@
-import ChinaMobileGSM from '@/assets/image/chinamobilegsm.png';
-import ChinaUnicomGSM from '@/assets/image/chinaunicomgsm.png';
-import ChinaTelecomCDMA from '@/assets/image/chinatelecomcdma.png';
-import ChinaUnicomWCDMA from '@/assets/image/ChinaUnicomwcdma.png';
-import ChinaMobileTDDLTE from '@/assets/image/chinamobiletddlte.png';
-import ChinaUnicomFDDLTE from '@/assets/image/chinaunicomfddlte.png';
-import ChinaTelecomFDDLTE from '@/assets/image/ChinaTelecomfddlte.png';
+import ChinaMobileGSM from '@/assets/image/l-chinamobilegsm.png';
+import ChinaUnicomGSM from '@/assets/image/l-chinaunicomgsm.png';
+import ChinaTelecomCDMA from '@/assets/image/l-chinatelecomcdma.png';
+import ChinaUnicomWCDMA from '@/assets/image/l-ChinaUnicomwcdma.png';
+import ChinaMobileTDDLTE from '@/assets/image/l-chinamobiletddlte.png';
+import ChinaUnicomFDDLTE from '@/assets/image/l-chinaunicomfddlte.png';
+import ChinaTelecomFDDLTE from '@/assets/image/l-ChinaTelecomfddlte.png';
 import WiFi24G from '@/assets/image/wifi24.png';
 import WiFi58G from '@/assets/image/wifi58.png';
-import ChinaMobile5G from '@/assets/image/chinamobile5g.png';
-import ChinaUnicom5G from '@/assets/image/chinaunicom5G.png';
-import ChinaTelecom5G from '@/assets/image/chinatelecom5g.png';
-import chinaBroadnet5g from '@/assets/image/chinabroadnet5g.png';
+import ChinaMobile5G from '@/assets/image/l-chinamobile5g.png';
+import ChinaUnicom5G from '@/assets/image/l-chinaunicom5G.png';
+import ChinaTelecom5G from '@/assets/image/l-chinatelecom5g.png';
+import chinaBroadnet5g from '@/assets/image/l-chinabroadnet5g.png';
 import Bluetooth50 from '@/assets/image/bluetooth.png';
 import Detectaphone from '@/assets/image/detectaphone.png';
 import GPSLocator from '@/assets/image/gpslocator.png';
@@ -106,8 +106,9 @@ export const RadarBox = styled.div`
 
         .pointer{
             position: absolute;
-            width: 63px;
-            height: 18px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             z-index: 1;
             display: block;
             background-repeat: no-repeat;
@@ -229,31 +230,31 @@ export const RadarBox = styled.div`
     @keyframes flash1 {
         1% {
             opacity: 0.9;
-            box-shadow: 2px 2px 2px #fff, -2px -2px 2px #fff, 2px -2px 2px #fff, -2px 2px 2px #fff;
+            /* box-shadow: 2px 2px 2px #fff, -2px -2px 2px #fff, 2px -2px 2px #fff, -2px 2px 2px #fff; */
         }
         80% {
             opacity: 0;
-            box-shadow: 2px 2px 2px #fff, -2px -2px 2px #fff, 2px -2px 2px #fff, -2px 2px 2px #fff;
+            /* box-shadow: 2px 2px 2px #fff, -2px -2px 2px #fff, 2px -2px 2px #fff, -2px 2px 2px #fff; */
         }
     }
     @keyframes flash2 {
         24% {
             opacity: 0.9;
-            box-shadow: 2px 2px 2px #fff, -2px -2px 2px #fff, 2px -2px 2px #fff, -2px 2px 2px #fff;
+            /* box-shadow: 2px 2px 2px #fff, -2px -2px 2px #fff, 2px -2px 2px #fff, -2px 2px 2px #fff; */
         }
         90% {
             opacity: 0;
-            box-shadow: 2px 2px 2px #fff, -2px -2px 2px #fff, 2px -2px 2px #fff, -2px 2px 2px #fff;
+            /* box-shadow: 2px 2px 2px #fff, -2px -2px 2px #fff, 2px -2px 2px #fff, -2px 2px 2px #fff; */
         }
     }
     @keyframes flash3 {
         37% {
             opacity: 0.9;
-            box-shadow: 2px 2px 2px #fff, -2px -2px 2px #fff, 2px -2px 2px #fff, -2px 2px 2px #fff;
+            /* box-shadow: 2px 2px 2px #fff, -2px -2px 2px #fff, 2px -2px 2px #fff, -2px 2px 2px #fff; */
         }
         100% {
             opacity: 0;
-            box-shadow: 2px 2px 2px #fff, -2px -2px 2px #fff, 2px -2px 2px #fff, -2px 2px 2px #fff;
+            /* box-shadow: 2px 2px 2px #fff, -2px -2px 2px #fff, 2px -2px 2px #fff, -2px 2px 2px #fff; */
         }
     }
 `;
