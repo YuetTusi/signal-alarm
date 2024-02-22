@@ -33,7 +33,7 @@ export const getCompareColumns = (handle: (action: number) => void): ColumnsType
         key: 'captureTime',
         dataIndex: 'captureTime',
         align: 'center',
-        width: 170,
+        width: 200,
         render: (value: number) => dayjs.unix(value).format('YYYY-MM-DD HH:mm:ss')
     }
 ];
