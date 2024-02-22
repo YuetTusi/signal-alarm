@@ -38,16 +38,5 @@ const AddForm: FC<AddFormProp> = ({
             label="真实MAC地址">
             <Input placeholder="形如：00:13:EF:F3:07:BC" />
         </Item>
-        <Item
-            rules={[
-                { required: true, message: '请填选择状态' }
-            ]}
-            name="status"
-            label="状态">
-            <Select>
-                <Option value={0}>已生效</Option>
-                <Option value={1}>未生效</Option>
-            </Select>
-        </Item>
     </Form>;
 export { AddForm };

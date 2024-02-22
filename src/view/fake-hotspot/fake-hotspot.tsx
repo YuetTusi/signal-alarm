@@ -89,6 +89,7 @@ const FakeHotspot: FC<FakeHotspotProp> = () => {
         try {
             const res = await addFakeHotspot({
                 ...data,
+                status: 0,
                 count: 0,
                 updateTime: now,
                 createTime: now

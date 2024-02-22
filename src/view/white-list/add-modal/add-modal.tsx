@@ -127,17 +127,6 @@ const AddModal: FC<AddModalProp> = ({
                     </Item>
                 </Col>
             </Row>
-            <Item
-                rules={[
-                    { required: true, message: '请选择状态' }
-                ]}
-                label="状态"
-                name="status">
-                <Select>
-                    <Option value={0}>生效中</Option>
-                    <Option value={1}>未生效</Option>
-                </Select>
-            </Item>
         </Form>
     </Modal>
 };

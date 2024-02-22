@@ -130,6 +130,7 @@ const WhiteList: FC<WhiteListProp> = () => {
      */
     const onAdd = async (data: FormValue) => {
         message.destroy();
+        data.status = 0;
         try {
             const res = await addWhiteList(data);
             if (res !== null && res.code === 200) {
