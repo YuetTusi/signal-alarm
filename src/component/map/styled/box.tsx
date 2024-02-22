@@ -67,7 +67,7 @@ export const BiboBox = styled.div`
 export const MaskBox = styled.div`
 
     position: absolute;
-    top:50px;
+    top:60px;
     left:0;
     bottom:0;
     right:0;

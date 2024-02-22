@@ -31,6 +31,7 @@ const AddForm: FC<AddFormProp> = ({
         </Item> */}
         <Item
             rules={[
+                { required: true, message: '请填写真实MAC地址' },
                 { pattern: Mac, message: '请填写正确的MAC地址' }
             ]}
             name="realMac"
