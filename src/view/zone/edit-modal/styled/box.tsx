@@ -4,7 +4,7 @@ export const UploadBox = styled.div`
     width: 100%;
     margin-bottom: 20px;
     em{
-        font-size: 16px;
+        font-size: 20px;
         color:#dc4446;
         font-family:"SimSun","sans-serif";
         text-decoration: none;
@@ -12,7 +12,7 @@ export const UploadBox = styled.div`
         margin-inline-end:4px;
     }
     b{
-        font-size: 14px;
+        font-size: 18px;
         color:#dc4446;
         font-weight: normal;
         font-style: normal;

@@ -91,7 +91,7 @@ export const ReportBox = styled.div`
 
 export const ModalBox = styled.div`
 
-    height: 710px;
+    height: 720px;
 `;
 
 export const SearchBarBox = styled.div`

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const LegendBox = styled.ul`
 
     position: absolute;
-    top:52px;
+    top:60px;
     right:0;
     z-index: 401;
 

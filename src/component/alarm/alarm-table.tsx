@@ -270,7 +270,7 @@ const AlarmTable: FC<AlarmTopProp> = () => {
                 }}
                 dataSource={alarmData}
                 loading={alarmLoading}
-                scroll={{ y: 500 }}
+                scroll={{ y: 560 }}
                 rowKey="id"
                 size="middle"
             />

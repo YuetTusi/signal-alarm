@@ -70,7 +70,8 @@ const getColumns = (onDownload: (report: QuickCheckReport) => void) => [{
     render: (_: any, record) => <Button
         onClick={() => onDownload(record)}
         disabled={helper.isNullOrUndefined(record.url)}
-        type="link">
+        type="link"
+        size="middle">
         下载
     </Button>
 }] as ColumnsType<QuickCheckReport>;

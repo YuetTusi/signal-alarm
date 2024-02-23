@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { FC, useEffect, MouseEvent } from 'react';
-import { Form, Button, DatePicker, Select, TreeSelect } from 'antd';
+import { Col, Row, Form, Button, DatePicker, Select, TreeSelect } from 'antd';
 import { useModel } from '@/model';
 import { helper } from '@/utility/helper';
 import { SearchBarBox } from './styled/style';
@@ -57,63 +57,78 @@ const SearchBar: FC<SearchBarProp> = ({
     return <SearchBarBox>
         <div>
             <Form form={formRef} layout="inline">
-                <Item
-                    name="beginTime"
-                    label="起始时间">
-                    <DatePicker
-                        showTime={true}
-                        allowClear={false}
-                        inputReadOnly={true}
-                        style={{ width: '270px' }} />
-                </Item>
-                <Item
-                    name="endTime"
-                    label="结束时间">
-                    <DatePicker
-                        showTime={true}
-                        allowClear={false}
-                        inputReadOnly={true}
-                        style={{ width: '270px' }} />
-                </Item>
-                <Item
-                    name="status"
-                    label="状态">
-                    <Select
-                        options={[{
-                            value: -1,
-                            label: '全部'
-                        }, {
-                            value: 0,
-                            label: '待处理'
-                        }, {
-                            value: 1,
-                            label: '已处理'
-                        }]}
-                        style={{ width: '180px' }} />
-                </Item>
-                <Item
-                    name="site"
-                    label="设备场所">
-                    <TreeSelect
-                        treeData={helper.toDeviceDropdown(deviceList)}
-                        allowClear={true}
-                        autoClearSearchValue={false}
-                        treeCheckable={true}
-                        filterTreeNode={true}
-                        treeNodeFilterProp="title"
-                        showCheckedStrategy={TreeSelect.SHOW_PARENT}
-                        treeDefaultExpandAll={true}
-                        treeLine={true}
-                        maxTagCount={2}
-                        maxTagTextLength={3}
-                        listHeight={520}
-                        style={{ width: '300px' }} />
-                </Item>
-                <Item>
-                    <Button
-                        onClick={onSubmitClick}
-                        type="primary">查询</Button>
-                </Item>
+                <Row>
+                    <Col>
+                        <Item
+                            name="beginTime"
+                            label="起始时间">
+                            <DatePicker
+                                showTime={true}
+                                allowClear={false}
+                                inputReadOnly={true}
+                                style={{ width: '270px' }} />
+                        </Item>
+                    </Col>
+                    <Col>
+                        <Item
+                            name="endTime"
+                            label="结束时间">
+                            <DatePicker
+                                showTime={true}
+                                allowClear={false}
+                                inputReadOnly={true}
+                                style={{ width: '270px' }} />
+                        </Item>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Item
+                            name="status"
+                            label="状态">
+                            <Select
+                                options={[{
+                                    value: -1,
+                                    label: '全部'
+                                }, {
+                                    value: 0,
+                                    label: '待处理'
+                                }, {
+                                    value: 1,
+                                    label: '已处理'
+                                }]}
+                                style={{ width: '240px' }} />
+                        </Item>
+                    </Col>
+                    <Col>
+                        <Item
+                            name="site"
+                            label="设备场所">
+                            <TreeSelect
+                                treeData={helper.toDeviceDropdown(deviceList)}
+                                allowClear={true}
+                                autoClearSearchValue={false}
+                                treeCheckable={true}
+                                filterTreeNode={true}
+                                treeNodeFilterProp="title"
+                                showCheckedStrategy={TreeSelect.SHOW_PARENT}
+                                treeDefaultExpandAll={true}
+                                treeLine={true}
+                                maxTagCount={2}
+                                maxTagTextLength={3}
+                                listHeight={520}
+                                style={{ width: '320px' }} />
+                        </Item>
+                    </Col>
+                    <Col>
+                        <Item>
+                            <Button
+                                onClick={onSubmitClick}
+                                type="primary">查询</Button>
+                        </Item>
+                    </Col>
+                </Row>
+
             </Form>
         </div>
         <div>

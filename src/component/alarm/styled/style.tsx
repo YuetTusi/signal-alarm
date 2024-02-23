@@ -11,7 +11,7 @@ export const AlarmInfoBox = styled.div`
 
 export const AlarmTableBox = styled.div`
 
-    height:740px;
+    height:780px;
     .ant-tag{
         margin-right: 0 !important;
     }
@@ -98,6 +98,7 @@ export const SearchBarBox = styled.div`
     &>div:last-child{
         display: flex;
         flex-wrap: nowrap;
+        align-self: flex-end;
         .ant-btn{
             margin-left: 16px;
         }
