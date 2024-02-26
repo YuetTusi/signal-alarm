@@ -17,8 +17,6 @@ import {
 } from '@/component/statis';
 import CheckReport from '@/component/check-report';
 import { DashboardBox } from "./styled/box";
-// import { request } from '@/utility/http';
-// import dayjs from 'dayjs';
 
 const { ipcRenderer } = electron;
 const { alarmType } = helper.readConf();

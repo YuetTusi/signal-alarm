@@ -2,10 +2,11 @@ import throttle from 'lodash/throttle';
 import * as echarts from 'echarts/core';
 import { FC, useEffect, useRef } from 'react';
 import { useModel } from '@/model';
-import { useResize } from '@/hook';
+import { useResize, useUnmount } from '@/hook';
 import { helper } from '@/utility/helper';
 import { AlarmChartBox } from './styled/style';
 
+var timer: any = null;
 var $chart: echarts.ECharts;
 var option = {
     grid: {
@@ -109,10 +110,19 @@ const AlarmChart: FC<{}> = () => {
     const boxRef = useRef<HTMLDivElement>(null);
 
     const {
-        alarmBarData
+        alarmBarData,
+        cleanAlarmBarData
     } = useModel(state => ({
-        alarmBarData: state.alarmBarData
+        alarmBarData: state.alarmBarData,
+        cleanAlarmBarData: state.cleanAlarmBarData
     }));
+
+    useUnmount(() => {
+        if (timer !== null) {
+            clearTimeout(timer);
+            timer = null;
+        }
+    });
 
     useResize(throttle((_: Event) => {
         chartResize($chart, 'alarmChart');
@@ -150,8 +160,6 @@ const AlarmChart: FC<{}> = () => {
     useEffect(() => {
         if ($chart) {
             const bands = helper.readBand();
-            // console.log(bands);
-            // console.log(getData());
             $chart.setOption({
                 xAxis: { data: bands.map(i => i.name) },
                 series: [{ data: getData() }]
@@ -161,6 +169,15 @@ const AlarmChart: FC<{}> = () => {
                 width: document.querySelector('#alarmChartCaption')?.clientWidth,
             });
         }
+
+        return () => {
+            if (timer !== null) {
+                clearTimeout(timer);
+            }
+            timer = setTimeout(() => {
+                cleanAlarmBarData();
+            }, 1000 * 10);
+        };
     }, [alarmBarData]);
 
     return <AlarmChartBox

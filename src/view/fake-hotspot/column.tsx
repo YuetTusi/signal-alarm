@@ -71,7 +71,7 @@ const getColumns = (handle: (actionType: ActionType, record: FakeHotspot) => voi
         dataIndex: 'detail',
         key: 'detail',
         align: 'center',
-        width: 50,
+        width: 80,
         render: (_, record) => <Button
             onClick={(event: MouseEvent<HTMLElement>) => {
                 event.preventDefault();
@@ -86,7 +86,7 @@ const getColumns = (handle: (actionType: ActionType, record: FakeHotspot) => voi
         dataIndex: 'del',
         key: 'del',
         align: 'center',
-        width: 50,
+        width: 80,
         render: (_, record) => <Button
             onClick={(event: MouseEvent<HTMLElement>) => {
                 event.preventDefault();

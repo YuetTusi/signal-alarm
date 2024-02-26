@@ -56,7 +56,7 @@ const Bluetooth: FC<{ data: BluetoothEntity }> = ({ data }) => {
                 {helper.isNullOrUndefined(data?.siteName) || data?.siteName === '' ? '-' : data?.siteName}
             </div>
             <div className="list-row-val">
-                <NoWarpLabel width={185}>{data.captureTime}</NoWarpLabel>
+                <NoWarpLabel width={188}>{data.captureTime}</NoWarpLabel>
             </div>
         </div>
     </>;
@@ -65,23 +65,20 @@ const Bluetooth: FC<{ data: BluetoothEntity }> = ({ data }) => {
 /**
  * 蓝牙Top10列表组件
  */
-const BluetoothList: FC<TopListProp> = ({ data, loading }) => {
+const BluetoothList: FC<TopListProp> = ({ data }) => {
 
     const renderList = () => data.map(
         (item, index) => <div className="list-row" key={`WL_${index}`}>
             <Bluetooth data={item as BluetoothEntity} key={`WL_${index}`} />
         </div>);
 
-    return <Spin tip="加载中" spinning={loading}>
-        <ListBox>
-            {renderList()}
-        </ListBox>
-    </Spin>
+    return <ListBox>
+        {renderList()}
+    </ListBox>
 };
 
 BluetoothList.defaultProps = {
-    data: [],
-    loading: false
+    data: []
 };
 
 export { BluetoothList, Bluetooth };

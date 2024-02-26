@@ -38,7 +38,7 @@ const Wifi: FC<{ data: Hotspot }> = ({ data }) => {
                 </NoWarpLabel>
             </div>
             <div className="list-row-val">
-                <NoWarpLabel width={185}>{data.captureTime}</NoWarpLabel>
+                <NoWarpLabel width={188}>{data.captureTime}</NoWarpLabel>
             </div>
         </div>
     </>;

@@ -15,7 +15,11 @@ interface AlarmChartState {
      * @param code 键
      * @param value 值
      */
-    updateAlarmBarData: (code: number, value: { rssi: number | null, captureTime: string }) => void
+    updateAlarmBarData: (code: number, value: { rssi: number | null, captureTime: string }) => void,
+    /**
+     * 清空柱图数据
+     */
+    cleanAlarmBarData: () => void
 }
 
 export { alarmChart };

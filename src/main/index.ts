@@ -80,9 +80,9 @@ app.on('ready', () => {
     mainWindow = new BrowserWindow({
         title: '文档生成',
         width: conf.mode === AppMode.PC ? 1660 : 1920,
-        height: conf.mode === AppMode.PC ? 900 : 1200,
+        height: conf.mode === AppMode.PC ? 900 : 1080,
         minWidth: conf.mode === AppMode.PC ? 1660 : 1920,
-        minHeight: conf.mode === AppMode.PC ? 900 : 1200,
+        minHeight: conf.mode === AppMode.PC ? 900 : 1080,
         // width: 1920,
         // height: 1200,
         // minHeight: 1200,

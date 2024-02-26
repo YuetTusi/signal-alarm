@@ -1,7 +1,7 @@
 import { GetState, SetState } from '..';
 import { AlarmChartState } from '../alarm-chart';
 
-const alarmChart = (setState: SetState, getState: GetState): AlarmChartState => ({
+const alarmChart = (setState: SetState, _: GetState): AlarmChartState => ({
 
     /**
      * 报警柱图数据
@@ -14,9 +14,15 @@ const alarmChart = (setState: SetState, getState: GetState): AlarmChartState => 
      * @param value 值
      */
     updateAlarmBarData(code: number, value: { rssi: number | null, captureTime: string }) {
-        const prev = getState().alarmBarData;
-        prev.set(Number(code), value);
-        setState({ alarmBarData: new Map(prev) });
+        const next = new Map<number, { rssi: number | null, captureTime: string }>();
+        next.set(Number(code), value);
+        setState({ alarmBarData: next });
+    },
+    /**
+     * 清空柱图数据
+     */
+    cleanAlarmBarData() {
+        setState({ alarmBarData: new Map() });
     }
 });
 
