@@ -164,8 +164,8 @@ const WhiteList: FC<WhiteListProp> = () => {
                         name="status">
                         <Select style={{ width: '140px' }}>
                             <Option value={-1}>全部</Option>
-                            <Option value={1}>生效中</Option>
-                            <Option value={0}>未生效</Option>
+                            <Option value={0}>生效中</Option>
+                            <Option value={1}>未生效</Option>
                         </Select>
                     </Item>
                     <Item>

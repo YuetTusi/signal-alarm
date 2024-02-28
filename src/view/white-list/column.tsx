@@ -46,9 +46,9 @@ const getColumns = (handle: (actionType: ActionType, record: WhiteList) => void)
         render(value) {
             switch (value) {
                 case 0:
-                    return <Tag color="orange">未生效</Tag>;
-                case 1:
                     return <Tag color="green">生效中</Tag>;
+                case 1:
+                    return <Tag color="orange">未生效</Tag>;
                 default:
                     return '';
             }
