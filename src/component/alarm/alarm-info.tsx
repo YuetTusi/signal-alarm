@@ -1,5 +1,6 @@
 import { FC, useRef } from 'react';
 import { useModel } from '@/model';
+import { useSubscribe } from '@/hook';
 import { DisplayPanel } from '@/component/panel';
 import { DetailModal } from './detail-modal';
 import { AlarmChart } from './alarm-chart';
@@ -13,11 +14,18 @@ const AlarmInfo: FC<{}> = () => {
     const scrollBox = useRef<HTMLDivElement>(null);
     const {
         alarmDetailModalOpen,
-        setAlarmDetailModalOpen
+        setAlarmDetailModalOpen,
+        removeBefore10SecAlarmBarData
     } = useModel(state => ({
         alarmDetailModalOpen: state.alarmDetailModalOpen,
-        setAlarmDetailModalOpen: state.setAlarmDetailModalOpen
+        setAlarmDetailModalOpen: state.setAlarmDetailModalOpen,
+        removeBefore10SecAlarmBarData: state.removeBefore10SecAlarmBarData
     }));
+
+    useSubscribe('query-each-1', () => {
+        //删除10秒前的旧数据
+        removeBefore10SecAlarmBarData(10);
+    });
 
     return <AlarmInfoBox>
         <DisplayPanel>

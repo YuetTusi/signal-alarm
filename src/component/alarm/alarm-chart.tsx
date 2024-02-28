@@ -6,7 +6,6 @@ import { useResize, useUnmount } from '@/hook';
 import { helper } from '@/utility/helper';
 import { AlarmChartBox } from './styled/style';
 
-var timer: any = null;
 var $chart: echarts.ECharts;
 var option = {
     grid: {
@@ -117,13 +116,6 @@ const AlarmChart: FC<{}> = () => {
         cleanAlarmBarData: state.cleanAlarmBarData
     }));
 
-    useUnmount(() => {
-        if (timer !== null) {
-            clearTimeout(timer);
-            timer = null;
-        }
-    });
-
     useResize(throttle((_: Event) => {
         chartResize($chart, 'alarmChart');
     }, 500, { trailing: true, leading: false }));
@@ -135,6 +127,10 @@ const AlarmChart: FC<{}> = () => {
             $chart.setOption(option);
         }
     }, []);
+
+    useUnmount(() => {
+        cleanAlarmBarData();
+    });
 
     const getData = () => {
         // console.log(alarmBarData.entries());
@@ -170,14 +166,6 @@ const AlarmChart: FC<{}> = () => {
             });
         }
 
-        return () => {
-            if (timer !== null) {
-                clearTimeout(timer);
-            }
-            timer = setTimeout(() => {
-                cleanAlarmBarData();
-            }, 1000 * 10);
-        };
     }, [alarmBarData]);
 
     return <AlarmChartBox
