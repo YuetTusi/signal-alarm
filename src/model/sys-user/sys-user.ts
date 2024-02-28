@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
 import { message } from 'antd';
+import { log } from '@/utility/log';
+import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';
 import { QueryPage } from '@/schema/query-page';
 import { SystemUser } from '@/schema/system-user';
-import { log } from '@/utility/log';
-import { helper } from '@/utility/helper';
 import { GetState, SetState } from "..";
 import { SysUserState } from '.';
 
@@ -79,6 +79,67 @@ const sysUser = (setState: SetState, _: GetState): SysUserState => ({
             message.warning(`查询失败（${error.message ?? ''}）`);
         } finally {
             setState({ sysUserLoading: false });
+        }
+    },
+    /**
+    * 添加用户
+    */
+    async addSysUser(payload: SystemUser) {
+        const url: string = '/system/sysUser/save';
+        try {
+            const res = await request.post(url, payload);
+            console.log(res);
+            return res;
+        } catch (error) {
+            throw error;
+        }
+    },
+    /**
+     * 编辑用户
+     */
+    async updateSysUser(payload: SystemUser) {
+        const url: string = '/system/sysUser/update';
+        try {
+            const res = await request.put(url, payload);
+            return res;
+        } catch (error) {
+            throw error;
+        }
+    },
+    /**
+     * 修改密码
+     */
+    async modifySysUserPassword(id: number, newPassword: string, oldPassword: string) {
+        const url: string = '/system/sysUser/update-password';
+        try {
+            const res = await request.post(url, { id, newPassword, oldPassword });
+            return res;
+        } catch (error) {
+            throw error;
+        }
+    },
+    /**
+    * 修改状态
+    */
+    async modifySysUserStatus(id: number, status: number) {
+        const url: string = `/system/sysUser/updateStatus/${id}/${status}`;
+        try {
+            const res = await request.get(url);
+            return res;
+        } catch (error) {
+            throw error;
+        }
+    },
+    /**
+     * 删除用户
+     */
+    async delSysUser(id: number) {
+        const url: string = `/system/sysUser/remove/${id}`;
+        try {
+            const res = await request.del(url);
+            return res;
+        } catch (error) {
+            throw error;
         }
     }
 });

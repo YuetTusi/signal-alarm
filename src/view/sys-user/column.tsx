@@ -49,6 +49,30 @@ const getColumns = (columnClick: (type: ColumnAction, data: SystemUser) => void)
             align: 'center',
             width: 210
         }, {
+            title: '修改密码',
+            key: 'modifyPassword',
+            dataIndex: 'modifyPassword',
+            align: 'center',
+            width: 100,
+            render(_: any, record) {
+                return <a onClick={(event: MouseEvent) => {
+                    event.preventDefault();
+                    columnClick(ColumnAction.ModifyPassword, record);
+                }}>修改密码</a>
+            }
+        }, {
+            title: '修改状态',
+            key: 'modifyStatus',
+            dataIndex: 'modifyStatus',
+            align: 'center',
+            width: 100,
+            render(_: any, record) {
+                return <a onClick={(event: MouseEvent) => {
+                    event.preventDefault();
+                    columnClick(ColumnAction.ModifyStatus, record);
+                }}>修改状态</a>
+            }
+        }, {
             title: '详情',
             key: 'detail',
             dataIndex: 'detail',
@@ -59,6 +83,18 @@ const getColumns = (columnClick: (type: ColumnAction, data: SystemUser) => void)
                     event.preventDefault();
                     columnClick(ColumnAction.Detail, record);
                 }}>详情</a>
+            }
+        }, {
+            title: '编辑',
+            key: 'edit',
+            dataIndex: 'edit',
+            align: 'center',
+            width: 60,
+            render(_: any, record) {
+                return <a onClick={(event: MouseEvent) => {
+                    event.preventDefault();
+                    columnClick(ColumnAction.Edit, record);
+                }}>编辑</a>
             }
         }
     ];

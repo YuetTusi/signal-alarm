@@ -2,7 +2,9 @@
 export enum ColumnAction {
 
     Detail,
-
+    Edit,
+    ModifyPassword,
+    ModifyStatus
 }
 
 export interface SearchFormValue {

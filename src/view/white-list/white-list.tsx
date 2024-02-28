@@ -4,8 +4,7 @@ import { App, Button, Select, Form, Table, message } from 'antd';
 import { useModel } from '@/model';
 import { helper } from '@/utility/helper';
 import { WhiteList as WhiteListEntity, WhiteListType } from '@/schema/white-list';
-import { AddModal } from './add-modal';
-import { FormValue } from './add-modal/prop';
+import { AddModal, FormValue } from './add-modal';
 import { ActionType, getColumns } from './column';
 import { SearchBar, TableBox, WhiteListBox } from './styled/box';
 import { SearchFormValue, WhiteListProp } from './prop';
@@ -79,14 +78,14 @@ const WhiteList: FC<WhiteListProp> = () => {
      * @param type 列枚举
      * @param record 数据
      */
-    const columnClick = (type: ActionType, record: WhiteListEntity) => {
+    const columnClick = (type: ActionType, { id, ruleName }: WhiteListEntity) => {
         switch (type) {
             case ActionType.Delete:
                 modal.confirm({
                     async onOk() {
                         message.destroy();
                         try {
-                            const res = await deleteWhiteList(record.id.toString());
+                            const res = await deleteWhiteList(id.toString());
                             if (res !== null && res.code === 200) {
                                 message.success('删除成功');
                                 await queryWhiteListData(1, helper.PAGE_SIZE);
@@ -99,7 +98,7 @@ const WhiteList: FC<WhiteListProp> = () => {
                     },
                     okText: '是',
                     cancelText: '否',
-                    content: `确认删除「${record.ruleName}」？`,
+                    content: `确认删除「${ruleName}」？`,
                     title: '删除',
                     centered: true
                 });
