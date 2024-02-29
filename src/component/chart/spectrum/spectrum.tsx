@@ -77,6 +77,19 @@ const Spectrum: FC<SpectrumProp> = ({
                     trigger: 'axis',
                     axisPointer: {
                         type: 'shadow'
+                    },
+                    formatter(params: any[]) {
+                        const tips = params.map(item => `<div>
+                            <div>
+                                ${item.marker}
+                                <b>${item.seriesName}</b>
+                                <span style="padding-left:1rem">${item.value}</span>
+                            </div>
+                        </div>`);
+                        return `<div>
+                            <div style="padding-bottom:1rem">${params[0].name} MHz</div>
+                            ${tips.join('')}
+                        </div>`;
                     }
                 },
                 legend: {

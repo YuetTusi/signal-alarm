@@ -12,7 +12,7 @@ import { AppMode, Conf } from '../schema/conf';
 const cwd = process.cwd();
 const { env, resourcesPath, platform } = process;
 const isDev = env['NODE_ENV'] === 'development';
-const isLinux = platform === 'linux';
+// const isLinux = platform === 'linux';
 var conf: Conf = { mode: 0, alarmType: 0 };
 var mainWindow: BrowserWindow | null = null;
 var reportWindow: BrowserWindow | null = null;

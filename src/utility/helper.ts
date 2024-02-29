@@ -59,7 +59,7 @@ const helper = {
             if (helper.IS_DEV) {
                 confPath = join(cwd, './setting/conf.json');
             } else {
-                confPath = join(cwd, 'resources/conf.json')
+                confPath = join(cwd, 'resources/conf.json');
             }
             accessSync(confPath);
             const chunk = readFileSync(confPath, { encoding: 'utf8' });
@@ -78,9 +78,10 @@ const helper = {
      * @param max 最大
      */
     rnd: (min: number, max: number) => {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min)) + min; //不含最大值，含最小值
+        const a = Math.ceil(min);
+        const b = Math.floor(max);
+        const factor = Math.random();
+        return Math.floor(factor * (b - a)) + a; //不含最大值，含最小值
     },
     /**
      * @description 转为dayjs日期格式
@@ -203,14 +204,12 @@ const helper = {
     readProtocol: memoize((): { value: number, text: string }[] => {
         let jsonPath = '';
         try {
-            if (helper.IS_DEV) {
-                jsonPath = join(cwd, './setting/protocol.json');
-            } else {
-                jsonPath = join(cwd, 'resources/protocol.json')
-            }
+            jsonPath = helper.IS_DEV
+                ? join(cwd, './setting/protocol.json')
+                : join(cwd, 'resources/protocol.json');
             const chunk = readFileSync(jsonPath, { encoding: 'utf8' });
             // return destr<{ value: number, text: string }[]>(chunk);
-            return JSON.parse(chunk.trim()) as { value: number, text: string }[];
+            return JSON.parse(chunk.trim()) as { value: number, text: string }[]; .0
         } catch (error) {
             console.warn(`读取协议配置失败 @utility/helper/readProtocol() : ${error.message}`);
             return [];
