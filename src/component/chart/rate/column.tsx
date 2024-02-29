@@ -11,7 +11,11 @@ export const getCompareColumns = (handle: (action: number) => void): ColumnsType
     {
         title: '频率',
         key: 'freq',
-        dataIndex: 'freq'
+        dataIndex: 'freq',
+        width: 120,
+        render(val) {
+            return Math.trunc(val * 0.8);
+        }
     }, {
         title: '背景强度',
         key: 'baseSignal',

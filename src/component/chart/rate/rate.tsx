@@ -61,11 +61,11 @@ const Rate: FC<RateProp> = ({ realData, compareData, displayData, outerDomId }) 
 
     useEffect(() => {
         if (realChart === null) {
-            realChart = echarts.init(document.querySelector('#realRate')!, 'dark');
+            realChart = echarts.init(document.querySelector('#realRate') as HTMLElement, 'dark');
             chartResize(realChart, outerDomId);
         }
         if (compareChart === null) {
-            compareChart = echarts.init(document.querySelector('#compareRate')!, 'dark');
+            compareChart = echarts.init(document.querySelector('#compareRate') as HTMLElement, 'dark');
             chartResize(compareChart, outerDomId);
         }
     }, []);
@@ -116,20 +116,6 @@ const Rate: FC<RateProp> = ({ realData, compareData, displayData, outerDomId }) 
                 <Table<FreqCompare>
                     columns={getCompareColumns(() => { })}
                     dataSource={displayData}
-                    // dataSource={[
-                    //     {
-                    //         freq: 994,
-                    //         baseSignal: 20,
-                    //         offsetSignal: 23,
-                    //         currentSignal: 94,
-                    //         captureTime: 1705301047,
-                    //         type: 1,
-                    //         currentOffsetSignal: 98,
-                    //         freqBaseId: 1,
-                    //         deviceId: '',
-                    //         createTime: ''
-                    //     }
-                    // ]}
                     rowKey={() => helper.nextId(8)}
                     pagination={false}
                     size="small"

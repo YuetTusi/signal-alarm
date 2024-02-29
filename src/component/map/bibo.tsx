@@ -55,6 +55,7 @@ const Bibo: FC<{}> = () => {
         phoneAlarmData,
         devicesOnMap,
         alarmsOfDevice,
+        setSound,
         clearPhoneAlarmData,
         queryZoneList,
         queryDevicesOnMap,
@@ -64,6 +65,7 @@ const Bibo: FC<{}> = () => {
         phoneAlarmData: state.phoneAlarmData,
         devicesOnMap: state.devicesOnMap,
         alarmsOfDevice: state.alarmsOfDevice,
+        setSound: state.setSound,
         clearPhoneAlarmData: state.clearPhoneAlarmData,
         queryZoneList: state.queryZoneList,
         queryDevicesOnMap: state.queryDevicesOnMap,
@@ -99,8 +101,11 @@ const Bibo: FC<{}> = () => {
     useEffect(() => {
 
         if (map === null || alarmsOfDevice === undefined) {
+            setSound(false);
             return;
         }
+
+        setSound(true);
 
         for (let i = 0; i < devices.length; i++) {
             const { deviceId } = devices[i].options as MarkerOptionsEx;
@@ -110,8 +115,8 @@ const Bibo: FC<{}> = () => {
             if (alarms && alarms.length > 0) {
                 //信号环
                 if (map !== null) {
-                    //更新前浮空环
-                    circles.forEach(circle => circle.circle.removeFrom(map!));
+                    //更新前清空环
+                    circles.forEach(item => item.circle.removeFrom(map!));
                 }
                 circles = alarms.map(item => {
                     const circle = loadCircle(devices[i].getLatLng(), getColor(item.protocolType!), item.radius);

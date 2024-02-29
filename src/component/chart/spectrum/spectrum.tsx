@@ -51,7 +51,7 @@ const Spectrum: FC<SpectrumProp> = ({
         }
     }, [chartDom.current]);
 
-    useResize(throttle((event: Event) => {
+    useResize(throttle((_: Event) => {
         chartResize(myChart, domId);
     }, 500, { trailing: true, leading: false }));
 

@@ -1,6 +1,5 @@
-import { Protocol } from '@/schema/protocol';
+import { PhoneAlarmInfo } from '@/schema/phone-alarm-info';
 import { phoneAlarm } from './phone-alarm';
-import { AlarmMessage, PhoneAlarmInfo } from '@/schema/phone-alarm-info';
 
 interface PhoneAlarmState {
 
@@ -9,7 +8,7 @@ interface PhoneAlarmState {
      */
     sound: boolean,
     /**
-     * 报红手机数据
+     * 报红数据
      */
     phoneAlarmData: PhoneAlarmInfo[],
     /**
