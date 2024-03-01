@@ -19,12 +19,12 @@ const Voice: FC<VoiceProp> = () => {
     }));
 
     useEffect(() => {
-        //当有报警数据且开启声音，则播放报警音
         if ($audio.current === null) {
             return;
         }
         const on = localStorage.getItem(StorageKeys.Voice) === '1';
         if (on && sound) {
+            //开关打开且配置允许播放，则播放报警音
             $audio.current.play();
         } else {
             $audio.current.pause();
@@ -35,8 +35,8 @@ const Voice: FC<VoiceProp> = () => {
         <audio
             ref={$audio}
             src={alarm}
-            autoPlay={false}
-            loop={true} />
+            loop={true}
+            autoPlay={false} />
     </VoiceBox>
 };
 
