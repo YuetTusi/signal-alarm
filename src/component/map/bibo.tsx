@@ -13,8 +13,8 @@ import { DeviceState } from '@/schema/com-device';
 import { Legend } from './legend';
 import { RadarInfo } from './radar-info';
 import {
-    disposeAllMarker, getColor, initMap,
-    loadCircle, loadMap
+    disposeAllMarker, getColor, getRealitySize, initMap,
+    loadMap
 } from './util';
 import { BiboBox, MaskBox } from './styled/box';
 import { MarkerOptionsEx, SearchFormValue } from './prop';
@@ -23,10 +23,7 @@ const { useForm, Item } = Form;
 const { Option } = Select;
 let map: L.Map | null = null;
 let devices: L.Marker[] = []; //设备坐标点
-let circles: {
-    deviceId: string,
-    circle: L.Circle
-}[] = [];//效果圆环
+
 const defaultIcon = new L.Icon({
     iconUrl: mapConnectedIcon,
     iconAnchor: [21, 59]
@@ -77,27 +74,6 @@ const Bibo: FC<{}> = () => {
         queryZoneList();
     }, []);
 
-    /**
-     * 间隔n秒查询信号环
-     */
-    const queryDeviceHandle = () => {
-        const tasks = devices
-            .filter(item => (item.options as MarkerOptionsEx).status === DeviceState.Normal)
-            .map(item => {
-                const { deviceId } = item.options as MarkerOptionsEx;
-                if (map !== null) {
-                    const willRemove = circles.filter(i => i.deviceId === deviceId);
-                    for (let i = 0; i < willRemove.length; i++) {
-                        willRemove[i].circle.removeFrom(map);
-                    }
-                }
-                return queryDeviceTopAlarms(deviceId);
-            });
-        Promise.allSettled(tasks);
-    };
-
-    useSubscribe('query-each-20', queryDeviceHandle);
-
     useEffect(() => {
 
         if (map === null || alarmsOfDevice === undefined) {
@@ -113,19 +89,6 @@ const Bibo: FC<{}> = () => {
             const alarms = alarmsOfDevice[deviceId];
 
             if (alarms && alarms.length > 0) {
-                //信号环
-                if (map !== null) {
-                    //更新前清空环
-                    circles.forEach(item => item.circle.removeFrom(map!));
-                }
-                circles = alarms.map(item => {
-                    const circle = loadCircle(devices[i].getLatLng(), getColor(item.protocolType!), item.radius);
-                    circle.addTo(map!);
-                    return {
-                        deviceId,
-                        circle
-                    };
-                });
 
                 //更换Icon
                 const nextMarker = L.marker([
@@ -195,7 +158,7 @@ const Bibo: FC<{}> = () => {
                 return mark;
             });
         if (map !== null) {
-            map.setZoom(14);
+            // map.setZoom(14);
         }
     };
 
@@ -218,10 +181,11 @@ const Bibo: FC<{}> = () => {
                 try {
                     const res = await request.get<Zone>(`/sys/area/get-area-info/${first.id}`);
                     if (res !== null && res.code === 200) {
+                        const { areaBg, areaHeight, areaWidth } = res.data;
                         if (map !== null) {
                             initMap('bibo', map);
                         }
-                        map = loadMap('bibo', res.data.areaBg);
+                        map = loadMap('bibo', areaBg, areaWidth, areaHeight);
                         await queryDevicesOnMap(first.id.toString());
                     }
                 } catch (error) {
@@ -238,7 +202,6 @@ const Bibo: FC<{}> = () => {
     useUnmount(() => {
         disposeAllMarker(devices, map);
         devices = [];
-        circles = [];
         if (map !== null) {
             initMap('bibo', map);
             map = null;
@@ -251,16 +214,16 @@ const Bibo: FC<{}> = () => {
     const onZoneChange = async (value: number) => {
         setLoading(true);
         devices = [];
-        circles = [];
         clearPhoneAlarmData();
         try {
             const res = await request.get<Zone>(`/sys/area/get-area-info/${value}`);
             if (res !== null && res.code === 200) {
+                const { areaBg, areaHeight, areaWidth } = res.data;
                 if (map !== null) {
                     initMap('bibo', map);
                 }
-                map = loadMap('bibo', res.data.areaBg);
-                map?.setZoom(14);
+                map = loadMap('bibo', areaBg, areaWidth, areaHeight);
+                // map?.setZoom(14);
                 await queryDevicesOnMap(value.toString());
             }
         } catch (error) {

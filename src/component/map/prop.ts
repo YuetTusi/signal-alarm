@@ -11,6 +11,14 @@ export interface MapProp {
      */
     y: number,
     /**
+     * 宽
+     */
+    width: number,
+    /**
+     * 高
+     */
+    height: number,
+    /**
      * 背景图base64
      */
     background: string,

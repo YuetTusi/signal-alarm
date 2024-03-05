@@ -1,8 +1,26 @@
-import L, { LatLng } from "leaflet";
+import L, { LatLng, LatLngBoundsLiteral } from "leaflet";
 import { MAP_BACKGROUND_BOUNDS } from "@/utility/helper";
 import { Protocol } from "@/schema/protocol";
 import { AlarmMessage, PhoneAlarmInfo } from "@/schema/phone-alarm-info";
 import { ProtocolColor } from "./prop";
+
+/**
+ * 计算实际长度
+ */
+export const getRealitySize = (size: number) => size / (40008000 / 360);
+
+/**
+ * 计算地图实际边界
+ * @param width 宽
+ * @param height 高
+ */
+export const calcBounds = (width: number, height: number) => {
+    return [
+        [0, 0],
+        [getRealitySize(height), getRealitySize(width)]
+    ] as LatLngBoundsLiteral;
+};
+
 /**
  * 清空还原地图
  * @param domId 地图DOM id
@@ -20,26 +38,29 @@ export const initMap = (domId: string, mapInstance: L.Map) => {
 
 /**
  * 加载地图
- * @param domId 地图DOMid 
+ * @param domId 地图DOM ID 
  * @param background 地图图像
+ * @param width 宽
+ * @param height 高
  */
-export const loadMap = (domId: string, background: string): L.Map => {
+export const loadMap = (domId: string, background: string, width: number, height: number): L.Map => {
     let bg = background;
+    const bounds = calcBounds(width, height);
+    console.clear();
+    console.log(bounds);
     const map = L.map(domId, {
         zoomControl: false,
         doubleClickZoom: false,
         attributionControl: false,
-        maxBounds: MAP_BACKGROUND_BOUNDS,
-        minZoom: 11,
-        maxZoom: 15
+        maxBounds: bounds
     });
     if (!background.startsWith('data:image/png;base64,')) {
         bg = 'data:image/png;base64,' + background;
     }
-    L.imageOverlay(bg, MAP_BACKGROUND_BOUNDS).addTo(map);
-    map.fitBounds(MAP_BACKGROUND_BOUNDS);
-    map.setMinZoom(11);
-    map.setMaxZoom(15);
+    L.imageOverlay(bg, bounds).addTo(map);
+    map.fitBounds(bounds);
+    map.setMinZoom(18);
+    map.setMaxZoom(22);
     // map.setZoom(14);
     return map;
 };
@@ -113,22 +134,6 @@ export const getColor = (protocol: Protocol): string => {
         default:
             return '#fff';
     }
-};
-
-/**
- * 加载圆环
- * @param at 坐标位置
- * @param color 颜色
- * @param rad 半径
- */
-export const loadCircle = (at: LatLng, color: string, rad: number) => {
-    let circle = L.circle(at, {
-        color,
-        fillColor: color,
-        fillOpacity: 0.05,
-        radius: rad
-    });
-    return circle;
 };
 
 /**

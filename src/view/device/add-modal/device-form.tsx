@@ -55,6 +55,7 @@ const deviceIdExist = async (deviceId: string, id?: number) => {
 const DeviceForm: FC<DeviceFormProp> = ({ data, formRef }) => {
 
     const pointRef = useRef<[number, number]>([0, 0]);
+    const whRef = useRef<[number, number]>([0, 0]);
     const [bg, setBg] = useState<string>('');
     const [bgLoading, setBgLoading] = useState<boolean>(false);
     const { setFieldValue, setFieldsValue } = formRef;
@@ -88,8 +89,18 @@ const DeviceForm: FC<DeviceFormProp> = ({ data, formRef }) => {
         if (data) {
             (async () => {
                 try {
-                    const bg = await queryBgByZoneId(data.areaId);
-                    setBg(bg);
+                    const zone = await queryZone(data.areaId);
+                    if (zone === null) {
+                        whRef.current = [0, 0];
+                        setBg('');
+                    } else {
+                        whRef.current = [zone.areaWidth, zone.areaHeight];
+                        if (zone.areaBg.startsWith('data:image/png;base64,')) {
+                            setBg(zone.areaBg);
+                        } else {
+                            setBg('data:image/png;base64,' + zone.areaBg);
+                        }
+                    }
                 } catch (error) {
                     console.warn(error);
                 }
@@ -110,23 +121,18 @@ const DeviceForm: FC<DeviceFormProp> = ({ data, formRef }) => {
         );
 
     /**
-     * 查询区域背景
+     * 查询区域
      * @param id 区域id
      */
-    const queryBgByZoneId = async (id: string) => {
+    const queryZone = async (id: string) => {
         setBgLoading(true);
         try {
             const res = await request.get<Zone>(
                 `/sys/area/get-area-info/${id}`);
             if (res !== null && res.code === 200) {
-
-                if (res.data.areaBg.startsWith('data:image/png;base64,')) {
-                    return res.data.areaBg;
-                } else {
-                    return 'data:image/png;base64,' + res.data.areaBg;
-                }
+                return res.data;
             } else {
-                return '';
+                return null;
             }
         } catch (error) {
             throw error;
@@ -144,8 +150,18 @@ const DeviceForm: FC<DeviceFormProp> = ({ data, formRef }) => {
         pointRef.current = [0, 0];
         setBgLoading(true);
         try {
-            const bg = await queryBgByZoneId(value);
-            setBg(bg);
+            const zone = await queryZone(value);
+            if (zone === null) {
+                whRef.current = [0, 0];
+                setBg('');
+            } else {
+                whRef.current = [zone.areaWidth, zone.areaHeight];
+                if (zone.areaBg.startsWith('data:image/png;base64,')) {
+                    setBg(zone.areaBg);
+                } else {
+                    setBg('data:image/png;base64,' + zone.areaBg);
+                }
+            }
         } catch (error) {
             console.warn(error);
         } finally {
@@ -255,6 +271,8 @@ const DeviceForm: FC<DeviceFormProp> = ({ data, formRef }) => {
             open={pointModalOpen}
             x={pointRef.current[0]}
             y={pointRef.current[1]}
+            width={whRef.current[0]}
+            height={whRef.current[1]}
             background={bg}
             onCancel={() => setPointModalOpen(false)}
             onOk={(x, y) => {

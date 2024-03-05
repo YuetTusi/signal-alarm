@@ -17,6 +17,14 @@ export interface PointModalProp {
      */
     background: string,
     /**
+     * 宽
+     */
+    width: number,
+    /**
+     * 高
+     */
+    height: number,
+    /**
      * 取消
      */
     onCancel: () => void,

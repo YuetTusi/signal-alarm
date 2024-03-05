@@ -1,6 +1,7 @@
 import markerIconPng from '@/assets/image/marker-icon.png';
 import L from 'leaflet';
 import { FC, useEffect, useRef } from 'react';
+import { getRealitySize, calcBounds } from './util';
 import { MAP_BACKGROUND_BOUNDS, helper } from '@/utility/helper';
 import { MapBox } from './styled/box';
 import { MapProp } from './prop';
@@ -16,7 +17,9 @@ const defaultIcon = new L.Icon({
 /**
  * 地图
  */
-const Map: FC<MapProp> = ({ x, y, background, onAddPoint }) => {
+const Map: FC<MapProp> = ({
+    x, y, width, height, background, onAddPoint
+}) => {
 
     const prevMark = useRef<L.Marker | null>(null);
 
@@ -27,16 +30,17 @@ const Map: FC<MapProp> = ({ x, y, background, onAddPoint }) => {
         }
 
         const bg: HTMLElement = document.querySelector('#map')!;
+        const bounds = calcBounds(width, height);
         let map = L.map(bg, {
             zoomControl: false,
             doubleClickZoom: false,
             attributionControl: false,
-            maxBounds: MAP_BACKGROUND_BOUNDS
+            maxBounds: bounds
         });
-        L.imageOverlay(background, MAP_BACKGROUND_BOUNDS).addTo(map);
-        map.fitBounds(MAP_BACKGROUND_BOUNDS);
-        map.setMinZoom(10);
-        map.setMaxZoom(15);
+        L.imageOverlay(background, bounds).addTo(map);
+        map.fitBounds(bounds);
+        map.setMinZoom(18);
+        map.setMaxZoom(22);
 
         if (x !== 0 && y !== 0) {
             const mark = L.marker([x, y], { icon: defaultIcon }).addTo(map!);
@@ -71,7 +75,7 @@ const Map: FC<MapProp> = ({ x, y, background, onAddPoint }) => {
             }
             onAddPoint(e.latlng.lat, e.latlng.lng);
         });
-    }, [x, y, background, onAddPoint]);
+    }, [x, y, width, height, background, onAddPoint]);
 
     return <MapBox id="map">
 

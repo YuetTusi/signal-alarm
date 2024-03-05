@@ -7,7 +7,7 @@ import { PointModalProp } from './prop';
  * 地图打点Modal
  */
 const PointModal: FC<PointModalProp> = ({
-    open, x, y, background, onCancel, onOk
+    open, x, y, width, height, background, onCancel, onOk
 }) => {
 
     const point = useRef<[number, number]>([0, 0]);
@@ -39,8 +39,10 @@ const PointModal: FC<PointModalProp> = ({
         <Map
             x={x}
             y={y}
-            onAddPoint={onAddPoint}
-            background={background} />
+            width={width}
+            height={height}
+            background={background}
+            onAddPoint={onAddPoint} />
 
     </Modal>
 };
