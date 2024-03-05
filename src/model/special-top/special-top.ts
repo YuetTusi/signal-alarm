@@ -107,7 +107,7 @@ const specialTop = (setState: SetState, getState: GetState): SpecialTopState => 
                     specialWapTopData: res.data.sort((a, b) =>
                         dayjs(a.captureTime, 'YYYY-MM-DD HH:mm:ss')
                             .isAfter(dayjs(b.captureTime, 'YYYY-MM-DD HH:mm:ss')) ? -1 : 1)
-                        .map(item => ({ ...JSON.parse(item.content) }))
+                        .map(item => ({ ...JSON.parse(item.content), captureTime: item.captureTime }))
                 });
             }
         } catch (error) {
