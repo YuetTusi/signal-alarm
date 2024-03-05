@@ -46,8 +46,6 @@ export const initMap = (domId: string, mapInstance: L.Map) => {
 export const loadMap = (domId: string, background: string, width: number, height: number): L.Map => {
     let bg = background;
     const bounds = calcBounds(width, height);
-    console.clear();
-    console.log(bounds);
     const map = L.map(domId, {
         zoomControl: false,
         doubleClickZoom: false,

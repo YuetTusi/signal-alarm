@@ -40,31 +40,29 @@ const TotalList: FC<TotalListProp> = ({ data, type }) => {
                 } else {
                     return <Wifi data={item as Hotspot} />;
                 }
+            case Protocol.Bluetooth50:
+                return <Bluetooth data={item as BluetoothEntity} />;
             default:
-                if ((item as BluetoothEntity)?.isBluetooth) {
-                    return <Bluetooth data={item as BluetoothEntity} />
-                } else {
-                    return <>
-                        <div className="inner-row">
-                            <div className="list-row-txt note">
-                                <ContentLabel type={type} data={item} />
-                                {renderArfcn(item)}
-                            </div>
-                            <div className="list-row-val">
-                                <Signal value={Number(item?.rssi)} max={0} min={-100} />
-                            </div>
+                return <>
+                    <div className="inner-row">
+                        <div className="list-row-txt note">
+                            <ContentLabel type={type} data={item} />
+                            {renderArfcn(item)}
                         </div>
-                        <div className="inner-row">
-                            <div className="list-row-txt">
-                                <CategoryTag data={item} />
-                                <NoWarpLabel width={220} title={item.siteName}>{item.siteName ?? '-'}</NoWarpLabel>
-                            </div>
-                            <div className="list-row-val">
-                                {item.captureTime}
-                            </div>
+                        <div className="list-row-val">
+                            <Signal value={Number(item?.rssi)} max={0} min={-100} />
                         </div>
-                    </>;
-                }
+                    </div>
+                    <div className="inner-row">
+                        <div className="list-row-txt">
+                            <CategoryTag data={item} />
+                            <NoWarpLabel width={220} title={item.siteName}>{item.siteName ?? '-'}</NoWarpLabel>
+                        </div>
+                        <div className="list-row-val">
+                            {item.captureTime}
+                        </div>
+                    </div>
+                </>;
         }
     };
 
