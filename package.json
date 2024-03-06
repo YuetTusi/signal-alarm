@@ -57,10 +57,6 @@
 			"target": [
 				{
 					"target": "AppImage",
-					"arch": "arm64"
-				},
-				{
-					"target": "AppImage",
 					"arch": "x64"
 				}
 			],
