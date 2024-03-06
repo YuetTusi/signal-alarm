@@ -10,46 +10,48 @@
 		<script type="text/javascript">
 			const { ipcRenderer } = require('electron');
 
+			var timer1 = null,
+				timer2 = null,
+				timer3 = null;
+			var second = 0;
+
 			(() => {
-				setInterval(() => {
-					//每1秒查询
+				timer1 = setInterval(() => {
+					if (second >= Number.MAX_VALUE) {
+						second = 0;
+					}
 					ipcRenderer.send('query-each-1');
+					if (second % 5 === 0) {
+						ipcRenderer.send('query-each-5');
+					}
+					if (second % 20 === 0) {
+						ipcRenderer.send('query-each-20');
+					}
+					if (new Date().toLocaleTimeString() === '00:00:00') {
+						ipcRenderer.send('alarm-clean');
+					}
+					second++;
 				}, 1000);
 			})();
 
 			(() => {
-				setInterval(() => {
-					//每5秒查询, 专项数据，报警信号泛围
-					ipcRenderer.send('query-each-5');
-				}, 1000 * 5);
-			})();
-
-			(() => {
-				setInterval(() => {
-					//每20秒查询, 专项数据，报警信号泛围
-					ipcRenderer.send('query-each-20');
-				}, 1000 * 20);
-			})();
-
-			(() => {
-				setInterval(() => {
+				timer2 = setInterval(() => {
 					ipcRenderer.send('query-special-type-statis');
 				}, 1000 * 60 * 2);
 			})();
 
 			(() => {
-				setInterval(() => {
-					if (new Date().toLocaleTimeString() === '00:00:00') {
-						ipcRenderer.send('alarm-clean');
-					}
-				}, 1000);
-			})();
-
-			(() => {
-				setInterval(() => {
+				timer3 = setInterval(() => {
 					ipcRenderer.send('alarm-drop-all');
 				}, 1000 * 60 * 60); //每1小时清空报警消息
 			})();
+
+			window.onunload = () => {
+				second = 0;
+				clearInterval(timer1);
+				clearInterval(timer2);
+				clearInterval(timer3);
+			};
 		</script>
 	</body>
 </html>
