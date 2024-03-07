@@ -12,7 +12,7 @@ import {
 import { CanvasRenderer } from 'echarts/renderers';
 import { useResize } from '@/hook';
 import { ChartBox } from './styled/box';
-import { SpectrumProp } from './prop';
+import { SpectrumProp, SpectrumType } from './prop';
 
 // 注册必须的组件
 echarts.use([
@@ -40,7 +40,7 @@ const chartResize = (chart: echarts.ECharts | null, containerId: string) => {
  * 实时频谱线图
  */
 const Spectrum: FC<SpectrumProp> = ({
-    domId, realData, compareData, arfcn
+    domId, type, realData, compareData, arfcn
 }) => {
 
     const chartDom = useRef<HTMLDivElement>(null);
@@ -58,13 +58,14 @@ const Spectrum: FC<SpectrumProp> = ({
     /**
      * 图例配置
      */
-    const getLegend = () => {
-        const legends = [{ name: '实时频谱' }];
-        if (compareData && compareData.length > 0) {
-            legends.push({ name: '背景频谱' });
-        }
-        return legends;
-    };
+    // const getLegend = () => {
+    //     const legends = [{ name: type === SpectrumType.Live ? '实时频谱' : '历史频谱' }];
+    //     if (compareData && compareData.length > 0) {
+    //         legends.push({ name: '背景频谱' });
+    //     }
+    //     console.log(legends);
+    //     return legends;
+    // };
 
     useEffect(() => {
         if (chartDom.current) {
@@ -97,7 +98,11 @@ const Spectrum: FC<SpectrumProp> = ({
                     orient: 'vertical',
                     x: 'right',
                     y: 60,
-                    data: [],
+                    data: [{
+                        name: type === SpectrumType.Live ? '实时频谱' : '历史频谱'
+                    }, {
+                        name: '背景频谱'
+                    }]
                     // right: '50%',
                     // trigger: 'item',
                     // pageIconColor: '#256bec',
@@ -159,7 +164,7 @@ const Spectrum: FC<SpectrumProp> = ({
 
             let seriseData: any[] = [{
                 data: realData,
-                name: `实时频谱`,
+                name: type === SpectrumType.Live ? '实时频谱' : '历史频谱',
                 type: 'line',
                 smooth: false,
                 itemStyle: {
@@ -191,13 +196,19 @@ const Spectrum: FC<SpectrumProp> = ({
 
             const prev = myChart.getOption();
 
+            console.log(prev);
+
             myChart.setOption({
                 ...prev,
                 legend: {
                     orient: 'vertical',
                     x: 'right',
                     y: 60,
-                    data: getLegend()
+                    data: [{
+                        name: type === SpectrumType.Live ? '实时频谱' : '历史频谱'
+                    }, {
+                        name: '背景频谱'
+                    }]
                 },
                 xAxis: { data: arfcn },
                 series: seriseData

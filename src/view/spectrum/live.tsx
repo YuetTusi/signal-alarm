@@ -7,6 +7,7 @@ import { useModel } from '@/model';
 import { helper } from '@/utility/helper';
 import { DisplayPanel } from '@/component/panel';
 import { Spectrum, Rate } from '@/component/chart';
+import { SpectrumType } from '@/component/chart/spectrum';
 import { SetForm, FormValue } from './set-form';
 import { LiveBox, SearchBar } from './styled/box';
 import { SpecOperate } from './prop';
@@ -248,6 +249,7 @@ const Live: FC<{}> = () => {
             <div id="realOuterBox" className="chart-box">
                 <Spectrum
                     domId="realOuterBox"
+                    type={SpectrumType.Live}
                     realData={realSpectrumData}
                     compareData={bgSpectrumData}
                     arfcn={

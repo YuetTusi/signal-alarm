@@ -8,7 +8,6 @@ export interface RateProp {
     /**
      * 比对数据
      */
-    // compareData: FreqCompare[],
     compareData: { currentOffsetSignal: number | undefined; itemStyle: any; }[],
     /**
      * 表格数据

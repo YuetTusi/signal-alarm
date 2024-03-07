@@ -10,6 +10,7 @@ import { helper } from '@/utility/helper';
 import { FreqCompare } from '@/schema/freq-compare';
 import { DisplayPanel } from '@/component/panel';
 import { Spectrum, Rate } from '@/component/chart';
+import { SpectrumType } from '@/component/chart/spectrum';
 import { PastForm, FormValue } from './past-form';
 import { ClockBox, LiveBox, SearchBar } from './styled/box';
 import { PastOperate, PastProp } from './prop';
@@ -350,6 +351,7 @@ const Past: FC<PastProp> = () => {
             <div id="pastOuterBox" className="chart-box">
                 <Spectrum
                     domId="pastOuterBox"
+                    type={SpectrumType.Past}
                     realData={historySpectrumData}
                     compareData={historyBgSpectrumData}
                     arfcn={
