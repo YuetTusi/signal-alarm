@@ -14,7 +14,7 @@ export const getCompareColumns = (handle: (action: number) => void): ColumnsType
         dataIndex: 'freq',
         width: 120,
         render(val) {
-            return Math.trunc(val * 0.8);
+            return Math.trunc(val * 0.8 + 1);
         }
     }, {
         title: '背景强度',
