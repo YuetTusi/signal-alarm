@@ -13,7 +13,7 @@ const getColumns = (handle: (actionType: ActionType, data: Hotspot) => void): Co
         title: '类型',
         key: 'protocolType',
         dataIndex: 'protocolType',
-        width: 120,
+        width: 95,
         align: 'center',
         render: (val: any) => getProtocolText(val)
     }, {
@@ -38,25 +38,19 @@ const getColumns = (handle: (actionType: ActionType, data: Hotspot) => void): Co
         title: '强度',
         key: 'rssi',
         dataIndex: 'rssi',
-        width: 80
+        width: 90
     }, {
         title: '厂商',
         key: 'org',
         dataIndex: 'org',
-        width: 200,
         render(val: string) {
-            return <NoWarpLabel title={val} width={190}>{val}</NoWarpLabel>;
+            return <NoWarpLabel title={val} width={120}>{val}</NoWarpLabel>;
         }
     }, {
         title: '频点号',
         key: 'channel',
         dataIndex: 'channel',
         width: 80
-    }, {
-        title: '第二频点',
-        key: 'secondChannel',
-        dataIndex: 'secondChannel',
-        width: 100
     },
     {
         title: '上行流量',
@@ -79,36 +73,38 @@ const getColumns = (handle: (actionType: ActionType, data: Hotspot) => void): Co
         title: '设备场所',
         key: 'siteName',
         dataIndex: 'siteName',
-        width: 200,
+        // width: 200,
         render(val: string) {
-            return <NoWarpLabel title={val} width={190}>{val}</NoWarpLabel>;
+            return <NoWarpLabel title={val} width={100}>{val}</NoWarpLabel>;
         }
     }, {
         title: '时间',
         key: 'captureTime',
         dataIndex: 'captureTime',
         align: 'center',
-        width: 220
+        width: 200
     }, {
         title: '添加',
         key: 'whiteList',
         dataIndex: 'whiteList',
         align: 'center',
-        width: 260,
+        width: 200,
         fixed: 'right',
         render(_: any, record) {
             return <Group>
                 <Button
                     onClick={() => handle(ActionType.AddToWhiteList, record)}
-                    type="primary"
-                    size="middle">
+                    type="link"
+                    size="middle"
+                    style={{ padding: '1px 4px' }}>
                     <PlusOutlined />
                     <span>白名单</span>
                 </Button>
                 <Button
                     onClick={() => handle(ActionType.AddToFakeHotspot, record)}
-                    type="primary"
-                    size="middle">
+                    type="link"
+                    size="middle"
+                    style={{ padding: '1px 4px' }}>
                     <PlusOutlined />
                     <span>伪热点</span>
                 </Button>

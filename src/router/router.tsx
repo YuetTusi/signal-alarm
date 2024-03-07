@@ -3,6 +3,7 @@ import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from '@/component/layout';
 import Login from '@/view/login';
 import Dashboard from '@/view/dashboard';
+import SpecialDetail from '@/view/special-detail';
 import Device from '@/view/device';
 import Zone from '@/view/zone';
 import SysUser from '@/view/sys-user';
@@ -31,6 +32,14 @@ export const ViewRouter: FC<{}> = () => <Router>
                     <Dashboard />
                 </Layout>
             } />
+        <Route
+            path="/special-detail/:type"
+            element={
+                <Layout>
+                    <SpecialDetail />
+                </Layout>
+            }
+        />
         <Route
             path="/real-spectrum"
             element={

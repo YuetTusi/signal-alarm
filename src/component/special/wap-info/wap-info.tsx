@@ -1,5 +1,6 @@
 import electron from 'electron';
 import { FC, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { DoubleRightOutlined } from '@ant-design/icons';
 import { Empty, Tabs, message } from 'antd';
 import { useModel } from '@/model';
@@ -100,6 +101,8 @@ const toTabItem = (data: SpecialBase[], type: SpiTab) => [{
  * 专项检查数据（，手机信号，其他等）
  */
 const WapInfo: FC<WapInfoProp> = ({ }) => {
+
+    const navigate = useNavigate();
 
     const {
         specialWapTopData,
@@ -244,7 +247,7 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
             <div className="caption">
                 <span>专项检查Top10</span>
                 <a
-                    onClick={() => setSpecialDetailModalOpen(true)}
+                    onClick={() => navigate(`/special-detail/${specialActiveKey}`)}
                     style={{ color: '#fff' }}>更多</a>
             </div>
             <div className="content">

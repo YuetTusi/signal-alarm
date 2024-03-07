@@ -8,7 +8,7 @@ import {
     CameraTable,
     // WiretapTable,
     OthersTable
-} from '../detail-table';
+} from '@/component/special/detail-table';
 import { useModel } from '@/model';
 import { ModalBox } from './styled/box';
 import { SpiTab } from '../wap-info/prop';

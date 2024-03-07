@@ -5,6 +5,7 @@ import { Button, Dropdown } from 'antd';
 import { useModel } from '@/model';
 import { SystemMenu } from '@/schema/system-menu';
 import { SettingMenuProp, MenuPath } from './prop';
+import { SpiTab } from '../special/wap-info/prop';
 
 /**
  * 系统设置下拉菜单
@@ -16,13 +17,13 @@ const SettingMenu: FC<SettingMenuProp> = ({ }) => {
         sysMenuData,
         setAlarmDetailModalOpen,
         setQuickCheckReportDetailModalOpen,
-        setSpecialDetailModalOpen,
+        // setSpecialDetailModalOpen,
         querySysMenuData
     } = useModel(state => ({
         sysMenuData: state.sysMenuData,
         setAlarmDetailModalOpen: state.setAlarmDetailModalOpen,
         setQuickCheckReportDetailModalOpen: state.setQuickCheckReportDetailModalOpen,
-        setSpecialDetailModalOpen: state.setSpecialDetailModalOpen,
+        // setSpecialDetailModalOpen: state.setSpecialDetailModalOpen,
         querySysMenuData: state.querySysMenuData
     }));
 
@@ -39,8 +40,7 @@ const SettingMenu: FC<SettingMenuProp> = ({ }) => {
         switch (path) {
             case MenuPath.SpiSearch:
                 //专项检查
-                navigator('/dashboard');
-                setSpecialDetailModalOpen(true);
+                navigator(`/special-detail/${SpiTab.All}`);
                 break;
             case MenuPath.WarnSearch:
                 //预警信息

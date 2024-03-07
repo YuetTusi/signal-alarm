@@ -1,4 +1,3 @@
-import maxBy from 'lodash/maxBy';
 import { message } from "antd";
 import { log } from "@/utility/log";
 import { helper } from "@/utility/helper";
@@ -222,6 +221,8 @@ const realSpectrum = (setState: SetState, getState: GetState): RealSpectrumState
                         return prev[index];
                     }
                 });
+
+                console.log(res.data.freqCmpResList);
 
                 setState({
                     realSpectrumData: realData,//实时曲线数据

@@ -245,7 +245,7 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
                 showSizeChanger: false,
                 showTotal: (total) => `共${total}条`
             }}
-            scroll={{ x: 1660 }}
+            // scroll={{ x: 1660 }}
             rowKey="id"
             size="middle"
         />

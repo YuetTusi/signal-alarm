@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { MenuOutlined } from '@ant-design/icons';
 import { Button, Modal, Tabs } from 'antd';
 import { useModel } from '@/model';
+import { SpiTab } from '../special/wap-info/prop';
 import { FlatButtons } from './flat-buttons';
 import { FlatBox } from './styled/box';
 import { MenuPath, RouteMenuProp } from './prop';
@@ -15,7 +16,7 @@ const RouteMenu: FC<RouteMenuProp> = () => {
         routeMenuOpen,
         sysMenuData,
         setRouteMenuOpen,
-        setSpecialDetailModalOpen,
+        // setSpecialDetailModalOpen,
         setAlarmDetailModalOpen,
         setQuickCheckReportDetailModalOpen,
         querySysMenuData
@@ -23,7 +24,7 @@ const RouteMenu: FC<RouteMenuProp> = () => {
         routeMenuOpen: state.routeMenuOpen,
         sysMenuData: state.sysMenuData,
         setRouteMenuOpen: state.setRouteMenuOpen,
-        setSpecialDetailModalOpen: state.setSpecialDetailModalOpen,
+        // setSpecialDetailModalOpen: state.setSpecialDetailModalOpen,
         setAlarmDetailModalOpen: state.setAlarmDetailModalOpen,
         setQuickCheckReportDetailModalOpen: state.setQuickCheckReportDetailModalOpen,
         querySysMenuData: state.querySysMenuData
@@ -53,8 +54,7 @@ const RouteMenu: FC<RouteMenuProp> = () => {
                         switch (path) {
                             case MenuPath.SpiSearch:
                                 //专项检查
-                                navigator('/dashboard');
-                                setSpecialDetailModalOpen(true);
+                                navigator(`/special-detail/${SpiTab.Signal}`);
                                 break;
                             case MenuPath.WarnSearch:
                                 //预警信息
