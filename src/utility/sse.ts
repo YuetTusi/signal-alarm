@@ -8,7 +8,7 @@ let source: EventSource | null = null;
 /**
  * 创建SSE实例绑定onMessage回调
  */
-const instance = (onMessage: (this: EventSource, ev: MessageEvent<any>) => any) => {
+const instance = (onMessage: (this: EventSource, ev: MessageEvent<any>) => any): EventSource => {
 
     const userId = sessionStorage.getItem(StorageKeys.UserId)!;
     const hash = sessionStorage.getItem(StorageKeys.MsgKey)!;
@@ -19,13 +19,13 @@ const instance = (onMessage: (this: EventSource, ev: MessageEvent<any>) => any) 
         );
 
         source.addEventListener('open', () => {
-            console.log('SSE open');
+            console.log('SSE Open');
         });
 
         source.addEventListener('message', onMessage);
 
-        source.addEventListener('error', (event) => {
-            console.log('SSE error: ', event);
+        source.addEventListener('error', (e) => {
+            console.log('SSE Error: ', e);
         });
     }
 
@@ -38,7 +38,7 @@ const instance = (onMessage: (this: EventSource, ev: MessageEvent<any>) => any) 
 const closeSse = () => {
     if (source) {
         const hash = sessionStorage.getItem(StorageKeys.Hash) ?? '';
-        console.log(`SSE close ${hash}`);
+        console.log(`SSE Close ${hash}`);
         source.close();
         request.get(`/sse/close?hash=${hash}`);
         source = null;

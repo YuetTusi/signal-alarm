@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Demotion } from './demotion';
 import { AuthProp } from './prop';
 

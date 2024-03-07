@@ -10,7 +10,7 @@ import { bindHandle } from './bind';
 import { AppMode, Conf } from '../schema/conf';
 
 const cwd = process.cwd();
-const { env, resourcesPath, platform } = process;
+const { env, resourcesPath } = process;
 const isDev = env['NODE_ENV'] === 'development';
 // const isLinux = platform === 'linux';
 var conf: Conf = { mode: 0, alarmType: 0 };

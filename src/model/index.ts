@@ -31,6 +31,7 @@ import { bibo, BiboState } from './bibo';
 import { whiteList, WhiteListState } from './white-list';
 import { alarmChart, AlarmChartState } from './alarm-chart';
 import { fakeHotspot, FakeHotspotState } from './fake-hotspot';
+import { pointLocate, PointLocateState } from './point-locate';
 
 interface OtherState {
     [stateName: string]: any
@@ -70,7 +71,8 @@ type State = OtherState
     & BiboState
     & WhiteListState
     & AlarmChartState
-    & FakeHotspotState;
+    & FakeHotspotState
+    & PointLocateState;
 
 type GetState = StoreApi<State>['getState'];
 type SetState = StoreApi<State>['setState'];
@@ -110,7 +112,8 @@ const useModel = create<State>(zustandLog((setState: SetState, getState: GetStat
     ...bibo(setState, getState),
     ...whiteList(setState, getState),
     ...alarmChart(setState, getState),
-    ...fakeHotspot(setState, getState)
+    ...fakeHotspot(setState, getState),
+    ...pointLocate(setState, getState)
 }), false));
 
 export type { State, GetState, SetState };
