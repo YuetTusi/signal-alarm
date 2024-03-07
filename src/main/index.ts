@@ -205,14 +205,16 @@ ipcMain.on('do-close', (_: IpcMainEvent) => {
 ipcMain.on('do-relaunch', () => {
     app.relaunch();
     globalShortcut.unregisterAll();
-    if (mainWindow && !mainWindow.isDestroyed()) {
-        mainWindow.destroy();
-    }
     if (reportWindow && !reportWindow.isDestroyed()) {
         reportWindow.destroy();
+        reportWindow = null;
     }
     if (timerWindow && !timerWindow.isDestroyed()) {
         timerWindow.destroy();
+        timerWindow = null;
+    }
+    if (mainWindow && !mainWindow.isDestroyed()) {
+        mainWindow.destroy();
     }
     app.exit(0);
 });
@@ -272,7 +274,6 @@ app.on('window-all-closed', () => {
     }
     if (timerWindow && !timerWindow.isDestroyed()) {
         timerWindow.destroy();
-        timerWindow = null;
     }
     if (mainWindow && !mainWindow.isDestroyed()) {
         mainWindow.destroy();
