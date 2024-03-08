@@ -1,5 +1,4 @@
-import dayjs from 'dayjs';
-import { FC, useEffect, MouseEvent } from 'react';
+import { FC, MouseEvent } from 'react';
 import { Col, Row, Form, Button, Input, DatePicker, TreeSelect } from 'antd';
 import { useModel } from '@/model';
 import { helper } from '@/utility/helper';
@@ -18,15 +17,6 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
         deviceList: state.deviceList,
         specialHotspotTotal: state.specialHotspotTotal
     }));
-
-    useEffect(() => {
-        formRef.setFieldsValue({
-            beginTime: dayjs(dayjs().add(-1, 'w').format('YYYY-MM-DD 00:00:00')),
-            endTime: dayjs(dayjs().format('YYYY-MM-DD 23:59:59')),
-            type: 'all',
-            site: [JSON.stringify({ type: 'all', deviceId: [] })]
-        });
-    }, []);
 
     /**
      * 查询Click

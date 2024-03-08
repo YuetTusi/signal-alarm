@@ -4,6 +4,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import debounce from 'lodash/debounce';
 import electron, { OpenDialogReturnValue } from 'electron';
 import { FC, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { App, message, Form, Table } from 'antd';
 import { useModel } from '@/model';
 import { Hotspot } from '@/schema/hotspot';
@@ -28,6 +29,7 @@ const { useForm } = Form;
  */
 const HotspotTable: FC<HotspotTableProp> = ({ }) => {
 
+    const [param] = useSearchParams();
     const { modal } = App.useApp();
     const [formRef] = useForm<SearchFormValue>();
 
@@ -37,7 +39,7 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
         specialHotspotTotal,
         specialHotspotData,
         specialHotspotLoading,
-        specialDefaultHotspotName,
+        // specialDefaultHotspotName,
         querySpecialHotspotData,
         exportSpecialHotspotData,
         addWhiteList,
@@ -50,7 +52,7 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
         specialHotspotTotal: state.specialHotspotTotal,
         specialHotspotData: state.specialHotspotData,
         specialHotspotLoading: state.specialHotspotLoading,
-        specialDefaultHotspotName: state.specialDefaultHotspotName,
+        // specialDefaultHotspotName: state.specialDefaultHotspotName,
         setReading: state.setReading,
         addWhiteList: state.addWhiteList,
         addFakeHotspot: state.addFakeHotspot,
@@ -60,20 +62,32 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
     }));
 
     useEffect(() => {
+        const hotspotName = param.get('hotspotName');
+        const initValue: SearchFormValue = {
+            beginTime: dayjs(dayjs().add(-1, 'w').format('YYYY-MM-DD 00:00:00')),
+            endTime: dayjs(dayjs().format('YYYY-MM-DD 23:59:59')),
+            type: 'all',
+            site: [JSON.stringify({ type: 'all', deviceId: [] })],
+            hotspotName: ''
+        };
+        if (!helper.isNullOrUndefined(hotspotName)) {
+            initValue.hotspotName = hotspotName ?? '';
+        }
+        formRef.setFieldsValue(initValue);
         querySpecialHotspotData(
             1,
             helper.PAGE_SIZE,
             {
                 beginTime: dayjs().add(-1, 'w').format('YYYY-MM-DD 00:00:00'),
                 endTime: dayjs().format('YYYY-MM-DD 23:59:59'),
-                hotspotName: specialDefaultHotspotName, //从伪热点跳转会有此条件
+                hotspotName: initValue.hotspotName, //从伪热点跳转会有此条件
                 protocolTypes: helper.protocolToString([
                     Protocol.WiFi58G,
                     Protocol.WiFi24G
                 ])
             }
         );
-    }, [specialDefaultHotspotName]);
+    }, []);
 
     /**
      * 翻页Change

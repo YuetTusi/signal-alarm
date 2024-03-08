@@ -141,19 +141,7 @@ const FakeHotspot: FC<FakeHotspotProp> = () => {
              * 详情
              */
             case ActionType.Detail:
-                navigate('/dashboard');
-                setSpecialDetailModalOpen(true);
-                setSpecialActiveKey(SpiTab.Hotspot);
-                setSpecialDefaultHotspotName(data.hotspotName);
-                // querySpecialHotspotData(1, helper.PAGE_SIZE, {
-                //     beginTime: dayjs().add(-1, 'w').format('YYYY-MM-DD 00:00:00'),
-                //     endTime: dayjs().format('YYYY-MM-DD 23:59:59'),
-                //     hotspotName: data.hotspotName,
-                //     protocolTypes: helper.protocolToString([
-                //         Protocol.WiFi58G,
-                //         Protocol.WiFi24G
-                //     ])
-                // });
+                navigate(`/special-detail/${SpiTab.Hotspot}?hotspotName=${data.hotspotName}`);
                 break;
             case ActionType.Del:
                 modal.confirm({

@@ -10,9 +10,9 @@ import {
     OthersTable
 } from '@/component/special/detail-table';
 import { useModel } from '@/model';
+import { useUnmount } from '@/hook';
 import { SpiTab } from '@/component/special/wap-info/prop';
 import { PageBox, SearchBar, TabBox } from './styled/box';
-import { useUnmount } from '@/hook';
 
 /**
  * 专项检查详情页
