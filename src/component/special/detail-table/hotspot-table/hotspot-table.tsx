@@ -93,13 +93,16 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
      * 翻页Change
      */
     const onPageChange = async (pageIndex: number, pageSize: number) => {
-        const { beginTime, endTime, type, site } = formRef.getFieldsValue();
+        const {
+            beginTime, endTime, type, site, hotspotName
+        } = formRef.getFieldsValue();
         try {
             await querySpecialHotspotData(pageIndex, pageSize, {
                 beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
                 endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
                 protocolTypes: getTypes(type),
-                deviceId: helper.getDeviceIdFromDropdown(site)
+                deviceId: helper.getDeviceIdFromDropdown(site),
+                hotspotName
             });
 
         } catch (error) {
