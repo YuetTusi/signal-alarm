@@ -4,7 +4,6 @@ import { PhoneAlarmState } from '.';
 
 const phoneAlarm = (setState: SetState, getState: GetState): PhoneAlarmState => ({
 
-    sound: false,
     /**
      * 用户ID
      */
@@ -16,12 +15,6 @@ const phoneAlarm = (setState: SetState, getState: GetState): PhoneAlarmState => 
      */
     setPhoneAlarmData: (payload: PhoneAlarmInfo[]) => {
         setState({ phoneAlarmData: payload });
-    },
-    /**
-     * 设置声音
-     */
-    setSound: (payload: boolean) => {
-        setState({ sound: payload });
     },
     /**
      * 追加报警信息

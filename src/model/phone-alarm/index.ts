@@ -4,17 +4,9 @@ import { phoneAlarm } from './phone-alarm';
 interface PhoneAlarmState {
 
     /**
-     * 使用声音
-     */
-    sound: boolean,
-    /**
      * 报红数据
      */
     phoneAlarmData: PhoneAlarmInfo[],
-    /**
-     * 设置声音
-     */
-    setSound: (payload: boolean) => void,
     /**
      * 更新
      */

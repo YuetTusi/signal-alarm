@@ -32,6 +32,7 @@ import { whiteList, WhiteListState } from './white-list';
 import { alarmChart, AlarmChartState } from './alarm-chart';
 import { fakeHotspot, FakeHotspotState } from './fake-hotspot';
 import { pointLocate, PointLocateState } from './point-locate';
+import { sound, SoundState } from './sound';
 
 interface OtherState {
     [stateName: string]: any
@@ -72,7 +73,8 @@ type State = OtherState
     & WhiteListState
     & AlarmChartState
     & FakeHotspotState
-    & PointLocateState;
+    & PointLocateState
+    & SoundState;
 
 type GetState = StoreApi<State>['getState'];
 type SetState = StoreApi<State>['setState'];
@@ -113,7 +115,8 @@ const useModel = create<State>(zustandLog((setState: SetState, getState: GetStat
     ...whiteList(setState, getState),
     ...alarmChart(setState, getState),
     ...fakeHotspot(setState, getState),
-    ...pointLocate(setState, getState)
+    ...pointLocate(setState, getState),
+    ...sound(setState, getState)
 }), false));
 
 export type { State, GetState, SetState };
