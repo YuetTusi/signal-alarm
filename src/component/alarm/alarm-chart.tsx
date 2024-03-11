@@ -55,6 +55,9 @@ var option = {
     },
     yAxis: {
         type: 'value',
+        min: 0,
+        max: 70,
+        interval: 10,
         axisLabel: {
             fontSize: 16
         }
