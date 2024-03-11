@@ -1,8 +1,6 @@
 import { AlarmMessage } from "@/schema/phone-alarm-info";
 
 export interface RadarInfoProp {
-
-    open: boolean,
     /**
      * 设备id
      */

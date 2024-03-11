@@ -11,6 +11,7 @@ import { Point } from './point';
 import { pointMap, getLoopIndex } from './rnd-point';
 import { RadarBox } from './styled/box';
 import { PointAt, RadarInfoProp } from './prop';
+import useModel from '@/model';
 
 const { alarmType } = helper.readConf();
 
@@ -19,51 +20,37 @@ let timer: any = null;
 /**
  * 报警详情
  */
-const RadarInfo: FC<RadarInfoProp> = ({ open, data, deviceId, onClose }) => {
+const RadarInfo: FC<RadarInfoProp> = ({ data, deviceId, onClose }) => {
 
     const m = useRef<Map<Protocol, PointAt>>(new Map());//缓存位置点
-    const [_, forceRender] = useState(false);
+    const { setSound } = useModel(state => ({ setSound: state.setSound }));
 
     useEffect(() => {
-        timer = setTimeout(() => {
-            forceRender(prev => !prev);
-        }, 5000);
-        return () => {
-            clearTimeout(timer);
-        }
-    }, [data]);
+        let alarms: AlarmMessage[] = [];
 
-    useEffect(() => {
-        if (!open) {
-            m.current.clear();
+        //单机版
+        for (let [, v] of Object.entries(data)) {
+            alarms = alarms.concat(v.filter(item => {
+                //过滤掉超过10秒的点
+                const isOver = dayjs().diff(item.captureTime, 's') <= 10;
+                return isOver;
+            }));
         }
-    }, [open]);
+
+        setSound(alarms.length > 0);
+    }, [data, deviceId]);
 
     const renderPoint = () => {
 
         let alarms: AlarmMessage[] = [];
 
-        if (alarmType === AlarmType.Single) {
-            //单机版
-            for (let [, v] of Object.entries(data)) {
-                alarms = alarms.concat(v.filter(item => {
-                    //过滤掉超过10秒的点
-                    const isOver = dayjs().diff(item.captureTime, 's') <= 10;
-                    return isOver;
-                }));
-            }
-        } else {
-            //网络版（筛选当前deviceId的报警）
-            if (deviceId === undefined || data[deviceId] === undefined) {
-                return null;
-            } else {
-                alarms = alarms.concat(data[deviceId]
-                    .filter(item => {
-                        //过滤掉超过10秒的点
-                        const isOver = dayjs().diff(item.captureTime, 's') <= 10;
-                        return isOver;
-                    }));
-            }
+        //单机版
+        for (let [, v] of Object.entries(data)) {
+            alarms = alarms.concat(v.filter(item => {
+                //过滤掉超过10秒的点
+                const isOver = dayjs().diff(item.captureTime, 's') <= 10;
+                return isOver;
+            }));
         }
 
         return alarms.map((item, index) => {
@@ -155,7 +142,7 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, data, deviceId, onClose }) => {
         }
     };
 
-    return <RadarBox style={{ display: open ? 'flex' : 'none' }}>
+    return <RadarBox>
         <div className="left">
 
         </div>
@@ -183,7 +170,6 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, data, deviceId, onClose }) => {
 };
 
 RadarInfo.defaultProps = {
-    open: false,
     onClose: () => { }
 };
 

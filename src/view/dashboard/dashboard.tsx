@@ -174,8 +174,7 @@ const Dashboard: FC<{}> = memo(() => {
         if (alarmType === AlarmType.Single) {
             return <div className="phone-panel">
                 <RadarInfo
-                    data={alarms}
-                    open={true} />
+                    data={alarms} />
             </div>;
         } else {
             return <div className="phone-panel">
