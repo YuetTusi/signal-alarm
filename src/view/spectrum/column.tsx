@@ -41,13 +41,13 @@ const getBaseColumns = (handle: ActionHandle): ColumnsType<BaseFreq> => {
         key: 'updateTime',
         dataIndex: 'updateTime',
         align: 'center',
-        width: 170
+        width: 220
     }, {
         title: '创建时间',
         key: 'createTime',
         dataIndex: 'createTime',
         align: 'center',
-        width: 170
+        width: 220
     }];
 };
 

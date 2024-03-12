@@ -36,7 +36,7 @@ const getColumns = (onDownload: (report: QuickCheckReport) => void) => [{
     key: 'startTime',
     dataIndex: 'startTime',
     align: 'center',
-    width: 200,
+    width: 210,
     render: (val: number) => dayjs(val).format('YYYY-MM-DD HH:mm:ss')
 }, {
     title: '持续时间',
@@ -53,14 +53,14 @@ const getColumns = (onDownload: (report: QuickCheckReport) => void) => [{
     key: 'endTime',
     dataIndex: 'endTime',
     align: 'center',
-    width: 200,
+    width: 220,
     render: (val: any) => dayjs(val).format('YYYY-MM-DD HH:mm:ss')
 }, {
     title: '创建时间',
     key: 'createTime',
     dataIndex: 'createTime',
     align: 'center',
-    width: 200
+    width: 220
 }, {
     title: '下载',
     key: 'download',

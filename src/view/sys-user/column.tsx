@@ -41,13 +41,13 @@ const getColumns = (columnClick: (type: ColumnAction, data: SystemUser) => void)
             key: 'updateTime',
             dataIndex: 'updateTime',
             align: 'center',
-            width: 210
+            width: 220
         }, {
             title: '创建时间',
             key: 'createTime',
             dataIndex: 'createTime',
             align: 'center',
-            width: 210
+            width: 220
         }, {
             title: '修改密码',
             key: 'modifyPassword',
