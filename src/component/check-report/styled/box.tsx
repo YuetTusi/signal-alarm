@@ -7,8 +7,7 @@ export const ScrollBox = styled.div`
     display: flex;
     flex-direction: row;
     width: auto;
-    height: 295px;
-    padding: 5px;
+    height: 190px;
     overflow-y: auto;
 `;
 
@@ -38,8 +37,6 @@ export const ReportBox = styled.div`
     }
 
     &>.r-title{
-        height: 32px;
-        margin-bottom: 24px;
         span{
             display: block;
             max-width: 200px;
@@ -47,6 +44,7 @@ export const ReportBox = styled.div`
             overflow: hidden;
             text-overflow: ellipsis;
             height: 32px;
+            padding-bottom: 10px;
             line-height: 32px;
             text-indent: 37px;
             color:${props => props.theme['colorInfo']};
@@ -56,7 +54,7 @@ export const ReportBox = styled.div`
     }
 
     &>.info{
-        font-size: 1.8rem;
+        font-size: 1.6rem;
         ul,li{
             margin:0;
             padding:0;
@@ -66,12 +64,12 @@ export const ReportBox = styled.div`
             flex-direction: row;
             flex-wrap: nowrap;
             list-style-type: none;
-            padding: 4px 0;
+            /* padding: 4px 0; */
             label{
                 white-space: nowrap;
                 color:${props => props.theme['colorInfo']};
                 &:after{
-                    content:":";
+                    content:"：";
                 }
             }
             span{
@@ -81,7 +79,7 @@ export const ReportBox = styled.div`
         }
     }
     &>.btn{
-        margin: 20px auto 0 auto;
+        margin: 10px auto 0 auto;
         text-align: center;
         .ant-btn{
             margin: 0 4px;

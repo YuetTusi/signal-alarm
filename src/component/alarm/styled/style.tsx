@@ -19,7 +19,7 @@ export const AlarmTableBox = styled.div`
 
 export const AlarmChartBox = styled.div`
     /* width: 100%; */
-    height: 360px;
+    height: 320px;
 
     .bar-tooltip{
         .tt-caption{
@@ -110,7 +110,7 @@ export const SearchBarBox = styled.div`
 `;
 
 export const FixContentBox = styled.div`
-    height: 360px;
+    height: 320px;
     overflow: hidden;
     position: absolute;
     top: 40px;

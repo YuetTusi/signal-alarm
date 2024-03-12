@@ -13,7 +13,7 @@ export const CenterFixedBox = styled.div`
 
 export const ScrollList = styled.div`
 
-    height: 215px;
+    height: 160px;
     overflow: hidden;
     &>ul{
         margin:0;

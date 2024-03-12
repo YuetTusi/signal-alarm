@@ -1,7 +1,7 @@
 import path from 'path';
 import electron from 'electron';
 import localforage from 'localforage';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CheckCircleFilled from '@ant-design/icons/CheckCircleFilled';
 import SettingOutlined from '@ant-design/icons/SettingOutlined';
@@ -63,6 +63,13 @@ const Layout: FC<LayoutProp> = ({ children }) => {
         setVoiceConrolModalOpen: state.setVoiceConrolModalOpen,
         modifyUserPassword: state.modifyUserPassword
     }));
+
+    useEffect(() => {
+        const voice = localStorage.getItem(StorageKeys.Voice);
+        if (voice === '1') {
+            setSound(true);
+        }
+    }, []);
 
     /**
      * 登出
@@ -191,9 +198,9 @@ const Layout: FC<LayoutProp> = ({ children }) => {
             onOk={(voice) => {
                 message.destroy();
                 localStorage.setItem(StorageKeys.Voice, voice ? '1' : '0');
-                setSound(voice);
-                message.info(`预警声音已${voice ? '打开' : '关闭'}`);
                 setVoiceConrolModalOpen(false);
+                message.info(`预警声音已${voice ? '打开' : '关闭'}`);
+                setSound(voice);
             }} />
         <ModifyPasswordModal
             open={modifyPasswordModalOpen}

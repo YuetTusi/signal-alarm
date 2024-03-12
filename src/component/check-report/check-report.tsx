@@ -151,14 +151,16 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
                     <Button
                         onClick={() => onPreviewClick(item)}
                         disabled={helper.isNullOrUndefined(item?.url) || loading}
-                        type="primary">
+                        type="primary"
+                        size="middle">
                         {loading ? <LoadingOutlined /> : <SearchOutlined />}
                         <span>查看</span>
                     </Button>
                     <Button
                         onClick={() => onDownloadClick(item)}
                         disabled={helper.isNullOrUndefined(item?.url)}
-                        type="primary">
+                        type="primary"
+                        size="middle">
                         <DownloadOutlined />
                         <span>下载</span>
                     </Button>

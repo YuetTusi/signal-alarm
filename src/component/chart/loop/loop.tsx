@@ -104,7 +104,7 @@ const Loop: FC<LoopProp> = ({ data, serieName }) => {
         </EmptyBox>
         : <ChartBox
             width={420}
-            height={260}
+            height={220}
             ref={chartDom} />;
 };
 

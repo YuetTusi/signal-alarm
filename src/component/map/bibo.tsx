@@ -77,11 +77,11 @@ const Bibo: FC<{}> = () => {
     useEffect(() => {
 
         if (map === null || alarmsOfDevice === undefined) {
-            setSound(false);
+            // setSound(false);
             return;
         }
 
-        setSound(true);
+        // setSound(true);
 
         for (let i = 0; i < devices.length; i++) {
             const { deviceId } = devices[i].options as MarkerOptionsEx;

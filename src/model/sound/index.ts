@@ -1,12 +1,16 @@
 import { sound } from './sound';
 
+/**
+ * 报警音
+ */
 interface SoundState {
     /**
      * 声音
      */
     sound: boolean,
     /**
-     * 设置声音
+     * 开闭声音
+     * @param payload 开启/关闭
      */
     setSound: (payload: boolean) => void,
 }

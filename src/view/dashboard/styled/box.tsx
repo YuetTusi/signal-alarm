@@ -44,7 +44,7 @@ export const DashboardBox = styled.div`
     .alarm-bg{
         position: relative;
         width: 100%;
-        height: 720px;
+        height: 540px;
         background-image: url(${alarmBg});
         background-repeat: no-repeat;
         background-size: 100% 100%;

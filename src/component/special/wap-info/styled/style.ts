@@ -10,6 +10,7 @@ export const WapInfoBox = styled.div`
     }
 
     .wap-tab{
+        margin-top: 8px;
     }
     .ant-tabs-tab-btn{
         font-weight: lighter;

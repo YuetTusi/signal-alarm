@@ -108,7 +108,7 @@ const quickCheck = (setState: SetState, getState: GetState): QuickCheckState => 
         try {
             const res = await request.get<QuickCheckReport[]>('/check/list');
             if (res !== null && res.code === 200) {
-                setState({ quickCheckReportList: (res.data ?? []).splice(0, 2) }); //只取报告的前2条
+                setState({ quickCheckReportList: (res.data ?? []).splice(0, 1) }); //只取报告的前2条
             }
         } catch (error) {
             throw error;

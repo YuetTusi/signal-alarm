@@ -13,10 +13,12 @@ import { RadarInfo } from '@/component/map/radar-info';
 import { AlarmInfo } from '@/component/alarm';
 import WapInfo from "@/component/special/wap-info";
 import {
-    WhiteListTop, SpecialTypeChart, AlarmWeekChart, FakeHotspotList
+    WhiteListTop, SpecialTypeChart, FakeHotspotList
 } from '@/component/statis';
 import CheckReport from '@/component/check-report';
 import { DashboardBox } from "./styled/box";
+// import { request } from '@/utility/http';
+// import dayjs from 'dayjs';
 
 const { ipcRenderer } = electron;
 const { alarmType } = helper.readConf();
@@ -55,7 +57,7 @@ const Dashboard: FC<{}> = memo(() => {
     const alarms = usePhoneAlarm(phoneAlarmData);
 
     const onMessage = (event: MessageEvent<any>) => {
-        console.log('SSE message:', event?.data);
+        // console.log('SSE message:', event?.data);
         try {
             if (typeof event.data === 'string') {
                 const data: PhoneAlarmInfo = JSON.parse(event.data);
@@ -189,9 +191,10 @@ const Dashboard: FC<{}> = memo(() => {
             {/* <AlarmSiteTopChart /> */}
             <WhiteListTop />
             <SpecialTypeChart />
-            <AlarmWeekChart />
+            {/* <AlarmWeekChart /> */}
             {/* <AlarmTypeChart /> */}
             <FakeHotspotList />
+            <CheckReport />
         </div>
         <div className="center-box">
             <div className="main-box">
@@ -205,7 +208,6 @@ const Dashboard: FC<{}> = memo(() => {
         </div>
         <div className="right-box">
             <WapInfo />
-            <CheckReport />
         </div>
     </DashboardBox>
 });

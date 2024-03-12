@@ -31,7 +31,13 @@ const SpecialTypeChart: FC<{}> = () => {
     return <DisplayPanel>
         <div className="caption">今日专项检查分类统计</div>
         <div className="content">
-            <Loop serieName="今日专项检查分类统计" data={convertData()} />
+            <Loop
+                serieName="今日专项检查分类统计"
+                // data={convertData()} 
+                data={[
+                    { name: '测试1', value: 11 },
+                    { name: '测试2', value: 23 }
+                ]} />
         </div>
     </DisplayPanel>;
 };
