@@ -38,6 +38,12 @@ export const GlobalStyle = createGlobalStyle`
     .ant-tabs-tab{
         padding: 6px 10px !important;
     }
+    .ant-picker-ok{
+        margin-top: 4px !important;
+        &>.ant-btn{
+            height: 30px !important;
+        }
+    }
 
     //地图背景色重写
     .leaflet-container{

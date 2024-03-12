@@ -15,12 +15,10 @@ import useModel from '@/model';
 
 const { alarmType } = helper.readConf();
 
-let timer: any = null;
-
 /**
  * 报警详情
  */
-const RadarInfo: FC<RadarInfoProp> = ({ data, deviceId, onClose }) => {
+const RadarInfo: FC<RadarInfoProp> = ({ open, data, deviceId, onClose }) => {
 
     const m = useRef<Map<Protocol, PointAt>>(new Map());//缓存位置点
     const { setSound } = useModel(state => ({ setSound: state.setSound }));
@@ -37,7 +35,7 @@ const RadarInfo: FC<RadarInfoProp> = ({ data, deviceId, onClose }) => {
             }));
         }
 
-        setSound(alarms.length > 0);
+        // setSound(alarms.length > 0);
     }, [data, deviceId]);
 
     const renderPoint = () => {
@@ -91,21 +89,22 @@ const RadarInfo: FC<RadarInfoProp> = ({ data, deviceId, onClose }) => {
 
     const renderInfo = () => {
 
-        if (points === null || points.length === 0) {
-            return null;
-        }
+        // if (points === null || points.length === 0) {
+        //     return null;
+        // }
 
         let alarms: AlarmMessage[] = [];
-        if (alarmType === AlarmType.Single) {
-            //单机版
-            alarms = Object.values(data).flat();
-        } else {
-            //网络版（筛选当前deviceId的最新报警）
-            if (deviceId === undefined || data[deviceId] === undefined) {
-                return null;
-            }
-            alarms = data[deviceId];
-        }
+        alarms = Object.values(data).flat();
+        // if (alarmType === AlarmType.Single) {
+        //     //单机版
+        //     alarms = Object.values(data).flat();
+        // } else {
+        //     //网络版（筛选当前deviceId的最新报警）
+        //     if (deviceId === undefined || data[deviceId] === undefined) {
+        //         return null;
+        //     }
+        //     alarms = data[deviceId];
+        // }
 
         if (alarms.length > 0) {
             const msg = maxBy(alarms, (item) => item.captureTime);
@@ -142,7 +141,7 @@ const RadarInfo: FC<RadarInfoProp> = ({ data, deviceId, onClose }) => {
         }
     };
 
-    return <RadarBox>
+    return <RadarBox style={{ display: open ? 'flex' : 'none' }}>
         <div className="left">
 
         </div>

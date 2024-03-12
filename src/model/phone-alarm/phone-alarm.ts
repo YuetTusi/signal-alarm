@@ -1,4 +1,5 @@
-import { PhoneAlarmInfo } from '@/schema/phone-alarm-info';
+import dayjs from 'dayjs';
+import { AlarmMessage, PhoneAlarmInfo } from '@/schema/phone-alarm-info';
 import { GetState, SetState } from '..';
 import { PhoneAlarmState } from '.';
 
@@ -22,7 +23,15 @@ const phoneAlarm = (setState: SetState, getState: GetState): PhoneAlarmState => 
      */
     appendPhoneAlarmData: (payload: PhoneAlarmInfo) => {
         const { phoneAlarmData } = getState();
-        setState({ phoneAlarmData: phoneAlarmData.concat([payload]) });
+        const next = phoneAlarmData.filter(item => {
+            try {
+                const current = JSON.parse(item.message) as AlarmMessage;
+                return dayjs().diff(current.captureTime, 's') <= 10;
+            } catch (error) {
+                return false;
+            }
+        }); //删掉超过10秒的旧数据
+        setState({ phoneAlarmData: next.concat([payload]) });
     },
     /**
      * 移除手机数据
