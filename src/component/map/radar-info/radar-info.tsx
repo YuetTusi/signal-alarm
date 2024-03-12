@@ -89,9 +89,9 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, data, deviceId, onClose }) => {
 
     const renderInfo = () => {
 
-        // if (points === null || points.length === 0) {
-        //     return null;
-        // }
+        if (points === null || points.length === 0) {
+            return null;
+        }
 
         let alarms: AlarmMessage[] = [];
         alarms = Object.values(data).flat();
