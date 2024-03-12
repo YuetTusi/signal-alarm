@@ -87,7 +87,7 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [
         key: 'captureTime',
         dataIndex: 'captureTime',
         align: 'center',
-        width: 200,
+        width: 220,
     }, {
         title: '处理记录',
         key: 'remark',
@@ -214,7 +214,7 @@ const getTopColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [{
     key: 'captureTime',
     dataIndex: 'captureTime',
     align: 'center',
-    width: 170,
+    width: 220,
     render(val: string, record) {
         return record.status === 0 ? <RedText>{val}</RedText> : <GrayText>{val}</GrayText>;
     }

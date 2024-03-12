@@ -58,7 +58,7 @@ const getColumns = (handle: (actionType: ActionType, record: WhiteList) => void)
         title: '更新时间',
         key: 'updateTime',
         dataIndex: 'updateTime',
-        width: 180,
+        width: 220,
         align: 'center',
     },
     {

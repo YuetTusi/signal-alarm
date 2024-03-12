@@ -70,7 +70,7 @@ const getColumns = (handle: (actionType: ActionType, data: Bluetooth) => void): 
         key: 'captureTime',
         dataIndex: 'captureTime',
         align: 'center',
-        width: 200
+        width: 220
     }, {
         title: '白名单',
         key: 'whiteList',

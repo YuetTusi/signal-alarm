@@ -82,7 +82,7 @@ const getColumns = (handle: (actionType: ActionType, data: Hotspot) => void): Co
         key: 'captureTime',
         dataIndex: 'captureTime',
         align: 'center',
-        width: 200
+        width: 220
     }, {
         title: '添加',
         key: 'whiteList',
