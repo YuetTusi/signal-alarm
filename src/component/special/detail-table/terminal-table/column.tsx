@@ -78,7 +78,7 @@ const getColumns = (handle: (actionType: ActionType, data: Terminal) => void): C
         key: 'captureTime',
         dataIndex: 'captureTime',
         align: 'center',
-        width: 200
+        width: 230
     }, {
         title: '白名单',
         key: 'whiteList',

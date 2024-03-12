@@ -40,6 +40,6 @@ export const getColumns = (): ColumnsType<Wap> => {
         key: 'captureTime',
         dataIndex: 'captureTime',
         align: 'center',
-        width: 220
+        width: 230
     }];
 };

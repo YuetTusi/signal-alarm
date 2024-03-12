@@ -69,7 +69,7 @@ const getColumns = (): ColumnsType<Terminal> => {
         key: 'captureTime',
         dataIndex: 'captureTime',
         align: 'center',
-        width: 220
+        width: 230
     }];
 };
 

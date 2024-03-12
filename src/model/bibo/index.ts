@@ -8,7 +8,7 @@ interface BiboState {
      */
     devicesOnMap: ComDevice[],
     /**
-     * 设备下的报警Top10
+     * 设备下的报警
      */
     alarmsOfDevice?: { [deviceId: string]: AlarmMessage[] },
     /**

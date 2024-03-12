@@ -19,16 +19,16 @@ const Voice: FC<VoiceProp> = () => {
     const {
         sound,
         devicesOnMap,
+        alarmsOfDevice,
         phoneAlarmData
     } = useModel(state => ({
         sound: state.sound,
         devicesOnMap: state.devicesOnMap,
+        alarmsOfDevice: state.alarmsOfDevice,
         phoneAlarmData: state.phoneAlarmData
     }));
 
     useEffect(() => {
-        console.log(sound);
-
         if ($audio.current === null) {
             return;
         }
@@ -44,17 +44,16 @@ const Voice: FC<VoiceProp> = () => {
             } else {
                 //地图版，当前地图下的设备有报警，播放声音
                 let has = false;
-                const message = phoneAlarmData.map(item => item.message);
-                try {
-                    for (let i = 0; i < message.length; i++) {
-                        const data = JSON.parse(message[i]) as AlarmMessage;
-                        has = devicesOnMap.some(dev => dev.deviceId === data.deviceId);
-                        //报警数据中存在deviceId的设备
-                        break;
+                if (alarmsOfDevice === undefined) {
+                    has = false;
+                } else {
+                    for (let i = 0; i < devicesOnMap.length; i++) {
+                        const { deviceId } = devicesOnMap[i];
+                        if (alarmsOfDevice[deviceId] && alarmsOfDevice[deviceId].length > 0) {
+                            has = true;
+                            break;
+                        }
                     }
-                } catch (error) {
-                    console.clear();
-                    console.warn('Parse JSON Error', error.message);
                 }
 
                 if (has) {
