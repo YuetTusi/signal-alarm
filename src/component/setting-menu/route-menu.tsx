@@ -127,12 +127,7 @@ const RouteMenu: FC<RouteMenuProp> = () => {
             <span>菜单</span>
         </Button>
         <Modal
-            footer={[
-                <Button
-                    onClick={() => setRouteMenuOpen(false)}
-                    type="default"
-                    key="RM_0">取消</Button>
-            ]}
+            footer={null}
             onCancel={() => setRouteMenuOpen(false)}
             open={routeMenuOpen}
             width={1000}

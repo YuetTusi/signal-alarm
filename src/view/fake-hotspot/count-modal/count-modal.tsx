@@ -1,5 +1,4 @@
-import { } from 'react';
-import { Button, Descriptions, Modal } from 'antd';
+import { Descriptions, Modal } from 'antd';
 import { NoWarpLabel } from '@/component/panel';
 import { CountModalComp } from './prop';
 
@@ -9,12 +8,7 @@ const { Item } = Descriptions;
  * 数量展示
  */
 const CountModal: CountModalComp = ({ open, data, onCancel }) => <Modal
-    footer={[
-        <Button
-            onClick={onCancel}
-            type="default"
-            key="CM_0">取消</Button>
-    ]}
+    footer={null}
     open={open}
     onCancel={onCancel}
     centered={true}
