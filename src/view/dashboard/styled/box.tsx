@@ -17,13 +17,13 @@ export const DashboardBox = styled.div`
         box-sizing: border-box;
         flex:none;
         &>div{
-            margin-bottom: 5px;
+            margin-bottom: 10px;
         }
     }
     &>.center-box{
         box-sizing: border-box;
         flex:1;
-        padding: 0 5px;
+        padding: 0 10px 0 10px;
 
         display: flex;
         flex-direction: column;
@@ -33,7 +33,7 @@ export const DashboardBox = styled.div`
         &>.bottom-box{
             box-sizing: border-box;
             position: relative;
-            margin-top:5px;
+            margin-top:10px;
         }
     }
     &>.right-box{
@@ -44,7 +44,7 @@ export const DashboardBox = styled.div`
     .alarm-bg{
         position: relative;
         width: 100%;
-        height: 540px;
+        height: 610px;
         background-image: url(${alarmBg});
         background-repeat: no-repeat;
         background-size: 100% 100%;

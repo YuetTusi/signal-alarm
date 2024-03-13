@@ -12,7 +12,7 @@ export const ListBox = styled.div`
 
     &>.list-row{
         font-size: 2rem;
-        padding: 5px 5px;
+        padding: 2px 4px;
         border:1px solid #01aff8;
         background: rgb(3,83,196);
         background: linear-gradient(0deg, rgba(3,83,196,1) 0%, rgba(0,14,79,0.7987570028011204) 40%, rgba(0,14,79,1) 60%, rgba(3,83,196,1) 100%);
@@ -43,6 +43,7 @@ export const ListBox = styled.div`
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
+            padding: 1px 0;
             &>.list-row-txt{
                 flex:1;
                 display: flex;
@@ -59,9 +60,6 @@ export const ListBox = styled.div`
                 flex-direction: column;
                 justify-content: center;
                 align-items: flex-end;
-            }
-            &:last-child{
-                margin-top: 3px;
             }
         }
     }

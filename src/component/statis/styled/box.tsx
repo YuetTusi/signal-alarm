@@ -7,13 +7,13 @@ export const CenterFixedBox = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 195px;
+    height: 190px;
     overflow: hidden;
 `;
 
 export const ScrollList = styled.div`
 
-    height: 160px;
+    height: 190px;
     overflow: hidden;
     &>ul{
         margin:0;

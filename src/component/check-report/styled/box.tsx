@@ -37,15 +37,16 @@ export const ReportBox = styled.div`
     }
 
     &>.r-title{
+        margin-top:10px;
         span{
             display: block;
             max-width: 200px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            height: 32px;
+            height: 36px;
             padding-bottom: 10px;
-            line-height: 32px;
+            line-height: 36px;
             text-indent: 37px;
             color:${props => props.theme['colorInfo']};
             background-image: url(${rw});
@@ -64,7 +65,7 @@ export const ReportBox = styled.div`
             flex-direction: row;
             flex-wrap: nowrap;
             list-style-type: none;
-            /* padding: 4px 0; */
+            padding: 2px 0;
             label{
                 white-space: nowrap;
                 color:${props => props.theme['colorInfo']};
@@ -79,7 +80,7 @@ export const ReportBox = styled.div`
         }
     }
     &>.btn{
-        margin: 10px auto 0 auto;
+        margin: 10px auto 10px auto;
         text-align: center;
         .ant-btn{
             margin: 0 4px;

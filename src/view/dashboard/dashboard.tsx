@@ -8,6 +8,7 @@ import { PhoneAlarmInfo } from '@/schema/phone-alarm-info';
 import { helper } from '@/utility/helper';
 import { instance, closeSse } from '@/utility/sse';
 import { StorageKeys } from '@/utility/storage-keys';
+import { Clock } from '@/component/clock';
 import { Bibo } from '@/component/map';
 import { RadarInfo } from '@/component/map/radar-info';
 import { AlarmInfo } from '@/component/alarm';
@@ -207,6 +208,7 @@ const Dashboard: FC<{}> = memo(() => {
             </div>
         </div>
         <div className="right-box">
+            <Clock />
             <WapInfo />
         </div>
     </DashboardBox>
