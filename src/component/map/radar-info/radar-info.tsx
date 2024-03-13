@@ -1,6 +1,6 @@
 import maxBy from 'lodash/maxBy';
 import dayjs from 'dayjs';
-import { FC, useRef, useEffect, useState } from 'react';
+import { FC, useRef, useEffect } from 'react';
 import CloseCircleOutlined from '@ant-design/icons/CloseCircleOutlined';
 import { Button } from 'antd';
 import { helper } from '@/utility/helper'
@@ -11,9 +11,21 @@ import { Point } from './point';
 import { pointMap, getLoopIndex } from './rnd-point';
 import { RadarBox } from './styled/box';
 import { PointAt, RadarInfoProp } from './prop';
-import useModel from '@/model';
 
 const { alarmType } = helper.readConf();
+const band = helper.readBand();
+
+/**
+ * 频段名称
+ * @param code 频段代码 
+ */
+const getBandName = (code?: string) => {
+    if (code === undefined) {
+        return '-';
+    }
+    const has = band.find(item => item.code === Number.parseInt(code));
+    return has ? has.name : '-';
+};
 
 /**
  * 报警详情
@@ -21,7 +33,6 @@ const { alarmType } = helper.readConf();
 const RadarInfo: FC<RadarInfoProp> = ({ open, data, deviceId, onClose }) => {
 
     const m = useRef<Map<Protocol, PointAt>>(new Map());//缓存位置点
-    const { setSound } = useModel(state => ({ setSound: state.setSound }));
 
     useEffect(() => {
         let alarms: AlarmMessage[] = [];
@@ -128,8 +139,8 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, data, deviceId, onClose }) => {
                     <span>{msg?.siteName ?? '-'}</span>
                 </div>
                 <div>
-                    <label htmlFor="span">告警原因：</label>
-                    <span>{msg?.warnReason ?? '-'}</span>
+                    <label htmlFor="span">频段信息：</label>
+                    <span>{getBandName(msg?.warnReason)}</span>
                 </div>
                 <div>
                     <label htmlFor="span">采集时间：</label>

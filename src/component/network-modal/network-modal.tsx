@@ -1,10 +1,10 @@
 import path from 'path';
 import { FC, MouseEvent, useEffect } from 'react';
 import { Button, Radio, Modal, Form, Input, RadioChangeEvent } from 'antd';
+import { AppMode } from '@/schema/conf';
 import { IP, Port } from '@/utility/regex';
 import { APP_NAME, FETCH_IP, FETCH_PORT, helper } from '@/utility/helper';
 import { NetworkModalProp, FormValue } from './prop';
-import { AppMode } from '@/schema/conf';
 
 const cwd = process.cwd();
 const { join } = path;
@@ -139,8 +139,8 @@ const NetworkModal: FC<NetworkModalProp> = ({
                 name="mode"
                 label="版本">
                 <Group onChange={onModeChange}>
-                    <Radio value={AppMode.PC}>单机版</Radio>
-                    <Radio value={AppMode.FullScreen}>网络版</Radio>
+                    <Radio value={AppMode.PC}>网络版</Radio>
+                    <Radio value={AppMode.FullScreen}>单机版</Radio>
                 </Group>
             </Item>
         </Form>

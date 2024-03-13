@@ -7,7 +7,7 @@ import CheckCircleFilled from '@ant-design/icons/CheckCircleFilled';
 import SettingOutlined from '@ant-design/icons/SettingOutlined';
 import { App, Button, message } from 'antd';
 import { useModel } from '@/model';
-import { AppMode } from '@/schema/conf';
+import { AlarmType, AppMode } from '@/schema/conf';
 import { helper } from '@/utility/helper';
 import { closeSse } from '@/utility/sse';
 import { StorageKeys } from '@/utility/storage-keys';
@@ -121,14 +121,16 @@ const Layout: FC<LayoutProp> = ({ children }) => {
             const prevConf = await helper.readJson(confJson);
 
             const [ipSuccess, confSuccess] = await Promise.all([
-                helper.writeJson(ipJson, {
-                    appName: values.appName,
-                    ip: values.ip,
-                    port: values.port
-                }),
+                // helper.writeJson(ipJson, {
+                //     appName: values.appName,
+                //     ip: values.ip,
+                //     port: values.port
+                // }),
+                Promise.resolve(true),
                 helper.writeJson(confJson, {
                     ...prevConf,
-                    mode: values.mode
+                    mode: values.mode,
+                    alarmType: values.mode === AppMode.PC ? AlarmType.Multi : AlarmType.Single
                 })
             ]);
             if (ipSuccess && confSuccess) {

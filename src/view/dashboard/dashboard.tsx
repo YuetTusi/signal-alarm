@@ -58,7 +58,7 @@ const Dashboard: FC<{}> = memo(() => {
     const alarms = usePhoneAlarm(phoneAlarmData);
 
     const onMessage = (event: MessageEvent<any>) => {
-        // console.log('SSE message:', event?.data);
+        console.log('SSE message:', event?.data);
         try {
             if (typeof event.data === 'string') {
                 const data: PhoneAlarmInfo = JSON.parse(event.data);

@@ -220,37 +220,37 @@ ipcMain.on('do-relaunch', () => {
 });
 
 ipcMain.on('query-special-type-statis', (_: IpcMainEvent) => {
-    if (mainWindow) {
+    if (mainWindow && !mainWindow.isDestroyed()) {
         mainWindow.webContents.send('query-special-type-statis');
     }
 });
 
 ipcMain.on('query-each-1', (_: IpcMainEvent) => {
-    if (mainWindow) {
+    if (mainWindow && !mainWindow.isDestroyed()) {
         mainWindow.webContents.send('query-each-1');
     }
 });
 
 ipcMain.on('query-each-5', (_: IpcMainEvent) => {
-    if (mainWindow) {
+    if (mainWindow && !mainWindow.isDestroyed()) {
         mainWindow.webContents.send('query-each-5');
     }
 });
 
 ipcMain.on('query-each-20', (_: IpcMainEvent) => {
-    if (mainWindow) {
+    if (mainWindow && !mainWindow.isDestroyed()) {
         mainWindow.webContents.send('query-each-20');
     }
 });
 
 ipcMain.on('alarm-clean', (_: IpcMainEvent) => {
-    if (mainWindow) {
+    if (mainWindow && !mainWindow.isDestroyed()) {
         mainWindow.webContents.send('alarm-clean');
     }
 });
 
 ipcMain.on('alarm-drop-all', (_: IpcMainEvent) => {
-    if (mainWindow) {
+    if (mainWindow && !mainWindow.isDestroyed()) {
         mainWindow.webContents.send('alarm-drop-all');
     }
 });
@@ -261,7 +261,7 @@ ipcMain.on('log', (_, content: string, level: 'info' | 'debug' | 'warn' | 'error
 });
 
 ipcMain.on('reload', (_: IpcMainEvent) => {
-    if (mainWindow) {
+    if (mainWindow && !mainWindow.isDestroyed()) {
         mainWindow.webContents.reload();
     }
 });

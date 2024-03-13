@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons';
 import { App, Col, Row, Input, Button, Form, message } from 'antd';
 import { useModel } from "@/model";
-import { AppMode } from '@/schema/conf';
+import { AlarmType, AppMode } from '@/schema/conf';
 import { helper } from '@/utility/helper';
 import { StorageKeys } from '@/utility/storage-keys';
 import DragBar from '@/component/drag-bar';
@@ -146,7 +146,8 @@ const Login: FC<{}> = () => {
                 }),
                 helper.writeJson(confJson, {
                     ...prevConf,
-                    mode: values.mode
+                    mode: values.mode,
+                    alarmType: values.mode === AppMode.PC ? AlarmType.Multi : AlarmType.Single
                 })
             ]);
             if (ipSuccess && confSuccess) {
