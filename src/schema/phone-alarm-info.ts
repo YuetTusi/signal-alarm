@@ -56,7 +56,7 @@ interface AlarmMessage {
      */
     siteName?: string,
     /**
-     * 频点信息
+     * 频率信息
      */
     arfcn?: string,
     /**

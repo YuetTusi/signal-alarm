@@ -14,7 +14,7 @@ export interface SpectrumProp {
 
     type: SpectrumType,
 
-    arfcn: number[], //横轴数据（频点）
+    arfcn: number[], //横轴数据（频率）
     /**
      * 实时曲线数据
      */

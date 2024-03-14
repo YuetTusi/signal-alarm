@@ -11,12 +11,12 @@ const getColumns = (): ColumnsType<Wap> => {
         width: 160,
         align: 'center'
     }, {
-        title: '频点',
+        title: '频率',
         key: 'arfcn',
         dataIndex: 'arfcn',
         width: 60
     }, {
-        title: '频点信息名称',
+        title: '频率信息名称',
         key: 'arfcnName',
         dataIndex: 'arfcnName',
     }, {

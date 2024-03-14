@@ -33,7 +33,7 @@ class Terminal extends SpecialBase {
      */
     org: null | string = null
     /**
-     * 频点号
+     * 频率号
      */
     channel: string = ''
     /**

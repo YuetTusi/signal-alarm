@@ -23,7 +23,7 @@ class Hotspot extends SpecialBase {
      */
     org: string | null = null
     /**
-     * 频点号
+     * 频率号
      */
     channel: string = ''
     /**

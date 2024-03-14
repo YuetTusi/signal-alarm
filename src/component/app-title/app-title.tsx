@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
-import { AppTitleProp } from './prop';
 import { APP_NAME, helper } from '@/utility/helper';
+import { AppTitleProp } from './prop';
 
 /**
  * 应用名称

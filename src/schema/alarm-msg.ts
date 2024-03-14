@@ -12,7 +12,7 @@ class AlarmMsg extends BaseEntity {
      */
     protocolType: Protocol = Protocol.All
     /**
-     * 频点信息
+     * 频率信息
      */
     arfcn: string = ''
     /**

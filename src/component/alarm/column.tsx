@@ -45,7 +45,7 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [
             return <NoWarpLabel width={260} title={current?.name}>{current?.name ?? '-'}</NoWarpLabel>;
         }
     }, {
-        title: '频点信息名称',
+        title: '频率信息名称',
         key: 'arfcn',
         dataIndex: 'arfcn',
         width: 140
@@ -186,7 +186,7 @@ const getTopColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [{
 //     }
 // }, 
 {
-    title: '频点值',
+    title: '频率值',
     key: 'arfcn',
     dataIndex: 'arfcn',
     width: 120,

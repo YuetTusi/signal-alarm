@@ -21,7 +21,7 @@ import { TotalListProp } from './prop';
 const TotalList: FC<TotalListProp> = ({ data, type }) => {
 
     /**
-     * 渲染频点值
+     * 渲染频率值
      */
     const renderArfcn = (data: SpecialBase) => {
         if (helper.isNullOrUndefined((data as any)?.arfcn)) {

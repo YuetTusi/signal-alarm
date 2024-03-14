@@ -48,7 +48,7 @@ const getColumns = (handle: (actionType: ActionType, data: Hotspot) => void): Co
             return <NoWarpLabel title={val} width={120}>{val}</NoWarpLabel>;
         }
     }, {
-        title: '频点号',
+        title: '频率号',
         key: 'channel',
         dataIndex: 'channel',
         width: 80
