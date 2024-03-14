@@ -95,7 +95,9 @@ app.on('ready', () => {
             javascript: true,
             nodeIntegration: true,
             contextIsolation: false,
-            webSecurity: false
+            webSecurity: false,
+            sandbox: false, // 禁用沙箱模式
+            additionalArguments: ['--no-sandbox'] // 增加 --no-sandbox 参数
         }
     });
     timerWindow = new BrowserWindow({
@@ -125,7 +127,9 @@ app.on('ready', () => {
                     title: '检查报告',
                     width: 1440,
                     height: 900,
-                    autoHideMenuBar: true
+                    autoHideMenuBar: true,
+                    sandbox: false, // 禁用沙箱模式
+                    additionalArguments: ['--no-sandbox'] // 增加 --no-sandbox 参数
                 }
             };
         } else {
