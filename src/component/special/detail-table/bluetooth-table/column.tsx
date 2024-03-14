@@ -1,7 +1,7 @@
-import { Tag } from 'antd';
+import round from 'lodash/round';
+import { Button, Tag } from 'antd';
 import PlusOutlined from '@ant-design/icons/PlusOutlined';
 import { ColumnsType } from 'antd/es/table';
-import { Button } from 'antd';
 import { NoWarpLabel } from '@/component/panel/panel';
 import { Bluetooth } from '@/schema/bluetooth';
 import { ActionType } from './prop';
@@ -64,6 +64,14 @@ const getColumns = (handle: (actionType: ActionType, data: Bluetooth) => void): 
         width: 160,
         render(val: string) {
             return <NoWarpLabel title={val} width={150}>{val}</NoWarpLabel>;
+        }
+    }, {
+        title: '距离',
+        key: 'distance',
+        dataIndex: 'distance',
+        width: 120,
+        render(val: number) {
+            return `约${round(val, 1)}米`;
         }
     }, {
         title: '时间',

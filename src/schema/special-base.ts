@@ -26,6 +26,10 @@ class SpecialBase extends BaseEntity {
      * 连接状态
      */
     isConnect: number = 0
+    /**
+     * 距离
+     */
+    distance: number = 0
 }
 
 export { SpecialBase };

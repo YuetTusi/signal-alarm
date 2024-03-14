@@ -1,3 +1,4 @@
+import round from 'lodash/round';
 import { Tag } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { Terminal } from '@/schema/terminal';
@@ -63,6 +64,14 @@ const getColumns = (): ColumnsType<Terminal> => {
         width: 160,
         render(val: string) {
             return <NoWarpLabel title={val} width={150}>{val}</NoWarpLabel>;
+        }
+    }, {
+        title: '距离',
+        key: 'distance',
+        dataIndex: 'distance',
+        width: 120,
+        render(val: number) {
+            return `约${round(val, 1)}米`;
         }
     }, {
         title: '时间',

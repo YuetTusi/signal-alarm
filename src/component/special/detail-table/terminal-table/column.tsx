@@ -1,3 +1,4 @@
+import round from 'lodash/round';
 import PlusOutlined from '@ant-design/icons/PlusOutlined';
 import { Button, Tag } from 'antd';
 import { ColumnsType } from 'antd/es/table';
@@ -72,6 +73,14 @@ const getColumns = (handle: (actionType: ActionType, data: Terminal) => void): C
         width: 160,
         render(val: string) {
             return <NoWarpLabel title={val} width={150}>{val}</NoWarpLabel>;
+        }
+    }, {
+        title: '距离',
+        key: 'distance',
+        dataIndex: 'distance',
+        width: 120,
+        render(val: number) {
+            return `约${round(val, 1)}米`;
         }
     }, {
         title: '时间',
