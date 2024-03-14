@@ -66,7 +66,7 @@ const SpecialDetail: FC<{}> = () => {
                     {
                         key: SpiTab.Signal,
                         label: '制式信号',
-                        children: <WapTable parentOpen={type === SpiTab.Signal} />
+                        children: <WapTable parentOpen={type === SpiTab.Signal || type === SpiTab.All} />
                     }, {
                         key: SpiTab.Hotspot,
                         label: '热点',
