@@ -23,7 +23,7 @@ var option = {
             const [first] = params;
             return `<div class="bar-tooltip">
                 <div class="tt-caption">
-                ${first.marker}
+                    ${first.marker}
                     ${first.name}
                 </div>
                 <div class="tt-row">
@@ -47,8 +47,13 @@ var option = {
             // rotate: 45,
             fontSize: 14,
             formatter(value: string) {
-                return value.split(',').join('\n').split('(').join('\n(');
-                // return value;
+                if (value.includes('-')) {
+                    const from = value.lastIndexOf('-');
+                    const to = value.lastIndexOf(')');
+                    return value.substring(from + 1, to);
+                } else {
+                    return value;
+                }
             }
         },
         data: []
