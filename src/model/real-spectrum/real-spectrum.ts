@@ -193,7 +193,6 @@ const realSpectrum = (setState: SetState, getState: GetState): RealSpectrumState
             }>(url);
 
             if (res !== null && res.code === 200) {
-                console.log(res.data.freqCmpResList.length);
                 const cmp = getState().allFreqList.find(i => i.freqBaseId === freqBaseId);
                 //找到当前背景频谱数据
                 let bgList = cmp === undefined ? [] : JSON.parse(cmp.freqArray ?? '[]') as number[];
@@ -222,8 +221,6 @@ const realSpectrum = (setState: SetState, getState: GetState): RealSpectrumState
                     }
                 });
 
-                console.log(res.data.freqCmpResList);
-
                 setState({
                     realSpectrumData: realData,//实时曲线数据
                     bgSpectrumData: bgList, // 背景频谱，黄色对比曲线
@@ -235,7 +232,7 @@ const realSpectrum = (setState: SetState, getState: GetState): RealSpectrumState
                 });
                 return true;
             } else if (res?.code === 201) {
-                message.warning(res?.message ?? '频谱比对失败');
+                message.warning(res.data as any);
                 return false;
             } else {
                 return false;

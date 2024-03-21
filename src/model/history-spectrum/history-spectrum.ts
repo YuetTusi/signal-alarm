@@ -237,7 +237,7 @@ const historySpectrum = (setState: SetState, getState: GetState): HistorySpectru
                 });
                 return true;
             } else if (res?.code === 201) {
-                message.warning(res?.message ?? '频谱比对失败');
+                message.warning(res.data as any);
                 return false;
             } else {
                 return false;
