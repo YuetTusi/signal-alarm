@@ -112,9 +112,6 @@ const Past: FC<PastProp> = () => {
     }, []);
 
     useEffect(() => {
-        // console.log('===========================');
-        // console.log(historySpectrumData);
-        // console.log(historyCmpResList);
         const display = historySpectrumData.reduce((acc, _, index) => {
             const has = (historyCmpResList ?? []).find(item => item.freq === index);
             // Math.trunc(1 + item.freq * 0.8) === index);
@@ -155,7 +152,7 @@ const Past: FC<PastProp> = () => {
                 //如果偏移值比之前大，才更新
                 const modify: any = { currentOffsetSignal: has.currentOffsetSignal };
                 if (has.currentOffsetSignal >= 10 && has.currentOffsetSignal <= 20) {
-                    modify.itemStyle = { color: '#FFA500' };
+                    modify.itemStyle = { color: '#f6e58d' };
                 } else if (has.currentOffsetSignal > 20) {
                     modify.itemStyle = { color: '#FF0000' };
                 } else {

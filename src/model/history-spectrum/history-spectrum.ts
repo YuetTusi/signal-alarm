@@ -116,7 +116,6 @@ const historySpectrum = (setState: SetState, getState: GetState): HistorySpectru
             }[]
             >(url);
             if (res !== null && res.code === 200) {
-                console.log(res);
                 setState({ allBgFreqList: res.data });
             } else {
                 setState({ allBgFreqList: [] });

@@ -34,7 +34,7 @@ const chartResize = (chart: echarts.ECharts | null, containerId: string) => {
             width: outer?.clientWidth ?? document.body.clientWidth - 400
         });
     }
-}
+};
 
 /**
  * 实时频谱线图
@@ -74,25 +74,6 @@ const Spectrum: FC<SpectrumProp> = ({
                 title: {
                     show: false
                 },
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {
-                        type: 'shadow'
-                    },
-                    formatter(params: any[]) {
-                        const tips = params.map(item => `<div>
-                            <div>
-                                ${item.marker}
-                                <b>${item.seriesName}</b>
-                                <span style="padding-left:1rem">${item.value}</span>
-                            </div>
-                        </div>`);
-                        return `<div>
-                            <div style="padding-bottom:1rem">${params[0].name} MHz</div>
-                            ${tips.join('')}
-                        </div>`;
-                    }
-                },
                 legend: {
                     show: true,
                     orient: 'vertical',
@@ -109,13 +90,6 @@ const Spectrum: FC<SpectrumProp> = ({
                     // pageIconInactiveColor: '#b8b8b8',
                     // pageIconSize: 10,
                     // pageTextStyle: { color: '#ffffffd9' }
-                },
-                toolbox: {
-                    show: false,
-                    feature: {
-                        mark: { show: true },
-                        saveAsImage: { show: false }
-                    }
                 },
                 grid: {
                     bottom: 80
@@ -196,8 +170,6 @@ const Spectrum: FC<SpectrumProp> = ({
 
             const prev = myChart.getOption();
 
-            console.log(prev);
-
             myChart.setOption({
                 ...prev,
                 legend: {
@@ -209,6 +181,31 @@ const Spectrum: FC<SpectrumProp> = ({
                     }, {
                         name: '背景频谱'
                     }]
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    },
+                    formatter(params: any[]) {
+                        const tips = params.map(item => `<div>
+                            <div>
+                                ${item.marker}
+                                <b>${item.seriesName}</b>
+                                <span style="padding-left:1rem">${item.value}</span>
+                                <b style="padding-left:1rem">最大值</b>
+                                <span>
+                                ${item.seriesName === '实时频谱'
+                                ? Math.max(...realData)
+                                : Math.max(...compareData)}
+                                </span>
+                            </div>
+                        </div>`);
+                        return `<div>
+                            <div style="padding-bottom:1rem">${params[0].name} MHz</div>
+                            ${tips.join('')}
+                        </div>`;
+                    }
                 },
                 xAxis: { data: arfcn },
                 series: seriseData

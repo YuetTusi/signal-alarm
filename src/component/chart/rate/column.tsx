@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import round from 'lodash/round';
 import { ColumnsType } from "antd/es/table";
 import { FreqCompare } from "@/schema/freq-compare";
 
@@ -12,9 +13,9 @@ export const getCompareColumns = (handle: (action: number) => void): ColumnsType
         title: '频率',
         key: 'freq',
         dataIndex: 'freq',
-        width: 120,
+        width: 140,
         render(val) {
-            return Math.trunc(val * 0.8 + 1);
+            return round(val * 0.8 + 1, 4);
         }
     }, {
         title: '背景强度',

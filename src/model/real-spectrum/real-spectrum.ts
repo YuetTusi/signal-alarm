@@ -168,11 +168,14 @@ const realSpectrum = (setState: SetState, getState: GetState): RealSpectrumState
                         bgSpectrumData: undefined
                     });
                 }
+            } else if (res !== null && res.code === 201) {
+                throw new Error(res.data as any);
             } else {
                 setState({ realSpectrumData: [] });
             }
         } catch (error) {
             log.error(`查询实时频谱数据失败@model/real-spectrum/queryRealSpectrumData('${deviceId}'):${error.message}`);
+            throw error;
         } finally {
             setState({ realSpectrumLoading: false });
         }
@@ -209,9 +212,9 @@ const realSpectrum = (setState: SetState, getState: GetState): RealSpectrumState
                         //如果偏移值比之前大，才更新
                         const modify: any = { currentOffsetSignal: has.currentOffsetSignal };
                         if (has.currentOffsetSignal >= 10 && has.currentOffsetSignal <= 20) {
-                            modify.itemStyle = { color: '#FFA500' };
+                            modify.itemStyle = { color: '#f6e58d', borderWidth: 10 };
                         } else if (has.currentOffsetSignal > 20) {
-                            modify.itemStyle = { color: '#FF0000' };
+                            modify.itemStyle = { color: '#FF0000', borderWidth: 10 };
                         } else {
                             modify.itemStyle = { color: '#008000' };
                         }
@@ -231,9 +234,8 @@ const realSpectrum = (setState: SetState, getState: GetState): RealSpectrumState
                     }))
                 });
                 return true;
-            } else if (res?.code === 201) {
-                message.warning(res.data as any);
-                return false;
+            } else if (res !== null && res.code === 201) {
+                throw new Error(res.data as any);
             } else {
                 return false;
             }
