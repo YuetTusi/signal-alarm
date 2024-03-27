@@ -12,7 +12,7 @@ var option = {
         top: '10%',
         left: '5%',
         right: '5%',
-        bottom: '25%'
+        bottom: '12%'
     },
     tooltip: {
         trigger: 'axis',
@@ -47,7 +47,10 @@ var option = {
             // rotate: 45,
             fontSize: 14,
             formatter(value: string) {
-                if (value.includes('-')) {
+                if (value === '移动/广电(4G-B41/5G-N41)') {
+                    return 'B41/N41';
+                }
+                else if (value.includes('-')) {
                     const from = value.lastIndexOf('-');
                     const to = value.lastIndexOf(')');
                     return value.substring(from + 1, to);
@@ -61,7 +64,7 @@ var option = {
     yAxis: {
         type: 'value',
         min: 0,
-        max: 70,
+        max: 100,
         interval: 10,
         axisLabel: {
             fontSize: 16

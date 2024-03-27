@@ -1,13 +1,12 @@
-import { mkdirSync, accessSync, readFileSync } from 'fs';
 import { join } from 'path';
+import { mkdirSync, accessSync, readFileSync } from 'fs';
 import {
     app, BrowserWindow, globalShortcut, ipcMain, IpcMainEvent
 } from 'electron';
 import { init } from './init';
 import { port } from '../../config/port';
-import { bindHandle } from './bind';
-// import { helper } from '../utility/helper';
 import { AppMode, Conf } from '../schema/conf';
+import { bindHandle, bindListener } from './bind';
 
 const cwd = process.cwd();
 const { env, resourcesPath } = process;
@@ -44,7 +43,7 @@ if (!app.requestSingleInstanceLock()) {
         accessSync(confPath);
         const chunk = readFileSync(confPath, { encoding: 'utf8' });
         conf = JSON.parse(chunk) as Conf;
-    } catch (error) {
+    } catch (_) {
         conf = { mode: 0, alarmType: 0 };
     }
 
@@ -64,7 +63,7 @@ if (!app.requestSingleInstanceLock()) {
     // }
 })();
 
-app.on('second-instance', (event, commandLine, workingDirectory) => {
+app.on('second-instance', (_, commandLine, workingDirectory) => {
     //单例应用
     if (mainWindow) {
         if (mainWindow.isMinimized()) {
@@ -83,10 +82,6 @@ app.on('ready', () => {
         height: conf.mode === AppMode.PC ? 900 : 1080,
         minWidth: conf.mode === AppMode.PC ? 1660 : 1920,
         minHeight: conf.mode === AppMode.PC ? 900 : 1080,
-        // width: 1920,
-        // height: 1200,
-        // minHeight: 1200,
-        // minWidth: 1920,
         show: true,
         frame: false,
         fullscreen: conf.mode === AppMode.FullScreen,
@@ -147,6 +142,7 @@ app.on('ready', () => {
         timerWindow.loadFile(join(resourcesPath, 'app.asar.unpacked/src/renderer/timer/timer.html'));
     }
     bindHandle(mainWindow);
+    bindListener(mainWindow);
 
     mainWindow.on('closed', () => {
 
@@ -158,19 +154,6 @@ app.on('ready', () => {
         }
     });
 
-});
-
-//窗口最小化
-ipcMain.on('minimize', (event: IpcMainEvent) => {
-    event.preventDefault();
-    mainWindow!.minimize();
-});
-
-//窗口最大化
-ipcMain.on('maximize', (event: IpcMainEvent) => {
-
-    event.preventDefault();
-    mainWindow!.isMaximized() ? mainWindow!.restore() : mainWindow!.maximize();
 });
 
 //窗口关闭
@@ -221,53 +204,6 @@ ipcMain.on('do-relaunch', () => {
         mainWindow.destroy();
     }
     app.exit(0);
-});
-
-ipcMain.on('query-special-type-statis', (_: IpcMainEvent) => {
-    if (mainWindow && !mainWindow.isDestroyed()) {
-        mainWindow.webContents.send('query-special-type-statis');
-    }
-});
-
-ipcMain.on('query-each-1', (_: IpcMainEvent) => {
-    if (mainWindow && !mainWindow.isDestroyed()) {
-        mainWindow.webContents.send('query-each-1');
-    }
-});
-
-ipcMain.on('query-each-5', (_: IpcMainEvent) => {
-    if (mainWindow && !mainWindow.isDestroyed()) {
-        mainWindow.webContents.send('query-each-5');
-    }
-});
-
-ipcMain.on('query-each-20', (_: IpcMainEvent) => {
-    if (mainWindow && !mainWindow.isDestroyed()) {
-        mainWindow.webContents.send('query-each-20');
-    }
-});
-
-ipcMain.on('alarm-clean', (_: IpcMainEvent) => {
-    if (mainWindow && !mainWindow.isDestroyed()) {
-        mainWindow.webContents.send('alarm-clean');
-    }
-});
-
-ipcMain.on('alarm-drop-all', (_: IpcMainEvent) => {
-    if (mainWindow && !mainWindow.isDestroyed()) {
-        mainWindow.webContents.send('alarm-drop-all');
-    }
-});
-
-ipcMain.on('log', (_, content: string, level: 'info' | 'debug' | 'warn' | 'error') => {
-
-    console.log('log in Main', content, level);
-});
-
-ipcMain.on('reload', (_: IpcMainEvent) => {
-    if (mainWindow && !mainWindow.isDestroyed()) {
-        mainWindow.webContents.reload();
-    }
 });
 
 app.on('window-all-closed', () => {
