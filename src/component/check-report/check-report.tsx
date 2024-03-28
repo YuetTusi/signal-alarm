@@ -87,8 +87,11 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
                 <div className="r-title">
                     <span title={item.reportId ?? ''}>长时报告</span>
                 </div>
-                <div className="df">
+                {/* <div className="df">
                     REPORT
+                </div> */}
+                <div className="r-name">
+                    {item.reportId}
                 </div>
             </ReportBox>);
 

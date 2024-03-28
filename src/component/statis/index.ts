@@ -4,6 +4,7 @@ import { SpecialTypeChart } from './special-type-chart';
 import { AlarmWeekChart } from './alarm-week-chart';
 import { WhiteListTop } from './white-list-top';
 import { FakeHotspotList } from './fake-hotspot-list';
+import { SignalList } from './signal-list';
 
 export {
     AlarmSiteTopChart,
@@ -11,5 +12,6 @@ export {
     SpecialTypeChart,
     AlarmWeekChart,
     WhiteListTop,
-    FakeHotspotList
+    FakeHotspotList,
+    SignalList
 }

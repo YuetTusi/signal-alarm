@@ -63,6 +63,8 @@ const whiteList = (setState: SetState, _: GetState): WhiteListState => ({
         const url = '/white-list';
         try {
             const res = await request.get<WhiteListEntity[]>(url);
+            console.clear();
+            console.log(res?.data);
             if (res !== null && res.code === 200) {
                 setState({ whiteListTop: res.data });
             } else {

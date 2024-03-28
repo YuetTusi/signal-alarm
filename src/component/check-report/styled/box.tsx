@@ -75,8 +75,12 @@ export const ReportBox = styled.div`
         }
     }
     &>.df{
-        font-size: 1.6rem;
+        font-size: 1.2rem;
         color:#00efef;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    &>.r-name{
+        font-size: 1.4rem;
     }
 `;
 

@@ -44,6 +44,18 @@ export const ScrollList = styled.div`
             a{
                 color:#fcea00;
             }
+            &.signal-li{
+                cursor: pointer;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: flex-start;
+                .ant-tag{
+                    flex:1;
+                }
+                &:hover{
+                    background-color: rgba(1, 175, 248, 0.5);
+                }
+            }
         }
     }
 `;

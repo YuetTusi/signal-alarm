@@ -16,6 +16,7 @@ export const DashboardBox = styled.div`
     &>.left-box{
         box-sizing: border-box;
         flex:none;
+        width: 422px;
         &>div{
             margin-bottom: 10px;
         }

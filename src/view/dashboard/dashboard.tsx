@@ -14,7 +14,7 @@ import { RadarInfo } from '@/component/map/radar-info';
 import { AlarmInfo } from '@/component/alarm';
 import WapInfo from "@/component/special/wap-info";
 import {
-    WhiteListTop, SpecialTypeChart, FakeHotspotList
+    WhiteListTop, SpecialTypeChart, FakeHotspotList, SignalList
 } from '@/component/statis';
 import CheckReport from '@/component/check-report';
 import { DashboardBox } from "./styled/box";
@@ -42,7 +42,7 @@ const Dashboard: FC<{}> = memo(() => {
         appendPhoneAlarmData,
         updateAlarmBarData,
         clearPhoneAlarmData
-    } = useModel(state => ({
+    } = useModel((state) => ({
         phoneAlarmData: state.phoneAlarmData,
         queryAlarmTop10Data: state.queryAlarmTop10Data,
         querySpecialTypeStatisData: state.querySpecialTypeStatisData,
@@ -189,8 +189,9 @@ const Dashboard: FC<{}> = memo(() => {
 
     return <DashboardBox>
         <div className="left-box">
+            <SignalList />
             {/* <AlarmSiteTopChart /> */}
-            <WhiteListTop />
+            {/* <WhiteListTop /> */}
             <SpecialTypeChart />
             {/* <AlarmWeekChart /> */}
             {/* <AlarmTypeChart /> */}
