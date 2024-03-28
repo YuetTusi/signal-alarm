@@ -7,10 +7,12 @@ import {
     CalendarComponent,
     GridComponent,
     TimelineComponent,
+    MarkLineComponent,
     LegendComponent
 } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
 import { useResize } from '@/hook';
+import { helper } from '@/utility/helper';
 import { ChartBox } from './styled/box';
 import { SpectrumProp, SpectrumType } from './prop';
 
@@ -21,6 +23,7 @@ echarts.use([
     CalendarComponent,
     TimelineComponent,
     LegendComponent,
+    MarkLineComponent,
     LineChart,
     CanvasRenderer
 ]);
@@ -34,6 +37,29 @@ const chartResize = (chart: echarts.ECharts | null, containerId: string) => {
             width: outer?.clientWidth ?? document.body.clientWidth - 400
         });
     }
+};
+
+/**
+ * 返回最大值及索引
+ * @param data 数据
+ */
+const getMaxValue = (data: number[]) => {
+    if (helper.isNullOrUndefined(data) || data.length === 0) {
+        return null;
+    }
+    return data.reduce<{ max?: number, index: number }>(
+        (acc, current, index) => {
+            if (acc.max === undefined || current > acc.max) {
+                return {
+                    max: current,
+                    index
+                };
+            } else {
+                return acc
+            }
+        },
+        { max: undefined, index: -1 }
+    );
 };
 
 /**
@@ -84,12 +110,6 @@ const Spectrum: FC<SpectrumProp> = ({
                     }, {
                         name: '背景频谱'
                     }]
-                    // right: '50%',
-                    // trigger: 'item',
-                    // pageIconColor: '#256bec',
-                    // pageIconInactiveColor: '#b8b8b8',
-                    // pageIconSize: 10,
-                    // pageTextStyle: { color: '#ffffffd9' }
                 },
                 grid: {
                     bottom: 80
@@ -136,6 +156,8 @@ const Spectrum: FC<SpectrumProp> = ({
 
         if (myChart !== null) {
 
+            const mark = getMaxValue(realData);
+
             let seriseData: any[] = [{
                 data: realData,
                 name: type === SpectrumType.Live ? '实时频谱' : '历史频谱',
@@ -148,7 +170,27 @@ const Spectrum: FC<SpectrumProp> = ({
                             width: 1//设置线条粗细
                         }
                     }
-                }
+                },
+                // markLine: {
+                //     symbol: 'none',
+                //     data: [{
+                //         name: '最大值',
+                //         xAxis: mark.index,
+                //         label: {
+                //             show: true,
+                //             fontSize: 14,
+                //             color: '#e84118',
+                //             formatter() {
+                //                 return `最大强度：${mark.max}（${mark.index}MHz）`;
+                //             }
+                //         },
+                //         lineStyle: {
+                //             color: '#e84118',
+                //             width: 2,
+                //             type: 'dashed'
+                //         }
+                //     }]
+                // }
             }];
             if (compareData && compareData.length > 0) {
 
@@ -169,8 +211,29 @@ const Spectrum: FC<SpectrumProp> = ({
             }
 
             const prev = myChart.getOption();
-
-            myChart.setOption({
+            if (mark !== null) {
+                seriseData[0].markLine = {
+                    symbol: 'none',
+                    data: [{
+                        name: '最大值',
+                        xAxis: arfcn[mark.index],
+                        label: {
+                            show: true,
+                            fontSize: 14,
+                            color: '#e84118',
+                            formatter() {
+                                return `最大强度：${mark.max}（${mark.index}MHz）`;
+                            }
+                        },
+                        lineStyle: {
+                            color: '#e84118',
+                            width: 2,
+                            type: 'dashed'
+                        }
+                    }]
+                }
+            }
+            const option: echarts.EChartsCoreOption = {
                 ...prev,
                 legend: {
                     orient: 'vertical',
@@ -193,12 +256,6 @@ const Spectrum: FC<SpectrumProp> = ({
                                 ${item.marker}
                                 <b>${item.seriesName}</b>
                                 <span style="padding-left:1rem">${item.value}</span>
-                                <b style="padding-left:1rem">最大值</b>
-                                <span>
-                                ${item.seriesName === '实时频谱'
-                                ? Math.max(...realData)
-                                : Math.max(...compareData)}
-                                </span>
                             </div>
                         </div>`);
                         return `<div>
@@ -209,7 +266,13 @@ const Spectrum: FC<SpectrumProp> = ({
                 },
                 xAxis: { data: arfcn },
                 series: seriseData
-            }, true);
+            };
+            // if (mark !== null) {
+            //     option.
+            // }
+
+            myChart.setOption(option, true);
+
         }
     }, [realData, compareData, arfcn]);
 

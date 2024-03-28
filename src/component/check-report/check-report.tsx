@@ -26,13 +26,11 @@ const { writeFile } = fs.promises;
 const CheckReport: FC<CheckReportProp> = ({ }) => {
 
     const {
-        quickCheckReportLoading,
         quickCheckReportList,
         quickCheckReportDetailModalOpen,
         setQuickCheckReportDetailModalOpen,
         queryQuickCheckReport
     } = useModel((state) => ({
-        quickCheckReportLoading: state.quickCheckReportLoading,
         quickCheckReportList: state.quickCheckReportList,
         quickCheckReportDetailModalOpen: state.quickCheckReportDetailModalOpen,
         setQuickCheckReportDetailModalOpen: state.setQuickCheckReportDetailModalOpen,
@@ -50,7 +48,7 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
     /**
      * 浏览报告Click
      */
-    const onPreviewClick = async ({ url }: QuickCheckReport) => {
+    const onPreviewClick = debounce(async ({ url }: QuickCheckReport) => {
         setLoading(true);
         try {
             const chunk = await request.attachment(url);
@@ -67,103 +65,30 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
         } finally {
             setLoading(false);
         }
-    };
-
-    /**
-     * 下载Click
-     */
-    const onDownloadClick = debounce(async (report: QuickCheckReport) => {
-
-        try {
-            const { filePaths }: OpenDialogReturnValue = await ipcRenderer
-                .invoke('open-dialog', {
-                    title: '选择存储目录',
-                    properties: ['openDirectory']
-                });
-            if (filePaths.length > 0) {
-                // const options = url.parse(report.url);
-                const fileName = basename(report.url, '.pdf');
-                const chunk = await request.attachment(report.url);
-                await writeFile(join(filePaths[0], fileName + '.pdf'), chunk);
-                modal.success({
-                    title: '下载成功',
-                    content: `报告「${fileName}」已保存在${filePaths[0]}`,
-                    centered: true,
-                    okText: '确定'
-                });
-            }
-        } catch (error) {
-            console.warn(error);
-            modal.warning({
-                title: '下载失败',
-                content: error.message,
-                centered: true,
-                okText: '确定'
-            });
-        }
-    }, 1000, { leading: true, trailing: false });
-
-    const renderTime = (value: number | null) => {
-        if (value) {
-            return dayjs(value).format('YYYY-MM-DD HH:mm:ss');
-        } else {
-            return '-';
-        }
-    };
+    }, 500, { leading: true, trailing: false });
 
     /**
      * 生成报告时间差
      * @param startTime 开始时间
-     * @param endTime 结束时间
      */
-    const renderDuring = (startTime: number | null, endTime: number | null) => {
-        if (startTime && endTime) {
-            const diff = dayjs(endTime).diff(startTime);
-            return dayjs('00:00:00', 'HH:mm:ss').add(diff, 'ms').format('HH:mm:ss');
-        } else {
-            return '-';
-        }
-    };
+    const renderFromNow = (startTime: number | null) =>
+        dayjs(startTime).fromNow(true);
 
     const renderList = () =>
         quickCheckReportList.map((item, index) =>
-            <ReportBox key={`QCR_${index}`}>
+            <ReportBox
+                onClick={() => onPreviewClick(item)}
+                key={`QCR_${index}`}>
+                <span
+                    title={renderFromNow(item.startTime)}
+                    className="rp">
+                    {renderFromNow(item.startTime)}
+                </span>
                 <div className="r-title">
-                    <span title={`报告${item.reportId ?? ''}`}>{`报告${item.reportId ?? ''}`}</span>
+                    <span title={item.reportId ?? ''}>长时报告</span>
                 </div>
-                <div className="info">
-                    <ul>
-                        <li>
-                            <label>开始时间</label>
-                            <span>{renderTime(item.startTime)}</span>
-                        </li>
-                        <li>
-                            <label>持续时间</label>
-                            <span>{renderDuring(item.startTime, item.endTime)}</span>
-                        </li>
-                        <li>
-                            <label>结束时间</label>
-                            <span>{renderTime(item.endTime)}</span>
-                        </li>
-                    </ul>
-                </div>
-                <div className="btn">
-                    <Button
-                        onClick={() => onPreviewClick(item)}
-                        disabled={helper.isNullOrUndefined(item?.url) || loading}
-                        type="primary"
-                        size="middle">
-                        {loading ? <LoadingOutlined /> : <SearchOutlined />}
-                        <span>查看</span>
-                    </Button>
-                    <Button
-                        onClick={() => onDownloadClick(item)}
-                        disabled={helper.isNullOrUndefined(item?.url)}
-                        type="primary"
-                        size="middle">
-                        <DownloadOutlined />
-                        <span>下载</span>
-                    </Button>
+                <div className="df">
+                    REPORT
                 </div>
             </ReportBox>);
 
@@ -175,7 +100,7 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
                 style={{ color: '#fff' }}>更多</a>
         </div>
         <div className="content">
-            <Spin spinning={quickCheckReportLoading} tip="加载中">
+            <Spin spinning={loading} tip="读取中">
                 {
                     quickCheckReportList.length === 0
                         ?

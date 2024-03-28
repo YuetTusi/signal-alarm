@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Document</title>
+		<style>
+			body {
+				background: #eee;
+			}
+			.a {
+				position: relative;
+				width: 40px;
+				height: 200px;
+				background: transparent;
+				/* perspective: 1em; */
+			}
+			.a::before {
+				content: '';
+				position: absolute;
+				border: 1px solid #ddd;
+				background-color: gray;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				transform: perspective(1em) rotateY(3deg);
+			}
+			.a:hover:before {
+				background-color: transparent;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="a"></div>
+	</body>
+</html>

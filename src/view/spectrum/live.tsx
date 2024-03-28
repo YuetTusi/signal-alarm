@@ -35,6 +35,7 @@ const Live: FC<{}> = () => {
         setSpecOperate,
         setSpecLiving,
         resetCompareBarData,
+        resetFreqComDisplayList,
         clearSpectrumData,
         startRealCompare,
         stopRealCompare,
@@ -51,6 +52,7 @@ const Live: FC<{}> = () => {
         setSpecOperate: state.setSpecOperate,
         setSpecLiving: state.setSpecLiving,
         resetCompareBarData: state.resetCompareBarData,
+        resetFreqComDisplayList: state.resetFreqComDisplayList,
         clearSpectrumData: state.clearSpectrumData,
         startRealCompare: state.startRealCompare,
         stopRealCompare: state.stopRealCompare,
@@ -108,6 +110,7 @@ const Live: FC<{}> = () => {
         message.destroy();
         //还原柱图初始数据
         resetCompareBarData();
+        resetFreqComDisplayList();
         let device = ''
         try {
             const values = await validateFields(['device']);
@@ -138,6 +141,7 @@ const Live: FC<{}> = () => {
             console.warn(error);
             message.warning(`频谱查询失败 ${error.message}`);
             setSpecLiving(false);
+            setSpecOperate(SpecOperate.Nothing);
             if (timer) {
                 clearInterval(timer);
                 timer = null;
@@ -204,6 +208,7 @@ const Live: FC<{}> = () => {
             console.warn(error);
             message.warning(`频谱比对失败 ${error.message}`);
             setSpecLiving(false);
+            setSpecOperate(SpecOperate.Nothing);
             if (timer) {
                 clearInterval(timer);
                 timer = null;

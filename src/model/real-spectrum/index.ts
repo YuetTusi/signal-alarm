@@ -65,6 +65,10 @@ interface RealSpectrumState {
      */
     resetCompareBarData: () => void,
     /**
+     * 重置比较展示数据（表格）
+     */
+    resetFreqComDisplayList: () => void,
+    /**
      * 更新正在查询中
      */
     setSpecLiving: (payload: boolean) => void,

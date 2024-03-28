@@ -68,6 +68,12 @@ const realSpectrum = (setState: SetState, getState: GetState): RealSpectrumState
         setState({ compareBarData: data });
     },
     /**
+     * 重置比较展示数据（表格）
+     */
+    resetFreqComDisplayList() {
+        setState({ freqComDisplayList: [] });
+    },
+    /**
      * 更新操作类型
      */
     setSpecOperate(payload: SpecOperate) {
