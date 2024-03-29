@@ -17,9 +17,6 @@ const Clock: FC<ClockProp> = () => {
     });
 
     return <DisplayPanel style={{ marginBottom: '10px' }}>
-        <div className="caption">
-            时间
-        </div>
         <div className="content">
             <ClockBox>
                 <div className="clock-date">

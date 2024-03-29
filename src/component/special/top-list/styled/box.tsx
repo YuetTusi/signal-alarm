@@ -11,12 +11,12 @@ export const ListBox = styled.div`
     }
 
     &>.list-row{
-        font-size: 2rem;
+        font-size: 2.1rem;
         padding: 2px 4px;
         border:1px solid #01aff8;
         background: rgb(3,83,196);
         background: linear-gradient(0deg, rgba(3,83,196,1) 0%, rgba(0,14,79,0.7987570028011204) 40%, rgba(0,14,79,1) 60%, rgba(3,83,196,1) 100%);
-        margin-bottom: 5px;
+        margin-bottom: 6px;
 
         &:last-child{
             margin-bottom: 0;
@@ -67,8 +67,8 @@ export const ListBox = styled.div`
 
 export const Icon = styled.i`
     display: inline-block;
-    width: 73px;
-    height: 20px;
+    width: 80px;
+    height: 22px;
     margin-right: 2px;
     background-repeat: no-repeat;
     background-size: contain;

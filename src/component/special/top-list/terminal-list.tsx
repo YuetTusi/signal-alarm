@@ -54,7 +54,7 @@ const TerminalList: FC<TopListProp> = ({ data }) => {
                             {helper.isNullOrUndefined(item?.siteName) || item?.siteName === '' ? '-' : item?.siteName}
                         </div>
                         <div className="list-row-val">
-                            <NoWarpLabel width={188}>{item.captureTime}</NoWarpLabel>
+                            <NoWarpLabel width={192}>{item.captureTime}</NoWarpLabel>
                         </div>
                     </div>
                 </>;

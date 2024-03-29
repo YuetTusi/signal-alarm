@@ -52,7 +52,7 @@ const Terminal: FC<{ data: TerminalData }> = ({ data }) => {
                 </NoWarpLabel>
             </div>
             <div className="list-row-val">
-                <NoWarpLabel width={188}>{data.captureTime}</NoWarpLabel>
+                <NoWarpLabel width={192}>{data.captureTime}</NoWarpLabel>
             </div>
         </div>
     </>;
