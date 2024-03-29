@@ -139,10 +139,37 @@ const Spectrum: FC<SpectrumProp> = ({
                     offset: 32,
                     splitNumber: 2
                 },
-                series: [],
+                series: [
+                    {
+                        data: realData,
+                        name: '',
+                        type: 'line',
+                        smooth: false,
+                        itemStyle: {
+                            normal: {
+                                color: '#32ff7e',
+                                lineStyle: {
+                                    width: 1//设置线条粗细
+                                }
+                            }
+                        },
+                        markLine: {
+                            silent: true,
+                            animation: false,
+                            symbol: 'none',
+                            data: [{
+                                name: '',
+                                xAxis: '',
+                                label: {
+                                    show: false
+                                }
+                            }]
+                        }
+                    }
+                ],
                 dataZoom: [
                     {
-                        show: false,
+                        show: true,
                         type: "slider",
                         showDetail: false,
                         bottom: 20
@@ -156,7 +183,8 @@ const Spectrum: FC<SpectrumProp> = ({
 
         if (myChart !== null) {
 
-            const mark = getMaxValue(realData);
+            const realMark = getMaxValue(realData);
+            const compareMark = getMaxValue(compareData);
 
             let seriseData: any[] = [{
                 data: realData,
@@ -170,27 +198,7 @@ const Spectrum: FC<SpectrumProp> = ({
                             width: 1//设置线条粗细
                         }
                     }
-                },
-                // markLine: {
-                //     symbol: 'none',
-                //     data: [{
-                //         name: '最大值',
-                //         xAxis: mark.index,
-                //         label: {
-                //             show: true,
-                //             fontSize: 14,
-                //             color: '#e84118',
-                //             formatter() {
-                //                 return `最大强度：${mark.max}（${mark.index}MHz）`;
-                //             }
-                //         },
-                //         lineStyle: {
-                //             color: '#e84118',
-                //             width: 2,
-                //             type: 'dashed'
-                //         }
-                //     }]
-                // }
+                }
             }];
             if (compareData && compareData.length > 0) {
 
@@ -206,27 +214,52 @@ const Spectrum: FC<SpectrumProp> = ({
                                 width: 1//设置线条粗细
                             }
                         }
+                    },
+                    markLine: {
+                        silent: true,
+                        animation: false,
+                        symbol: 'none',
+                        data: [{
+                            name: '最大值',
+                            xAxis: compareData.every(i => i.toString() === '-') ? '' : compareMark?.index,
+                            label: {
+                                show: true,
+                                fontSize: 14,
+                                color: '#ff9f1a',
+                                distance: [0, 20],
+                                formatter() {
+                                    return `最大强度：${compareMark?.max}（${Math.trunc((compareMark?.index ?? 0) * 0.8) + 1}MHz）`;
+                                }
+                            },
+                            lineStyle: {
+                                color: '#ff9f1a',
+                                width: 2,
+                                type: 'dashed'
+                            }
+                        }]
                     }
                 });
             }
 
             const prev = myChart.getOption();
-            if (mark !== null) {
+            if (realMark !== null) {
                 seriseData[0].markLine = {
+                    silent: true,
+                    animation: false,
                     symbol: 'none',
                     data: [{
                         name: '最大值',
-                        xAxis: arfcn[mark.index],
+                        xAxis: realData.every(i => i.toString() === '-') ? '' : realMark.index,
                         label: {
                             show: true,
                             fontSize: 14,
-                            color: '#e84118',
-                            formatter() {
-                                return `最大强度：${mark.max}（${mark.index}MHz）`;
+                            color: '#32ff7e',
+                            formatter(a: any, b: any) {
+                                return `最大强度：${Math.max(...realData)}（${Math.trunc(realMark.index * 0.8) + 1}MHz）`
                             }
                         },
                         lineStyle: {
-                            color: '#e84118',
+                            color: '#32ff7e',
                             width: 2,
                             type: 'dashed'
                         }
@@ -267,12 +300,8 @@ const Spectrum: FC<SpectrumProp> = ({
                 xAxis: { data: arfcn },
                 series: seriseData
             };
-            // if (mark !== null) {
-            //     option.
-            // }
 
             myChart.setOption(option, true);
-
         }
     }, [realData, compareData, arfcn]);
 
