@@ -2,7 +2,7 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import { Tag } from 'antd';
 import { helper } from '@/utility/helper';
-import { useModel } from '@/model';
+import { useModel, useShallow } from '@/model';
 import { FakeHotspot } from '@/schema/fake-hotspot';
 import { CountModal } from '@/view/fake-hotspot';
 import { DisplayPanel } from '../panel';
@@ -59,10 +59,10 @@ const FakeHotspotList: FC<{}> = () => {
     const {
         fakeHotspotList,
         queryFakeHotspotList
-    } = useModel(state => ({
+    } = useModel(useShallow(state => ({
         fakeHotspotList: state.fakeHotspotList,
         queryFakeHotspotList: state.queryFakeHotspotList
-    }));
+    })));
 
     useEffect(() => {
         queryFakeHotspotList();

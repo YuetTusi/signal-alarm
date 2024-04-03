@@ -1,6 +1,6 @@
 
 import { FC, useEffect } from 'react';
-import useModel from '@/model';
+import { useModel, useShallow } from '@/model';
 import { Loop } from '@/component/chart';
 import { getProtocolText } from '@/schema/protocol';
 import { DisplayPanel } from '../panel';
@@ -13,10 +13,10 @@ const SpecialTypeChart: FC<{}> = () => {
     const {
         specialTypeStatisData,
         querySpecialTypeStatisData
-    } = useModel(state => ({
+    } = useModel(useShallow(state => ({
         specialTypeStatisData: state.specialTypeStatisData,
         querySpecialTypeStatisData: state.querySpecialTypeStatisData
-    }));
+    })));
 
     useEffect(() => {
         querySpecialTypeStatisData();

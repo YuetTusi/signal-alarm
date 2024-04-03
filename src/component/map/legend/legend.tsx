@@ -1,35 +1,32 @@
+import PointBluetoothPng from '@/assets/image/point-bluetooth.png';
+import PointSignalPng from '@/assets/image/point-signal.png';
+import PointWifiPng from '@/assets/image/point-wifi.png';
+import PointDevPng from '@/assets/image/point-bluetooth.png';
 import { FC } from 'react';
-import { Protocol, getProtocolText } from '@/schema/protocol';
 import { LegendBox } from './styled/box';
-import { ProtocolColor } from '../prop';
 import { LegendProp } from './prop';
 
 /**
  * 图例
  */
-const Legend: FC<LegendProp> = ({ visible }) => {
-
-    const render = () =>
-        Object
-            .entries(ProtocolColor)
-            .filter(([name]) => ![
-                Protocol[Protocol.WiFi24G],
-                Protocol[Protocol.WiFi58G],
-                Protocol[Protocol.Bluetooth50],
-                Protocol[Protocol.Detectaphone],
-                Protocol[Protocol.GPSLocator],
-                Protocol[Protocol.Camera],
-                Protocol[Protocol.Others],
-                Protocol[Protocol.Terminal] //过滤掉部分类型
-            ].some(i => i === name))
-            .map(([name, color]) => <li key={`L_${name}`}>
-                <i style={{ backgroundColor: color }} />
-                <span>{getProtocolText(Protocol[name as any] as any)}</span>
-            </li>);
-
-    return <LegendBox style={{ display: visible ? 'block' : 'none' }}>
-        {render()}
-    </LegendBox>;
-};
+const Legend: FC<LegendProp> = ({ visible }) => <LegendBox
+    style={{ display: visible ? 'block' : 'none' }}>
+    <li>
+        <img src={PointSignalPng} alt="制式信号" />
+        <span>制式信号</span>
+    </li>
+    <li>
+        <img src={PointWifiPng} alt="WiFi" />
+        <span>WiFi</span>
+    </li>
+    <li>
+        <img src={PointBluetoothPng} alt="蓝牙" />
+        <span>蓝牙</span>
+    </li>
+    <li>
+        <img src={PointDevPng} alt="终端" />
+        <span>终端</span>
+    </li>
+</LegendBox>;
 
 export { Legend };

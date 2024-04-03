@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import { Spin } from 'antd';
 import { ReadingBox } from './styled/styled';
-import useModel from '@/model';
+import { useModel } from '@/model';
 import { ReadingProp } from './prop';
 
-const Reading: FC<ReadingProp> = () => {
+const Reading: FC<ReadingProp> = ({ children }) => {
 
     const { reading } = useModel((state) => ({
         reading: state.reading
@@ -13,7 +13,7 @@ const Reading: FC<ReadingProp> = () => {
     return <ReadingBox style={{ display: reading ? 'flex' : 'none' }}>
         <div>
             <Spin size="default" />
-            <div className="reading-msg">处理中，请稍等</div>
+            <div className="reading-msg">{children ?? '读取中'}</div>
         </div>
     </ReadingBox>
 }

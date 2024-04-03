@@ -1,9 +1,11 @@
+import dayjs from 'dayjs';
 import electron, { IpcRendererEvent } from 'electron';
 import { FC, memo, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
-import { useModel } from "@/model";
+import { useModel, useShallow } from "@/model";
 import { usePhoneAlarm } from '@/hook';
 import { AlarmType } from '@/schema/conf';
+import { Point } from '@/schema/point';
 import { PhoneAlarmInfo } from '@/schema/phone-alarm-info';
 import { helper } from '@/utility/helper';
 import { instance, closeSse } from '@/utility/sse';
@@ -18,8 +20,10 @@ import {
 } from '@/component/statis';
 import CheckReport from '@/component/check-report';
 import { DashboardBox } from "./styled/box";
+import { PushMessage, SSEMessageType } from '@/schema/push-message';
+import { Protocol } from '@/schema/protocol';
 // import { request } from '@/utility/http';
-// import dayjs from 'dayjs';
+// import { Protocol } from '@/schema/protocol';
 
 const { ipcRenderer } = electron;
 const { alarmType } = helper.readConf();
@@ -41,8 +45,9 @@ const Dashboard: FC<{}> = memo(() => {
         setPhoneAlarmData,
         appendPhoneAlarmData,
         updateAlarmBarData,
-        clearPhoneAlarmData
-    } = useModel((state) => ({
+        clearPhoneAlarmData,
+        appendPoint
+    } = useModel(useShallow((state) => ({
         phoneAlarmData: state.phoneAlarmData,
         queryAlarmTop10Data: state.queryAlarmTop10Data,
         querySpecialTypeStatisData: state.querySpecialTypeStatisData,
@@ -52,30 +57,47 @@ const Dashboard: FC<{}> = memo(() => {
         setPhoneAlarmData: state.setPhoneAlarmData,
         appendPhoneAlarmData: state.appendPhoneAlarmData,
         updateAlarmBarData: state.updateAlarmBarData,
-        clearPhoneAlarmData: state.clearPhoneAlarmData
-    }));
+        clearPhoneAlarmData: state.clearPhoneAlarmData,
+        appendPoint: state.appendPoint
+    })));
 
     const alarms = usePhoneAlarm(phoneAlarmData);
 
-    const onMessage = (event: MessageEvent<any>) => {
-        console.log('SSE message:', event?.data);
+    const onMessage = (event: MessageEvent<string>) => {
+        // console.log('SSE message:', event.data);
         try {
-            if (typeof event.data === 'string') {
-                const data: PhoneAlarmInfo = JSON.parse(event.data);
-                const message = JSON.parse(data.message);
-                updateAlarmBarData(message['warnReason'], {
-                    rssi: message['rssi'] + 100,
-                    captureTime: message['captureTime']
-                });
-
-                if (data.hash) {
-                    appendPhoneAlarmData({
-                        ...data,
-                        id: helper.nextId(),
-                        receiveTime: new Date().getTime()
+            const m: PushMessage = JSON.parse(event.data);
+            if (m.type !== 201) {
+                console.log(m);
+            }
+            switch (m.type) {
+                case SSEMessageType.Alarm:
+                    //报警数据
+                    const message = JSON.parse(m.message);
+                    updateAlarmBarData(message['warnReason'], {
+                        rssi: message['rssi'] + 100,
+                        captureTime: message['captureTime']
                     });
-                    queryAlarmTop10Data();
-                }
+
+                    if (m.hash) {
+                        appendPhoneAlarmData({
+                            ...m,
+                            id: helper.nextId(),
+                            receiveTime: new Date().getTime()
+                        });
+                        queryAlarmTop10Data();
+                    }
+                    break;
+                case SSEMessageType.Location:
+                    //多点定位数据
+                    const nextPoint = JSON.parse(m.message) as Point;
+                    nextPoint.actionTime = new Date().getTime();
+                    appendPoint(nextPoint);
+                    break;
+                default:
+                    console.clear();
+                    console.log(`未知SSE Message Type:${m.type}`);
+                    break;
             }
         } catch (error) {
             console.log(`Parse JSON Error: ${event.data}`);
@@ -87,36 +109,48 @@ const Dashboard: FC<{}> = memo(() => {
         const userId = sessionStorage.getItem(StorageKeys.UserId);
         if (userId !== null && hash !== null) {
             instance(onMessage);
-            // setInterval(() => {
-            //     request.post(`/sse/push-user`, {
-            //         hash,
-            //         userId,
-            //         message: JSON.stringify({
-            //             rssi: helper.rnd(-90, -50),
-            //             captureTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
-            //             deviceId: 'zrt-test-x00003',
-            //             protocol: '协议7',
-            //             protocolType: 7,
-            //             status: 0,
-            //             warnReason: '电信(2G/3G/4G-B5)'
-            //         })
-            //     }).then(res => console.log(res))
-            //         .catch(err => console.log(err));
-            //     request.post(`/sse/push-user`, {
-            //         hash,
-            //         userId,
-            //         message: JSON.stringify({
-            //             rssi: helper.rnd(-50, -10),
-            //             captureTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
-            //             deviceId: 'RS_071',
-            //             protocol: '协议6',
-            //             protocolType: 6,
-            //             status: 0,
-            //             warnReason: '联通(3G),联通/电信(4G-B1/N1)'
-            //         })
-            //     }).then(res => console.log(res))
-            //         .catch(err => console.log(err));
-            // }, 1000 * 20);
+            setTimeout(() => {
+                //# mock数据
+                // const m: PushMessage = {
+                //     type: SSEMessageType.Location,
+                //     message: JSON.stringify({
+                //         content: "A1:B1:5A:75:4E:21",
+                //         lat: "0.00008817762136297115",
+                //         lon: "0.0003788620233535767",
+                //         areaId: -1447022591,
+                //         protocolType: Protocol.Bluetooth50,
+                //         x: 4.642381602965856,
+                //         y: 6.746058133752188,
+                //         actionTime: new Date().getTime()
+                //     }),
+                //     userId: sessionStorage.getItem(StorageKeys.MsgKey)!,
+                //     hash: sessionStorage.getItem(StorageKeys.UserId)!,
+                // };
+                // const nextPoint = JSON.parse(m.message) as Point;
+                // nextPoint.actionTime = new Date().getTime();
+                // appendPoint(nextPoint);
+                // request.post(`/sse/push-user`, {
+                //     hash,
+                //     userId,
+                //     type: SSEMessageType.Alarm,
+                //     message: JSON.stringify({
+                //         rssi: helper.rnd(-90, -50),
+                //         captureTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+                //         deviceId: 'zrt-test-x00003',
+                //         protocol: '协议7',
+                //         protocolType: 7,
+                //         status: 0,
+                //         warnReason: '电信(2G/3G/4G-B5)'
+                //     })
+                // }).then(res => console.log(res));
+                // request.post(`/sse/push-user`, {
+                //     hash,
+                //     userId,
+                //     type: SSEMessageType.Alarm,
+                //     message: '{"cmd_time":1709621749,"cmd_type":"freq_report","dev_id":"zrt-test-x00008","cmd_info":{"freq_info":[{"freq":1886,"time":1709621749,"signal":"-60"}]}}'
+                // }).then(res => console.log(res))
+                //     .catch(err => console.log(err));
+            }, 1000 * 5);
         }
         return () => {
             closeSse();
@@ -150,6 +184,7 @@ const Dashboard: FC<{}> = memo(() => {
             queryQuickCheckReport();//检查报告
             clearPhoneAlarmData();//清空报警
         }
+        console.clear();
     };
 
     useEffect(() => {

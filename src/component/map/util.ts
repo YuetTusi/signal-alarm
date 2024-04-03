@@ -1,8 +1,30 @@
-import L, { LatLng, LatLngBoundsLiteral } from "leaflet";
-import { MAP_BACKGROUND_BOUNDS } from "@/utility/helper";
+import PointBluetoothPng from '@/assets/image/point-bluetooth.png';
+import PointSignalPng from '@/assets/image/point-signal.png';
+import PointWifiPng from '@/assets/image/point-wifi.png';
+import PointDevPng from '@/assets/image/point-bluetooth.png';
+import L, { LatLngBoundsLiteral } from "leaflet";
+// import { MAP_BACKGROUND_BOUNDS } from "@/utility/helper";
 import { Protocol } from "@/schema/protocol";
+import { Point } from "@/schema/point";
 import { AlarmMessage, PhoneAlarmInfo } from "@/schema/phone-alarm-info";
 import { ProtocolColor } from "./prop";
+
+const signalIcon = new L.Icon({
+    iconUrl: PointSignalPng,
+    iconAnchor: [20, 20]
+});//制式信号图标
+const bluetoothIcon = new L.Icon({
+    iconUrl: PointBluetoothPng,
+    iconAnchor: [20, 20]
+});//蓝牙图标
+const wifiIcon = new L.Icon({
+    iconUrl: PointWifiPng,
+    iconAnchor: [20, 20]
+});//WiFi图标
+const devIcon = new L.Icon({
+    iconUrl: PointDevPng,
+    iconAnchor: [20, 20]
+});//设备图标
 
 /**
  * 计算实际长度
@@ -45,7 +67,7 @@ export const initMap = (domId: string, mapInstance: L.Map) => {
  */
 export const loadMap = (domId: string, background: string, width: number, height: number): L.Map => {
     let bg = background;
-    const bounds = calcBounds(width, height);
+    const bounds = calcBounds(width, height);//接口宽高计算真实宽高
     const map = L.map(domId, {
         zoomControl: false,
         doubleClickZoom: false,
@@ -59,7 +81,7 @@ export const loadMap = (domId: string, background: string, width: number, height
     map.fitBounds(bounds);
     map.setMinZoom(18);
     map.setMaxZoom(22);
-    // map.setZoom(14);
+    // map.setZoom(20);
     return map;
 };
 
@@ -139,9 +161,43 @@ export const getColor = (protocol: Protocol): string => {
  * @param devices 
  * @param map 
  */
-export const disposeAllMarker = (devices: L.Marker[], map: L.Map | null) => {
+export const disposeAllMarker = (m: L.Marker[], map: L.Map | null) => {
     if (map === null) {
         return;
     }
-    devices.forEach(item => map.removeLayer(item));
+    m.forEach(item => map.removeLayer(item));
 }
+
+const getPointIcon = (protocol: Protocol) => {
+    switch (protocol) {
+        case Protocol.Bluetooth50:
+            return bluetoothIcon;
+        case Protocol.WiFi24G:
+        case Protocol.WiFi58G:
+            return wifiIcon;
+        case Protocol.Terminal:
+            return devIcon;
+        default:
+            return signalIcon;
+    }
+};
+
+/**
+ * 定位点转为地图标记
+ */
+export const pointToMarker = (points: Point[]) => points
+    .map(item => {
+        const mark = L.marker([
+            Number.parseFloat(item.lat),
+            Number.parseFloat(item.lon)
+        ], {
+            icon: getPointIcon(item.protocolType),
+            title: item.content,
+            actionTime: item.actionTime
+        } as any);
+        mark.on('click', (e) => {
+            console.clear();
+            console.log(e.target.options);
+        });
+        return mark;
+    });

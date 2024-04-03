@@ -1,7 +1,7 @@
 
 import { FC, useEffect, useRef, useState } from 'react';
 import { Tag } from 'antd';
-import { useModel } from '@/model';
+import { useModel, useShallow } from '@/model';
 import { helper } from '@/utility/helper';
 import { SignalDescModal } from '@/component/statis/signal-desc-modal';
 import { ContinuousSignal } from '@/schema/continuous-signal';
@@ -21,10 +21,10 @@ const SignalList: FC<{}> = () => {
     const {
         signalData,
         querySignalData
-    } = useModel(state => ({
+    } = useModel(useShallow(state => ({
         signalData: state.signalData,
         querySignalData: state.querySignalData
-    }));
+    })));
 
     useEffect(() => {
         querySignalData(1, helper.PAGE_SIZE, {});

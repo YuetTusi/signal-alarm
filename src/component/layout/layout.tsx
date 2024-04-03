@@ -165,7 +165,7 @@ const Layout: FC<LayoutProp> = ({ children }) => {
     return <LayoutBox>
         <DragBar />
         <Voice />
-        <Reading />
+        <Reading>处理中，请稍等</Reading>
         <div className="banner">
             <div>
                 <RouteMenu />

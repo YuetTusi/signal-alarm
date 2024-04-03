@@ -1,24 +1,15 @@
-import fs from 'fs';
-import path from 'path';
 import dayjs from 'dayjs';
 import debounce from 'lodash/debounce';
-import electron, { OpenDialogReturnValue } from 'electron';
 import { FC, useEffect, useRef, useState } from 'react';
-import { DownloadOutlined, SearchOutlined, LoadingOutlined } from '@ant-design/icons';
-import { App, Button, Empty, Spin } from 'antd';
-import { useModel } from '@/model';
+import { App, Empty, Spin } from 'antd';
+import { useModel, useShallow } from '@/model';
 import { log } from '@/utility/log';
-import { helper } from '@/utility/helper';
 import { request } from '@/utility/http';
 import { DisplayPanel } from '@/component/panel';
 import { QuickCheckReport } from '@/schema/quick-check-report';
 import { ReportDetailModal } from './report-detail-modal';
 import { EmptyBox, ReportBox, ScrollBox } from './styled/box';
 import { CheckReportProp } from './prop';
-
-const { basename, join } = path;
-const { ipcRenderer } = electron;
-const { writeFile } = fs.promises;
 
 /**
  * 检测报告
@@ -30,12 +21,12 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
         quickCheckReportDetailModalOpen,
         setQuickCheckReportDetailModalOpen,
         queryQuickCheckReport
-    } = useModel((state) => ({
+    } = useModel(useShallow((state) => ({
         quickCheckReportList: state.quickCheckReportList,
         quickCheckReportDetailModalOpen: state.quickCheckReportDetailModalOpen,
         setQuickCheckReportDetailModalOpen: state.setQuickCheckReportDetailModalOpen,
         queryQuickCheckReport: state.queryQuickCheckReport
-    }));
+    })));
 
     const [loading, setLoading] = useState<boolean>(false);
     const { modal } = App.useApp();

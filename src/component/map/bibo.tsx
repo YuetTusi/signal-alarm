@@ -1,11 +1,12 @@
 import mapConnectedIcon from '@/assets/image/map-connected.png';
 import mapWarnIcon from '@/assets/image/map-warn.png';
 import mapOfflineIcon from '@/assets/image/map-offline.png';
+import dayjs from 'dayjs';
 import L from 'leaflet';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import SyncOutlined from '@ant-design/icons/SyncOutlined';
 import { Button, Form, Spin, Select, Switch, message } from 'antd';
-import { useModel } from '@/model';
+import { useModel, useShallow } from '@/model';
 import { useUnmount, useSubscribe, usePhoneAlarm } from '@/hook';
 import { request } from '@/utility/http';
 import { Zone } from '@/schema/zone';
@@ -13,8 +14,8 @@ import { DeviceState } from '@/schema/com-device';
 import { Legend } from './legend';
 import { RadarInfo } from './radar-info';
 import {
-    disposeAllMarker, getColor, getRealitySize, initMap,
-    loadMap
+    disposeAllMarker, initMap,
+    loadMap, pointToMarker
 } from './util';
 import { BiboBox, MaskBox } from './styled/box';
 import { MarkerOptionsEx, SearchFormValue } from './prop';
@@ -22,7 +23,8 @@ import { MarkerOptionsEx, SearchFormValue } from './prop';
 const { useForm, Item } = Form;
 const { Option } = Select;
 let map: L.Map | null = null;
-let devices: L.Marker[] = []; //设备坐标点
+let devices: L.Marker[] = []; //设备点
+let p: L.Marker[] = [];//定位坐标点
 
 const defaultIcon = new L.Icon({
     iconUrl: mapConnectedIcon,
@@ -47,27 +49,32 @@ const Bibo: FC<{}> = () => {
     const [radar, openRadar] = useState<boolean>(false);
     const [deviceId, setDeviceId] = useState<string>('');
     const [legendVisible, setLegendVisible] = useState<boolean>(false);
+    const currentAreaId = useRef<number>(0);
     const {
         zoneList,
         phoneAlarmData,
+        points,
         devicesOnMap,
         alarmsOfDevice,
-        setSound,
+        // appendPoint,
+        removePointOver5minutes,
         clearPhoneAlarmData,
         queryZoneList,
         queryDevicesOnMap,
         queryDeviceTopAlarms
-    } = useModel(state => ({
+    } = useModel(useShallow(state => ({
         zoneList: state.zoneList,
         phoneAlarmData: state.phoneAlarmData,
+        points: state.points,
         devicesOnMap: state.devicesOnMap,
         alarmsOfDevice: state.alarmsOfDevice,
-        setSound: state.setSound,
+        // appendPoint: state.appendPoint,
+        removePointOver5minutes: state.removePointOver5minutes,
         clearPhoneAlarmData: state.clearPhoneAlarmData,
         queryZoneList: state.queryZoneList,
         queryDevicesOnMap: state.queryDevicesOnMap,
         queryDeviceTopAlarms: state.queryDeviceTopAlarms
-    }));
+    })));
     const alarms = usePhoneAlarm(phoneAlarmData);
 
     useEffect(() => {
@@ -77,11 +84,8 @@ const Bibo: FC<{}> = () => {
     useEffect(() => {
 
         if (map === null || alarmsOfDevice === undefined) {
-            // setSound(false);
             return;
         }
-
-        // setSound(true);
 
         for (let i = 0; i < devices.length; i++) {
             const { deviceId } = devices[i].options as MarkerOptionsEx;
@@ -89,7 +93,6 @@ const Bibo: FC<{}> = () => {
             const alarms = alarmsOfDevice[deviceId];
 
             if (alarms && alarms.length > 0) {
-
                 //更换Icon
                 const nextMarker = L.marker([
                     lat, lng
@@ -157,10 +160,17 @@ const Bibo: FC<{}> = () => {
                 }
                 return mark;
             });
-        if (map !== null) {
-            // map.setZoom(14);
-        }
+        // if (map !== null) {
+        //     map.setZoom(14);
+        // }
     };
+
+    useSubscribe('query-each-5', () => {
+        if (map === null) {
+            return;
+        }
+        removePointOver5minutes();
+    });
 
     useSubscribe('alarm-clean', () => {
         //每天0时清空报警状态
@@ -173,10 +183,22 @@ const Bibo: FC<{}> = () => {
     }, [devicesOnMap]);
 
     useEffect(() => {
+        if (map === null) {
+            return;
+        }
+        //过滤掉不是当前区域的点
+        const thisAreaPoints = points.filter(i => i.areaId === currentAreaId.current);
+        p.forEach(m => map!.removeLayer(m));
+        p = pointToMarker(thisAreaPoints);
+        p.forEach(m => m.addTo(map!));
+    }, [points]);
+
+    useEffect(() => {
         if (zoneList.length > 0) {
             (async () => {
                 setLoading(true);
                 const [first] = zoneList;
+                currentAreaId.current = first.id;
                 formRef.setFieldValue('zone', first.id);
                 try {
                     const res = await request.get<Zone>(`/sys/area/get-area-info/${first.id}`);
@@ -202,6 +224,8 @@ const Bibo: FC<{}> = () => {
     useUnmount(() => {
         disposeAllMarker(devices, map);
         devices = [];
+        disposeAllMarker(p, map);
+        p = [];
         if (map !== null) {
             initMap('bibo', map);
             map = null;
@@ -211,12 +235,13 @@ const Bibo: FC<{}> = () => {
     /**
      * 区域Change
      */
-    const onZoneChange = async (value: number) => {
+    const onZoneChange = async (zoneId: number) => {
         setLoading(true);
         devices = [];
+        currentAreaId.current = zoneId;
         clearPhoneAlarmData();
         try {
-            const res = await request.get<Zone>(`/sys/area/get-area-info/${value}`);
+            const res = await request.get<Zone>(`/sys/area/get-area-info/${zoneId}`);
             if (res !== null && res.code === 200) {
                 const { areaBg, areaHeight, areaWidth } = res.data;
                 if (map !== null) {
@@ -224,7 +249,7 @@ const Bibo: FC<{}> = () => {
                 }
                 map = loadMap('bibo', areaBg, areaWidth, areaHeight);
                 // map?.setZoom(14);
-                await queryDevicesOnMap(value.toString());
+                await queryDevicesOnMap(zoneId.toString());
             }
         } catch (error) {
             console.warn(error);
@@ -298,6 +323,7 @@ const Bibo: FC<{}> = () => {
             onClose={() => {
                 openRadar(false);
             }} />
+
         {/* <RadarDemo
             open={radar}
             data={alarms}

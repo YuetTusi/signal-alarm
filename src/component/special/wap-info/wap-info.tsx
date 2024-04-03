@@ -3,7 +3,7 @@ import { FC, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DoubleRightOutlined } from '@ant-design/icons';
 import { Empty, Tabs, message } from 'antd';
-import { useModel } from '@/model';
+import { useModel, useShallow } from '@/model';
 import { DisplayPanel } from '@/component/panel';
 import { ScrollPanel } from '@/component/panel/panel';
 import { Protocol } from '@/schema/protocol';
@@ -122,7 +122,7 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
         querySpecialTerminalTopData,
         querySpecialBluetoothTopData,
         querySpecialWiretapTopData
-    } = useModel(state => ({
+    } = useModel(useShallow(state => ({
         specialWapTopData: state.specialWapTopData,
         specialHotsportTopData: state.specialHotsportTopData,
         specialTerminalTopData: state.specialTerminalTopData,
@@ -140,7 +140,7 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
         querySpecialTerminalTopData: state.querySpecialTerminalTopData,
         querySpecialBluetoothTopData: state.querySpecialBluetoothTopData,
         querySpecialWiretapTopData: state.querySpecialWiretapTopData
-    }));
+    })));
 
     /**
      * 查询全部Top10

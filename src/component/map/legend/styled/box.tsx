@@ -14,12 +14,17 @@ export const LegendBox = styled.ul`
 
     &>li{
         margin: 0;
-        padding: 0;
+        padding: 4px 0;
         list-style-type: none;
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
+    }
+    img{
+        display: inline-block;
+        width: 34px;
+        width: 34px;
     }
     i{
         display: inline-block;

@@ -1,4 +1,6 @@
+import dayjs from 'dayjs';
 import { request } from '@/utility/http';
+import { Point } from '@/schema/point';
 import { ComDevice } from '@/schema/com-device';
 import { AlarmMessage } from '@/schema/phone-alarm-info';
 import { GetState, SetState } from '..';
@@ -11,9 +13,30 @@ const bibo = (setState: SetState, getState: GetState): BiboState => ({
      */
     devicesOnMap: [],
     /**
+     * 多点定位的坐标点列表
+     */
+    points: [],
+    /**
      * 设备下的报警Top10
      */
     alarmsOfDevice: undefined,
+    /**
+     * 追加定位点到地图上
+     * @param payload 点
+     */
+    appendPoint(payload: Point) {
+        const prev = getState().points;
+        setState({ points: prev.concat(payload) });
+    },
+    /**
+     * 删除超过5分钟的点
+     */
+    removePointOver5minutes() {
+        const prev = getState().points;
+        setState({
+            points: prev.filter(i => dayjs().diff(i.actionTime, 'm') < 1)
+        });
+    },
     /**
      * 查询区域下的设备数据
      * @param id 区域id

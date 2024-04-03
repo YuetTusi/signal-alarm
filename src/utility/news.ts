@@ -1,10 +1,7 @@
-import events from 'events';
+import { EventEmitter } from 'events';
 import { helper } from '@/utility/helper';
 import { request } from './http';
-import { StorageKeys } from './storage-keys';
 
-const { EventEmitter } = events;
-// const { SSE_URL } = helper;
 const { ip, port } = helper.getAppSetting();
 
 var handle: News | null = null;

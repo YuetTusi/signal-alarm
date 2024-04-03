@@ -1,4 +1,5 @@
 import { create, StoreApi } from 'zustand';
+import { useShallow } from 'zustand/react/shallow';
 import { zustandLog } from '@/utility/zustand-log';
 import { reading, ReadingState } from './reading';
 import { specialWap, SpecialWapState } from './special-wap';
@@ -123,5 +124,5 @@ const useModel = create<State>(zustandLog((setState: SetState, getState: GetStat
 }), false));
 
 export type { State, GetState, SetState };
-export { useModel };
+export { useModel, useShallow };
 export default useModel;

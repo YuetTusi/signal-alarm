@@ -1,5 +1,5 @@
 import { FC, useRef } from 'react';
-import { useModel } from '@/model';
+import { useModel, useShallow } from '@/model';
 import { useSubscribe } from '@/hook';
 import { DisplayPanel } from '@/component/panel';
 import { DetailModal } from './detail-modal';
@@ -16,11 +16,11 @@ const AlarmInfo: FC<{}> = () => {
         alarmDetailModalOpen,
         setAlarmDetailModalOpen,
         removeBefore10SecAlarmBarData
-    } = useModel(state => ({
+    } = useModel(useShallow(state => ({
         alarmDetailModalOpen: state.alarmDetailModalOpen,
         setAlarmDetailModalOpen: state.setAlarmDetailModalOpen,
         removeBefore10SecAlarmBarData: state.removeBefore10SecAlarmBarData
-    }));
+    })));
 
     useSubscribe('query-each-1', () => {
         //删除10秒前的旧数据
