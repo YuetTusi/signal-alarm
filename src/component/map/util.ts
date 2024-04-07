@@ -7,6 +7,7 @@ import L, { LatLngBoundsLiteral } from "leaflet";
 import { Protocol } from "@/schema/protocol";
 import { Point } from "@/schema/point";
 import { AlarmMessage, PhoneAlarmInfo } from "@/schema/phone-alarm-info";
+import { renderTemp } from './template';
 import { ProtocolColor } from "./prop";
 
 const signalIcon = new L.Icon({
@@ -195,6 +196,8 @@ export const pointToMarker = (points: Point[]) => points
             title: item.content,
             actionTime: item.actionTime
         } as any);
+        mark.bindTooltip(renderTemp(item), {
+        });
         mark.on('click', (e) => {
             console.clear();
             console.log(e.target.options);

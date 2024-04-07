@@ -50,6 +50,17 @@ export const GlobalStyle = createGlobalStyle`
         background-color: rgba(25, 35, 104, .7);
     }
 
+    .map-tip-table{
+        margin:0;
+        padding:0;
+        table{
+            margin: 0;
+            padding: 0;
+            border-spacing: 0;
+            font-size: 1.8rem;
+        }
+    }
+
     .fn-hidden{
         display: none;
     }

@@ -18,8 +18,9 @@ class Point {
     public lon: string = ''
     /**
      * 协议
+     * WiFi:8,9 蓝牙:14 制式信号（对照setting/band.json）:101~113
      */
-    public protocolType: Protocol = Protocol.All
+    public protocolType: number = -1
     /**
      * X轴
      */

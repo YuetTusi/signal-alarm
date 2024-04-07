@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 import electron, { IpcRendererEvent } from 'electron';
 import { FC, memo, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
@@ -6,7 +6,6 @@ import { useModel, useShallow } from "@/model";
 import { usePhoneAlarm } from '@/hook';
 import { AlarmType } from '@/schema/conf';
 import { Point } from '@/schema/point';
-import { PhoneAlarmInfo } from '@/schema/phone-alarm-info';
 import { helper } from '@/utility/helper';
 import { instance, closeSse } from '@/utility/sse';
 import { StorageKeys } from '@/utility/storage-keys';
@@ -16,12 +15,11 @@ import { RadarInfo } from '@/component/map/radar-info';
 import { AlarmInfo } from '@/component/alarm';
 import WapInfo from "@/component/special/wap-info";
 import {
-    WhiteListTop, SpecialTypeChart, FakeHotspotList, SignalList
+    SpecialTypeChart, FakeHotspotList, SignalList
 } from '@/component/statis';
 import CheckReport from '@/component/check-report';
 import { DashboardBox } from "./styled/box";
 import { PushMessage, SSEMessageType } from '@/schema/push-message';
-import { Protocol } from '@/schema/protocol';
 // import { request } from '@/utility/http';
 // import { Protocol } from '@/schema/protocol';
 
@@ -96,7 +94,7 @@ const Dashboard: FC<{}> = memo(() => {
                     break;
                 default:
                     console.clear();
-                    console.log(`未知SSE Message Type:${m.type}`);
+                    // console.log(`未知SSE Message Type:${m.type}`);
                     break;
             }
         } catch (error) {
@@ -118,7 +116,7 @@ const Dashboard: FC<{}> = memo(() => {
                 //         lat: "0.00008817762136297115",
                 //         lon: "0.0003788620233535767",
                 //         areaId: -1447022591,
-                //         protocolType: Protocol.Bluetooth50,
+                //         protocolType: 112,
                 //         x: 4.642381602965856,
                 //         y: 6.746058133752188,
                 //         actionTime: new Date().getTime()
