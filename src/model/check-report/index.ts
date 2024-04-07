@@ -1,3 +1,4 @@
+import { RequestResult } from '@/utility/http';
 import { checkReport } from './check-report';
 import { QuickCheckReport } from "@/schema/quick-check-report";
 
@@ -41,7 +42,13 @@ interface CheckReportState {
     /**
      * 查询检查报告分页数据
      */
-    queryCheckReportData: (pageIndex: number, pageSize: number, condition?: Record<string, any>) => void
+    queryCheckReportData: (pageIndex: number, pageSize: number, condition?: Record<string, any>) => void,
+    /**
+     * 生成检查报告
+     * @param startTime 开始时间
+     * @param endTime 结束时间
+     */
+    checkReportGenerate: (startTime: number, endTime: number) => Promise<RequestResult | null>
 }
 
 export type { CheckReportState };

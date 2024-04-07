@@ -21,9 +21,9 @@ const getColumns = (handle: (actionType: ActionType, data: Hotspot) => void): Co
         title: '热点',
         key: 'ssid',
         dataIndex: 'ssid',
-        width: 160,
+        width: 150,
         render(val: string) {
-            return <NoWarpLabel title={val} width={150}>{val}</NoWarpLabel>;
+            return <NoWarpLabel title={val} width={140}>{val}</NoWarpLabel>;
         }
     }, {
         title: 'APID',
@@ -48,7 +48,7 @@ const getColumns = (handle: (actionType: ActionType, data: Hotspot) => void): Co
             return <NoWarpLabel title={val} width={120}>{val}</NoWarpLabel>;
         }
     }, {
-        title: '频率号',
+        title: '信道',
         key: 'channel',
         dataIndex: 'channel',
         width: 80

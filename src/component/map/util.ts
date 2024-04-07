@@ -1,7 +1,7 @@
 import PointBluetoothPng from '@/assets/image/point-bluetooth.png';
 import PointSignalPng from '@/assets/image/point-signal.png';
 import PointWifiPng from '@/assets/image/point-wifi.png';
-import PointDevPng from '@/assets/image/point-bluetooth.png';
+import PointDevPng from '@/assets/image/point-dev.png';
 import L, { LatLngBoundsLiteral } from "leaflet";
 // import { MAP_BACKGROUND_BOUNDS } from "@/utility/helper";
 import { Protocol } from "@/schema/protocol";

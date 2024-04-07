@@ -13,6 +13,7 @@ import sysUser from '@/assets/image/sys-user.png';
 import sysMenu from '@/assets/image/sys-menu.png';
 import sysOperLog from '@/assets/image/sys-oper-log.png';
 import sysLoginLog from '@/assets/image/sys-login-log.png';
+import signalSetInfo from '@/assets/image/signal-set-info.png';
 
 export const UserIconBox = styled.div`
 
@@ -127,6 +128,10 @@ export const FlatBox = styled.div`
             &.sysLoginLog{
                 //登录日志
                 background-image: url(${sysLoginLog});
+            }
+            &.signalSetInfo{
+                //可疑持续信号
+                background-image: url(${signalSetInfo});
             }
         }
 

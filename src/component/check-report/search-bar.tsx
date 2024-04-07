@@ -6,7 +6,7 @@ import { SearchBarProp } from './prop';
 
 const { Item } = Form;
 
-const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch }) => {
+const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onGenerate }) => {
 
     useEffect(() => {
         formRef.setFieldsValue({
@@ -22,6 +22,15 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch }) => {
         event.preventDefault();
         const { beginTime, endTime } = formRef.getFieldsValue();
         onSearch(beginTime, endTime);
+    };
+
+    /**
+     * 查询Click
+     */
+    const onGenerateClick = (event: MouseEvent) => {
+        event.preventDefault();
+        const { beginTime, endTime } = formRef.getFieldsValue();
+        onGenerate(beginTime, endTime);
     };
 
     return <SearchBarBox>
@@ -49,6 +58,11 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch }) => {
                     <Button
                         onClick={onSubmitClick}
                         type="primary">查询</Button>
+                </Item>
+                <Item>
+                    <Button
+                        onClick={onGenerateClick}
+                        type="primary">生成</Button>
                 </Item>
             </Form>
         </div>

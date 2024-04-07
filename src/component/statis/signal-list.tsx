@@ -105,7 +105,7 @@ const SignalList: FC<{}> = () => {
                 key={`SI_${item.id}`}>
                 <Tag color="blue">频段:{item.freqBand}</Tag>
                 <Tag color="green">最新频率:{item.lastFreq}</Tag>
-                <Tag color="cyan">最近强度:{item.lastRssi}</Tag>
+                <Tag color="cyan">持续时间:{item.duration}s</Tag>
             </li>
         );
 

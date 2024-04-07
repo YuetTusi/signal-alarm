@@ -1,12 +1,10 @@
 import dayjs from 'dayjs';
 import { QueryPage } from '@/schema/query-page';
-import { WhiteList as WhiteListEntity } from '@/schema/white-list';
+import { ContinuousSignal } from '@/schema/continuous-signal';
 import { request } from '@/utility/http';
 import { helper } from '@/utility/helper';
-import { FormValue } from '@/view/white-list/add-modal/prop';
 import { GetState, SetState } from '..';
 import { SignalState } from '../signal';
-import { ContinuousSignal } from '@/schema/continuous-signal';
 
 const signal = (setState: SetState, _: GetState): SignalState => ({
     /**
@@ -34,9 +32,23 @@ const signal = (setState: SetState, _: GetState): SignalState => ({
      */
     async querySignalData(pageIndex: number, pageSize: number, condition: Record<string, any>) {
         const url = `/signal/${pageIndex}/${pageSize}`;
+        let params = '';
+        if (!helper.isNullOrUndefined(condition)) {
+            let q: string[] = [];
+            if (condition?.beginTime) {
+                q.push(`beginTime=${encodeURIComponent(condition.beginTime)}`);
+            }
+            if (condition?.endTime) {
+                q.push(`endTime=${encodeURIComponent(condition?.endTime)}`);
+            }
+            if (condition?.deviceId !== -1) {
+                q.push(`deviceId=${condition?.deviceId}`);
+            }
+            params = '?' + q.join('&');
+        }
         setState({ signalLoading: true });
         try {
-            const res = await request.get<QueryPage<ContinuousSignal>>(url);
+            const res = await request.get<QueryPage<ContinuousSignal>>(url + params);
 
             if (res === null || res.code !== 200) {
                 throw new Error('查询失败');

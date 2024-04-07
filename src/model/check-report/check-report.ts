@@ -103,6 +103,20 @@ const checkReport = (setState: SetState, _: GetState): CheckReportState => ({
         } finally {
             setState({ checkReportLoading: false });
         }
+    },
+    /**
+     * 生成检查报告
+     * @param startTime 开始时间
+     * @param endTime 结束时间
+     */
+    async checkReportGenerate(startTime: number, endTime: number) {
+        const url = `/check/generate-check-report?startTime=${startTime}&endTime=${endTime}`;
+        try {
+            const res = request.get(url);
+            return res;
+        } catch (error) {
+            throw error;
+        }
     }
 });
 

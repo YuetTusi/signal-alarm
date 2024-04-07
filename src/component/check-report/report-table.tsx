@@ -4,7 +4,7 @@ import debounce from 'lodash/debounce';
 import dayjs, { Dayjs } from 'dayjs';
 import electron, { OpenDialogReturnValue } from 'electron';
 import { FC, useEffect } from 'react';
-import { App, Form, Table, Divider } from 'antd';
+import { App, Form, Table, Divider, message } from 'antd';
 import { useModel } from '@/model';
 import { QuickCheckReport } from '@/schema/quick-check-report';
 import { helper } from '@/utility/helper';
@@ -35,14 +35,18 @@ const ReportTable: FC<{}> = () => {
         checkReportPageIndex,
         checkReportPageSize,
         checkReportTotal,
-        queryCheckReportData
+        queryQuickCheckReport,
+        queryCheckReportData,
+        checkReportGenerate
     } = useModel(state => ({
         checkReportData: state.checkReportData,
         checkReportLoading: state.checkReportLoading,
         checkReportPageIndex: state.checkReportPageIndex,
         checkReportPageSize: state.checkReportPageSize,
         checkReportTotal: state.checkReportTotal,
-        queryCheckReportData: state.queryCheckReportData
+        queryQuickCheckReport: state.queryQuickCheckReport,
+        queryCheckReportData: state.queryCheckReportData,
+        checkReportGenerate: state.checkReportGenerate
     }));
 
     /**
@@ -55,6 +59,31 @@ const ReportTable: FC<{}> = () => {
             beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
             endTime: endTime.format('YYYY-MM-DD HH:mm:ss')
         });
+    };
+
+    /**
+     * 生成handle
+     * @param beginTime 起始时间
+     * @param endTime 结束时间
+     */
+    const onGenerate = async (beginTime: Dayjs, endTime: Dayjs) => {
+        message.destroy();
+        let hour = endTime.diff(beginTime, 'hour');
+        if (hour > 24 || hour < 0) {
+            message.info('生成时间在24小时之内');
+            return;
+        }
+        try {
+            const res = await checkReportGenerate(beginTime.valueOf(), endTime.valueOf());
+            if (res !== null && res.code === 200) {
+                queryQuickCheckReport();
+                message.success('生成成功');
+            } else {
+                message.warning('生成失败');
+            }
+        } catch (error) {
+            message.warning(`生成失败 ${error.message ?? ''}`);
+        }
     };
 
     const onPageChange = (pageIndex: number, pageSize: number) => {
@@ -101,7 +130,8 @@ const ReportTable: FC<{}> = () => {
     return <>
         <SearchBar
             formRef={formRef}
-            onSearch={onSearch} />
+            onSearch={onSearch}
+            onGenerate={onGenerate} />
         <Divider />
         <Table<QuickCheckReport>
             pagination={{

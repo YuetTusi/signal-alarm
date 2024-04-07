@@ -94,5 +94,9 @@ export enum MenuPath {
     /**
      * 伪热点防护
      */
-    FakeHotspot = 'fakeHotspot'
+    FakeHotspot = 'fakeHotspot',
+    /**
+     * 可疑持续信号
+     */
+    SignalSetInfo = 'signalSetInfo'
 }

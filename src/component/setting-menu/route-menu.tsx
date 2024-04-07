@@ -112,6 +112,9 @@ const RouteMenu: FC<RouteMenuProp> = () => {
                                 //白名单管理
                                 navigator('/white-list');
                                 break;
+                            case MenuPath.SignalSetInfo:
+                                navigator('/signal-set-info');
+                                break;
                         }
                         setRouteMenuOpen(false);
                     }} />

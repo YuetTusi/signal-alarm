@@ -1,7 +1,7 @@
 import PointBluetoothPng from '@/assets/image/point-bluetooth.png';
 import PointSignalPng from '@/assets/image/point-signal.png';
 import PointWifiPng from '@/assets/image/point-wifi.png';
-import PointDevPng from '@/assets/image/point-bluetooth.png';
+import PointDevPng from '@/assets/image/point-dev.png';
 import { FC } from 'react';
 import { LegendBox } from './styled/box';
 import { LegendProp } from './prop';

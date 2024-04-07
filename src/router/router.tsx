@@ -9,6 +9,7 @@ import Zone from '@/view/zone';
 import SysUser from '@/view/sys-user';
 import WhiteList from '@/view/white-list';
 import FakeHotspot from '@/view/fake-hotspot';
+import SignalSetInfo from '@/view/signal-setinfo';
 import {
     BaseSpectrum,
     Live,
@@ -101,6 +102,14 @@ export const ViewRouter: FC<{}> = () => <Router>
             element={
                 <Layout>
                     <FakeHotspot />
+                </Layout>
+            }
+        />
+        <Route
+            path="/signal-set-info"
+            element={
+                <Layout>
+                    <SignalSetInfo />
                 </Layout>
             }
         />
