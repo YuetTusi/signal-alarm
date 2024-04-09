@@ -75,7 +75,8 @@ export const ReportBox = styled.div`
         }
     }
     &>.df{
-        font-size: 1.2rem;
+        margin-top: 6px;
+        font-size: 1.4rem;
         color:#00efef;
         font-family: Arial, Helvetica, sans-serif;
     }

@@ -63,7 +63,21 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
      * @param startTime 开始时间
      */
     const renderFromNow = (startTime: number | null) =>
-        dayjs(startTime).fromNow(true);
+        dayjs().diff(startTime, 'hour') + '小时前';
+
+    /**
+     * 报告时间差
+     * @param startTime 开始时间
+     * @param endTime 结束时间
+     */
+    const renderDuring = (startTime: number | null, endTime: number | null) => {
+        if (startTime && endTime) {
+            const diff = dayjs(endTime).diff(startTime);
+            return dayjs('00:00:00', 'HH:mm:ss').add(diff, 'ms').format('HH:mm:ss');
+        } else {
+            return '-';
+        }
+    };
 
     const renderList = () =>
         quickCheckReportList.map((item, index) =>
@@ -78,11 +92,11 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
                 <div className="r-title">
                     <span title={item.reportId ?? ''}>长时报告</span>
                 </div>
-                {/* <div className="df">
-                    REPORT
-                </div> */}
                 <div className="r-name">
                     {item.reportId}
+                </div>
+                <div className="df">
+                    持续时间:{renderDuring(item.startTime, item.endTime)}
                 </div>
             </ReportBox>);
 

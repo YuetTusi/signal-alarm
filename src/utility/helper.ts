@@ -277,7 +277,7 @@ const helper = {
     getDeviceIdFromDropdown(site: string[]) {
         let deviceId: string | undefined = undefined;
         try {
-            if (site.length === 0) {
+            if (site === undefined || site.length === 0) {
                 deviceId = undefined;
             } else if (site.length === 1) {
                 const data: {

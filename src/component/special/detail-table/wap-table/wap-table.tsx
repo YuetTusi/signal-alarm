@@ -21,33 +21,10 @@ const { useForm } = Form;
 /**
  * 专项检测分页数据
  */
-const WapTable: FC<WapTableProp> = ({ parentOpen }) => {
+const WapTable: FC<WapTableProp> = () => {
 
     const { modal } = App.useApp();
     const [formRef] = useForm<SearchFormValue>();
-
-    useEffect(() => {
-        if (parentOpen) {
-            querySpecialWapData(1, helper.PAGE_SIZE, {
-                beginTime: dayjs().add(-1, 'w').format('YYYY-MM-DD 00:00:00'),
-                endTime: dayjs().format('YYYY-MM-DD 23:59:59'),
-                protocolTypes: helper.protocolToString([
-                    Protocol.ChinaMobileGSM,
-                    Protocol.ChinaUnicomGSM,
-                    Protocol.ChinaTelecomCDMA,
-                    Protocol.ChinaUnicomWCDMA,
-                    Protocol.ChinaMobileTDDLTE,
-                    Protocol.ChinaUnicomFDDLTE,
-                    Protocol.ChinaTelecomFDDLTE,
-                    Protocol.ChinaMobile5G,
-                    Protocol.ChinaUnicom5G,
-                    Protocol.ChinaBroadnet5G,
-                    Protocol.ChinaTelecom5G,
-                    Protocol.GPSLocator
-                ])
-            });
-        }
-    }, [parentOpen]);
 
     const {
         specialWapLoading,
@@ -68,6 +45,27 @@ const WapTable: FC<WapTableProp> = ({ parentOpen }) => {
         exportSpecialWapData: state.exportSpecialWapData,
         setReading: state.setReading,
     }));
+
+    useEffect(() => {
+        querySpecialWapData(1, helper.PAGE_SIZE, {
+            beginTime: dayjs().add(-1, 'w').format('YYYY-MM-DD 00:00:00'),
+            endTime: dayjs().format('YYYY-MM-DD 23:59:59'),
+            protocolTypes: helper.protocolToString([
+                Protocol.ChinaMobileGSM,
+                Protocol.ChinaUnicomGSM,
+                Protocol.ChinaTelecomCDMA,
+                Protocol.ChinaUnicomWCDMA,
+                Protocol.ChinaMobileTDDLTE,
+                Protocol.ChinaUnicomFDDLTE,
+                Protocol.ChinaTelecomFDDLTE,
+                Protocol.ChinaMobile5G,
+                Protocol.ChinaUnicom5G,
+                Protocol.ChinaBroadnet5G,
+                Protocol.ChinaTelecom5G,
+                Protocol.GPSLocator
+            ])
+        });
+    }, []);
 
     /**
      * 翻页Change
@@ -145,7 +143,6 @@ const WapTable: FC<WapTableProp> = ({ parentOpen }) => {
     return <>
         <SearchBar
             formRef={formRef}
-            parentOpen={parentOpen}
             onExport={onExport}
             onSearch={onSearch} />
         <Table<Wap>
@@ -160,14 +157,11 @@ const WapTable: FC<WapTableProp> = ({ parentOpen }) => {
                 showSizeChanger: false,
                 showTotal: (total) => `共${total}条`
             }}
-            rowKey="id"
+            rowKey={(record) => `Row_${helper.nextId()}`}
             size="middle"
         />
     </>
 };
 
-WapTable.defaultProps = {
-    parentOpen: false
-};
 
 export { WapTable };

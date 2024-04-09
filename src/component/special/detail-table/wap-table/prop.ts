@@ -1,18 +1,9 @@
 import { FormInstance } from "antd";
 import { Dayjs } from "dayjs";
 
-export interface WapTableProp {
-    /**
-     * 父窗口打开
-     */
-    parentOpen?: boolean
-}
+export interface WapTableProp { }
 
 export interface SearchBarProp {
-    /**
-     * 父窗口打开
-     */
-    parentOpen?: boolean,
     /**
      * 表单引用
      */

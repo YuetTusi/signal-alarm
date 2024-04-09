@@ -10,7 +10,7 @@ import { SearchBarProp } from './prop';
 const { Item } = Form;
 
 const SearchBar: FC<SearchBarProp> = ({
-    parentOpen, formRef, onSearch, onExport
+    formRef, onSearch, onExport
 }) => {
 
     const {
@@ -22,15 +22,13 @@ const SearchBar: FC<SearchBarProp> = ({
     }));
 
     useEffect(() => {
-        if (parentOpen) {
-            formRef.setFieldsValue({
-                beginTime: dayjs(dayjs().add(-1, 'w').format('YYYY-MM-DD 00:00:00')),
-                endTime: dayjs(dayjs().format('YYYY-MM-DD 23:59:59')),
-                type: 'all',
-                site: [JSON.stringify({ type: 'all', deviceId: [] })]
-            });
-        }
-    }, [parentOpen, formRef]);
+        formRef.setFieldsValue({
+            beginTime: dayjs(dayjs().add(-1, 'w').format('YYYY-MM-DD 00:00:00')),
+            endTime: dayjs(dayjs().format('YYYY-MM-DD 23:59:59')),
+            type: 'all',
+            site: [JSON.stringify({ type: 'all', deviceId: [] })]
+        });
+    }, [formRef]);
 
     /**
      * 查询Click
