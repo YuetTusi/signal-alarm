@@ -251,7 +251,7 @@ const AlarmTable: FC<AlarmTopProp> = () => {
                 onBatch={onBatchProcessClick}
                 onExport={onExport}
                 onSearch={onSearch} />
-            <Divider />
+            <Divider style={{ margin: '12px 0' }} />
             <Table<AlarmMsg>
                 columns={getColumns(actionHandle)}
                 pagination={{

@@ -80,8 +80,8 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [
         title: '设备场所',
         key: 'siteName',
         dataIndex: 'siteName',
-        width: 160,
-        render: (val) => <NoWarpLabel width={160} title={val}>{val}</NoWarpLabel>
+        width: 140,
+        render: (val) => <NoWarpLabel width={140} title={val}>{val}</NoWarpLabel>
     }, {
         title: '时间',
         key: 'captureTime',
@@ -92,13 +92,14 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [
         title: '处理记录',
         key: 'remark',
         dataIndex: 'remark',
-        render: (val) => <NoWarpLabel width={130} title={val}>{val}</NoWarpLabel>
+        width: 110,
+        render: (val) => <NoWarpLabel width={100} title={val}>{val}</NoWarpLabel>
     }, {
         title: '处理',
         key: 'read',
         dataIndex: 'read',
         align: 'center',
-        width: 60,
+        width: 80,
         render: (_: any, record) => {
             if (record.status === 0) {
                 return <a onClick={() => {
