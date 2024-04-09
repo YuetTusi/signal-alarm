@@ -51,7 +51,6 @@ const helper = {
     PAGE_SIZE: 10,
     /**
      * 读取配置文件
-     * @param algo 解密算法（默认rc4）
      */
     readConf: memoize((): Conf => {
         let confPath = '';

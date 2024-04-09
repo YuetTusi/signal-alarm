@@ -169,16 +169,24 @@ export const disposeAllMarker = (m: L.Marker[], map: L.Map | null) => {
     m.forEach(item => map.removeLayer(item));
 }
 
+/**
+ * 多点定位图标
+ * @param protocol 协议
+ */
 const getPointIcon = (protocol: Protocol) => {
     switch (protocol) {
         case Protocol.Bluetooth50:
+            //蓝牙5.0
             return bluetoothIcon;
         case Protocol.WiFi24G:
         case Protocol.WiFi58G:
+            //WiFi2.4G & WiFi5.8G
             return wifiIcon;
         case Protocol.Terminal:
+            //终端
             return devIcon;
         default:
+            //制式信号
             return signalIcon;
     }
 };
@@ -196,11 +204,10 @@ export const pointToMarker = (points: Point[]) => points
             title: item.content,
             actionTime: item.actionTime
         } as any);
-        mark.bindTooltip(renderTemp(item), {
-        });
-        mark.on('click', (e) => {
-            console.clear();
-            console.log(e.target.options);
-        });
+        mark.bindTooltip(renderTemp(item), {});
+        // mark.on('click', (e) => {
+        //     console.clear();
+        //     console.log(e.target.options);
+        // });
         return mark;
     });

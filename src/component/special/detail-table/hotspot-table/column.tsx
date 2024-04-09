@@ -54,18 +54,6 @@ const getColumns = (handle: (actionType: ActionType, data: Hotspot) => void): Co
         width: 80
     },
     {
-        title: '上行流量',
-        key: 'upStream',
-        dataIndex: 'upStream',
-        width: 110,
-    },
-    {
-        title: '下行流量',
-        key: 'downStream',
-        dataIndex: 'downStream',
-        width: 110
-    },
-    {
         title: '设备ID',
         key: 'deviceId',
         dataIndex: 'deviceId',

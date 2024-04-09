@@ -27,7 +27,7 @@ const { ipcRenderer } = electron;
 const { alarmType } = helper.readConf();
 
 /**
- * 主页
+ * 主页 
  */
 const Dashboard: FC<{}> = memo(() => {
 
@@ -206,19 +206,18 @@ const Dashboard: FC<{}> = memo(() => {
         };
     }, [alarmDropAll]);
 
-    const renderByAlarmType = () => {
-        if (alarmType === AlarmType.Single) {
-            return <div className="phone-panel">
-                <RadarInfo
-                    open={true}
-                    data={alarms} />
-            </div>;
-        } else {
-            return <div className="phone-panel">
-                <Bibo />
-            </div>;
-        }
-    };
+    /**
+     * 据配置文件显示雷达图或地图
+     */
+    const renderByAlarmType = () => alarmType === AlarmType.Single
+        ? <div className="phone-panel">
+            <RadarInfo
+                open={true}
+                data={alarms} />
+        </div>
+        : <div className="phone-panel">
+            <Bibo />
+        </div>;
 
     return <DashboardBox>
         <div className="left-box">

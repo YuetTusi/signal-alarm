@@ -10,7 +10,6 @@ export const SearchBarBox = styled.div`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 14px;
 
     &>div:last-child{
         align-self: flex-end;
