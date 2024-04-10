@@ -55,8 +55,6 @@ const SignalList: FC<{}> = () => {
         }
     }, []);
 
-    useEffect(() => { console.log(signalData) }, [signalData]);
-
     /**
      * 执行滚动
      */

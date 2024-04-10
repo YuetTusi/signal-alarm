@@ -119,7 +119,7 @@ const Rate: FC<RateProp> = ({ realData, compareData, displayData, outerDomId }) 
                     rowKey={() => helper.nextId(8)}
                     pagination={false}
                     size="small"
-                    scroll={{ y: mode === AppMode.FullScreen ? 290 : 160 }}
+                    scroll={{ y: mode === AppMode.FullScreen ? 290 : 260 }}
                 />
             </TableBox>
         </PanelBox>

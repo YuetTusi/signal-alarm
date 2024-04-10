@@ -12,7 +12,7 @@ export interface SearchFormValue {
     /**
      * 设备id
      */
-    deviceId: number
+    deviceId?: string
 }
 
 export interface SignalSetInfoProp { };

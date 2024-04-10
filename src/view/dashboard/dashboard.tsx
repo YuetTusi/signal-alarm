@@ -3,7 +3,7 @@ import electron, { IpcRendererEvent } from 'electron';
 import { FC, memo, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
 import { useModel, useShallow } from "@/model";
-import { usePhoneAlarm } from '@/hook';
+import { usePhoneAlarm, useSubscribe } from '@/hook';
 import { AlarmType } from '@/schema/conf';
 import { Point } from '@/schema/point';
 import { helper } from '@/utility/helper';
@@ -44,7 +44,9 @@ const Dashboard: FC<{}> = memo(() => {
         appendPhoneAlarmData,
         updateAlarmBarData,
         clearPhoneAlarmData,
-        appendPoint
+        appendPoint,
+        querySignalData,
+        queryFakeHotspotList
     } = useModel(useShallow((state) => ({
         phoneAlarmData: state.phoneAlarmData,
         queryAlarmTop10Data: state.queryAlarmTop10Data,
@@ -56,7 +58,9 @@ const Dashboard: FC<{}> = memo(() => {
         appendPhoneAlarmData: state.appendPhoneAlarmData,
         updateAlarmBarData: state.updateAlarmBarData,
         clearPhoneAlarmData: state.clearPhoneAlarmData,
-        appendPoint: state.appendPoint
+        appendPoint: state.appendPoint,
+        querySignalData: state.querySignalData,
+        queryFakeHotspotList: state.queryFakeHotspotList
     })));
 
     const alarms = usePhoneAlarm(phoneAlarmData);
@@ -93,7 +97,7 @@ const Dashboard: FC<{}> = memo(() => {
                     appendPoint(nextPoint);
                     break;
                 default:
-                    console.clear();
+                    // console.clear();
                     // console.log(`未知SSE Message Type:${m.type}`);
                     break;
             }
@@ -156,13 +160,6 @@ const Dashboard: FC<{}> = memo(() => {
     }, []);
 
     /**
-     * 每1分钟查询今日专项检查分类统计
-     */
-    const autoQuerySpecialType = (_: IpcRendererEvent) => {
-        querySpecialTypeStatisData();
-    };
-
-    /**
      * 清除报警消息
      */
     const alarmClean = (_: IpcRendererEvent) => {
@@ -186,13 +183,6 @@ const Dashboard: FC<{}> = memo(() => {
     };
 
     useEffect(() => {
-        ipcRenderer.on('query-special-type-statis', autoQuerySpecialType);
-        return () => {
-            ipcRenderer.off('query-special-type-statis', autoQuerySpecialType);
-        };
-    }, [querySpecialTypeStatisData]);
-
-    useEffect(() => {
         ipcRenderer.on('alarm-clean', alarmClean);
         return () => {
             ipcRenderer.off('alarm-clean', alarmClean);
@@ -205,6 +195,12 @@ const Dashboard: FC<{}> = memo(() => {
             ipcRenderer.off('alarm-drop-all', alarmDropAll);
         };
     }, [alarmDropAll]);
+
+    useSubscribe('query-each-10', () => {
+        querySignalData(1, helper.PAGE_SIZE, {});
+        querySpecialTypeStatisData();
+        queryFakeHotspotList();
+    });
 
     /**
      * 据配置文件显示雷达图或地图

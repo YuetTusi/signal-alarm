@@ -36,16 +36,17 @@ const signal = (setState: SetState, _: GetState): SignalState => ({
         if (!helper.isNullOrUndefined(condition)) {
             let q: string[] = [];
             if (condition?.beginTime) {
-                q.push(`beginTime=${encodeURIComponent(condition.beginTime)}`);
+                q.push(`createTimeBegin=${encodeURIComponent(condition.beginTime)}`);
             }
             if (condition?.endTime) {
-                q.push(`endTime=${encodeURIComponent(condition?.endTime)}`);
+                q.push(`createTimeEnd=${encodeURIComponent(condition?.endTime)}`);
             }
-            if (condition?.deviceId !== -1) {
+            if (condition?.deviceId) {
                 q.push(`deviceId=${condition?.deviceId}`);
             }
             params = '?' + q.join('&');
         }
+        console.log(url + params);
         setState({ signalLoading: true });
         try {
             const res = await request.get<QueryPage<ContinuousSignal>>(url + params);
@@ -55,7 +56,7 @@ const signal = (setState: SetState, _: GetState): SignalState => ({
             }
 
             if (pageIndex > res.data.pages) {
-                let ret = await request.get<QueryPage<ContinuousSignal>>(url);
+                let ret = await request.get<QueryPage<ContinuousSignal>>(url + params);
                 if (ret === null || ret.code !== 200) {
                     throw new Error('查询失败');
                 } else {

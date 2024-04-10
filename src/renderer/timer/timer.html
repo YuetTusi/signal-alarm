@@ -24,6 +24,9 @@
 					if (second % 5 === 0) {
 						ipcRenderer.send('query-each-5');
 					}
+					if (second % 10 === 0) {
+						ipcRenderer.send('query-each-10');
+					}
 					if (second % 20 === 0) {
 						ipcRenderer.send('query-each-20');
 					}

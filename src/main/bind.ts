@@ -45,6 +45,12 @@ const bindListener = (win: BrowserWindow) => {
         }
     });
 
+    ipcMain.on('query-each-10', (_: IpcMainEvent) => {
+        if (win && !win.isDestroyed()) {
+            win.webContents.send('query-each-10');
+        }
+    });
+
     ipcMain.on('query-each-20', (_: IpcMainEvent) => {
         if (win && !win.isDestroyed()) {
             win.webContents.send('query-each-20');

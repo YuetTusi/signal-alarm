@@ -43,7 +43,7 @@ const SignalSetInfo: FC<SignalSetInfoProp> = () => {
         const beginTime = dayjs().add(-1, 'day');
         const endTime = dayjs();
         formRef.setFieldsValue({
-            deviceId: -1,
+            deviceId: '',
             beginTime,
             endTime
         });
@@ -51,13 +51,13 @@ const SignalSetInfo: FC<SignalSetInfoProp> = () => {
         querySignalData(1, helper.PAGE_SIZE, {
             beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
             endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
-            deviceId: -1
+            deviceId: ''
         });
     }, []);
 
     const bindDeviceOption = () =>
         deviceList.map(item =>
-            <Option value={item.id} key={`Dev_${item.id}`}>
+            <Option value={item.deviceName} key={`Dev_${item.id}`}>
                 {item.deviceName}
             </Option>
         );
@@ -121,7 +121,7 @@ const SignalSetInfo: FC<SignalSetInfoProp> = () => {
                         label="设备">
                         <Select style={{ width: '240px' }}>
                             {[
-                                <Option value={-1} key="">全部</Option>,
+                                <Option value={''} key="Dev_ALL">全部</Option>,
                                 ...bindDeviceOption()
                             ]}
                         </Select>
