@@ -102,6 +102,14 @@ const Rate: FC<RateProp> = ({ realData, compareData, displayData, outerDomId }) 
         chartResize(compareChart, outerDomId);
     }, 500, { trailing: true, leading: false }));
 
+    const heightByMode = (mode: AppMode) => {
+        if (mode === AppMode.FullScreen) {
+            return 290;
+        } else {
+            return helper.PLATFORM === 'linux' ? 160 : 260;
+        }
+    }
+
     return <>
         <PanelBox className={realData.length === 0 ? 'fn-hidden' : undefined}>
             <ChartBox
@@ -119,7 +127,7 @@ const Rate: FC<RateProp> = ({ realData, compareData, displayData, outerDomId }) 
                     rowKey={() => helper.nextId(8)}
                     pagination={false}
                     size="small"
-                    scroll={{ y: mode === AppMode.FullScreen ? 290 : 260 }}
+                    scroll={{ y: heightByMode(mode) }}
                 />
             </TableBox>
         </PanelBox>

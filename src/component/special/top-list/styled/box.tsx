@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { helper } from '@/utility/helper';
 
 export const ListBox = styled.div`
 
@@ -43,7 +44,7 @@ export const ListBox = styled.div`
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
-            padding: 1px 0;
+            padding: ${helper.PLATFORM === 'linux' ? 1 : 0}px 0;
             &>.list-row-txt{
                 flex:1;
                 display: flex;

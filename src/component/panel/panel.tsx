@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { helper } from '@/utility/helper';
 
 export const Panel = styled.div`
 
@@ -52,7 +53,7 @@ export const ScrollPanel = styled.div<{ height?: number }>`
 
     position: relative;
     display: block;
-    height: ${props => props.height ?? 795}px;
+    height: ${props => props.height ?? (helper.PLATFORM === 'linux' ? 795 : 755)}px;
     box-sizing: border-box;
     width: auto;
     overflow-y: auto;

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { helper } from '@/utility/helper';
 
 export const WapInfoBox = styled.div`
 
@@ -10,7 +11,7 @@ export const WapInfoBox = styled.div`
     }
 
     .wap-tab{
-        margin-top: 10px;
+        margin-top: ${helper.PLATFORM === 'linux' ? 10 : 0}px;
     }
     .ant-tabs-tab-btn{
         font-weight: lighter;

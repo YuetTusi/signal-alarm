@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { helper } from '@/utility/helper';
 import alarmBg from '@/assets/image/alarm-bg.gif';
 import pAlarm from '@/assets/image/palarm.png';
 
@@ -45,7 +46,7 @@ export const DashboardBox = styled.div`
     .alarm-bg{
         position: relative;
         width: 100%;
-        height: 610px;
+        height: ${helper.PLATFORM === 'linux' ? 610 : 558}px;
         background-image: url(${alarmBg});
         background-repeat: no-repeat;
         background-size: 100% 100%;

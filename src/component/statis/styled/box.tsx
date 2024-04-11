@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-
+import { helper } from '@/utility/helper';
 /**
  * 固定190内容居中
  */
@@ -13,7 +13,7 @@ export const CenterFixedBox = styled.div`
 
 export const ScrollList = styled.div`
 
-    height: 190px;
+    height: ${helper.PLATFORM === 'linux' ? 190 : 164}px;
     overflow: hidden;
     &>ul{
         margin:0;
