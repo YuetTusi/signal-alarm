@@ -55,8 +55,87 @@ export const BiboBox = styled.div`
     }
     /* 暗蓝风格滤镜样式类 */  
 	.dark-blue-filter {  
-		filter: invert(95%) hue-rotate(180deg); 
-	}  
+		filter: invert(95%) hue-rotate(180deg);
+	}
+    .leaflet-marker-icon{
+        border:none;
+        background: transparent;
+    }
+    .wave{
+        position: absolute;
+        border-radius: 50%;
+        border:none;
+        &.signal{
+            &::after{
+                display: block;
+                content: 'wave';
+                font-size: 0;
+                position: absolute;
+                top:-2px;
+                left:-2px;
+                right:-2px;
+                bottom:0;
+                border-radius: 50%;
+                border:3px solid #03ffff;
+                animation: scale 2s linear infinite;
+            }            
+        }
+        &.bluetooth{
+            &::after{
+                display: block;
+                content: 'wave';
+                font-size: 0;
+                position: absolute;
+                top:-2px;
+                left:-2px;
+                right:-2px;
+                bottom:0;
+                border-radius: 50%;
+                border:3px solid #2957d4;
+                animation: scale 2s linear infinite;
+            }            
+        }
+        &.wifi{
+            &::after{
+                display: block;
+                content: 'wave';
+                font-size: 0;
+                position: absolute;
+                top:-2px;
+                left:-2px;
+                right:-2px;
+                bottom:0;
+                border-radius: 50%;
+                border:3px solid #8f82bc;
+                animation: scale 2s linear infinite;
+            }            
+        }
+        &.dev{
+            &::after{
+                display: block;
+                content: 'wave';
+                font-size: 0;
+                position: absolute;
+                top:-2px;
+                left:-2px;
+                right:-2px;
+                bottom:0;
+                border-radius: 50%;
+                border:3px solid #f29c9f;
+                animation: scale 2s linear infinite;
+            }            
+        }
+    }
+    @keyframes scale {
+        0% {
+            -webkit-transform: scale(0.9);
+            opacity: 1;
+        }
+        100% {
+            -webkit-transform: scale(1.5);
+            opacity: 0;
+        }
+    }
     @keyframes blink {  
         0% { opacity: 1; }
         50% { opacity: 0; }

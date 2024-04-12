@@ -1,7 +1,6 @@
 import mapConnectedIcon from '@/assets/image/map-connected.png';
 import mapWarnIcon from '@/assets/image/map-warn.png';
 import mapOfflineIcon from '@/assets/image/map-offline.png';
-import dayjs from 'dayjs';
 import L from 'leaflet';
 import { FC, useEffect, useRef, useState } from 'react';
 import SyncOutlined from '@ant-design/icons/SyncOutlined';

@@ -117,10 +117,10 @@ const Dashboard: FC<{}> = memo(() => {
                 //     type: SSEMessageType.Location,
                 //     message: JSON.stringify({
                 //         content: "A1:B1:5A:75:4E:21",
-                //         lat: "0.00008817762136297115",
-                //         lon: "0.0003788620233535767",
-                //         areaId: -1447022591,
-                //         protocolType: 112,
+                //         lat: "0.00023569911719066813",
+                //         lon: "0.00010728836059570314",
+                //         areaId: 1921003522,
+                //         protocolType: 91,
                 //         x: 4.642381602965856,
                 //         y: 6.746058133752188,
                 //         actionTime: new Date().getTime()
@@ -131,6 +131,7 @@ const Dashboard: FC<{}> = memo(() => {
                 // const nextPoint = JSON.parse(m.message) as Point;
                 // nextPoint.actionTime = new Date().getTime();
                 // appendPoint(nextPoint);
+
                 // request.post(`/sse/push-user`, {
                 //     hash,
                 //     userId,

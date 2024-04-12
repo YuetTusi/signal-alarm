@@ -10,21 +10,26 @@ import { AlarmMessage, PhoneAlarmInfo } from "@/schema/phone-alarm-info";
 import { renderTemp } from './template';
 import { ProtocolColor } from "./prop";
 
-const signalIcon = new L.Icon({
-    iconUrl: PointSignalPng,
+const signalIcon = L.divIcon({
+    html: `<div class="wave signal"><img src="${PointSignalPng}" alt="制式信号"/></div>`,
+    iconSize: [40, 40],
     iconAnchor: [20, 20]
 });//制式信号图标
-const bluetoothIcon = new L.Icon({
-    iconUrl: PointBluetoothPng,
+const bluetoothIcon = L.divIcon({
+    html: `<div class="wave bluetooth"><img src="${PointBluetoothPng}" alt="蓝牙"/></div>`,
+    iconSize: [40, 40],
     iconAnchor: [20, 20]
 });//蓝牙图标
-const wifiIcon = new L.Icon({
-    iconUrl: PointWifiPng,
+const wifiIcon = L.divIcon({
+    html: `<div class="wave wifi"><img src="${PointWifiPng}" alt="WiFi"/></div>`,
+    iconSize: [40, 40],
     iconAnchor: [20, 20]
 });//WiFi图标
-const devIcon = new L.Icon({
-    iconUrl: PointDevPng,
-    iconAnchor: [20, 20]
+const devIcon = L.divIcon({
+    html: `<div class="wave dev"><img src="${PointDevPng}" alt="设备"/></div>`,
+    iconSize: [40, 40],
+    iconAnchor: [20, 20],
+    className: 'point'
 });//设备图标
 
 /**
