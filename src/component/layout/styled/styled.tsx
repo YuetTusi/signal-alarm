@@ -44,6 +44,7 @@ export const LayoutBox = styled.div`
             &.app-title{
                 top:0;
                 font-size: 4rem;
+                font-family: "HanYiChaoRan";
                 color:#daf5fe;
             }
             &:last-child{

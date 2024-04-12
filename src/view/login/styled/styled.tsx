@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-// import loginBg from '@/assets/image/login-bg.jpg';
 import appTitleBg from '@/assets/image/login-t-bg.jpg';
 import appBodyBg from '@/assets/image/login-b-bg.jpg';
 
@@ -73,6 +72,7 @@ export const BackgroundBox = styled.div`
             top:20px;
             color:#daf5fe;
             font-size: 4rem;
+            font-family: "HanYiChaoRan";
             letter-spacing: 2px;
         }
     }

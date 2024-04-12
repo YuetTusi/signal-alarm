@@ -1,9 +1,15 @@
 import { createGlobalStyle } from 'styled-components';
+import hanYiFont from '@/assets/font/hanyi.ttf';
 
 /**
  * 全局公共样式
  */
 export const GlobalStyle = createGlobalStyle`
+
+    @font-face {
+        font-family: "HanYiChaoRan";
+        src: url(${hanYiFont});
+    }
 
     html{
         font-size: 62.5%;
