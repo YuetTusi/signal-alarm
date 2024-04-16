@@ -2,11 +2,23 @@ import dayjs from 'dayjs';
 import { ColumnsType } from 'antd/es/table';
 import { ContinuousSignal } from '@/schema/continuous-signal';
 import { Protocol, getProtocolLabel } from '@/schema/protocol';
+import { helper } from '@/utility/helper';
+
+const band = helper.readBand();
 
 const getColumns = (): ColumnsType<ContinuousSignal> => [{
     title: '频段',
     key: 'freqBand',
-    dataIndex: 'freqBand'
+    dataIndex: 'freqBand',
+    render(val: string) {
+        const freq = Number.parseInt(val);
+        if (freq >= 101 && freq <= 113) {
+            const has = band.find(i => i.code === freq);
+            return has === undefined ? '-' : has.name ?? '-';
+        } else {
+            return val;
+        }
+    }
 }, {
     title: '最新频率',
     key: 'lastFreq',
@@ -20,7 +32,7 @@ const getColumns = (): ColumnsType<ContinuousSignal> => [{
     key: 'firstRssi',
     dataIndex: 'firstRssi'
 }, {
-    title: '持续时间',
+    title: '最新强度',
     key: 'lastRssi',
     dataIndex: 'lastRssi'
 }, {
