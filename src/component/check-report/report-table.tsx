@@ -77,6 +77,10 @@ const ReportTable: FC<{}> = () => {
             const res = await checkReportGenerate(beginTime.valueOf(), endTime.valueOf());
             if (res !== null && res.code === 200) {
                 queryQuickCheckReport();
+                queryCheckReportData(1, helper.PAGE_SIZE, {
+                    beginTime: dayjs().add(-1, 'w').format('YYYY-MM-DD 00:00:00'),
+                    endTime: dayjs().format('YYYY-MM-DD 23:59:59'),
+                });
                 message.success('生成成功');
             } else {
                 message.warning('生成失败');
