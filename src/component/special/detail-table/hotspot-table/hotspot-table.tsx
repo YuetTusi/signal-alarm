@@ -64,7 +64,7 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
     useEffect(() => {
         const hotspotName = param.get('hotspotName');
         const initValue: SearchFormValue = {
-            beginTime: dayjs(dayjs().add(-1, 'w').format('YYYY-MM-DD 00:00:00')),
+            beginTime: dayjs(dayjs().format('YYYY-MM-DD 00:00:00')),
             endTime: dayjs(dayjs().format('YYYY-MM-DD 23:59:59')),
             type: 'all',
             site: [JSON.stringify({ type: 'all', deviceId: [] })],
@@ -78,7 +78,7 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
             1,
             helper.PAGE_SIZE,
             {
-                beginTime: dayjs().add(-1, 'w').format('YYYY-MM-DD 00:00:00'),
+                beginTime: dayjs().format('YYYY-MM-DD 00:00:00'),
                 endTime: dayjs().format('YYYY-MM-DD 23:59:59'),
                 hotspotName: initValue.hotspotName, //从伪热点跳转会有此条件
                 protocolTypes: helper.protocolToString([
