@@ -39,7 +39,10 @@ const getColumns = (): ColumnsType<ContinuousSignal> => [{
     title: '协议类型',
     key: 'protocolType',
     dataIndex: 'protocolType',
-    render: (value: Protocol) => getProtocolLabel(value)
+    render: (value: Protocol) => {
+        const name = getProtocolLabel(value);
+        return name === '其他' ? '疑似窃密信号' : name;
+    }
 }, {
     title: '无线协议名称',
     key: 'protocolName',

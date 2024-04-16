@@ -35,7 +35,7 @@ const SignalDescModal: FC<SignalDescModalProp> = ({
             <Item label="最近强度" span={3}>{data?.lastRssi ?? '-'}</Item>
             <Item label="设备ID" span={3}>{data?.deviceId ?? '-'}</Item>
             <Item label="协议名称" span={3}>{data?.protocolName ?? '-'}</Item>
-            <Item label="持续时间" span={3}>{data?.duration ?? '-'}</Item>
+            <Item label="持续时间" span={3}>{data?.duration === undefined ? '-' : `${data.duration}s`}</Item>
             <Item label="起始时间" span={3}>{renderTime(data?.startTime)}</Item>
             <Item label="结束时间" span={3}>{renderTime(data?.endTime)}</Item>
         </Descriptions>

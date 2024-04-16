@@ -31,29 +31,29 @@ const SignalList: FC<{}> = () => {
         querySignalData(1, helper.PAGE_SIZE, {});
     }, []);
 
-    useEffect(() => {
-        scrollTimer = setInterval(() => doScroll(), 140);
-        return () => {
-            if (scrollTimer) {
-                clearInterval(scrollTimer);
-                scrollTimer = null;
-            }
-        }
-    }, []);
+    // useEffect(() => {
+    //     scrollTimer = setInterval(() => doScroll(), 140);
+    //     return () => {
+    //         if (scrollTimer) {
+    //             clearInterval(scrollTimer);
+    //             scrollTimer = null;
+    //         }
+    //     }
+    // }, []);
 
-    useEffect(() => {
-        const { current } = scrollBox;
-        if (current) {
-            current.addEventListener('mouseenter', onEnterScroll);
-            current.addEventListener('mouseleave', onLeaveScroll);
-        }
-        return () => {
-            if (current) {
-                current.removeEventListener('mouseenter', onEnterScroll);
-                current.removeEventListener('mouseleave', onLeaveScroll);
-            }
-        }
-    }, []);
+    // useEffect(() => {
+    //     const { current } = scrollBox;
+    //     if (current) {
+    //         current.addEventListener('mouseenter', onEnterScroll);
+    //         current.addEventListener('mouseleave', onLeaveScroll);
+    //     }
+    //     return () => {
+    //         if (current) {
+    //             current.removeEventListener('mouseenter', onEnterScroll);
+    //             current.removeEventListener('mouseleave', onLeaveScroll);
+    //         }
+    //     }
+    // }, []);
 
     /**
      * 执行滚动
@@ -100,27 +100,22 @@ const SignalList: FC<{}> = () => {
 
     const renderItem = () =>
         signalData.map(item => {
-            const band = bands.find(i => i.code === Number.parseInt(item.freqBand));
             let txt = '';
-            if (band === undefined) {
-                txt = '其他';
+            const freq = Number.parseFloat(item.freqBand);
+            if (freq >= 101 && freq <= 113) {
+                const has = bands.find(i => i.code === freq);
+                txt = has === undefined ? '-' : has.name ?? '-';
             } else {
-                if (band.name === '移动/广电(4G-B41/5G-N41)') {
-                    txt = 'B41/N41';
-                }
-                else if (band.name.includes('-')) {
-                    const from = band.name.lastIndexOf('-');
-                    const to = band.name.lastIndexOf(')');
-                    txt = band.name.substring(from + 1, to);
-                } else {
-                    txt = band.name;
-                }
+                txt = `频段:${item.freqBand}`
             }
+
             return <li
                 onClick={() => onSignalItemClick(item)}
                 className="signal-li"
                 key={`SI_${item.id}`}>
-                <Tag color="blue" style={{ textAlign: 'center' }}>{txt}</Tag>
+                <Tag color="blue" style={{ textAlign: 'center' }}>
+                    <span className="freq-txt">{txt}</span>
+                </Tag>
                 <Tag color="green">最新频率:{item.lastFreq}</Tag>
                 <Tag color="cyan">持续时间:{item.duration}s</Tag>
             </li>

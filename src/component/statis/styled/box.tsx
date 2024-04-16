@@ -47,8 +47,16 @@ export const ScrollList = styled.div`
             &.signal-li{
                 cursor: pointer;
                 display: flex;
-                flex-wrap: wrap;
+                flex-wrap: nowrap;
                 justify-content: flex-start;
+                .freq-txt{
+                    display: block;
+                    max-width: 110px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    text-align: center;
+                }
                 .ant-tag{
                     flex:1;
                 }
