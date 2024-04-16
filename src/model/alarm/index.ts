@@ -61,10 +61,6 @@ interface AlarmState {
      */
     setAlarmPage: (pageIndex: number, pageSize: number, total: number) => void,
     /**
-     * 查询预警信息Top10数据
-     */
-    queryAlarmTop10Data: () => void,
-    /**
      * 查询预警信息分页数据
      */
     queryAlarmData: (pageIndex: number, pageSize: number, condition?: Record<string, any>) => void,

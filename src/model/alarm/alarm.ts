@@ -72,27 +72,6 @@ const alarm = (setState: SetState, _: GetState): AlarmState => ({
         });
     },
     /**
-     * 查询预警信息Top10数据
-     */
-    queryAlarmTop10Data: async () => {
-        message.destroy();
-        setState({ alarmTop10Loading: true });
-        try {
-            const res = await request.get('/warn/msg/top');
-            if (res === null) {
-                message.warning('查询失败');
-            } else if (res.code === 200) {
-                setState({ alarmTop10Data: res.data });
-            } else {
-                message.warning(`查询失败（${res.message ?? ''}）`)
-            }
-        } catch (error) {
-            throw error;
-        } finally {
-            setState({ alarmTop10Loading: false });
-        }
-    },
-    /**
      * 查询预警信息分页数据
      */
     queryAlarmData: async (pageIndex: number, pageSize: number, condition?: Record<string, any>) => {

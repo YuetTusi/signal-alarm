@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, useRef } from 'react';
+import { FC, useState, useRef } from 'react';
 import { message, Table } from 'antd';
 import { AlarmMsg } from '@/schema/alarm-msg';
 import { useModel } from '@/model';
@@ -19,29 +19,12 @@ const AlarmTop: FC<AlarmTopProp> = () => {
     const {
         alarmTop10Loading,
         alarmTop10Data,
-        queryAlarmTop10Data,
         processAlarm
     } = useModel(state => ({
         alarmTop10Loading: state.alarmTop10Loading,
         alarmTop10Data: state.alarmTop10Data,
-        queryAlarmTop10Data: state.queryAlarmTop10Data,
         processAlarm: state.processAlarm,
     }));
-
-    useEffect(() => {
-        queryAlarmTop10Data();
-    }, []);
-
-    // const onResize = debounce((event: electron.IpcRendererEvent, rect: electron.Rectangle) => {
-    //     (async () => {
-    //         document.querySelector('#target')!.innerHTML = '';
-    //         await queryAlarmTop10Data();
-    //     })();
-
-    //     console.log('renderer');
-    // }, 100, { leading: true, trailing: false });
-
-    // useResize(onResize);
 
     /**
      * 处理预警消息
@@ -53,7 +36,6 @@ const AlarmTop: FC<AlarmTopProp> = () => {
         try {
             const success = await processAlarm(data.id, 1, remark);
             if (success) {
-                await queryAlarmTop10Data();
                 message.success('处理成功');
             } else {
                 message.success('处理失败');

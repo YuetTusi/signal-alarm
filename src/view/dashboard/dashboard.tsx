@@ -35,7 +35,6 @@ const Dashboard: FC<{}> = memo(() => {
 
     const {
         phoneAlarmData,
-        queryAlarmTop10Data,
         querySpecialTypeStatisData,
         queryAlarmWeekStatisData,
         queryWhiteListTop,
@@ -49,7 +48,6 @@ const Dashboard: FC<{}> = memo(() => {
         queryFakeHotspotList
     } = useModel(useShallow((state) => ({
         phoneAlarmData: state.phoneAlarmData,
-        queryAlarmTop10Data: state.queryAlarmTop10Data,
         querySpecialTypeStatisData: state.querySpecialTypeStatisData,
         queryAlarmWeekStatisData: state.queryAlarmWeekStatisData,
         queryQuickCheckReport: state.queryQuickCheckReport,
@@ -87,7 +85,6 @@ const Dashboard: FC<{}> = memo(() => {
                             id: helper.nextId(),
                             receiveTime: new Date().getTime()
                         });
-                        queryAlarmTop10Data();
                     }
                     break;
                 case SSEMessageType.Location:
