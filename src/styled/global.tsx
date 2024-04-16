@@ -66,6 +66,12 @@ export const GlobalStyle = createGlobalStyle`
             font-size: 1.8rem;
         }
     }
+    .map-tip-divider{
+        border-top:1px solid silver;
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+    }
 
     .fn-hidden{
         display: none;

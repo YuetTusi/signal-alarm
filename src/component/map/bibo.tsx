@@ -9,6 +9,7 @@ import { useModel, useShallow } from '@/model';
 import { useUnmount, useSubscribe, usePhoneAlarm } from '@/hook';
 import { request } from '@/utility/http';
 import { Zone } from '@/schema/zone';
+import { Point } from '@/schema/point';
 import { DeviceState } from '@/schema/com-device';
 import { Legend } from './legend';
 import { RadarInfo } from './radar-info';
@@ -16,6 +17,7 @@ import {
     disposeAllMarker, initMap,
     loadMap, pointToMarker
 } from './util';
+import { renderTemp } from './template';
 import { BiboBox, MaskBox } from './styled/box';
 import { MarkerOptionsEx, SearchFormValue } from './prop';
 
@@ -189,7 +191,20 @@ const Bibo: FC<{}> = () => {
         const thisAreaPoints = points.filter(i => i.areaId === currentAreaId.current);
         p.forEach(m => map!.removeLayer(m));
         p = pointToMarker(thisAreaPoints);
-        p.forEach(m => m.addTo(map!));
+        p.forEach(m => {
+            const details = points.reduce((acc, current) => {
+                const same = m.getLatLng().equals([
+                    Number.parseFloat(current.lat),
+                    Number.parseFloat(current.lon)
+                ]);
+                if (same) {
+                    acc.push(current);
+                }
+                return acc;
+            }, [] as Point[]);
+            m.bindTooltip(renderTemp(details));
+            m.addTo(map!);
+        });
     }, [points]);
 
     useEffect(() => {

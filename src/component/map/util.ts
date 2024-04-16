@@ -209,10 +209,10 @@ export const pointToMarker = (points: Point[]) => points
             title: item.content,
             actionTime: item.actionTime
         } as any);
-        mark.bindTooltip(renderTemp(item), {});
-        // mark.on('click', (e) => {
+        // mark.bindTooltip(renderTemp(item), {});
+        // mark.on('tooltipopen', (e) => {
         //     console.clear();
-        //     console.log(e.target.options);
+        //     console.log(e);
         // });
         return mark;
     });

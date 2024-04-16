@@ -67,9 +67,6 @@ const Dashboard: FC<{}> = memo(() => {
         // console.log('SSE message:', event.data);
         try {
             const m: PushMessage = JSON.parse(event.data);
-            if (m.type !== 201) {
-                console.log(m);
-            }
             switch (m.type) {
                 case SSEMessageType.Alarm:
                     //报警数据
@@ -92,6 +89,7 @@ const Dashboard: FC<{}> = memo(() => {
                     const nextPoint = JSON.parse(m.message) as Point;
                     nextPoint.actionTime = new Date().getTime();
                     appendPoint(nextPoint);
+                    console.log(nextPoint);
                     break;
                 default:
                     // console.clear();
@@ -110,14 +108,14 @@ const Dashboard: FC<{}> = memo(() => {
             instance(onMessage);
             setTimeout(() => {
                 //# mock数据
-                // const m: PushMessage = {
+                // const m1: PushMessage = {
                 //     type: SSEMessageType.Location,
                 //     message: JSON.stringify({
                 //         content: "A1:B1:5A:75:4E:21",
                 //         lat: "0.00023569911719066813",
                 //         lon: "0.00010728836059570314",
                 //         areaId: 1921003522,
-                //         protocolType: 91,
+                //         protocolType: 8,
                 //         x: 4.642381602965856,
                 //         y: 6.746058133752188,
                 //         actionTime: new Date().getTime()
@@ -125,10 +123,45 @@ const Dashboard: FC<{}> = memo(() => {
                 //     userId: sessionStorage.getItem(StorageKeys.MsgKey)!,
                 //     hash: sessionStorage.getItem(StorageKeys.UserId)!,
                 // };
-                // const nextPoint = JSON.parse(m.message) as Point;
-                // nextPoint.actionTime = new Date().getTime();
-                // appendPoint(nextPoint);
-
+                // const m2: PushMessage = {
+                //     type: SSEMessageType.Location,
+                //     message: JSON.stringify({
+                //         content: "A1:B1:5A:75:4E:21",
+                //         lat: "0.00023569911719066813",
+                //         lon: "0.00010728836059570314",
+                //         areaId: 1921003522,
+                //         protocolType: 14,
+                //         x: 4.642381602965856,
+                //         y: 6.746058133752188,
+                //         actionTime: new Date().getTime()
+                //     }),
+                //     userId: sessionStorage.getItem(StorageKeys.MsgKey)!,
+                //     hash: sessionStorage.getItem(StorageKeys.UserId)!,
+                // };
+                // const m3: PushMessage = {
+                //     type: SSEMessageType.Location,
+                //     message: JSON.stringify({
+                //         content: "A1:B1:5A:75:4E:21",
+                //         lat: "0.000053308904178668025",
+                //         lon: "0.000268891453742981",
+                //         areaId: 1921003522,
+                //         protocolType: 9,
+                //         x: 4.642381602965856,
+                //         y: 6.746058133752188,
+                //         actionTime: new Date().getTime()
+                //     }),
+                //     userId: sessionStorage.getItem(StorageKeys.MsgKey)!,
+                //     hash: sessionStorage.getItem(StorageKeys.UserId)!,
+                // };
+                // const nextPoint1 = JSON.parse(m1.message) as Point;
+                // nextPoint1.actionTime = new Date().getTime();
+                // const nextPoint2 = JSON.parse(m2.message) as Point;
+                // nextPoint2.actionTime = new Date().getTime();
+                // const nextPoint3 = JSON.parse(m3.message) as Point;
+                // nextPoint2.actionTime = new Date().getTime();
+                // appendPoint(nextPoint1);
+                // appendPoint(nextPoint2);
+                // appendPoint(nextPoint3);
                 // request.post(`/sse/push-user`, {
                 //     hash,
                 //     userId,
@@ -150,7 +183,7 @@ const Dashboard: FC<{}> = memo(() => {
                 //     message: '{"cmd_time":1709621749,"cmd_type":"freq_report","dev_id":"zrt-test-x00008","cmd_info":{"freq_info":[{"freq":1886,"time":1709621749,"signal":"-60"}]}}'
                 // }).then(res => console.log(res))
                 //     .catch(err => console.log(err));
-            }, 1000 * 5);
+            }, 1000 * 6);
         }
         return () => {
             closeSse();

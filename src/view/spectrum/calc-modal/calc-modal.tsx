@@ -57,7 +57,7 @@ const CalcModal: FC<CalcModalProp> = ({ open, onCancel, onOk }) => {
         maskClosable={false}
         destroyOnClose={true}
         forceRender={true}
-        width={460}
+        width={640}
         getContainer="#app"
         title="计算背景频谱">
         <Form form={formRef} layout="vertical" style={{ marginTop: '2rem' }}>
