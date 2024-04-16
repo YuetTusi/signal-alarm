@@ -22,7 +22,7 @@ const SearchBar: FC<SearchBarProp> = ({
 
     useEffect(() => {
         formRef.setFieldsValue({
-            beginTime: dayjs(dayjs().add(-1, 'w').format('YYYY-MM-DD 00:00:00')),
+            beginTime: dayjs(dayjs().format('YYYY-MM-DD 00:00:00')),
             endTime: dayjs(dayjs().format('YYYY-MM-DD 23:59:59')),
             status: 0,
             site: [JSON.stringify({ type: 'all', deviceId: [] })]
