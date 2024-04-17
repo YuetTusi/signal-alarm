@@ -77,6 +77,10 @@ const ReportTable: FC<{}> = () => {
             const res = await checkReportGenerate(beginTime.valueOf(), endTime.valueOf());
             if (res !== null && res.code === 200) {
                 queryQuickCheckReport();
+                formRef.setFieldsValue({
+                    beginTime: dayjs(dayjs().add(-1, 'w').format('YYYY-MM-DD 00:00:00')),
+                    endTime: dayjs(dayjs().format('YYYY-MM-DD 23:59:59'))
+                });
                 queryCheckReportData(1, helper.PAGE_SIZE, {
                     beginTime: dayjs().add(-1, 'w').format('YYYY-MM-DD 00:00:00'),
                     endTime: dayjs().format('YYYY-MM-DD 23:59:59'),

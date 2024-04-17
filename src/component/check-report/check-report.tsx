@@ -62,8 +62,15 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
      * 生成报告时间差
      * @param startTime 开始时间
      */
-    const renderFromNow = (startTime: string) =>
-        dayjs().diff(startTime, 'hour') + '小时前';
+    const renderFromNow = (startTime: string) => {
+        const hours = dayjs().diff(startTime, 'hour');
+        const minutes = dayjs().diff(startTime, 'minute');
+        if (hours === 0) {
+            return minutes === 0 ? '此刻' : `${minutes}分钟前`;
+        } else {
+            return hours + '小时前';
+        }
+    }
 
     /**
      * 报告时间差
