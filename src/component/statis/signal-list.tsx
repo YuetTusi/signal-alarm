@@ -20,40 +20,40 @@ const SignalList: FC<{}> = () => {
     const scrollBox = useRef<HTMLDivElement>(null);
     const currentData = useRef<ContinuousSignal>();
     const {
-        signalData,
-        querySignalData
+        signalTop,
+        querySignalTop
     } = useModel(useShallow(state => ({
-        signalData: state.signalData,
-        querySignalData: state.querySignalData
+        signalTop: state.signalTop,
+        querySignalTop: state.querySignalTop
     })));
 
     useEffect(() => {
-        querySignalData(1, helper.PAGE_SIZE, {});
+        querySignalTop();
     }, []);
 
-    // useEffect(() => {
-    //     scrollTimer = setInterval(() => doScroll(), 140);
-    //     return () => {
-    //         if (scrollTimer) {
-    //             clearInterval(scrollTimer);
-    //             scrollTimer = null;
-    //         }
-    //     }
-    // }, []);
+    useEffect(() => {
+        scrollTimer = setInterval(() => doScroll(), 140);
+        return () => {
+            if (scrollTimer) {
+                clearInterval(scrollTimer);
+                scrollTimer = null;
+            }
+        }
+    }, []);
 
-    // useEffect(() => {
-    //     const { current } = scrollBox;
-    //     if (current) {
-    //         current.addEventListener('mouseenter', onEnterScroll);
-    //         current.addEventListener('mouseleave', onLeaveScroll);
-    //     }
-    //     return () => {
-    //         if (current) {
-    //             current.removeEventListener('mouseenter', onEnterScroll);
-    //             current.removeEventListener('mouseleave', onLeaveScroll);
-    //         }
-    //     }
-    // }, []);
+    useEffect(() => {
+        const { current } = scrollBox;
+        if (current) {
+            current.addEventListener('mouseenter', onEnterScroll);
+            current.addEventListener('mouseleave', onLeaveScroll);
+        }
+        return () => {
+            if (current) {
+                current.removeEventListener('mouseenter', onEnterScroll);
+                current.removeEventListener('mouseleave', onLeaveScroll);
+            }
+        }
+    }, []);
 
     /**
      * 执行滚动
@@ -99,7 +99,7 @@ const SignalList: FC<{}> = () => {
     };
 
     const renderItem = () =>
-        signalData.map(item => {
+        signalTop.map(item => {
             let txt = '';
             const freq = Number.parseFloat(item.freqBand);
             if (freq >= 101 && freq <= 113) {

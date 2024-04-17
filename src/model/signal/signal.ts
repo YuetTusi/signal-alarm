@@ -8,6 +8,10 @@ import { SignalState } from '../signal';
 
 const signal = (setState: SetState, _: GetState): SignalState => ({
     /**
+     * 可疑持续信号Top数据
+     */
+    signalTop: [],
+    /**
      * 可疑持续信号数据
      */
     signalData: [],
@@ -27,6 +31,22 @@ const signal = (setState: SetState, _: GetState): SignalState => ({
      * 读取中
      */
     signalLoading: false,
+    /**
+     * 查询可疑持续信号Top数据
+     */
+    async querySignalTop() {
+        const url = '/signal/get-top';
+        try {
+            const res = await request.get<ContinuousSignal[]>(url);
+            if (res !== null && res.code === 200) {
+                setState({ signalTop: res.data });
+            } else {
+                setState({ signalTop: [] });
+            }
+        } catch (error) {
+            throw error;
+        }
+    },
     /**
      * 查询可疑信号数据
      */

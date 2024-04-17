@@ -44,7 +44,7 @@ const Dashboard: FC<{}> = memo(() => {
         updateAlarmBarData,
         clearPhoneAlarmData,
         appendPoint,
-        querySignalData,
+        querySignalTop,
         queryFakeHotspotList
     } = useModel(useShallow((state) => ({
         phoneAlarmData: state.phoneAlarmData,
@@ -57,7 +57,7 @@ const Dashboard: FC<{}> = memo(() => {
         updateAlarmBarData: state.updateAlarmBarData,
         clearPhoneAlarmData: state.clearPhoneAlarmData,
         appendPoint: state.appendPoint,
-        querySignalData: state.querySignalData,
+        querySignalTop: state.querySignalTop,
         queryFakeHotspotList: state.queryFakeHotspotList
     })));
 
@@ -106,84 +106,84 @@ const Dashboard: FC<{}> = memo(() => {
         const userId = sessionStorage.getItem(StorageKeys.UserId);
         if (userId !== null && hash !== null) {
             instance(onMessage);
-            setTimeout(() => {
-                //# mock数据
-                // const m1: PushMessage = {
-                //     type: SSEMessageType.Location,
-                //     message: JSON.stringify({
-                //         content: "A1:B1:5A:75:4E:21",
-                //         lat: "0.00023569911719066813",
-                //         lon: "0.00010728836059570314",
-                //         areaId: 1921003522,
-                //         protocolType: 8,
-                //         x: 4.642381602965856,
-                //         y: 6.746058133752188,
-                //         actionTime: new Date().getTime()
-                //     }),
-                //     userId: sessionStorage.getItem(StorageKeys.MsgKey)!,
-                //     hash: sessionStorage.getItem(StorageKeys.UserId)!,
-                // };
-                // const m2: PushMessage = {
-                //     type: SSEMessageType.Location,
-                //     message: JSON.stringify({
-                //         content: "A1:B1:5A:75:4E:21",
-                //         lat: "0.00023569911719066813",
-                //         lon: "0.00010728836059570314",
-                //         areaId: 1921003522,
-                //         protocolType: 14,
-                //         x: 4.642381602965856,
-                //         y: 6.746058133752188,
-                //         actionTime: new Date().getTime()
-                //     }),
-                //     userId: sessionStorage.getItem(StorageKeys.MsgKey)!,
-                //     hash: sessionStorage.getItem(StorageKeys.UserId)!,
-                // };
-                // const m3: PushMessage = {
-                //     type: SSEMessageType.Location,
-                //     message: JSON.stringify({
-                //         content: "A1:B1:5A:75:4E:21",
-                //         lat: "0.000053308904178668025",
-                //         lon: "0.000268891453742981",
-                //         areaId: 1921003522,
-                //         protocolType: 9,
-                //         x: 4.642381602965856,
-                //         y: 6.746058133752188,
-                //         actionTime: new Date().getTime()
-                //     }),
-                //     userId: sessionStorage.getItem(StorageKeys.MsgKey)!,
-                //     hash: sessionStorage.getItem(StorageKeys.UserId)!,
-                // };
-                // const nextPoint1 = JSON.parse(m1.message) as Point;
-                // nextPoint1.actionTime = new Date().getTime();
-                // const nextPoint2 = JSON.parse(m2.message) as Point;
-                // nextPoint2.actionTime = new Date().getTime();
-                // const nextPoint3 = JSON.parse(m3.message) as Point;
-                // nextPoint2.actionTime = new Date().getTime();
-                // appendPoint(nextPoint1);
-                // appendPoint(nextPoint2);
-                // appendPoint(nextPoint3);
-                // request.post(`/sse/push-user`, {
-                //     hash,
-                //     userId,
-                //     type: SSEMessageType.Alarm,
-                //     message: JSON.stringify({
-                //         rssi: helper.rnd(-90, -50),
-                //         captureTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
-                //         deviceId: 'zrt-test-x00003',
-                //         protocol: '协议7',
-                //         protocolType: 7,
-                //         status: 0,
-                //         warnReason: '电信(2G/3G/4G-B5)'
-                //     })
-                // }).then(res => console.log(res));
-                // request.post(`/sse/push-user`, {
-                //     hash,
-                //     userId,
-                //     type: SSEMessageType.Alarm,
-                //     message: '{"cmd_time":1709621749,"cmd_type":"freq_report","dev_id":"zrt-test-x00008","cmd_info":{"freq_info":[{"freq":1886,"time":1709621749,"signal":"-60"}]}}'
-                // }).then(res => console.log(res))
-                //     .catch(err => console.log(err));
-            }, 1000 * 6);
+            // setTimeout(() => {
+            //     //# mock数据 
+            //     const m1: PushMessage = {
+            //         type: SSEMessageType.Location,
+            //         message: JSON.stringify({
+            //             content: "A1:B1:5A:75:4E:21",
+            //             lat: "0.0000938773155255597",
+            //             lon: "0.00004459172487258912",
+            //             areaId: 1921003522,
+            //             protocolType: 8,
+            //             x: 4.642381602965856,
+            //             y: 6.746058133752188,
+            //             actionTime: new Date().getTime()
+            //         }),
+            //         userId: sessionStorage.getItem(StorageKeys.MsgKey)!,
+            //         hash: sessionStorage.getItem(StorageKeys.UserId)!,
+            //     };
+            //     const m2: PushMessage = {
+            //         type: SSEMessageType.Location,
+            //         message: JSON.stringify({
+            //             content: "A1:B1:5A:75:4E:21",
+            //             lat: "0.00023569911719066813",
+            //             lon: "0.00010728836059570314",
+            //             areaId: 1921003522,
+            //             protocolType: 14,
+            //             x: 4.642381602965856,
+            //             y: 6.746058133752188,
+            //             actionTime: new Date().getTime()
+            //         }),
+            //         userId: sessionStorage.getItem(StorageKeys.MsgKey)!,
+            //         hash: sessionStorage.getItem(StorageKeys.UserId)!,
+            //     };
+            //     const m3: PushMessage = {
+            //         type: SSEMessageType.Location,
+            //         message: JSON.stringify({
+            //             content: "A1:B1:5A:75:4E:21",
+            //             lat: "0.000053308904178668025",
+            //             lon: "0.000268891453742981",
+            //             areaId: 1921003522,
+            //             protocolType: 9,
+            //             x: 4.642381602965856,
+            //             y: 6.746058133752188,
+            //             actionTime: new Date().getTime()
+            //         }),
+            //         userId: sessionStorage.getItem(StorageKeys.MsgKey)!,
+            //         hash: sessionStorage.getItem(StorageKeys.UserId)!,
+            //     };
+            //     const nextPoint1 = JSON.parse(m1.message) as Point;
+            //     nextPoint1.actionTime = new Date().getTime();
+            //     const nextPoint2 = JSON.parse(m2.message) as Point;
+            //     nextPoint2.actionTime = new Date().getTime();
+            //     const nextPoint3 = JSON.parse(m3.message) as Point;
+            //     nextPoint2.actionTime = new Date().getTime();
+            //     appendPoint(nextPoint1);
+            //     appendPoint(nextPoint2);
+            //     appendPoint(nextPoint3);
+            // request.post(`/sse/push-user`, {
+            //     hash,
+            //     userId,
+            //     type: SSEMessageType.Alarm,
+            //     message: JSON.stringify({
+            //         rssi: helper.rnd(-90, -50),
+            //         captureTime: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+            //         deviceId: 'zrt-test-x00003',
+            //         protocol: '协议7',
+            //         protocolType: 7,
+            //         status: 0,
+            //         warnReason: '电信(2G/3G/4G-B5)'
+            //     })
+            // }).then(res => console.log(res));
+            // request.post(`/sse/push-user`, {
+            //     hash,
+            //     userId,
+            //     type: SSEMessageType.Alarm,
+            //     message: '{"cmd_time":1709621749,"cmd_type":"freq_report","dev_id":"zrt-test-x00008","cmd_info":{"freq_info":[{"freq":1886,"time":1709621749,"signal":"-60"}]}}'
+            // }).then(res => console.log(res))
+            //     .catch(err => console.log(err));
+            // }, 1000 * 6);
         }
         return () => {
             closeSse();
@@ -228,7 +228,7 @@ const Dashboard: FC<{}> = memo(() => {
     }, [alarmDropAll]);
 
     useSubscribe('query-each-10', () => {
-        querySignalData(1, helper.PAGE_SIZE, {});
+        querySignalTop();
         querySpecialTypeStatisData();
         queryFakeHotspotList();
     });
