@@ -7,28 +7,27 @@ import L, { LatLngBoundsLiteral } from "leaflet";
 import { Protocol } from "@/schema/protocol";
 import { Point } from "@/schema/point";
 import { AlarmMessage, PhoneAlarmInfo } from "@/schema/phone-alarm-info";
-import { renderTemp } from './template';
 import { ProtocolColor } from "./prop";
 
 const signalIcon = L.divIcon({
     html: `<div class="wave signal"><img src="${PointSignalPng}" alt="制式信号"/></div>`,
-    iconSize: [40, 40],
-    iconAnchor: [20, 20]
+    iconSize: [30, 30],
+    iconAnchor: [15, 15]
 });//制式信号图标
 const bluetoothIcon = L.divIcon({
     html: `<div class="wave bluetooth"><img src="${PointBluetoothPng}" alt="蓝牙"/></div>`,
-    iconSize: [40, 40],
-    iconAnchor: [20, 20]
+    iconSize: [30, 30],
+    iconAnchor: [15, 15]
 });//蓝牙图标
 const wifiIcon = L.divIcon({
     html: `<div class="wave wifi"><img src="${PointWifiPng}" alt="WiFi"/></div>`,
-    iconSize: [40, 40],
-    iconAnchor: [20, 20]
+    iconSize: [30, 30],
+    iconAnchor: [15, 15]
 });//WiFi图标
 const devIcon = L.divIcon({
     html: `<div class="wave dev"><img src="${PointDevPng}" alt="设备"/></div>`,
-    iconSize: [40, 40],
-    iconAnchor: [20, 20],
+    iconSize: [30, 30],
+    iconAnchor: [15, 15],
     className: 'point'
 });//设备图标
 
