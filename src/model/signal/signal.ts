@@ -81,8 +81,7 @@ const signal = (setState: SetState, _: GetState): SignalState => ({
                     throw new Error('查询失败');
                 } else {
                     setState({
-                        signalData: ret.data.records.sort((a, b) =>
-                            dayjs(b.createTime).valueOf() - dayjs(a.createTime).valueOf()),
+                        signalData: ret.data.records,
                         signalPageIndex: pageIndex,
                         signalPageSize: pageSize,
                         signalTotal: ret.data.total
@@ -90,8 +89,7 @@ const signal = (setState: SetState, _: GetState): SignalState => ({
                 }
             } else {
                 setState({
-                    signalData: res.data.records.sort((a, b) =>
-                        dayjs(b.createTime).valueOf() - dayjs(a.createTime).valueOf()),
+                    signalData: res.data.records,
                     signalPageIndex: pageIndex,
                     signalPageSize: pageSize,
                     signalTotal: res.data.total

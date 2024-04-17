@@ -24,6 +24,10 @@ const getColumns = (): ColumnsType<ContinuousSignal> => [{
     key: 'lastFreq',
     dataIndex: 'lastFreq'
 }, {
+    title: '最近强度值',
+    key: 'lastRssi',
+    dataIndex: 'lastRssi'
+}, {
     title: '首次频率',
     key: 'firstFreq',
     dataIndex: 'firstFreq'
@@ -31,10 +35,6 @@ const getColumns = (): ColumnsType<ContinuousSignal> => [{
     title: '首次强度值',
     key: 'firstRssi',
     dataIndex: 'firstRssi'
-}, {
-    title: '最新强度',
-    key: 'lastRssi',
-    dataIndex: 'lastRssi'
 }, {
     title: '协议类型',
     key: 'protocolType',
