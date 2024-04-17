@@ -7,6 +7,8 @@ export const LegendBox = styled.ul`
     right:0;
     z-index: 401;
 
+    box-sizing: border-box;
+    width: 140px;
     margin: 0;
     padding: 5px;
     border-radius: 2px;
@@ -23,8 +25,8 @@ export const LegendBox = styled.ul`
     }
     img{
         display: inline-block;
-        width: 34px;
-        width: 34px;
+        width: 30px;
+        width: 30px;
     }
     i{
         display: inline-block;
