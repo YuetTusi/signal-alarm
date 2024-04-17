@@ -333,6 +333,14 @@ const helper = {
         } catch (error) {
             throw error;
         }
+    },
+    /**
+     * 返回band名称简称
+     */
+    matchBandAbbr(fullName: string) {
+        const begin = fullName.lastIndexOf('(');
+        const end = fullName.lastIndexOf(')');
+        return fullName.substring(begin + 1, end);
     }
 };
 

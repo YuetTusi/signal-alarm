@@ -102,9 +102,9 @@ const SignalList: FC<{}> = () => {
         signalTop.map(item => {
             let txt = '';
             const freq = Number.parseFloat(item.freqBand);
-            if (freq >= 101 && freq <= 113) {
+            if (freq >= 101 && freq <= 112) {
                 const has = bands.find(i => i.code === freq);
-                txt = has === undefined ? '-' : has.name ?? '-';
+                txt = has === undefined ? '-' : helper.matchBandAbbr(has.name);
             } else {
                 txt = `频段:${item.freqBand}`
             }
