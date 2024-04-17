@@ -62,7 +62,7 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
      * 生成报告时间差
      * @param startTime 开始时间
      */
-    const renderFromNow = (startTime: number | null) =>
+    const renderFromNow = (startTime: string) =>
         dayjs().diff(startTime, 'hour') + '小时前';
 
     /**
@@ -85,9 +85,9 @@ const CheckReport: FC<CheckReportProp> = ({ }) => {
                 onClick={() => onPreviewClick(item)}
                 key={`QCR_${index}`}>
                 <span
-                    title={renderFromNow(item.startTime)}
+                    title={renderFromNow(item.createTime)}
                     className="rp">
-                    {renderFromNow(item.startTime)}
+                    {renderFromNow(item.createTime)}
                 </span>
                 <div className="r-title">
                     <span title={item.reportId ?? ''}>长时报告</span>

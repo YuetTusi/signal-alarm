@@ -16,7 +16,7 @@ export const LegendBox = styled.ul`
 
     &>li{
         margin: 0;
-        padding: 4px 0;
+        padding: 2px 0;
         list-style-type: none;
         display: flex;
         flex-direction: row;
@@ -25,17 +25,11 @@ export const LegendBox = styled.ul`
     }
     img{
         display: inline-block;
-        width: 30px;
-        width: 30px;
-    }
-    i{
-        display: inline-block;
         width: 20px;
-        height: 20px;
-        border-radius: 2px;
+        width: 20px;
     }
     span{
-        font-size: 2rem;
+        font-size: 1.8rem;
         padding-left: 5px;
     }
 `;
