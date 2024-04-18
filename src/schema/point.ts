@@ -22,6 +22,10 @@ class Point {
      */
     public protocolType: number = -1
     /**
+     * 类型 sta:终端,ap:热点
+     */
+    public type: string = ''
+    /**
      * X轴
      */
     public x: number = 0

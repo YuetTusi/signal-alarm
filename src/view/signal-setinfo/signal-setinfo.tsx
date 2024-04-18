@@ -155,6 +155,7 @@ const SignalSetInfo: FC<SignalSetInfoProp> = () => {
                         showTotal: (total) => `共${total}条`
                     }
                 }
+                rowKey={(record, index) => `CST_${record.id}_${index}`}
             />
         </TableBox>
     </SignalBox>;

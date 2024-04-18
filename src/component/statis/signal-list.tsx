@@ -99,7 +99,7 @@ const SignalList: FC<{}> = () => {
     };
 
     const renderItem = () =>
-        signalTop.map(item => {
+        signalTop.map((item) => {
             let txt = '';
             const freq = Number.parseFloat(item.freqBand);
             if (freq >= 101 && freq <= 112) {

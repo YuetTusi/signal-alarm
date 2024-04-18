@@ -17,11 +17,11 @@ export const renderTemp = (points: Point[]) => {
         let type = '', content = '';
         switch (p.protocolType) {
             case 8:
-                type = 'WiFi2.4G';
+                type = p.type === 'sta' ? '终端' : 'WiFi2.4G';
                 content = p.content ?? '';
                 break;
             case 9:
-                type = 'WiFi5.8G';
+                type = p.type === 'sta' ? '终端' : 'WiFi5.8G';
                 content = p.content ?? '';
                 break;
             case 14:

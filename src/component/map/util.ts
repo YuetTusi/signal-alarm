@@ -177,15 +177,14 @@ export const disposeAllMarker = (m: L.Marker[], map: L.Map | null) => {
  * 多点定位图标
  * @param protocol 协议
  */
-const getPointIcon = (protocol: Protocol) => {
-    switch (protocol) {
+const getPointIcon = ({ type, protocolType }: Point) => {
+    switch (protocolType) {
         case Protocol.Bluetooth50:
             //蓝牙5.0
             return bluetoothIcon;
         case Protocol.WiFi24G:
         case Protocol.WiFi58G:
-            //WiFi2.4G & WiFi5.8G
-            return wifiIcon;
+            return type === 'sta' ? devIcon : wifiIcon;
         case Protocol.Terminal:
             //终端
             return devIcon;
@@ -204,7 +203,7 @@ export const pointToMarker = (points: Point[]) => points
             Number.parseFloat(item.lat),
             Number.parseFloat(item.lon)
         ], {
-            icon: getPointIcon(item.protocolType),
+            icon: getPointIcon(item),
             title: item.content,
             actionTime: item.actionTime
         } as any);
