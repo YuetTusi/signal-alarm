@@ -58,7 +58,7 @@ const Bibo: FC<{}> = () => {
         devicesOnMap,
         alarmsOfDevice,
         // appendPoint,
-        removePointOver5minutes,
+        removePointOverTime,
         clearPhoneAlarmData,
         queryZoneList,
         queryDevicesOnMap,
@@ -70,7 +70,7 @@ const Bibo: FC<{}> = () => {
         devicesOnMap: state.devicesOnMap,
         alarmsOfDevice: state.alarmsOfDevice,
         // appendPoint: state.appendPoint,
-        removePointOver5minutes: state.removePointOver5minutes,
+        removePointOverTime: state.removePointOverTime,
         clearPhoneAlarmData: state.clearPhoneAlarmData,
         queryZoneList: state.queryZoneList,
         queryDevicesOnMap: state.queryDevicesOnMap,
@@ -95,15 +95,13 @@ const Bibo: FC<{}> = () => {
 
             if (alarms && alarms.length > 0) {
                 //更换Icon
-                const nextMarker = L.marker([
-                    lat, lng
-                ], {
+                const nextMarker = L.marker([lat, lng], {
+                    hasAlarm: true,
                     icon: warnIcon,
                     title: (devices[i].options as MarkerOptionsEx).title,
                     deviceId: (devices[i].options as MarkerOptionsEx).deviceId,
                     siteName: (devices[i].options as MarkerOptionsEx).siteName,
-                    status: (devices[i].options as MarkerOptionsEx).status,
-                    hasAlarm: true
+                    status: (devices[i].options as MarkerOptionsEx).status
                 } as MarkerOptionsEx);
                 nextMarker.on('click', (e) => {
                     const { deviceId, hasAlarm } = e.target.options;
@@ -170,7 +168,7 @@ const Bibo: FC<{}> = () => {
         if (map === null) {
             return;
         }
-        removePointOver5minutes();
+        removePointOverTime(1);
     });
 
     useSubscribe('alarm-clean', () => {
