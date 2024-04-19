@@ -30,12 +30,12 @@ const bibo = (setState: SetState, getState: GetState): BiboState => ({
     },
     /**
      * 删除超过x分钟的点
-     * @param m 分钟数
+     * @param s 秒
      */
-    removePointOverTime(m: number) {
+    removePointOverTime(s: number) {
         const prev = getState().points;
         setState({
-            points: prev.filter(i => dayjs().diff(i.actionTime, 'm') < m)
+            points: prev.filter(i => dayjs().diff(i.actionTime, 'second') < s)
         });
     },
     /**

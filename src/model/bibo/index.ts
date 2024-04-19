@@ -23,9 +23,9 @@ interface BiboState {
     appendPoint: (payload: Point) => void,
     /**
      * 删除超过n分钟的点
-     * @param m 分钟数
+     * @param s 秒
      */
-    removePointOverTime: (m: number) => void,
+    removePointOverTime: (s: number) => void,
     /**
      * 查询区域下的设备数据
      * @param id 区域id

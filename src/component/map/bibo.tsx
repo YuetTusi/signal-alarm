@@ -168,7 +168,7 @@ const Bibo: FC<{}> = () => {
         if (map === null) {
             return;
         }
-        removePointOverTime(1);
+        removePointOverTime(60);
     });
 
     useSubscribe('alarm-clean', () => {
@@ -185,8 +185,10 @@ const Bibo: FC<{}> = () => {
         if (map === null) {
             return;
         }
+        console.log('点数量：', points.length);
         //过滤掉不是当前区域的点
         const thisAreaPoints = points.filter(i => i.areaId === currentAreaId.current);
+
         p.forEach(m => map!.removeLayer(m));
         p = pointToMarker(thisAreaPoints);
         p.forEach(m => {
