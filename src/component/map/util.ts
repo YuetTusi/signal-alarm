@@ -77,7 +77,8 @@ export const loadMap = (domId: string, background: string, width: number, height
         zoomControl: false,
         doubleClickZoom: false,
         attributionControl: false,
-        maxBounds: bounds
+        maxBounds: bounds,
+        preferCanvas: true
     });
     if (!background.startsWith('data:image/png;base64,')) {
         bg = 'data:image/png;base64,' + background;
@@ -214,3 +215,8 @@ export const pointToMarker = (points: Point[]) => points
         // });
         return mark;
     });
+
+/**
+ * 定位点转为地图标记
+ */
+export const toMakerGroup = (markers: L.Marker[]) => L.layerGroup(markers);

@@ -1,6 +1,7 @@
 import mapWarnIcon from '@/assets/image/map-warn.png';
 import mapOfflineIcon from '@/assets/image/map-offline.png';
 import mapConnectedIcon from '@/assets/image/map-connected.png';
+import { chunk, throttle } from 'lodash';
 import L from 'leaflet';
 import { FC, useEffect, useRef, useState } from 'react';
 import SyncOutlined from '@ant-design/icons/SyncOutlined';
@@ -15,7 +16,7 @@ import { Legend } from './legend';
 import { RadarInfo } from './radar-info';
 import {
     disposeAllMarker, initMap,
-    loadMap, pointToMarker
+    loadMap, pointToMarker, toMakerGroup
 } from './util';
 import { renderTemp } from './template';
 import { BiboBox, MaskBox } from './styled/box';
@@ -181,13 +182,14 @@ const Bibo: FC<{}> = () => {
         bindDeviceOnMap();
     }, [devicesOnMap]);
 
-    useEffect(() => {
+    useEffect(throttle(() => {
         if (map === null) {
             return;
         }
-        console.log('点数量：', points.length);
+
         //过滤掉不是当前区域的点
         const thisAreaPoints = points.filter(i => i.areaId === currentAreaId.current);
+        // console.log(`Points:${points.length}, This Area:${thisAreaPoints.length}`);
 
         p.forEach(m => map!.removeLayer(m));
         p = pointToMarker(thisAreaPoints);
@@ -203,9 +205,13 @@ const Bibo: FC<{}> = () => {
                 return acc;
             }, [] as Point[]);
             m.bindTooltip(renderTemp(details));
-            m.addTo(map!);
         });
-    }, [points]);
+        setTimeout(() => {
+            //拆分加载点
+            chunk(p, 32).forEach(s => toMakerGroup(s).addTo(map!));
+            // toMakerGroup(p).addTo(map!);
+        }, 0);
+    }, 1000), [points]);
 
     useEffect(() => {
         if (zoneList.length > 0) {

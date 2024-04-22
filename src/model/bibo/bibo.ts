@@ -29,7 +29,7 @@ const bibo = (setState: SetState, getState: GetState): BiboState => ({
         setState({ points: prev.concat(payload) });
     },
     /**
-     * 删除超过x分钟的点
+     * 删除超过s秒的点
      * @param s 秒
      */
     removePointOverTime(s: number) {
