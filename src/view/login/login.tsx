@@ -10,6 +10,7 @@ import { App, Col, Row, Input, Button, Form, message } from 'antd';
 import { useModel } from "@/model";
 import { AlarmType, AppMode } from '@/schema/conf';
 import { helper } from '@/utility/helper';
+import { polling } from '@/utility/polling';
 import { StorageKeys } from '@/utility/storage-keys';
 import DragBar from '@/component/drag-bar';
 import Reading from '@/component/reading';
@@ -68,13 +69,13 @@ const Login: FC<{}> = () => {
      * @param userName 用户名
      * @param password 口令
      */
-    const doLogin = async (userName: string, password: string) => {
+    const doLogin = async (userName: string, password: string): Promise<boolean> => {
         setReading(true);
         try {
             const ret = await loginByNamePassword(userName, password);
             if (ret === null) {
                 message.warning('服务请求失败');
-                return;
+                return true;
             }
             if (ret.code === 200) {
                 //登录成功，令牌写入SessionStorage
@@ -93,13 +94,16 @@ const Login: FC<{}> = () => {
                 } else {
                     message.warning(`身份验证失败（${res?.message ?? ''}）`);
                 }
+                return false;
             } else {
                 message.warning(`身份验证失败（${ret.message}）`);
+                return true;
             }
         } catch (error) {
             console.clear();
             console.warn(error);
             message.warning(`登录失败 ${error.message}`);
+            return true;
         } finally {
             setReading(false);
         }
@@ -108,7 +112,7 @@ const Login: FC<{}> = () => {
     useEffect(() => {
         if (mode === AppMode.FullScreen) {
             //如果是全屏模式，使用admin自动登录
-            doLogin('admin', '111111');
+            polling(() => doLogin('admin', '111111'));
         }
     }, []);
 
