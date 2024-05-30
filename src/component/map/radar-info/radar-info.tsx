@@ -40,8 +40,7 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, data, deviceId, onClose }) => {
         //单机版
         for (let [, v] of Object.entries(data)) {
             alarms = alarms.concat(v.filter(item => {
-                //过滤掉超过10秒的点
-                const isOver = dayjs().diff(item.captureTime, 's') <= 10;
+                const isOver = dayjs().diff(item.captureTime, 's') <= 30;
                 return isOver;
             }));
         }
@@ -57,7 +56,7 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, data, deviceId, onClose }) => {
         for (let [, v] of Object.entries(data)) {
             alarms = alarms.concat(v.filter(item => {
                 //过滤掉超过10秒的点
-                const isOver = dayjs().diff(item.captureTime, 's') <= 10;
+                const isOver = dayjs().diff(item.captureTime, 's') <= 30;
                 return isOver;
             }));
         }
