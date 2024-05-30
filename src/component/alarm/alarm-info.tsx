@@ -22,9 +22,9 @@ const AlarmInfo: FC<{}> = () => {
         removeBefore10SecAlarmBarData: state.removeBefore10SecAlarmBarData
     })));
 
-    useSubscribe('query-each-1', () => {
-        //删除10秒前的旧数据
-        removeBefore10SecAlarmBarData(10);
+    useSubscribe('query-each-10', () => {
+        //删除60秒前的旧数据
+        removeBefore10SecAlarmBarData(60);
     });
 
     return <AlarmInfoBox>

@@ -69,7 +69,7 @@ const Dashboard: FC<{}> = memo(() => {
             const m: PushMessage = JSON.parse(event.data);
             switch (m.type) {
                 case SSEMessageType.Alarm:
-                    //报警数据
+                    //告警数据
                     const message = JSON.parse(m.message);
                     updateAlarmBarData(message['warnReason'], {
                         rssi: message['rssi'] + 100,
