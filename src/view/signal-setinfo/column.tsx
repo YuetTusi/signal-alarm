@@ -1,3 +1,4 @@
+import round from 'lodash/round';
 import dayjs from 'dayjs';
 import { ColumnsType } from 'antd/es/table';
 import { ContinuousSignal } from '@/schema/continuous-signal';
@@ -22,7 +23,10 @@ const getColumns = (): ColumnsType<ContinuousSignal> => [{
 }, {
     title: '最新频率',
     key: 'lastFreq',
-    dataIndex: 'lastFreq'
+    dataIndex: 'lastFreq',
+    render(val: number) {
+        return `${round(val, 1)}MHz`;
+    }
 }, {
     title: '最近强度值',
     key: 'lastRssi',
@@ -30,7 +34,10 @@ const getColumns = (): ColumnsType<ContinuousSignal> => [{
 }, {
     title: '首次频率',
     key: 'firstFreq',
-    dataIndex: 'firstFreq'
+    dataIndex: 'firstFreq',
+    render(val: number) {
+        return `${round(val, 1)}MHz`;
+    }
 }, {
     title: '首次强度值',
     key: 'firstRssi',

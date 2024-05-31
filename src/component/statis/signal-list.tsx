@@ -1,4 +1,4 @@
-
+import round from 'lodash/round';
 import { FC, useEffect, useRef, useState } from 'react';
 import { Tag } from 'antd';
 import { useModel, useShallow } from '@/model';
@@ -116,7 +116,7 @@ const SignalList: FC<{}> = () => {
                 <Tag color="blue" style={{ textAlign: 'center' }}>
                     <span className="freq-txt">{txt}</span>
                 </Tag>
-                <Tag color="green">最新频率:{item.lastFreq}</Tag>
+                <Tag color="green">最新频率:{round(item.lastFreq, 1)}MHz</Tag>
                 <Tag color="cyan">持续时间:{item.duration}s</Tag>
             </li>
         });

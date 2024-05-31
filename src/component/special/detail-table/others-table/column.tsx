@@ -15,7 +15,10 @@ const getColumns = (): ColumnsType<Wap> => {
         title: '频率',
         key: 'arfcn',
         dataIndex: 'arfcn',
-        width: 90
+        width: 120,
+        render(val: string) {
+            return `${round(Number(val), 1)}MHz`;
+        }
     }, {
         title: '频率信息名称',
         key: 'arfcnName',

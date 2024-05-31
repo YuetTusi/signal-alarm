@@ -1,3 +1,4 @@
+import round from 'lodash/round';
 import { FC } from 'react';
 import { Wap } from '@/schema/wap';
 import Signal from '@/component/signal';
@@ -17,7 +18,7 @@ const TopList: FC<TopListProp> = ({ data, type }) => {
             <div className="inner-row">
                 <div className="list-row-txt note">
                     <ContentLabel type={type} data={item} />
-                    <span className="arf">[{(item as Wap).arfcn}]</span>
+                    <span className="arf">[{round(Number((item as Wap).arfcn), 1)}MHz]</span>
                 </div>
                 <div className="list-row-val">
                     <Signal value={Number(item?.rssi)} max={0} min={-100} />

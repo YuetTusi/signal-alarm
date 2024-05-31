@@ -16,6 +16,7 @@ import Wifi58 from '@/assets/image/wifi58.png';
 import GpsLocator from '@/assets/image/gpslocator.png';
 import Camera from '@/assets/image/camera.png';
 import Others from '@/assets/image/others.png';
+import round from 'lodash/round';
 import { Tag } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { helper } from '@/utility/helper';
@@ -48,7 +49,10 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [
         title: '频率',
         key: 'arfcn',
         dataIndex: 'arfcn',
-        width: 140
+        width: 140,
+        render(val: string) {
+            return `${round(Number(val), 1)}MHz`;
+        }
     }, {
         title: '强度',
         key: 'rssi',

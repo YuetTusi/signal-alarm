@@ -15,7 +15,6 @@ import { SpecialBase } from '@/schema/special-base';
  */
 const Bluetooth: FC<{ data: BluetoothEntity }> = ({ data }) => {
 
-    // console.log(data);
     /**
      * 渲染广商名称
      */

@@ -1,3 +1,4 @@
+import round from 'lodash/round';
 import { FC } from 'react';
 import { helper } from '@/utility/helper';
 import { NoWarpLabel } from '@/component/panel/panel';
@@ -27,7 +28,7 @@ const TotalList: FC<TotalListProp> = ({ data, type }) => {
         if (helper.isNullOrUndefined((data as any)?.arfcn)) {
             return null;
         } else {
-            return <span className="arf">[{(data as any).arfcn}]</span>
+            return <span className="arf">[{round((data as any).arfcn, 1)}MHz]</span>
         }
     };
 
