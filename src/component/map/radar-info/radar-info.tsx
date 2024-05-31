@@ -100,21 +100,10 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, data, deviceId, onClose }) => {
     const renderInfo = () => {
 
         if (points === null || points.length === 0) {
-            return null;
+            return <div className="adetail"></div>;
         }
 
-        let alarms: AlarmMessage[] = [];
-        alarms = Object.values(data).flat();
-        // if (alarmType === AlarmType.Single) {
-        //     //单机版
-        //     alarms = Object.values(data).flat();
-        // } else {
-        //     //网络版（筛选当前deviceId的最新报警）
-        //     if (deviceId === undefined || data[deviceId] === undefined) {
-        //         return null;
-        //     }
-        //     alarms = data[deviceId];
-        // }
+        let alarms: AlarmMessage[] = Object.values(data).flat();
 
         if (alarms.length > 0) {
             const msg = maxBy(alarms, (item) => item.captureTime);
@@ -147,7 +136,7 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, data, deviceId, onClose }) => {
                 </div>
             </div>;
         } else {
-            return null;
+            return <div className="adetail"></div>;
         }
     };
 

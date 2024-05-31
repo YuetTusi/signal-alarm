@@ -20,7 +20,7 @@ interface AlarmChartState {
      * 删除n秒前的柱数据
      * @param sec 秒
      */
-    removeBefore10SecAlarmBarData: (sec: number) => void,
+    removeBeforeSecAlarmBarData: (sec: number) => void,
     /**
      * 清空柱图数据
      */

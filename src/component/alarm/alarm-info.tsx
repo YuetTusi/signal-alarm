@@ -15,16 +15,16 @@ const AlarmInfo: FC<{}> = () => {
     const {
         alarmDetailModalOpen,
         setAlarmDetailModalOpen,
-        removeBefore10SecAlarmBarData
+        removeBeforeSecAlarmBarData
     } = useModel(useShallow(state => ({
         alarmDetailModalOpen: state.alarmDetailModalOpen,
         setAlarmDetailModalOpen: state.setAlarmDetailModalOpen,
-        removeBefore10SecAlarmBarData: state.removeBefore10SecAlarmBarData
+        removeBeforeSecAlarmBarData: state.removeBeforeSecAlarmBarData
     })));
 
     useSubscribe('query-each-10', () => {
         //删除60秒前的旧数据
-        removeBefore10SecAlarmBarData(60);
+        removeBeforeSecAlarmBarData(60);
     });
 
     return <AlarmInfoBox>

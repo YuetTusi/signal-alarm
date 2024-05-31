@@ -227,11 +227,11 @@ const Dashboard: FC<{}> = memo(() => {
         };
     }, [alarmDropAll]);
 
-    useSubscribe('query-each-10', () => {
-        querySignalTop();
-        querySpecialTypeStatisData();
-        queryFakeHotspotList();
-    });
+    useSubscribe('query-each-10', () => querySignalTop());
+
+    useSubscribe('query-each-15', () => querySpecialTypeStatisData());
+
+    useSubscribe('query-each-20', () => queryFakeHotspotList());
 
     /**
      * 据配置文件显示雷达图或地图

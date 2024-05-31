@@ -23,7 +23,7 @@ const alarmChart = (setState: SetState, getState: GetState): AlarmChartState => 
      * 删除n秒前的柱数据
      * @param sec 秒
      */
-    removeBefore10SecAlarmBarData(sec: number) {
+    removeBeforeSecAlarmBarData(sec: number) {
 
         const prev = getState().alarmBarData;
         const now = dayjs();
