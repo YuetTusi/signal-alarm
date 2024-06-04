@@ -10,9 +10,18 @@ export const SignalBox = styled.div`
         margin-left: 1px;
         border-radius: 1px;
 
-        &.active{
-            background-color: #00efef;
+        &.green{
+            background-color:#4cd137;
         }
+        &.yellow{
+            background-color:#fbc531;
+        }
+        &.red{
+            background-color:#e84118;
+        }
+        /* &.active{
+            background-color: #00efef;
+        } */
         &.gray{
             background-color: #666666;
         }
