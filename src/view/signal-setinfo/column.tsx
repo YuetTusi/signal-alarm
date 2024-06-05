@@ -11,13 +11,13 @@ const getColumns = (): ColumnsType<ContinuousSignal> => [{
     title: '频段',
     key: 'freqBand',
     dataIndex: 'freqBand',
-    render(val: string) {
+    render(val: string, record) {
         const freq = Number.parseInt(val);
         if (freq >= 101 && freq <= 113) {
             const has = band.find(i => i.code === freq);
             return has === undefined ? '-' : has.name ?? '-';
         } else {
-            return val;
+            return record.protocolType === Protocol.Others ? '疑似窃密信号' : val;
         }
     }
 }, {
@@ -47,8 +47,7 @@ const getColumns = (): ColumnsType<ContinuousSignal> => [{
     key: 'protocolType',
     dataIndex: 'protocolType',
     render: (value: Protocol) => {
-        const name = getProtocolLabel(value);
-        return name === '其他' ? '疑似窃密信号' : name;
+        return getProtocolLabel(value);
     }
 }, {
     title: '无线协议名称',

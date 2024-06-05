@@ -4,6 +4,7 @@ import { Tag } from 'antd';
 import { useModel, useShallow } from '@/model';
 import { helper } from '@/utility/helper';
 import { SignalDescModal } from '@/component/statis/signal-desc-modal';
+import { Protocol } from '@/schema/protocol';
 import { ContinuousSignal } from '@/schema/continuous-signal';
 import { DisplayPanel } from '../panel';
 import { ScrollList } from './styled/box';
@@ -106,7 +107,7 @@ const SignalList: FC<{}> = () => {
                 const has = bands.find(i => i.code === freq);
                 txt = has === undefined ? '-' : helper.matchBandAbbr(has.name);
             } else {
-                txt = `频段:${item.freqBand}`
+                txt = `${item.protocolType === Protocol.Others ? '疑似窃密信号' : '频段:' + item.freqBand}`
             }
 
             return <li
