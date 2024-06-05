@@ -1,6 +1,7 @@
 import PointBluetoothPng from '@/assets/image/point-bluetooth.png';
 import PointSignalPng from '@/assets/image/point-signal.png';
-import PointWifiPng from '@/assets/image/point-wifi.png';
+import PointWifi24Png from '@/assets/image/point-wifi24.png';
+import PointWifi58Png from '@/assets/image/point-wifi58.png';
 import PointDevPng from '@/assets/image/point-dev.png';
 import { FC } from 'react';
 import { LegendBox } from './styled/box';
@@ -16,8 +17,12 @@ const Legend: FC<LegendProp> = ({ visible }) => <LegendBox
         <span>制式信号</span>
     </li>
     <li>
-        <img src={PointWifiPng} alt="WiFi" />
-        <span>WiFi</span>
+        <img src={PointWifi58Png} alt="WiFi5.8" />
+        <span>WiFi5.8G</span>
+    </li>
+    <li>
+        <img src={PointWifi24Png} alt="WiFi2.4" />
+        <span>WiFi2.4G</span>
     </li>
     <li>
         <img src={PointBluetoothPng} alt="蓝牙" />

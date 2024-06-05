@@ -1,6 +1,7 @@
 import PointBluetoothPng from '@/assets/image/point-bluetooth.png';
 import PointSignalPng from '@/assets/image/point-signal.png';
-import PointWifiPng from '@/assets/image/point-wifi.png';
+import PointWifi24Png from '@/assets/image/point-wifi24.png';
+import PointWifi58Png from '@/assets/image/point-wifi58.png';
 import PointDevPng from '@/assets/image/point-dev.png';
 import L, { LatLngBoundsLiteral } from "leaflet";
 // import { MAP_BACKGROUND_BOUNDS } from "@/utility/helper";
@@ -19,8 +20,13 @@ const bluetoothIcon = L.divIcon({
     iconSize: [30, 30],
     iconAnchor: [15, 15]
 });//蓝牙图标
-const wifiIcon = L.divIcon({
-    html: `<div class="wave wifi"><img src="${PointWifiPng}" alt="WiFi"/></div>`,
+const wifi24Icon = L.divIcon({
+    html: `<div class="wave wifi"><img src="${PointWifi24Png}" alt="WiFi"/></div>`,
+    iconSize: [30, 30],
+    iconAnchor: [15, 15]
+});//WiFi图标
+const wifi58Icon = L.divIcon({
+    html: `<div class="wave wifi"><img src="${PointWifi58Png}" alt="WiFi"/></div>`,
     iconSize: [30, 30],
     iconAnchor: [15, 15]
 });//WiFi图标
@@ -184,8 +190,9 @@ const getPointIcon = ({ type, protocolType }: Point) => {
             //蓝牙5.0
             return bluetoothIcon;
         case Protocol.WiFi24G:
+            return type === 'sta' ? devIcon : wifi24Icon;
         case Protocol.WiFi58G:
-            return type === 'sta' ? devIcon : wifiIcon;
+            return type === 'sta' ? devIcon : wifi58Icon;
         case Protocol.Terminal:
             //终端
             return devIcon;
