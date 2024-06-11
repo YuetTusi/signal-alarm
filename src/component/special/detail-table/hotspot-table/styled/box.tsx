@@ -1,7 +1,13 @@
 import styled from 'styled-components';
 
-export const HotspotInfoBox = styled.div`
+export const HotspotTableBox = styled.div`
 
+    .dev-ex-row{
+        &>td{
+            /* border:  1px solid yellow; */
+            padding: 0;
+        }
+    }
 `;
 
 export const SearchBarBox = styled.div`
@@ -12,7 +18,7 @@ export const SearchBarBox = styled.div`
     align-items: center;
 
     &>div:last-child{
-        align-self: flex-end;
+        align-self: center;
     }
 
     .ant-form-item{

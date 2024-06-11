@@ -14,6 +14,11 @@ const specialHotspot = (setState: SetState, _: GetState): SpecialHotspotState =>
     specialHotspotPageIndex: 1,
     specialHotspotPageSize: helper.PAGE_SIZE,
     specialHotspotLoading: false,
+    terminalOfHotspot: [],
+    /**
+     * 查询中
+     */
+    terminalOfHotspotLoading: false,
 
     setSpecialHotspotLoading(payload: boolean) {
         setState({ specialWapLoading: payload });
@@ -118,6 +123,45 @@ const specialHotspot = (setState: SetState, _: GetState): SpecialHotspotState =>
         } catch (error) {
             throw error;
         }
+    },
+    /**
+     * 查询热点关联设备
+     */
+    async queryTerminalOfHotspot(pageIndex: number, pageSize: number, condition?: Record<string, any>) {
+
+        let url = `/spi/hotspot/get-terminal-list/${pageIndex}/${pageSize}`;
+        if (!helper.isNullOrUndefined(condition)) {
+            let q: string[] = [];
+            if (condition?.mac) {
+                q.push(`mac=${condition?.mac}`);
+            }
+            if (condition?.startTime) {
+                q.push(`startTime=${condition?.startTime}`);
+            }
+            if (condition?.endTime) {
+                // q.push(`endTime=${condition?.endTime}`);
+                q.push(`endTime=2024-06-12 23:59:59`);
+            }
+            url = url + '?' + q.join('&');
+        }
+
+        setState({ terminalOfHotspotLoading: true });
+        try {
+            const res = await request.get<QueryPage<Hotspot>>(url);
+            if (res !== null && res.code === 200) {
+                setState({ terminalOfHotspot: res.data.records });
+            } else {
+                setState({ terminalOfHotspot: [] });
+            }
+        } catch (error) {
+            throw error;
+        } finally {
+            setState({ terminalOfHotspotLoading: false });
+        }
+    },
+    clearTerminalOfHotspot() {
+        setState({ terminalOfHotspotLoading: false });
+        setState({ terminalOfHotspot: [] });
     }
 });
 

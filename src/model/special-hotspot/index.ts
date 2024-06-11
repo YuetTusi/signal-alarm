@@ -27,6 +27,14 @@ interface SpecialHotspotState {
      */
     specialHotspotLoading: boolean,
     /**
+     * 热点设备
+     */
+    terminalOfHotspot: Hotspot[],
+    /**
+     * 查询中
+     */
+    terminalOfHotspotLoading: boolean,
+    /**
      * 更新加载中状态
      * @param payload 
      */
@@ -47,7 +55,15 @@ interface SpecialHotspotState {
      * 导出专项检查（热点）数据
      * @param protocal 类型
      */
-    exportSpecialHotspotData: (pageIndex: number, pageSize: number, condition?: Record<string, any>) => Promise<Buffer>
+    exportSpecialHotspotData: (pageIndex: number, pageSize: number, condition?: Record<string, any>) => Promise<Buffer>,
+    /**
+     * 查询热点关联设备
+     */
+    queryTerminalOfHotspot: (pageIndex: number, pageSize: number, condition?: Record<string, any>) => void,
+    /**
+     * 清空设备列表
+     */
+    clearTerminalOfHotspot: () => void
 }
 
 export type { SpecialHotspotState };

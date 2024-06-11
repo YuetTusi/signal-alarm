@@ -1,9 +1,11 @@
+import terminal24 from '@/assets/image/terminal24.png';
+import terminal58 from '@/assets/image/terminal58.png';
 import round from 'lodash/round';
 import { ColumnsType } from 'antd/es/table';
 import PlusOutlined from '@ant-design/icons/PlusOutlined';
 import { Button } from 'antd';
 import { Hotspot } from '@/schema/hotspot';
-import { getProtocolText } from '@/schema/protocol';
+import { Protocol, getProtocolText } from '@/schema/protocol';
 import { NoWarpLabel } from '@/component/panel/panel';
 import { ActionType } from './prop';
 
@@ -16,7 +18,16 @@ const getColumns = (handle: (actionType: ActionType, data: Hotspot) => void): Co
         dataIndex: 'protocolType',
         width: 95,
         align: 'center',
-        render: (val: any) => getProtocolText(val)
+        render: (val: Protocol) => {
+            switch (val) {
+                case Protocol.WiFi24G:
+                    return <img src={terminal24} alt="终端2.4G" width={70} />;
+                case Protocol.WiFi58G:
+                    return <img src={terminal58} alt="终端5.8G" width={70} />;
+                default:
+                    return getProtocolText(val);
+            }
+        }
     }, {
         title: '热点',
         key: 'ssid',
@@ -25,11 +36,6 @@ const getColumns = (handle: (actionType: ActionType, data: Hotspot) => void): Co
         render(val: string) {
             return <NoWarpLabel title={val} width={140}>{val}</NoWarpLabel>;
         }
-    }, {
-        title: 'APID',
-        key: 'apId',
-        dataIndex: 'apId',
-        width: 180
     }, {
         title: 'MAC地址',
         key: 'mac',

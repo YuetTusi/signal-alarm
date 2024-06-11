@@ -3,7 +3,7 @@ import path from 'path';
 import dayjs, { Dayjs } from 'dayjs';
 import debounce from 'lodash/debounce';
 import electron, { OpenDialogReturnValue } from 'electron';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState, Key } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { App, message, Form, Table } from 'antd';
 import { useModel } from '@/model';
@@ -11,6 +11,7 @@ import { Hotspot } from '@/schema/hotspot';
 import { Protocol } from '@/schema/protocol';
 import { FakeHotspot } from '@/schema/fake-hotspot';
 import { WhiteListType } from '@/schema/white-list';
+import { TerminalList } from '../terminal-list';
 import { helper } from '@/utility/helper';
 import { SearchBar } from './search-bar';
 import { getColumns } from './column';
@@ -18,6 +19,7 @@ import { getTypes } from './data-source';
 import {
     ActionType, HotspotTableProp, SearchFormValue
 } from './prop';
+import { HotspotTableBox } from './styled/box';
 
 const { ipcRenderer } = electron;
 const { writeFile } = fs.promises;
@@ -31,6 +33,7 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
 
     const [param] = useSearchParams();
     const { modal } = App.useApp();
+    const [expandRows, setExpandRows] = useState<Key[]>([]);
     const [formRef] = useForm<SearchFormValue>();
 
     const {
@@ -45,7 +48,8 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
         addWhiteList,
         setReading,
         addFakeHotspot,
-        queryFakeHotspotList
+        queryFakeHotspotList,
+        clearTerminalOfHotspot
     } = useModel(state => ({
         specialHotspotPageIndex: state.specialHotspotPageIndex,
         specialHotspotPageSize: state.specialHotspotPageSize,
@@ -58,7 +62,8 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
         addFakeHotspot: state.addFakeHotspot,
         queryFakeHotspotList: state.queryFakeHotspotList,
         querySpecialHotspotData: state.querySpecialHotspotData,
-        exportSpecialHotspotData: state.exportSpecialHotspotData
+        exportSpecialHotspotData: state.exportSpecialHotspotData,
+        clearTerminalOfHotspot: state.clearTerminalOfHotspot
     }));
 
     useEffect(() => {
@@ -245,7 +250,7 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
         }
     }, 500, { leading: true, trailing: false });
 
-    return <>
+    return <HotspotTableBox>
         <SearchBar
             formRef={formRef}
             onExport={onExport}
@@ -254,6 +259,24 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
             columns={getColumns(onColumnClick)}
             dataSource={specialHotspotData}
             loading={specialHotspotLoading}
+            expandable={{
+                fixed: false,
+                expandedRowClassName: () => 'dev-ex-row',
+                expandedRowKeys: expandRows,
+                expandedRowRender: ({ mac, captureTime }, index, indent, expanded) => <TerminalList
+                    show={expanded}
+                    mac={mac}
+                    startTime={captureTime}
+                    endTime={captureTime} />,
+                onExpandedRowsChange: (rows) => {
+                    clearTerminalOfHotspot();
+                    if (rows.length > 0) {
+                        setExpandRows([rows[rows.length - 1]]);
+                    } else {
+                        setExpandRows([]);
+                    }
+                }
+            }}
             pagination={{
                 onChange: onPageChange,
                 total: specialHotspotTotal,
@@ -266,7 +289,7 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
             rowKey="id"
             size="middle"
         />
-    </>
+    </HotspotTableBox>
 };
 
 HotspotTable.defaultProps = {};
