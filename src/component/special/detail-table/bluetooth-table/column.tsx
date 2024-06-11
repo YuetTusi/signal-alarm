@@ -25,7 +25,10 @@ const getColumns = (handle: (actionType: ActionType, data: Bluetooth) => void): 
         title: '强度',
         key: 'signal',
         dataIndex: 'signal',
-        width: 60
+        width: 60,
+        render(val) {
+            return val + 'dBm';
+        }
     },
     {
         title: '连接状态',

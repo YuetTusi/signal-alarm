@@ -26,7 +26,7 @@ const AlarmDesc: FC<{ data: AlarmMsg }> = ({ data }) => {
         <Item label="类型" span={3}>{data?.protocol}</Item>
         <Item label="告警原因" span={3}>{getReason(data?.warnReason)}</Item>
         <Item label="频率" span={3}>{data?.arfcn === undefined ? '---' : data?.arfcn + 'MHz'}</Item>
-        <Item label="强度值" span={3}>{data?.rssi ?? '---'}</Item>
+        <Item label="强度值" span={3}>{data?.rssi + 'dBm' ?? '---'}</Item>
         <Item label="设备ID" span={3}>{data?.deviceId ?? '---'}</Item>
         <Item label="设备场所" span={3}>{data?.siteName ?? '---'}</Item>
         <Item label="时间" span={3}>{data?.createTime ?? '---'}</Item>

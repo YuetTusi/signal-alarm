@@ -39,7 +39,10 @@ const getColumns = (handle: (actionType: ActionType, data: Hotspot) => void): Co
         title: '强度',
         key: 'rssi',
         dataIndex: 'rssi',
-        width: 90
+        width: 90,
+        render(val) {
+            return val + 'dBm';
+        }
     }, {
         title: '厂商',
         key: 'org',
@@ -141,7 +144,10 @@ const getTopColumns = (): ColumnsType<Hotspot> => {
         title: '强度值',
         key: 'rssi',
         dataIndex: 'rssi',
-        width: 80
+        width: 80,
+        render(val) {
+            return val + 'dBm';
+        }
     }];
 };
 

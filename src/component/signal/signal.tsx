@@ -32,7 +32,7 @@ const Signal: FC<SignalProp> = ({ value, min, max }) => {
     };
 
     return <Tooltip
-        title={`强度值: ${value}`}
+        title={`强度值: ${value}dBm`}
         placement="left">
         <SignalBox>
             {i()}

@@ -53,7 +53,7 @@ const SignalDescModal: FC<SignalDescModalProp> = ({
         <Descriptions bordered={true} size="small" style={{ marginTop: '20px' }}>
             <Item label="频段" span={3}>{renderBandName(data)}</Item>
             <Item label="最新频率" span={3}>{data?.lastFreq === undefined ? '-' : `${round(data.lastFreq, 1)} MHz`}</Item>
-            <Item label="最近强度" span={3}>{data?.lastRssi ?? '-'}</Item>
+            <Item label="最近强度" span={3}>{data?.lastRssi + 'dBm' ?? '-'}</Item>
             <Item label="设备ID" span={3}>{data?.deviceId ?? '-'}</Item>
             <Item label="协议名称" span={3}>{data?.protocolName ?? '-'}</Item>
             <Item label="持续时间" span={3}>{data?.duration === undefined ? '-' : `${data.duration} s`}</Item>

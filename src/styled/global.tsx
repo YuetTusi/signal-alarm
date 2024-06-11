@@ -38,6 +38,11 @@ export const GlobalStyle = createGlobalStyle`
     .ant-modal-mask,.ant-modal-wrap{
         top:28px !important;
     }
+    .ant-table-thead {
+        .ant-table-cell{
+            font-weight: bold !important;
+        }
+    }
     .ant-tabs-nav-more{
         color:#fff !important;
     }

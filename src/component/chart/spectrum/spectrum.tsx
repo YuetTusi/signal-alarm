@@ -228,7 +228,7 @@ const Spectrum: FC<SpectrumProp> = ({
                                 color: '#ff9f1a',
                                 distance: [0, 20],
                                 formatter() {
-                                    return `最大强度：${compareMark?.max}（${Math.trunc((compareMark?.index ?? 0) * 0.8) + 1}MHz）`;
+                                    return `最大强度：${compareMark?.max}dBm（${Math.trunc((compareMark?.index ?? 0) * 0.8) + 1}MHz）`;
                                 }
                             },
                             lineStyle: {
@@ -255,7 +255,7 @@ const Spectrum: FC<SpectrumProp> = ({
                             fontSize: 14,
                             color: '#32ff7e',
                             formatter(a: any, b: any) {
-                                return `最大强度：${Math.max(...realData)}（${Math.trunc(realMark.index * 0.8) + 1}MHz）`
+                                return `最大强度：${Math.max(...realData)}dBm（${Math.trunc(realMark.index * 0.8) + 1}MHz）`
                             }
                         },
                         lineStyle: {
@@ -284,11 +284,12 @@ const Spectrum: FC<SpectrumProp> = ({
                         type: 'shadow'
                     },
                     formatter(params: any[]) {
+                        console.log(params);
                         const tips = params.map(item => `<div>
                             <div>
                                 ${item.marker}
                                 <b>${item.seriesName}</b>
-                                <span style="padding-left:1rem">${item.value}</span>
+                                <span style="padding-left:1rem">${item.value}dBm</span>
                             </div>
                         </div>`);
                         return `<div>

@@ -43,7 +43,10 @@ const getColumns = (handle: (actionType: ActionType, data: Terminal) => void): C
         title: '强度',
         key: 'rssi',
         dataIndex: 'rssi',
-        width: 80
+        width: 80,
+        render(val) {
+            return val + 'dBm';
+        }
     },
     {
         title: '连接状态',
@@ -124,7 +127,10 @@ const getTopColumns = (): ColumnsType<Terminal> => {
         title: '强度值',
         key: 'rssi',
         dataIndex: 'rssi',
-        width: 80
+        width: 80,
+        render(val) {
+            return val + 'dBm';
+        }
     }];
 };
 

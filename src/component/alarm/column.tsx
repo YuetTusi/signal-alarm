@@ -57,7 +57,10 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [
         title: '强度',
         key: 'rssi',
         dataIndex: 'rssi',
-        width: 80
+        width: 80,
+        render(val) {
+            return val + 'dBm';
+        }
     }, {
         title: '状态',
         key: 'status',

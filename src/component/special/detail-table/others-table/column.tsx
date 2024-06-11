@@ -27,7 +27,10 @@ const getColumns = (): ColumnsType<Wap> => {
         title: '强度',
         key: 'rssi',
         dataIndex: 'rssi',
-        width: 60
+        width: 60,
+        render(val) {
+            return val + 'dBm';
+        }
     }, {
         title: '设备ID',
         key: 'deviceId',
@@ -76,7 +79,10 @@ const getTopColumns = (): ColumnsType<Wap> => {
         title: '强度值',
         key: 'rssi',
         dataIndex: 'rssi',
-        width: 80
+        width: 80,
+        render(val) {
+            return val + 'dBm';
+        }
     },
     ];
 };

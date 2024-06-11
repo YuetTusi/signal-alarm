@@ -20,11 +20,17 @@ export const getCompareColumns = (handle: (action: number) => void): ColumnsType
     }, {
         title: '背景强度',
         key: 'baseSignal',
-        dataIndex: 'baseSignal'
+        dataIndex: 'baseSignal',
+        render(val) {
+            return val + 'dBm';
+        }
     }, {
         title: '当前强度',
         key: 'currentSignal',
-        dataIndex: 'currentSignal'
+        dataIndex: 'currentSignal',
+        render(val) {
+            return val + 'dBm';
+        }
     }, {
         title: '偏移值',
         key: 'offsetSignal',

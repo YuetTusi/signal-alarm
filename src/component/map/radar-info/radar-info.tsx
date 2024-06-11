@@ -112,7 +112,7 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, data, deviceId, onClose }) => {
             return <div className="adetail">
                 <div>
                     <label htmlFor="h2">强度值：</label>
-                    <h2>{msg?.rssi ?? ''}</h2>
+                    <h2>{msg?.rssi + 'dBm' ?? ''}</h2>
                 </div>
                 <div>
                     <label htmlFor="span">设备ID：</label>

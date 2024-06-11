@@ -9,6 +9,6 @@ export const blue: Partial<AliasToken> = {
     colorInfo: '#b4cdff',
     colorBgContainer: 'rgba(25, 35, 104, .7)',
     colorBgElevated: 'rgba(13, 16, 69, 1)',
-    colorBgMask: 'rgba(8, 12, 50, .7)'
+    colorBgMask: 'rgba(8, 12, 50, .7)',
 };
 

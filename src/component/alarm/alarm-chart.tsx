@@ -30,7 +30,7 @@ var option = {
                     <span>
                         <label>强度：</label>
                     </span>
-                    <b style="text-align:right;">${first.data.value ?? '-'}</b>
+                    <b style="text-align:right;">${first.data.value + 'dBm' ?? '-'}</b>
                 </div>
                 <div class="tt-row">
                     <label>告警时间：</label>

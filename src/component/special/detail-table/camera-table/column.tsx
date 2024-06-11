@@ -34,7 +34,10 @@ const getColumns = (): ColumnsType<Terminal> => {
         title: '强度',
         key: 'rssi',
         dataIndex: 'rssi',
-        width: 60
+        width: 60,
+        render(val) {
+            return val + 'dBm';
+        }
     },
     {
         title: '连接状态',
