@@ -44,15 +44,13 @@ const DragBar: FC<PropsWithChildren<DragBarProp>> = memo(({ children }) => {
             <span>{children}</span>
         </div>
         <div className="app-buttons">
-            <a onClick={() => ipcRenderer.send('minimize')}>
-                <FontAwesomeIcon icon={faWindowMinimize} />
-            </a>
             <Auth deny={conf.mode === AppMode.FullScreen}>
+                <a onClick={() => ipcRenderer.send('minimize')}>
+                    <FontAwesomeIcon icon={faWindowMinimize} />
+                </a>
                 <a onClick={() => ipcRenderer.send('maximize')}>
                     <FontAwesomeIcon icon={faWindowMaximize} />
                 </a>
-            </Auth>
-            <Auth deny={conf.mode === AppMode.FullScreen}>
                 <a onClick={onExitClick} title="退出">
                     <FontAwesomeIcon icon={faXmark} />
                 </a>
