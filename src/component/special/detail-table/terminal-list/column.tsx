@@ -6,6 +6,7 @@ import { ColumnsType } from "antd/es/table";
 import { NoWarpLabel } from "@/component/panel";
 import { Protocol } from "@/schema/protocol";
 import { Hotspot } from "@/schema/hotspot";
+import { CellBox } from './styled/box';
 
 export const getColumns = (): ColumnsType<Hotspot> => {
     return [{
@@ -27,25 +28,31 @@ export const getColumns = (): ColumnsType<Hotspot> => {
         title: 'MAC地址',
         key: 'mac',
         dataIndex: 'mac',
-        width: 180
+        width: 240,
+        render(val: string) {
+            return <CellBox><Tag color="silver">MAC</Tag><span>{val}</span></CellBox>;
+        }
     },
     {
         title: 'apMac',
         key: 'apMac',
-        dataIndex: 'apMac'
+        dataIndex: 'apMac',
+        width: 240,
+        render(val: string) {
+            return <CellBox><Tag color="silver">MAC</Tag><span>{val}</span></CellBox>;
+        }
     },
-    {
-        title: 'ssid',
-        key: 'ssid',
-        dataIndex: 'ssid'
-    },
+    // {
+    //     title: 'ssid',
+    //     key: 'ssid',
+    //     dataIndex: 'ssid'
+    // },
     {
         title: '强度',
         key: 'rssi',
         dataIndex: 'rssi',
-        width: 100,
         render(val) {
-            return val + 'dBm';
+            return <CellBox><Tag color="silver">强度</Tag><span>{val + 'dBm'}</span></CellBox>;
         }
     },
     {
@@ -61,9 +68,8 @@ export const getColumns = (): ColumnsType<Hotspot> => {
         title: '厂商',
         key: 'org',
         dataIndex: 'org',
-        width: 160,
         render(val: string) {
-            return <NoWarpLabel title={val} width={150}>{val}</NoWarpLabel>;
+            return <CellBox><Tag color="silver">厂商</Tag><span>{val}</span></CellBox>;
         }
     }, {
         title: '设备ID',
@@ -73,7 +79,6 @@ export const getColumns = (): ColumnsType<Hotspot> => {
         title: '设备场所',
         key: 'siteName',
         dataIndex: 'siteName',
-        width: 160,
         render(val: string) {
             return <NoWarpLabel title={val} width={150}>{val}</NoWarpLabel>;
         }
@@ -81,15 +86,16 @@ export const getColumns = (): ColumnsType<Hotspot> => {
         title: '距离',
         key: 'distance',
         dataIndex: 'distance',
-        width: 120,
         render(val: number) {
-            return `约${round(val, 1)}米`;
+            return <CellBox><Tag color="silver">距离</Tag><span>{`约${round(val, 1)}米`}</span></CellBox>;
         }
     }, {
         title: '时间',
         key: 'captureTime',
         dataIndex: 'captureTime',
         align: 'center',
-        width: 230
+        render(val: number) {
+            return <CellBox><Tag color="silver">时间</Tag><span>{val}</span></CellBox>;
+        }
     }];
 };

@@ -1,10 +1,10 @@
 import { FC, useEffect } from "react";
 import { Table } from 'antd';
-import { DeviceListProp } from "./prop";
 import useModel from "@/model";
-import { getColumns } from "./column";
 import { Hotspot } from "@/schema/hotspot";
-import { useUnmount } from "@/hook";
+import { getColumns } from "./column";
+import { TableBox } from "./styled/box";
+import { DeviceListProp } from "./prop";
 
 /**
  * 终端列表（热点下）
@@ -27,7 +27,7 @@ const TerminalList: FC<DeviceListProp> = ({ show, mac, startTime, endTime }) => 
         }
     }, [show, mac, startTime, endTime]);
 
-    return <div>
+    return <TableBox>
         <Table<Hotspot>
             columns={getColumns()}
             dataSource={terminalOfHotspot}
@@ -37,8 +37,9 @@ const TerminalList: FC<DeviceListProp> = ({ show, mac, startTime, endTime }) => 
             }}
             rowKey={(record, index) => `${record.id}_${index}`}
             pagination={false}
-            bordered={false} />
-    </div>
+            bordered={false}
+            className="terminal-list-table" />
+    </TableBox>
 };
 
 export { TerminalList };
