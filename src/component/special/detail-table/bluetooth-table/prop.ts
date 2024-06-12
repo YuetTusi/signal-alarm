@@ -23,15 +23,16 @@ export interface SearchBarProp {
      * @param beginTime 起始时间
      * @param endTime 结束时间
      * @param bluetoothType 蓝牙类型
+     * @param mac MAC地址
      */
-    onSearch: (beginTime: Dayjs, endTime: Dayjs, bluetoothType: string) => void,
+    onSearch: (beginTime: Dayjs, endTime: Dayjs, bluetoothType: string, mac: string) => void,
     /**
      * 导出
      * @param beginTime 起始时间
      * @param endTime 结束时间
      * @param bluetoothType 蓝牙类型
      */
-    onExport: (beginTime: Dayjs, endTime: Dayjs, bluetoothType: string) => void
+    onExport: (beginTime: Dayjs, endTime: Dayjs, bluetoothType: string, mac: string) => void
 }
 
 export interface SearchFormValue {
@@ -46,7 +47,11 @@ export interface SearchFormValue {
     /**
      * 类型
      */
-    bluetoothType: string
+    bluetoothType: string,
+    /**
+     * MAC地址
+     */
+    mac: string
     /**
      * 枚举
      */

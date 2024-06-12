@@ -51,6 +51,9 @@ const specialHotspot = (setState: SetState, _: GetState): SpecialHotspotState =>
             if (condition?.hotspotName) {
                 q.push(`hotspotName=${encodeURIComponent(condition.hotspotName)}`);
             }
+            if (condition?.mac) {
+                q.push(`mac=${condition.mac}`);
+            }
             if (condition?.protocolTypes) {
                 q.push(`protocolTypes=${encodeURIComponent(condition.protocolTypes)}`);
             }
@@ -103,6 +106,9 @@ const specialHotspot = (setState: SetState, _: GetState): SpecialHotspotState =>
             }
             if (condition?.hotspotName) {
                 q.push(`hotspotName=${encodeURIComponent(condition?.hotspotName)}`);
+            }
+            if (condition?.mac) {
+                q.push(`mac=${condition.mac}`);
             }
             if (condition?.protocolTypes) {
                 q.push(`protocolTypes=${encodeURIComponent(condition?.protocolTypes)}`);

@@ -71,6 +71,9 @@ const specialTerminal = (setState: SetState, _: GetState): SpecialTerminalState 
             if (condition?.type) {
                 q.push(`protocolTypes=${encodeURIComponent(condition.type)}`);
             }
+            if (condition?.mac) {
+                q.push(`mac=${condition.mac}`);
+            }
             if (condition?.deviceId) {
                 q.push(`deviceId=${encodeURIComponent(condition.deviceId)}`);
             }
@@ -132,6 +135,9 @@ const specialTerminal = (setState: SetState, _: GetState): SpecialTerminalState 
             }
             if (condition?.type) {
                 q.push(`protocolTypes=${encodeURIComponent(condition?.type)}`);
+            }
+            if (condition?.mac) {
+                q.push(`mac=${condition.mac}`);
             }
             if (condition?.deviceId) {
                 q.push(`deviceId=${encodeURIComponent(condition.deviceId)}`);

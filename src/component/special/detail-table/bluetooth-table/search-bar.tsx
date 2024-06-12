@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { FC, useEffect, MouseEvent } from 'react';
-import { Form, Button, DatePicker, Select } from 'antd';
+import { Form, Button, DatePicker, Select, Input } from 'antd';
 import { useModel } from '@/model';
 import { helper } from '@/utility/helper';
 import { SearchBarBox } from './styled/box';
@@ -30,8 +30,8 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
      */
     const onSubmitClick = (event: MouseEvent) => {
         event.preventDefault();
-        const { beginTime, endTime, bluetoothType } = formRef.getFieldsValue();
-        onSearch(beginTime, endTime, bluetoothType);
+        const { beginTime, endTime, bluetoothType, mac } = formRef.getFieldsValue();
+        onSearch(beginTime, endTime, bluetoothType, mac);
     };
 
     /**
@@ -39,8 +39,8 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
      */
     const onExportClick = (event: MouseEvent) => {
         event.preventDefault();
-        const { beginTime, endTime, bluetoothType } = formRef.getFieldsValue();
-        onExport(beginTime, endTime, bluetoothType);
+        const { beginTime, endTime, bluetoothType, mac } = formRef.getFieldsValue();
+        onExport(beginTime, endTime, bluetoothType, mac);
     };
 
     return <SearchBarBox>
@@ -73,6 +73,11 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
                         <Option value="ble">低功耗蓝牙</Option>
                         <Option value="classic">经典蓝牙</Option>
                     </Select>
+                </Item>
+                <Item
+                    name="mac"
+                    label="MAC地址">
+                    <Input style={{ width: 220 }} />
                 </Item>
                 <Item>
                     <Button

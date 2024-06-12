@@ -23,10 +23,11 @@ export interface SearchBarProp {
      * @param beginTime 起始时间
      * @param endTime 结束时间
      * @param hotspotName 名称
+     * @param mac MAC地址
      * @param type 枚举
      * @param site 场所下的设备id（多个用逗号分割）
      */
-    onSearch: (beginTime: Dayjs, endTime: Dayjs, hotspotName: string, type: string, site?: string) => void,
+    onSearch: (beginTime: Dayjs, endTime: Dayjs, hotspotName: string, mac: string, type: string, site?: string) => void,
     /**
      * 导出
      * @param beginTime 起始时间
@@ -51,6 +52,10 @@ export interface SearchFormValue {
      * 热点名称
      */
     hotspotName: string,
+    /**
+     * MAC地址
+     */
+    mac: string,
     /**
      * 类型
      */

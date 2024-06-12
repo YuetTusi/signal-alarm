@@ -73,7 +73,8 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
             endTime: dayjs(dayjs().format('YYYY-MM-DD 23:59:59')),
             type: 'all',
             site: [JSON.stringify({ type: 'all', deviceId: [] })],
-            hotspotName: ''
+            hotspotName: '',
+            mac: ''
         };
         if (!helper.isNullOrUndefined(hotspotName)) {
             initValue.hotspotName = hotspotName ?? '';
@@ -86,6 +87,7 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
                 beginTime: dayjs().format('YYYY-MM-DD 00:00:00'),
                 endTime: dayjs().format('YYYY-MM-DD 23:59:59'),
                 hotspotName: initValue.hotspotName, //从伪热点跳转会有此条件
+                mac: '',
                 protocolTypes: helper.protocolToString([
                     Protocol.WiFi58G,
                     Protocol.WiFi24G
@@ -99,7 +101,7 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
      */
     const onPageChange = async (pageIndex: number, pageSize: number) => {
         const {
-            beginTime, endTime, type, site, hotspotName
+            beginTime, endTime, type, site, hotspotName, mac
         } = formRef.getFieldsValue();
         try {
             await querySpecialHotspotData(pageIndex, pageSize, {
@@ -107,7 +109,8 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
                 endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
                 protocolTypes: getTypes(type),
                 deviceId: helper.getDeviceIdFromDropdown(site),
-                hotspotName
+                hotspotName,
+                mac
             });
 
         } catch (error) {
@@ -118,12 +121,13 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
     /**
      * 查询
      */
-    const onSearch = async (beginTime: Dayjs, endTime: Dayjs, hotspotName: string, type: string, deviceId?: string) => {
+    const onSearch = async (beginTime: Dayjs, endTime: Dayjs, hotspotName: string, mac: string, type: string, deviceId?: string) => {
         try {
             await querySpecialHotspotData(1, helper.PAGE_SIZE, {
                 beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
                 endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
                 hotspotName,
+                mac,
                 protocolTypes: type,
                 deviceId
             });

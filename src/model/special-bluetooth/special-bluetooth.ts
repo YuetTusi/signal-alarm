@@ -68,6 +68,9 @@ export const specialBluetooth = (setState: SetState, _: GetState): SpecialBlueto
         if (condition?.bluetoothType !== 'all') {
             q.push(`bluetoothType=${condition?.bluetoothType}`);
         }
+        if (condition?.mac) {
+            q.push(`mac=${condition?.mac}`);
+        }
         params = `?` + q.join('&');
         try {
             const res = await request.get<QueryPage<any>>(`/spi/bluetooth/${pageIndex}/${pageSize}${params}`);
@@ -119,6 +122,9 @@ export const specialBluetooth = (setState: SetState, _: GetState): SpecialBlueto
             }
             if (condition?.bluetoothType !== 'all') {
                 q.push(`bluetoothType=${condition?.bluetoothType}`);
+            }
+            if (condition?.mac) {
+                q.push(`mac=${condition?.mac}`);
             }
             params = `?page=${pageIndex}&limit=${pageSize}&` + q.join('&');
         }

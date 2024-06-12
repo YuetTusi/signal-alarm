@@ -24,10 +24,10 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
     const onSubmitClick = (event: MouseEvent) => {
         event.preventDefault();
         const {
-            beginTime, endTime, hotspotName, type, site
+            beginTime, endTime, hotspotName, mac, type, site
         } = formRef.getFieldsValue();
         const deviceId = helper.getDeviceIdFromDropdown(site);
-        onSearch(beginTime, endTime, hotspotName, getTypes(type), deviceId);
+        onSearch(beginTime, endTime, hotspotName, mac, getTypes(type), deviceId);
     };
 
     /**
@@ -75,6 +75,13 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onExport }) => {
                             name="hotspotName"
                             label="热点名称">
                             <Input />
+                        </Item>
+                    </Col>
+                    <Col>
+                        <Item
+                            name="mac"
+                            label="MAC地址">
+                            <Input style={{ width: 220 }} />
                         </Item>
                     </Col>
                     <Col>

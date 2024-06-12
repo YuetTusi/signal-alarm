@@ -31,7 +31,8 @@ const BluetoothTable: FC<BluetoothTableProp> = () => {
         querySpecialBluetoothData(1, helper.PAGE_SIZE, {
             beginTime: dayjs().format('YYYY-MM-DD 00:00:00'),
             endTime: dayjs().format('YYYY-MM-DD 23:59:59'),
-            bluetoothType: 'all'
+            bluetoothType: 'all',
+            mac: ''
         });
     }, []);
 
@@ -59,12 +60,13 @@ const BluetoothTable: FC<BluetoothTableProp> = () => {
      * 翻页Change
      */
     const onPageChange = async (pageIndex: number, pageSize: number) => {
-        const { beginTime, endTime, bluetoothType } = formRef.getFieldsValue();
+        const { beginTime, endTime, bluetoothType, mac } = formRef.getFieldsValue();
         try {
             await querySpecialBluetoothData(pageIndex, pageSize, {
                 beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
                 endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
-                bluetoothType
+                bluetoothType,
+                mac
             });
         } catch (error) {
             console.warn(error);
@@ -76,13 +78,15 @@ const BluetoothTable: FC<BluetoothTableProp> = () => {
      * @param beginTime 起始时间
      * @param endTime 结束时间
      * @param deviceId 场所设备
+     * @param mac mac地址
      */
-    const onSearch = async (beginTime: Dayjs, endTime: Dayjs, bluetoothType: string) => {
+    const onSearch = async (beginTime: Dayjs, endTime: Dayjs, bluetoothType: string, mac: string) => {
         try {
             await querySpecialBluetoothData(1, helper.PAGE_SIZE, {
                 beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
                 endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
-                bluetoothType
+                bluetoothType,
+                mac
             });
         } catch (error) {
             console.warn(error);
@@ -94,8 +98,9 @@ const BluetoothTable: FC<BluetoothTableProp> = () => {
      * @param beginTime 起始时间
      * @param endTime 结束时间
      * @param bluetoothType 设备id
+     * @param mac mac地址
      */
-    const onExport = async (beginTime: Dayjs, endTime: Dayjs, bluetoothType?: string) => {
+    const onExport = async (beginTime: Dayjs, endTime: Dayjs, bluetoothType: string, mac: string) => {
         message.destroy();
         const fileName = '专项数据_' + dayjs().format('YYYYMMDDHHmmss') + '.xlsx';
         try {
@@ -107,7 +112,8 @@ const BluetoothTable: FC<BluetoothTableProp> = () => {
                 const data = await exportSpecialBluetoothData(specialBluetoothPageIndex, specialBluetoothPageSize, {
                     beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
                     endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
-                    bluetoothType
+                    bluetoothType,
+                    mac
                 });
                 await writeFile(join(filePaths[0], fileName), data);
                 modal.success({

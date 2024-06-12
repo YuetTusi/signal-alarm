@@ -23,17 +23,19 @@ export interface SearchBarProp {
      * @param beginTime 起始时间
      * @param endTime 结束时间
      * @param type 枚举
+     * @param mac 地址
      * @param site 场所下的设备id（多个用逗号分割）
      */
-    onSearch: (beginTime: Dayjs, endTime: Dayjs, type: string, site?: string) => void,
+    onSearch: (beginTime: Dayjs, endTime: Dayjs, type: string, mac: string, site?: string) => void,
     /**
      * 导出
      * @param beginTime 起始时间
      * @param endTime 结束时间
      * @param type 枚举
+     * @param mac 地址
      * @param site 场所下的设备id（多个用逗号分割）
      */
-    onExport: (beginTime: Dayjs, endTime: Dayjs, type: string, site?: string) => void
+    onExport: (beginTime: Dayjs, endTime: Dayjs, type: string, mac: string, site?: string) => void
 }
 
 export interface SearchFormValue {
@@ -49,6 +51,10 @@ export interface SearchFormValue {
      * 枚举
      */
     type: string,
+    /**
+     * MAC地址
+     */
+    mac: string,
     /**
      * 场所设备
      */

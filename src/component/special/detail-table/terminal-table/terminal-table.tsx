@@ -64,12 +64,13 @@ const TerminalTable: FC<TerminalTableProp> = () => {
      * 翻页Change
      */
     const onPageChange = async (pageIndex: number, pageSize: number) => {
-        const { beginTime, endTime, type, site } = formRef.getFieldsValue();
+        const { beginTime, endTime, type, mac, site } = formRef.getFieldsValue();
         try {
             await querySpecialTerminalData(pageIndex, pageSize, {
                 beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
                 endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
                 type: getTypes(type),
+                mac,
                 deviceId: helper.getDeviceIdFromDropdown(site)
             });
         } catch (error) {
@@ -83,12 +84,13 @@ const TerminalTable: FC<TerminalTableProp> = () => {
      * @param endTime 结束时间
      * @param type 枚举
      */
-    const onSearch = async (beginTime: Dayjs, endTime: Dayjs, type: string, deviceId?: string) => {
+    const onSearch = async (beginTime: Dayjs, endTime: Dayjs, type: string, mac: string, deviceId?: string) => {
         try {
             await querySpecialTerminalData(1, helper.PAGE_SIZE, {
                 beginTime: beginTime.format('YYYY-MM-DD HH:mm:ss'),
                 endTime: endTime.format('YYYY-MM-DD HH:mm:ss'),
                 type,
+                mac,
                 deviceId
             });
         } catch (error) {
