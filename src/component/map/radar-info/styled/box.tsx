@@ -74,9 +74,22 @@ export const RadarBox = styled.div`
         flex:1;
 
         .adetail{
-            width: 220px;
+            width: 224px;
             margin: 0 auto;
             &>div{
+                .imp{
+                    
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: nowrap;
+                    justify-content: flex-start;
+                    align-items: flex-end;
+                    span{
+                        position: relative;
+                        font-size:2rem;
+                        top:-14px;
+                    }
+                }
                 margin:0;
                 padding:5px 0;
                 color:#01aff8;

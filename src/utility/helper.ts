@@ -14,8 +14,8 @@ import { AlarmType, AppMode, Conf } from '../schema/conf';
 const { join } = path;
 const { accessSync, readFileSync } = fs;
 const { access, readFile, writeFile } = fs.promises;
-const cwd = process.cwd();
 const { ipcRenderer } = electron;
+const cwd = process.cwd();
 
 const APP_NAME = '无线信号哨兵长时监测系统';
 
@@ -30,7 +30,9 @@ const FETCH_PORT = 18800;
 /**
  * 地图背景坐标
  */
-const MAP_BACKGROUND_BOUNDS: LatLngBoundsLiteral = [[40.712216, -74.22655], [40.773941, -74.12544]];
+const MAP_BACKGROUND_BOUNDS: LatLngBoundsLiteral = [
+    [40.712216, -74.22655], [40.773941, -74.12544]
+];
 
 const helper = {
     /**

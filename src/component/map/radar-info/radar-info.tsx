@@ -40,7 +40,7 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, data, deviceId, onClose }) => {
         //单机版
         for (let [, v] of Object.entries(data)) {
             alarms = alarms.concat(v.filter(item => {
-                const isOver = dayjs().diff(item.captureTime, 's') <= 60;
+                const isOver = dayjs().diff(item.captureTime, 's') <= 100;
                 return isOver;
             }));
         }
@@ -56,7 +56,7 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, data, deviceId, onClose }) => {
         for (let [, v] of Object.entries(data)) {
             alarms = alarms.concat(v.filter(item => {
                 //过滤掉超过10秒的点
-                const isOver = dayjs().diff(item.captureTime, 's') <= 60;
+                const isOver = dayjs().diff(item.captureTime, 's') <= 100;
                 return isOver;
             }));
         }
@@ -100,7 +100,7 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, data, deviceId, onClose }) => {
     const renderInfo = () => {
 
         if (points === null || points.length === 0) {
-            return <div className="adetail"></div>;
+            return <div className="adetail" />;
         }
 
         let alarms: AlarmMessage[] = Object.values(data).flat();
@@ -112,7 +112,10 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, data, deviceId, onClose }) => {
             return <div className="adetail">
                 <div>
                     <label htmlFor="h2">强度值：</label>
-                    <h2>{msg?.rssi + 'dBm' ?? ''}</h2>
+                    <span className="imp">
+                        <h2>{msg?.rssi ?? ''}</h2>
+                        <span>{msg?.rssi === undefined ? '' : 'dBm'}</span>
+                    </span>
                 </div>
                 <div>
                     <label htmlFor="span">设备ID：</label>
@@ -136,7 +139,7 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, data, deviceId, onClose }) => {
                 </div>
             </div>;
         } else {
-            return <div className="adetail"></div>;
+            return <div className="adetail" />;
         }
     };
 
