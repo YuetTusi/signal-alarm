@@ -21,6 +21,11 @@ const getColumns = (handle: ActionHandle): ColumnsType<ZoneEntity> => [
         dataIndex: 'areaHeight',
         width: 120
     }, {
+        title: '排序',
+        key: 'sort',
+        dataIndex: 'sort',
+        width: 80
+    }, {
         title: '创建时间',
         key: 'createTime',
         dataIndex: 'createTime',
@@ -31,7 +36,7 @@ const getColumns = (handle: ActionHandle): ColumnsType<ZoneEntity> => [
         title: '编辑',
         key: 'id',
         dataIndex: 'id',
-        width: 50,
+        width: 60,
         align: 'center',
         render(_: string, record) {
             return <Button
@@ -45,7 +50,7 @@ const getColumns = (handle: ActionHandle): ColumnsType<ZoneEntity> => [
         title: '删除',
         key: 'id',
         dataIndex: 'id',
-        width: 50,
+        width: 60,
         align: 'center',
         render(_: string, record) {
             return <Button

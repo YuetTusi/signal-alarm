@@ -107,7 +107,6 @@ const zone = (setState: SetState, _: GetState): ZoneState => ({
             if (res === null || res.code !== 200) {
                 throw new Error('查询失败');
             }
-
             if (pageIndex > res.data.pages) {
                 let ret = await request.get<QueryPage<ZoneEntity>>(`/sys/area/${res.data.pages}/${pageSize}${params}`);
                 if (ret === null || ret.code !== 200) {

@@ -16,7 +16,10 @@ const EditModal: FC<EditModalProp> = ({ open, data, onOk, onCancel }) => {
 
     useEffect(() => {
         const { setFieldValue } = formRef;
-        if (!helper.isNullOrUndefined(data)) {
+        if (helper.isNullOrUndefined(data)) {
+            setFieldValue('sort', 0);
+        } else {
+            setFieldValue('sort', data!.sort ?? 0);
             setFieldValue('areaName', data!.areaName);
             setFieldValue('areaWidth', data!.areaWidth ?? 0);
             setFieldValue('areaHeight', data!.areaHeight ?? 0);
@@ -59,7 +62,7 @@ const EditModal: FC<EditModalProp> = ({ open, data, onOk, onCancel }) => {
             <Button onClick={onOkClick} type="primary" key="EM_1">确定</Button>
         ]}
         open={open}
-        width={560}
+        width={680}
         onCancel={onCancelClick}
         title={data === undefined ? '添加区域' : '编辑区域'}
         centered={true}

@@ -9,6 +9,10 @@ class Zone extends BaseEntity {
      */
     areaName: string = ''
     /**
+     * 排序值
+     */
+    sort: number = 0
+    /**
      * 区域宽度
      */
     areaWidth: number = 0

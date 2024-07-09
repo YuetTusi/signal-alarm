@@ -81,14 +81,28 @@ const EditForm: FC<EditFormProp> = ({ formRef, data }) => {
         <Form
             form={formRef}
             layout="vertical">
-            <Item
-                rules={[
-                    { required: true, message: '请填写区域名称' }
-                ]}
-                label="区域名称"
-                name="areaName">
-                <Input />
-            </Item>
+            <Row gutter={24}>
+                <Col span={12}>
+                    <Item
+                        rules={[
+                            { required: true, message: '请填写区域名称' }
+                        ]}
+                        label="区域名称"
+                        name="areaName">
+                        <Input />
+                    </Item>
+                </Col>
+                <Col span={12}>
+                    <Item
+                        rules={[
+                            { required: true, message: '排序值' }
+                        ]}
+                        label="排序值"
+                        name="sort">
+                        <InputNumber style={{ width: '100%' }} />
+                    </Item>
+                </Col>
+            </Row>
             <Row gutter={24}>
                 <Col span={12}>
                     <Item
