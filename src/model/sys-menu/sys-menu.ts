@@ -67,8 +67,6 @@ const sysMenu = (setState: SetState, _: GetState): SysMenuState => ({
             }
 
             if (res.code === 200) {
-                console.clear();
-                console.log(res.data);
                 setState({
                     sysMenuData: res.data.routers
                 });

@@ -31,10 +31,8 @@ const SettingMenu: FC<SettingMenuProp> = ({ }) => {
         querySysMenuData();
     }, []);
 
-    const onMenuItemClick = ({ type, path }: SystemMenu) => {
-        if (type !== 1) {
-            return;
-        }
+    const onMenuItemClick = ({ path }: SystemMenu) => {
+
         // console.clear();
         // console.log(type, path);
         switch (path) {
@@ -107,23 +105,20 @@ const SettingMenu: FC<SettingMenuProp> = ({ }) => {
      * @param data 菜单数据
      */
     const toMenu = (data: SystemMenu[]): any[] => {
-        let menu: any[] = [];
-        const next = data
-            .filter(i => i.type >= 0 && i.type < 2)
-            .sort((a, b) => a.sortValue - b.sortValue);
+        let menu: any[] = [];;
         //菜单项只取前2层，按sortValue正序排序
-        for (let i = 0; i < next.length; i++) {
+        for (let i = 0; i < data.length; i++) {
 
-            if (next[i].children && next[i].children.length > 0) {
+            if (data[i].children && data[i].children!.length > 0) {
                 menu.push({
-                    key: `SysMenu_${next[i].id}`,
-                    label: <a onClick={() => onMenuItemClick(next[i])}>{next[i].name}</a>,
-                    children: toMenu(next[i].children)
+                    key: `SysMenu_${data[i].component}`,
+                    label: <a onClick={() => onMenuItemClick(data[i])}>{data[i].meta.title}</a>,
+                    children: toMenu(data[i].children!)
                 })
             } else {
                 menu.push({
-                    key: `SysMenu_${next[i].id}`,
-                    label: <a onClick={() => onMenuItemClick(next[i])}>{next[i].name}</a>
+                    key: `SysMenu_${data[i].component}`,
+                    label: <a onClick={() => onMenuItemClick(data[i])}>{data[i].meta.title}</a>
                 });
             }
         }

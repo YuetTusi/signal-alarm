@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Col, Row, Button } from 'antd';
+import { Col, Row } from 'antd';
 import { SystemMenu } from '@/schema/system-menu';
 import { ButtonPanel } from './styled/box';
 
@@ -28,19 +28,18 @@ const FlatButtons: FC<{
 
     const buttons = flatten(menus).filter(i => i.meta.title !== '日志管理');
 
-    const renderButtons = () => {
-        return buttons.map(item => {
-            return <Col flex={'200px'} key={`FB_${item.component}`}>
-                <button
-                    onClick={() => onClick(item)}
-                    type="button"
-                    className="flat-button">
-                    <i className={item.path} />
-                    <span>{item.meta.title}</span>
-                </button>
-            </Col>;
-        });
-    };
+    const renderButtons = () => buttons
+        .map(item => <Col
+            flex={'200px'}
+            key={`FB_${item.component}`}>
+            <button
+                onClick={() => onClick(item)}
+                type="button"
+                className="flat-button">
+                <i className={item.path} />
+                <span>{item.meta.title}</span>
+            </button>
+        </Col>);
 
     return <ButtonPanel>
         <Row align="stretch" justify="center" gutter={24} wrap={true}>

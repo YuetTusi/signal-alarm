@@ -81,6 +81,14 @@ export enum Protocol {
      */
     Others = 18,
     /**
+     * 无线热点
+     */
+    Hotspot = 19,
+    /**
+     * 无线终端
+     */
+    Sta = 20,
+    /**
      * 终端
      */
     Terminal = 91
@@ -130,6 +138,10 @@ export const getProtocolLabel = (value: Protocol) => {
             return '摄像头';
         case Protocol.Others:
             return '其他';
+        case Protocol.Hotspot:
+            return '无线热点';
+        case Protocol.Sta:
+            return '无线终端';
         case Protocol.Terminal:
             return '终端';
         default:
