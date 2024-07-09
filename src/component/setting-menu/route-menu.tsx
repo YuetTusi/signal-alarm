@@ -36,7 +36,7 @@ const RouteMenu: FC<RouteMenuProp> = () => {
 
     useEffect(() => {
         if (sysMenuData.length > 0) {
-            setActiveKey(sysMenuData[0].id.toString());
+            setActiveKey(sysMenuData[0].component);
         }
     }, [sysMenuData]);
 
@@ -44,12 +44,10 @@ const RouteMenu: FC<RouteMenuProp> = () => {
 
         return sysMenuData.map((item) => {
             return {
-                key: `${item.id}`,
-                label: item.name,
+                key: `${item.component}`,
+                label: item.meta.title,
                 children: <FlatButtons
-                    menus={item
-                        .children
-                        .sort((a, b) => a.sortValue - b.sortValue)}
+                    menus={item.children!}
                     onClick={({ path }) => {
                         switch (path) {
                             case MenuPath.SpiSearch:

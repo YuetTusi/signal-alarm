@@ -1,38 +1,29 @@
-
 /**
  * 菜单数据
  */
 export interface SystemMenu {
     /**
-     * ID
+     *
      */
-    id: number,
+    alwaysShow: boolean,
     /**
-     * 父级ID
+     *
      */
-    parentId: number,
+    component: string,
     /**
-     * 菜单层级(从0开始,目前只取0,1两级)
+     * 隐藏/显示
      */
-    type: number,
-    /**
-     * 菜单名称
-     */
-    name: string,
+    hidden: boolean,
     /**
      * 路径
      */
     path: string,
     /**
-     * 排序值
+     *
      */
-    sortValue: number,
-    /**
-     * 状态
-     */
-    status: number,
+    meta: { title: string, icon: null | string },
     /**
      * 子项
      */
-    children: SystemMenu[]
+    children: null | SystemMenu[]
 }
