@@ -64,7 +64,7 @@ const RouteMenu: FC<RouteMenuProp> = () => {
                                 navigator('/dashboard');
                                 setQuickCheckReportDetailModalOpen(true);
                                 break;
-                            case MenuPath.Devops:
+                            case MenuPath.Device:
                                 //设备管理
                                 navigator('/device');
                                 break;

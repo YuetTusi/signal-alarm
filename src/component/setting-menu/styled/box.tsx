@@ -7,7 +7,7 @@ import historySpectrum from '@/assets/image/history-spectrum.png';
 import baseFreq from '@/assets/image/base-freq.png';
 import whiteList from '@/assets/image/white-list.png';
 import fakeHotspot from '@/assets/image/fake-hotspot.png';
-import devops from '@/assets/image/devops.png';
+import device from '@/assets/image/devops.png';
 import area from '@/assets/image/area.png';
 import sysUser from '@/assets/image/sys-user.png';
 import sysMenu from '@/assets/image/sys-menu.png';
@@ -105,9 +105,9 @@ export const FlatBox = styled.div`
                 //伪热点防护
                 background-image: url(${fakeHotspot});
             }
-            &.devops{
+            &.device{
                 //设备管理
-                background-image: url(${devops});
+                background-image: url(${device});
             }
             &.area{
                 //区域管理

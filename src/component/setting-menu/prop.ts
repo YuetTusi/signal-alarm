@@ -46,7 +46,7 @@ export enum MenuPath {
     /**
      * 设备管理
      */
-    Devops = 'devops',
+    Device = 'device',
     /**
      * 区域管理
      */
