@@ -105,7 +105,7 @@ const ReportTable: FC<{}> = () => {
     /**
      * 下载报告handle
      */
-    const onDownload = debounce(async (report: QuickCheckReport) => {
+    const onDownload = debounce(async ({ url }: QuickCheckReport) => {
 
         try {
             const { filePaths }: OpenDialogReturnValue = await ipcRenderer
@@ -114,12 +114,14 @@ const ReportTable: FC<{}> = () => {
                     properties: ['openDirectory']
                 });
             if (filePaths.length > 0) {
-                const fileName = path.basename(report.url, '.pdf');
-                const chunk = await request.attachment(report.url);
-                await writeFile(path.join(filePaths[0], fileName + '.pdf'), chunk);
+                const [saveAt] = filePaths;
+                const fileName = path.basename(url, '.pdf');
+                console.log(fileName);
+                const chunk = await request.attachment(url);
+                await writeFile(path.join(saveAt, fileName + '.docx'), chunk);
                 modal.success({
                     title: '下载成功',
-                    content: `报告「${fileName}」已保存在${filePaths[0]}`,
+                    content: <p>{`报告「${fileName}.docx」 已保存在 ${saveAt}`}</p>,
                     centered: true,
                     okText: '确定'
                 });
@@ -138,6 +140,7 @@ const ReportTable: FC<{}> = () => {
     return <>
         <SearchBar
             formRef={formRef}
+            loading={checkReportLoading}
             onSearch={onSearch}
             onGenerate={onGenerate} />
         <Divider />

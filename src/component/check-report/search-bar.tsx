@@ -6,7 +6,9 @@ import { SearchBarProp } from './prop';
 
 const { Item } = Form;
 
-const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onGenerate }) => {
+const SearchBar: FC<SearchBarProp> = ({
+    formRef, loading, onSearch, onGenerate
+}) => {
 
     useEffect(() => {
         formRef.setFieldsValue({
@@ -62,6 +64,7 @@ const SearchBar: FC<SearchBarProp> = ({ formRef, onSearch, onGenerate }) => {
                 <Item>
                     <Button
                         onClick={onGenerateClick}
+                        disabled={loading}
                         type="primary">生成</Button>
                 </Item>
             </Form>

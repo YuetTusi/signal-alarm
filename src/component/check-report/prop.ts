@@ -26,6 +26,10 @@ export interface SearchBarProp {
      */
     formRef: FormInstance<SearchFormValue>,
     /**
+     * 加载中
+     */
+    loading: boolean,
+    /**
      * 查询
      * @param beginTime 起始时间
      * @param endTime 结束时间
