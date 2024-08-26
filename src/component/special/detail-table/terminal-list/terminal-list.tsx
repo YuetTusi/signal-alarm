@@ -23,7 +23,7 @@ const TerminalList: FC<DeviceListProp> = ({ show, mac, startTime, endTime }) => 
 
     useEffect(() => {
         if (show) {
-            queryTerminalOfHotspot(1, 10000000, { mac, startTime, endTime });
+            queryTerminalOfHotspot(1, 10000000, { mac, startTime, endTime: startTime });
         }
     }, [show, mac, startTime, endTime]);
 

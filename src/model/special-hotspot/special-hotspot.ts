@@ -145,8 +145,8 @@ const specialHotspot = (setState: SetState, _: GetState): SpecialHotspotState =>
                 q.push(`startTime=${condition?.startTime}`);
             }
             if (condition?.endTime) {
-                // q.push(`endTime=${condition?.endTime}`);
-                q.push(`endTime=2024-06-12 23:59:59`);
+                q.push(`endTime=${condition?.endTime}`);
+                // q.push(`endTime=2024-06-12 23:59:59`);
             }
             url = url + '?' + q.join('&');
         }
