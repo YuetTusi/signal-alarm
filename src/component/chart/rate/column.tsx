@@ -15,7 +15,7 @@ export const getCompareColumns = (handle: (action: number) => void): ColumnsType
         dataIndex: 'freq',
         width: 140,
         render(val) {
-            return round(val * 0.8 + 1, 4);
+            return round(val * 0.8 + 1, 4) + 'MHz';
         }
     }, {
         title: '背景强度',
