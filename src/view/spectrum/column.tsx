@@ -25,7 +25,7 @@ const getBaseColumns = (handle: ActionHandle): ColumnsType<BaseFreq> => {
         key: 'status',
         dataIndex: 'status',
         align: 'center',
-        width: 70,
+        width: 90,
         render: (val: number) => {
             switch (val) {
                 case 0:
