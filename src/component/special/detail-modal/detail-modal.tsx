@@ -72,7 +72,7 @@ const DetailModel: FC<DetailModalProp> = ({ open, defaultTabKey, onCancel }) => 
                     {
                         key: SpiTab.Signal,
                         label: '制式信号',
-                        children: <WapTable parentOpen={open} />
+                        children: <WapTable />
                     }, {
                         key: SpiTab.Hotspot,
                         label: '热点',

@@ -69,14 +69,6 @@ const getColumns = (handle: (actionType: ActionType, data: Bluetooth) => void): 
             return <NoWarpLabel title={val} width={150}>{val}</NoWarpLabel>;
         }
     }, {
-        title: '距离',
-        key: 'distance',
-        dataIndex: 'distance',
-        width: 120,
-        render(val: number) {
-            return `约${round(val, 1)}米`;
-        }
-    }, {
         title: '时间',
         key: 'captureTime',
         dataIndex: 'captureTime',
