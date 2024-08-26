@@ -40,85 +40,81 @@ const RouteMenu: FC<RouteMenuProp> = () => {
         }
     }, [sysMenuData]);
 
-    const bindTabPane = () => {
-
-        return sysMenuData.map((item) => {
-            return {
-                key: `${item.component}`,
-                label: item.meta.title,
-                children: <FlatButtons
-                    menus={item.children!}
-                    onClick={({ path }) => {
-                        switch (path) {
-                            case MenuPath.SpiSearch:
-                                //专项检查
-                                navigator(`/special-detail/${SpiTab.Signal}`);
-                                break;
-                            case MenuPath.WarnSearch:
-                                //预警信息
-                                navigator('/dashboard');
-                                setAlarmDetailModalOpen(true);
-                                break;
-                            case MenuPath.CheckReport:
-                                //检查报告
-                                navigator('/dashboard');
-                                setQuickCheckReportDetailModalOpen(true);
-                                break;
-                            case MenuPath.Device:
-                                //设备管理
-                                navigator('/device');
-                                break;
-                            case MenuPath.Area:
-                                navigator('/zone');
-                                break;
-                            case MenuPath.RealTimeSpectrum:
-                                //实时频谱
-                                navigator('/real-spectrum');
-                                break;
-                            case MenuPath.HistorySpectrum:
-                                //历史频谱
-                                navigator('/history-spectrum');
-                                break;
-                            case MenuPath.BaseSpectrum:
-                                //背景频谱
-                                navigator('/base-spectrum');
-                                break;
-                            case MenuPath.Middle:
-                                //中间件
-                                navigator('/middleware');
-                                break;
-                            case MenuPath.FakeHotspot:
-                                navigator('/fake-hotspot');
-                                break;
-                            case MenuPath.SysMenu:
-                                //系统菜单
-                                break;
-                            case MenuPath.SysRole:
-                                //角色管理
-                                break;
-                            case MenuPath.SysUser:
-                                //用户管理
-                                navigator('/sys-user');
-                                break;
-                            case MenuPath.SysOperLog:
-                                //操作日志
-                                break;
-                            case MenuPath.SysLoginLog:
-                                //登录日志
-                                break;
-                            case MenuPath.WhiteList:
-                                //白名单管理
-                                navigator('/white-list');
-                                break;
-                            case MenuPath.SignalSetInfo:
-                                navigator('/signal-set-info');
-                                break;
-                        }
-                        setRouteMenuOpen(false);
-                    }} />
-            };
-        });
-    };
+    const bindTabPane = () => sysMenuData.map((item) => ({
+        key: `${item.component}`,
+        label: item.meta.title,
+        children: <FlatButtons
+            menus={item.children!}
+            onClick={({ path }) => {
+                switch (path) {
+                    case MenuPath.SpiSearch:
+                        //专项检查
+                        navigator(`/special-detail/${SpiTab.Signal}`);
+                        break;
+                    case MenuPath.WarnSearch:
+                        //预警信息
+                        navigator('/dashboard');
+                        setAlarmDetailModalOpen(true);
+                        break;
+                    case MenuPath.CheckReport:
+                        //检查报告
+                        navigator('/dashboard');
+                        setQuickCheckReportDetailModalOpen(true);
+                        break;
+                    case MenuPath.Device:
+                        //设备管理
+                        navigator('/device');
+                        break;
+                    case MenuPath.Area:
+                        navigator('/zone');
+                        break;
+                    case MenuPath.RealTimeSpectrum:
+                        //实时频谱
+                        navigator('/real-spectrum');
+                        break;
+                    case MenuPath.HistorySpectrum:
+                        //历史频谱
+                        navigator('/history-spectrum');
+                        break;
+                    case MenuPath.BaseSpectrum:
+                        //背景频谱
+                        navigator('/base-spectrum');
+                        break;
+                    case MenuPath.Middle:
+                        //中间件
+                        navigator('/middleware');
+                        break;
+                    case MenuPath.FakeHotspot:
+                        //伪热点
+                        navigator('/fake-hotspot');
+                        break;
+                    case MenuPath.SysMenu:
+                        //系统菜单
+                        break;
+                    case MenuPath.SysRole:
+                        //角色管理
+                        break;
+                    case MenuPath.SysUser:
+                        //用户管理
+                        navigator('/sys-user');
+                        break;
+                    case MenuPath.SysOperLog:
+                        //操作日志
+                        break;
+                    case MenuPath.SysLoginLog:
+                        //登录日志
+                        break;
+                    case MenuPath.WhiteList:
+                        //白名单管理
+                        navigator('/white-list');
+                        break;
+                    case MenuPath.SignalSetInfo:
+                        navigator('/signal-set-info');
+                        break;
+                }
+                setRouteMenuOpen(false);
+            }} />
+    }));
 
     return <div>
         <Button

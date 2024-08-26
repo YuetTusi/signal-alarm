@@ -193,8 +193,7 @@ const helper = {
      * @param val 字串
      */
     md5(val: string) {
-        const md5 = crypto.createHash('md5');
-        return md5.update(val).digest('hex');
+        return crypto.createHash('md5').update(val).digest('hex');
     },
     protocolToString(protocol: Protocol[]) {
         return protocol.join(',');

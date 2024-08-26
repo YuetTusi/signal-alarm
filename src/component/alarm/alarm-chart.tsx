@@ -151,7 +151,7 @@ const AlarmChart: FC<{}> = () => {
                 const data = alarmBarData.get(item.code);
                 return {
                     code: item.code,
-                    value: data?.rssi ?? null,
+                    value: data?.rssi ?? '',
                     captureTime: data?.captureTime ?? ''
                 };
             } else {

@@ -3,7 +3,6 @@ import { FC, useEffect, useRef } from 'react';
 import { useModel } from '@/model';
 import { helper } from '@/utility/helper';
 import { AlarmType } from '@/schema/conf';
-import { AlarmMessage } from '@/schema/phone-alarm-info';
 import { VoiceBox } from './styled/box';
 import { VoiceProp } from './prop';
 
