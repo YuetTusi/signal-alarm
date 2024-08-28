@@ -99,7 +99,7 @@ const Bibo: FC<{}> = () => {
                 const nextMarker = L.marker([lat, lng], {
                     hasAlarm: true,
                     icon: warnIcon,
-                    title: (devices[i].options as MarkerOptionsEx).title,
+                    title: (devices[i].options as MarkerOptionsEx).title + '\n' + (devices[i].options as MarkerOptionsEx).siteName,
                     deviceId: (devices[i].options as MarkerOptionsEx).deviceId,
                     siteName: (devices[i].options as MarkerOptionsEx).siteName,
                     status: (devices[i].options as MarkerOptionsEx).status
@@ -136,7 +136,7 @@ const Bibo: FC<{}> = () => {
                     item.lat, item.lon
                 ], {
                     icon: item.status === DeviceState.Normal ? defaultIcon : offlineIcon,
-                    title: item.deviceName,
+                    title: item.deviceName + '\n' + item.siteName,
                     deviceId: item.deviceId,
                     siteName: item.siteName,
                     status: item.status,
