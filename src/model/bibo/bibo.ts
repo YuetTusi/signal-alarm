@@ -60,6 +60,7 @@ const bibo = (setState: SetState, getState: GetState): BiboState => ({
     * @param id 设备Id
     */
     async queryDeviceTopAlarms(id: string) {
+
         const url = `/warn/msg/today-top/?deviceId=${id}`;
         let alarms = getState().alarmsOfDevice ?? {};
         try {

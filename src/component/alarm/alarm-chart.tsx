@@ -133,8 +133,6 @@ const AlarmChart: FC<{}> = () => {
         cleanAlarmBarData: state.cleanAlarmBarData
     }));
 
-    console.log(alarmBarDeviceId);
-
     useResize(throttle((_: Event) => {
         chartResize($chart, 'alarmChart');
     }, 500, { trailing: true, leading: false }));

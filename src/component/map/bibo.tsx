@@ -103,7 +103,7 @@ const Bibo: FC<{}> = () => {
                 const nextMarker = L.marker([lat, lng], {
                     hasAlarm: true,
                     icon: warnIcon,
-                    title: (devices[i].options as MarkerOptionsEx).title + '\n' + (devices[i].options as MarkerOptionsEx).siteName,
+                    title: (devices[i].options as MarkerOptionsEx).title,
                     deviceId: (devices[i].options as MarkerOptionsEx).deviceId,
                     siteName: (devices[i].options as MarkerOptionsEx).siteName,
                     status: (devices[i].options as MarkerOptionsEx).status
@@ -147,6 +147,7 @@ const Bibo: FC<{}> = () => {
                     status: item.status,
                     hasAlarm: false
                 } as MarkerOptionsEx);
+
                 if (item.status === DeviceState.Normal) {
                     queryDeviceTopAlarms(item.deviceId);
                 }
@@ -181,6 +182,12 @@ const Bibo: FC<{}> = () => {
     useSubscribe('alarm-clean', () => {
         //每天0时清空报警状态
         bindDeviceOnMap();
+        if (devicesOnMap.length > 0) {
+            //每天调用一次 /warn/msg/today-top接口
+            devicesOnMap.forEach(item => {
+                queryDeviceTopAlarms(item.deviceId);
+            });
+        }
     });
 
     useEffect(() => {
