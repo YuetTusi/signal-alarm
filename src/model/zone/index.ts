@@ -8,6 +8,10 @@ interface ZoneState {
      */
     zoneList: ZoneEntity[],
     /**
+     * 正在显示的区域（地图组件,Select选中的区域）
+     */
+    zoneDisplay?: ZoneEntity,
+    /**
      * 区域数据
      */
     zoneData: ZoneEntity[],
@@ -27,6 +31,10 @@ interface ZoneState {
      * 读取中
      */
     zoneLoading: boolean,
+    /**
+     * 设置正在展示的区域
+     */
+    setZoneDisplay: (payload: ZoneEntity) => void,
     /**
      * 添加区域
      */

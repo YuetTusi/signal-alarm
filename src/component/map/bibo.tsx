@@ -59,6 +59,8 @@ const Bibo: FC<{}> = () => {
         devicesOnMap,
         alarmsOfDevice,
         // appendPoint,
+        setZoneDisplay,
+        setAlarmBarDeviceId,
         removePointOverTime,
         clearPhoneAlarmData,
         queryZoneList,
@@ -71,6 +73,8 @@ const Bibo: FC<{}> = () => {
         devicesOnMap: state.devicesOnMap,
         alarmsOfDevice: state.alarmsOfDevice,
         // appendPoint: state.appendPoint,
+        setZoneDisplay: state.setZoneDisplay,
+        setAlarmBarDeviceId: state.setAlarmBarDeviceId,
         removePointOverTime: state.removePointOverTime,
         clearPhoneAlarmData: state.clearPhoneAlarmData,
         queryZoneList: state.queryZoneList,
@@ -108,6 +112,7 @@ const Bibo: FC<{}> = () => {
                     const { deviceId, hasAlarm } = e.target.options;
                     if (hasAlarm) {
                         setDeviceId(deviceId);
+                        setAlarmBarDeviceId(deviceId);
                         openRadar(true);
                     } else {
                         message.destroy();
@@ -149,6 +154,7 @@ const Bibo: FC<{}> = () => {
                     const { deviceId, hasAlarm } = e.target.options;
                     if (hasAlarm) {
                         setDeviceId(deviceId);
+                        setAlarmBarDeviceId(deviceId); //更新到仓库中，让柱图筛选对应的设备
                         openRadar(true);
                     } else {
                         message.destroy();
@@ -218,6 +224,7 @@ const Bibo: FC<{}> = () => {
             (async () => {
                 setLoading(true);
                 const [first] = zoneList;
+                setZoneDisplay(first);
                 currentAreaId.current = first.id;
                 formRef.setFieldValue('zone', first.id);
                 try {
@@ -260,6 +267,7 @@ const Bibo: FC<{}> = () => {
         devices = [];
         currentAreaId.current = zoneId;
         clearPhoneAlarmData();
+        setAlarmBarDeviceId(undefined);
         try {
             const res = await request.get<Zone>(`/sys/area/get-area-info/${zoneId}`);
             if (res !== null && res.code === 200) {

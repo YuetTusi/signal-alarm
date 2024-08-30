@@ -17,6 +17,10 @@ const zone = (setState: SetState, _: GetState): ZoneState => ({
      */
     zoneData: [],
     /**
+     * 正在显示的区域（地图组件,Select选中的区域）
+     */
+    zoneDisplay: undefined,
+    /**
      * 页码
      */
     zonePageIndex: 1,
@@ -32,6 +36,12 @@ const zone = (setState: SetState, _: GetState): ZoneState => ({
      * 读取中
      */
     zoneLoading: false,
+    /**
+     * 设置正在展示的区域
+     */
+    setZoneDisplay(payload: ZoneEntity) {
+        setState({ zoneDisplay: payload });
+    },
     /**
      * 添加区域
      */

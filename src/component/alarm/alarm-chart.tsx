@@ -33,6 +33,10 @@ var option = {
                     <b style="text-align:right;">${helper.isNullOrUndefined(first.data?.value) ? '-' : first.data.value}</b>
                 </div>
                 <div class="tt-row">
+                    <label>设备ID：</label>
+                    <b>${first.data.deviceId ?? '-'}</b>
+                </div>
+                <div class="tt-row">
                     <label>告警时间：</label>
                     <b>${first.data.captureTime ?? '-'}</b>
                 </div>
@@ -121,11 +125,15 @@ const AlarmChart: FC<{}> = () => {
 
     const {
         alarmBarData,
+        alarmBarDeviceId,
         cleanAlarmBarData
     } = useModel(state => ({
         alarmBarData: state.alarmBarData,
+        alarmBarDeviceId: state.alarmBarDeviceId,
         cleanAlarmBarData: state.cleanAlarmBarData
     }));
+
+    console.log(alarmBarDeviceId);
 
     useResize(throttle((_: Event) => {
         chartResize($chart, 'alarmChart');
@@ -152,13 +160,15 @@ const AlarmChart: FC<{}> = () => {
                 return {
                     code: item.code,
                     value: data?.rssi ?? '',
-                    captureTime: data?.captureTime ?? ''
+                    captureTime: data?.captureTime ?? '',
+                    deviceId: data?.deviceId
                 };
             } else {
                 return {
                     code: item.code,
                     value: null,
-                    captureTime: ''
+                    captureTime: '',
+                    deviceId: undefined
                 };
             }
         });
@@ -167,9 +177,29 @@ const AlarmChart: FC<{}> = () => {
     useEffect(() => {
         if ($chart) {
             const bands = helper.readBand();
+            let data = [];
+            if (alarmBarDeviceId === undefined) {
+                data = getData();
+            } else {
+                //过滤只显示当前设备数据
+                data = getData().map(item => {
+                    console.log(`${item.deviceId}===${alarmBarDeviceId} >> ${item.deviceId === alarmBarDeviceId}`);
+                    if (item.deviceId === alarmBarDeviceId) {
+                        return item;
+                    } else {
+                        return {
+                            code: item.code,
+                            value: null,
+                            captureTime: '',
+                            deviceId: undefined
+                        };
+                    }
+                });
+            }
+
             $chart.setOption({
                 xAxis: { data: bands.map(i => i.name) },
-                series: [{ data: getData() }]
+                series: [{ data }]
             });
             //数据更新后，重新设置宽度
             $chart.resize({
@@ -177,7 +207,7 @@ const AlarmChart: FC<{}> = () => {
             });
         }
 
-    }, [alarmBarData]);
+    }, [alarmBarData, alarmBarDeviceId]);
 
     return <AlarmChartBox
         ref={boxRef}
