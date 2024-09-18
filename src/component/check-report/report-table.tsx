@@ -116,8 +116,7 @@ const ReportTable: FC<{}> = () => {
             if (filePaths.length > 0) {
                 const [saveAt] = filePaths;
                 const fileName = path.basename(url, '.pdf');
-                console.log(fileName);
-                const chunk = await request.attachment(url);
+                const chunk = await request.attachment(url.replace(/.pdf/, '.docx'));
                 await writeFile(path.join(saveAt, fileName + '.docx'), chunk);
                 modal.success({
                     title: '下载成功',
