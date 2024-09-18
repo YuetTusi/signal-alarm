@@ -43,7 +43,7 @@ const getColumns = (handle: ActionHandle): ColumnsType<ComDevice> => {
         title: '状态',
         key: 'status',
         dataIndex: 'status',
-        width: 50,
+        width: 60,
         align: 'center',
         render: (val: DeviceState) => {
             switch (val) {
@@ -59,7 +59,7 @@ const getColumns = (handle: ActionHandle): ColumnsType<ComDevice> => {
         title: '配置',
         key: 'id',
         dataIndex: 'id',
-        width: 50,
+        width: 60,
         align: 'center',
         render(_: string, record) {
             return <Button
@@ -73,7 +73,7 @@ const getColumns = (handle: ActionHandle): ColumnsType<ComDevice> => {
         title: '编辑',
         key: 'id',
         dataIndex: 'id',
-        width: 50,
+        width: 60,
         align: 'center',
         render(_: string, record) {
             return <Button
@@ -87,7 +87,7 @@ const getColumns = (handle: ActionHandle): ColumnsType<ComDevice> => {
         title: '删除',
         key: 'id',
         dataIndex: 'id',
-        width: 50,
+        width: 60,
         align: 'center',
         render(_: string, record) {
             return <Button

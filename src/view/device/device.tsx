@@ -10,6 +10,7 @@ import { SetFormValue } from './set-modal/prop';
 import { DeviceBox, SearchBar, TableBox } from './styled/box';
 import { FormValue as AddModalFormValue } from './add-modal/prop';
 import { ActionType, DeviceProp, FormValue } from './prop';
+import { helper } from '@/utility/helper';
 
 const { Item, useForm } = Form;
 const { Option } = Select;
@@ -78,7 +79,7 @@ const Device: FC<DeviceProp> = () => {
      * @param pageIndex 当前页
      * @param pageSize 页尺寸
      */
-    const onPageChange = (pageIndex: number, pageSize: number = 15) => {
+    const onPageChange = (pageIndex: number, pageSize: number = helper.PAGE_SIZE) => {
         const { getFieldsValue } = formRef;
         const values = getFieldsValue();
         queryDeviceData(pageIndex, pageSize, values);
@@ -100,7 +101,7 @@ const Device: FC<DeviceProp> = () => {
                             if (res === null) {
                                 message.warning('删除失败');
                             } else if (res.code === 200) {
-                                await queryDeviceData(1, 15);
+                                await queryDeviceData(1, helper.PAGE_SIZE);
                                 message.success('删除成功');
                             } else {
                                 message.warning(`删除失败(${res.message})`);
@@ -142,7 +143,7 @@ const Device: FC<DeviceProp> = () => {
                 if (res === null) {
                     message.warning('添加失败');
                 } else if (res.code === 200) {
-                    await queryDeviceData(1, 15);
+                    await queryDeviceData(1, helper.PAGE_SIZE);
                     message.success('添加成功');
                 } else {
                     message.warning(`添加失败(${res.message})`);
@@ -222,11 +223,11 @@ const Device: FC<DeviceProp> = () => {
                 </Form>
             </div>
             <div>
-                <Button
+                {/* <Button
                     onClick={() => setAddModalOpen(true)}
                     type="primary">
                     添加设备
-                </Button>
+                </Button> */}
             </div>
         </SearchBar>
         <TableBox>
