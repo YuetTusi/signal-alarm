@@ -212,7 +212,8 @@ export const pointToMarker = (points: Point[]) => points
             Number.parseFloat(item.lon)
         ], {
             icon: getPointIcon(item),
-            title: item.content,
+            // title: item.content,
+            title: '',
             actionTime: item.actionTime
         } as any);
         // mark.bindTooltip(renderTemp(item), {});
