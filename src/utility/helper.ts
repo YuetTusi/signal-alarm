@@ -249,7 +249,11 @@ const helper = {
         let set = new Set(devices.map(i => i.siteName));
         let data: ComDeviceDropdown[] = [];
         if (devices.length === 0) {
-            return [];
+            return [{
+                title: '全部',
+                value: JSON.stringify({ type: 'all', deviceId: [] }),
+                children: data
+            }];
         }
         for (let [k, v] of set.entries()) {
             const devInSite = devices.filter(i => i.siteName === v);
