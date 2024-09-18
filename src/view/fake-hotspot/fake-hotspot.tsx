@@ -27,9 +27,9 @@ const FakeHotspot: FC<FakeHotspotProp> = () => {
         fakeHotspotPageSize,
         fakeHotspotLoading,
         fakeHotspotTotal,
-        setSpecialActiveKey,
-        setSpecialDetailModalOpen,
-        setSpecialDefaultHotspotName,
+        // setSpecialActiveKey,
+        // setSpecialDetailModalOpen,
+        // setSpecialDefaultHotspotName,
         addFakeHotspot,
         delFakeHotspotByName,
         queryFakeHotspotData
@@ -39,9 +39,9 @@ const FakeHotspot: FC<FakeHotspotProp> = () => {
         fakeHotspotPageSize: state.fakeHotspotPageSize,
         fakeHotspotLoading: state.fakeHotspotLoading,
         fakeHotspotTotal: state.fakeHotspotTotal,
-        setSpecialActiveKey: state.setSpecialActiveKey,
-        setSpecialDetailModalOpen: state.setSpecialDetailModalOpen,
-        setSpecialDefaultHotspotName: state.setSpecialDefaultHotspotName,
+        // setSpecialActiveKey: state.setSpecialActiveKey,
+        // setSpecialDetailModalOpen: state.setSpecialDetailModalOpen,
+        // setSpecialDefaultHotspotName: state.setSpecialDefaultHotspotName,
         addFakeHotspot: state.addFakeHotspot,
         delFakeHotspotByName: state.delFakeHotspotByName,
         queryFakeHotspotData: state.queryFakeHotspotData,
@@ -219,7 +219,7 @@ const FakeHotspot: FC<FakeHotspotProp> = () => {
                 <Button
                     onClick={() => setAddModalOpen(true)}
                     type="primary">
-                    添加伪热点
+                    添加伪热点防护
                 </Button>
             </div>
         </SearchBar>

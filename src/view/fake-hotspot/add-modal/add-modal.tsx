@@ -37,7 +37,7 @@ export const AddModal: FC<AddModalProp> = ({ open, onOk, onClose }) => {
         onCancel={onCancelClick}
         width={500}
         open={open}
-        title="添加伪热点"
+        title="添加伪热点防护"
         getContainer="#app"
         centered={true}
         maskClosable={false}

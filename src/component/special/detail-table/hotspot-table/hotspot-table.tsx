@@ -242,8 +242,8 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
                     },
                     width: 450,
                     centered: true,
-                    title: '添加伪热点',
-                    content: `确认将热点「${data.ssid ?? ''} （${data.mac ?? ''}）」加入伪热点？`,
+                    title: '添加伪热点防护',
+                    content: `确认将热点「${data.ssid ?? ''} （${data.mac ?? ''}）」加入伪热点防护？`,
                     okText: '是',
                     cancelText: '否'
                 });
