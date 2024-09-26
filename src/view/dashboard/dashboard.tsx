@@ -40,7 +40,6 @@ const Dashboard: FC<{}> = memo(() => {
         queryWhiteListTop,
         queryQuickCheckReport,
         setPhoneAlarmData,
-        setAlarmBarDeviceId,
         appendPhoneAlarmData,
         updateAlarmBarData,
         clearPhoneAlarmData,
@@ -49,7 +48,6 @@ const Dashboard: FC<{}> = memo(() => {
         queryFakeHotspotList
     } = useModel(useShallow((state) => ({
         phoneAlarmData: state.phoneAlarmData,
-        setAlarmBarDeviceId: state.setAlarmBarDeviceId,
         querySpecialTypeStatisData: state.querySpecialTypeStatisData,
         queryAlarmWeekStatisData: state.queryAlarmWeekStatisData,
         queryQuickCheckReport: state.queryQuickCheckReport,
@@ -88,7 +86,6 @@ const Dashboard: FC<{}> = memo(() => {
                     const nextPoint = JSON.parse(m.message) as Point;
                     nextPoint.actionTime = new Date().getTime();
                     appendPoint(nextPoint);
-                    console.log(nextPoint);
                     break;
                 default:
                     // console.clear();
@@ -186,7 +183,6 @@ const Dashboard: FC<{}> = memo(() => {
         }
         return () => {
             //退出页面，清里当前设备id，否则柱状图仍为某个设备的数据
-            setAlarmBarDeviceId(undefined);
             closeSse();
         };
     }, []);

@@ -10,18 +10,6 @@ const alarmChart = (setState: SetState, getState: GetState): AlarmChartState => 
      */
     alarmBarData: new Map<number, AlarmBarValue>(),
     /**
-    * 当前正在展示的设备id
-    * 如果地图上点了某个设备，柱图只显示此设备的数据
-    */
-    alarmBarDeviceId: undefined,
-    /**
-     * 更新当前显示的设备id
-     * @param payload deviceId
-     */
-    setAlarmBarDeviceId(payload: string | undefined) {
-        setState({ alarmBarDeviceId: payload });
-    },
-    /**
      * 更新柱图数据
      * @param name 键
      * @param value 值

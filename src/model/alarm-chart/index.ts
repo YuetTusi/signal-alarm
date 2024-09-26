@@ -10,29 +10,19 @@ interface AlarmBarValue {
     protocol: string,
     protocolType: number,
     arfcn: number,
-    warnReason: string
+    warnReason: string,
+    areaId: number
 }
 
 /**
  * 报警柱状图
  */
 interface AlarmChartState {
-
-    /**
-     * 当前正在展示的设备id
-     * 如果地图上点了某个设备，柱图只显示此设备的数据
-     */
-    alarmBarDeviceId?: string,
     /**
      * 报警柱图数据
      * X轴固定为12个
      */
     alarmBarData: Map<number, AlarmBarValue>,
-    /**
-     * 更新当前显示的设备id
-     * @param payload deviceId
-     */
-    setAlarmBarDeviceId: (payload: string | undefined) => void,
     /**
      * 更新柱图数据
      * @param code 键

@@ -22,6 +22,7 @@ const phoneAlarm = (setState: SetState, getState: GetState): PhoneAlarmState => 
      * @param payload 推送数据
      */
     appendPhoneAlarmData: (payload: PhoneAlarmInfo) => {
+
         const { phoneAlarmData } = getState();
         const next = phoneAlarmData.filter(item => {
             try {

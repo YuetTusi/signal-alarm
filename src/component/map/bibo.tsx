@@ -58,28 +58,26 @@ const Bibo: FC<{}> = () => {
         points,
         devicesOnMap,
         alarmsOfDevice,
-        // appendPoint,
         setZoneDisplay,
-        setAlarmBarDeviceId,
         removePointOverTime,
         clearPhoneAlarmData,
         queryZoneList,
         queryDevicesOnMap,
-        queryDeviceTopAlarms
+        queryDeviceTopAlarms,
+        queryZoneById
     } = useModel(useShallow(state => ({
         zoneList: state.zoneList,
         phoneAlarmData: state.phoneAlarmData,
         points: state.points,
         devicesOnMap: state.devicesOnMap,
         alarmsOfDevice: state.alarmsOfDevice,
-        // appendPoint: state.appendPoint,
         setZoneDisplay: state.setZoneDisplay,
-        setAlarmBarDeviceId: state.setAlarmBarDeviceId,
         removePointOverTime: state.removePointOverTime,
         clearPhoneAlarmData: state.clearPhoneAlarmData,
         queryZoneList: state.queryZoneList,
         queryDevicesOnMap: state.queryDevicesOnMap,
-        queryDeviceTopAlarms: state.queryDeviceTopAlarms
+        queryDeviceTopAlarms: state.queryDeviceTopAlarms,
+        queryZoneById: state.queryZoneById
     })));
     const alarms = usePhoneAlarm(phoneAlarmData);
 
@@ -90,6 +88,11 @@ const Bibo: FC<{}> = () => {
     useEffect(() => {
 
         if (map === null || alarmsOfDevice === undefined) {
+            // devices.forEach(dev => {
+            //     dev.setIcon((dev.options as MarkerOptionsEx).status === DeviceState.Normal
+            //         ? defaultIcon : offlineIcon);
+            //     (dev.options as MarkerOptionsEx).hasAlarm = false;
+            // });
             return;
         }
 
@@ -112,7 +115,6 @@ const Bibo: FC<{}> = () => {
                     const { deviceId, hasAlarm } = e.target.options;
                     if (hasAlarm) {
                         setDeviceId(deviceId);
-                        setAlarmBarDeviceId(deviceId);
                         openRadar(true);
                     } else {
                         message.destroy();
@@ -155,7 +157,6 @@ const Bibo: FC<{}> = () => {
                     const { deviceId, hasAlarm } = e.target.options;
                     if (hasAlarm) {
                         setDeviceId(deviceId);
-                        setAlarmBarDeviceId(deviceId); //更新到仓库中，让柱图筛选对应的设备
                         openRadar(true);
                     } else {
                         message.destroy();
@@ -274,7 +275,7 @@ const Bibo: FC<{}> = () => {
         devices = [];
         currentAreaId.current = zoneId;
         clearPhoneAlarmData();
-        setAlarmBarDeviceId(undefined);
+        queryZoneById(zoneId.toString());
         try {
             const res = await request.get<Zone>(`/sys/area/get-area-info/${zoneId}`);
             if (res !== null && res.code === 200) {

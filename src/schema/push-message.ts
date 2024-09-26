@@ -1,3 +1,5 @@
+import { Protocol } from "./protocol"
+
 export enum SSEMessageType {
     /**
      * 报警
@@ -29,4 +31,22 @@ export interface PushMessage {
      * 消息内容
      */
     message: string
+}
+
+export interface AlarmPushValue {
+    /**
+     * 区域id
+     */
+    areaId: number,
+    arfcn: number,
+    captureTime: string,
+    /**
+     * 设备id
+     */
+    deviceId: string,
+    protocol: string,
+    protocolType: Protocol,
+    rssi: number,
+    siteName: string,
+    [others: string]: any
 }

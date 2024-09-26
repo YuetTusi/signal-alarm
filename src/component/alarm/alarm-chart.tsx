@@ -124,12 +124,12 @@ const AlarmChart: FC<{}> = () => {
     const boxRef = useRef<HTMLDivElement>(null);
 
     const {
+        zoneDisplay,
         alarmBarData,
-        alarmBarDeviceId,
         cleanAlarmBarData
     } = useModel(state => ({
+        zoneDisplay: state.zoneDisplay,
         alarmBarData: state.alarmBarData,
-        alarmBarDeviceId: state.alarmBarDeviceId,
         cleanAlarmBarData: state.cleanAlarmBarData
     }));
 
@@ -150,17 +150,25 @@ const AlarmChart: FC<{}> = () => {
     });
 
     const getData = () => {
-        // console.log(alarmBarData.entries());
         const bands = helper.readBand();
         return bands.map(item => {
             if (alarmBarData.has(item.code)) {
                 const data = alarmBarData.get(item.code);
-                return {
-                    code: item.code,
-                    value: data?.rssi ?? '',
-                    captureTime: data?.captureTime ?? '',
-                    deviceId: data?.deviceId
-                };
+                if (data?.areaId === zoneDisplay?.id) {
+                    return {
+                        code: item.code,
+                        value: data?.rssi ?? '',
+                        captureTime: data?.captureTime ?? '',
+                        deviceId: data?.deviceId
+                    };
+                } else {
+                    return {
+                        code: item.code,
+                        value: null,
+                        captureTime: '',
+                        deviceId: undefined
+                    };
+                }
             } else {
                 return {
                     code: item.code,
@@ -176,25 +184,7 @@ const AlarmChart: FC<{}> = () => {
         if ($chart) {
             const bands = helper.readBand();
             let data = [];
-            if (alarmBarDeviceId === undefined) {
-                data = getData();
-            } else {
-                //过滤只显示当前设备数据
-                data = getData().map(item => {
-                    console.log(`${item.deviceId}===${alarmBarDeviceId} >> ${item.deviceId === alarmBarDeviceId}`);
-                    if (item.deviceId === alarmBarDeviceId) {
-                        return item;
-                    } else {
-                        return {
-                            code: item.code,
-                            value: null,
-                            captureTime: '',
-                            deviceId: undefined
-                        };
-                    }
-                });
-            }
-
+            data = getData();
             $chart.setOption({
                 xAxis: { data: bands.map(i => i.name) },
                 series: [{ data }]
@@ -205,7 +195,7 @@ const AlarmChart: FC<{}> = () => {
             });
         }
 
-    }, [alarmBarData, alarmBarDeviceId]);
+    }, [zoneDisplay, alarmBarData]);
 
     return <AlarmChartBox
         ref={boxRef}

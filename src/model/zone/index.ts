@@ -54,7 +54,11 @@ interface ZoneState {
     /**
      * 查询区域数据
      */
-    queryZoneData: (pageIndex: number, pageSize: number, condition?: Record<string, any>) => void
+    queryZoneData: (pageIndex: number, pageSize: number, condition?: Record<string, any>) => void,
+    /**
+     * id查询区域
+     */
+    queryZoneById: (id: string) => void
 }
 
 export type { ZoneState };

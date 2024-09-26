@@ -4,7 +4,6 @@ import PointWifi24Png from '@/assets/image/point-wifi24.png';
 import PointWifi58Png from '@/assets/image/point-wifi58.png';
 import PointDevPng from '@/assets/image/point-dev.png';
 import L, { LatLngBoundsLiteral } from "leaflet";
-// import { MAP_BACKGROUND_BOUNDS } from "@/utility/helper";
 import { Protocol } from "@/schema/protocol";
 import { Point } from "@/schema/point";
 import { AlarmMessage, PhoneAlarmInfo } from "@/schema/phone-alarm-info";
@@ -95,29 +94,6 @@ export const loadMap = (domId: string, background: string, width: number, height
     map.setMaxZoom(22);
     // map.setZoom(20);
     return map;
-};
-
-/**
- * 返回第一条报警的半径
- * @param alarms 
- */
-export const getRadius = (alarms: PhoneAlarmInfo[]) => {
-
-    if (alarms.length === 0) {
-        return 500;
-    }
-    const [first] = alarms;
-    try {
-        if (typeof first.message === 'string') {
-            const message: AlarmMessage = JSON.parse(first.message);
-            return Number(message.radius);
-        } else {
-            return Number((first.message as any)?.radius);
-        }
-    } catch (error) {
-        console.warn(error);
-        return 500;
-    }
 };
 
 /**

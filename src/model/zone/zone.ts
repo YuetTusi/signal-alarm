@@ -85,6 +85,7 @@ const zone = (setState: SetState, _: GetState): ZoneState => ({
             throw error;
         }
     },
+
     /**
     * 查询区域列表
     */
@@ -93,6 +94,10 @@ const zone = (setState: SetState, _: GetState): ZoneState => ({
             const res = await request.get<ZoneEntity[]>('/sys/area/get-name-all');
             if (res !== null && res.code === 200) {
                 setState({ zoneList: res.data ?? [] });
+                //legacy: mock
+                // setState({
+                //     zoneList: [...res.data, { id: 1001, areaName: '测试', areaBg: '', areaHeight: 40, areaWidth: 40 } as any]
+                // });
             }
         } catch (error) {
             throw error;
@@ -143,6 +148,21 @@ const zone = (setState: SetState, _: GetState): ZoneState => ({
             throw error;
         } finally {
             setState({ zoneLoading: false });
+        }
+    },
+    /**
+     * id查询区域
+     */
+    async queryZoneById(id: string) {
+        try {
+            const res = await request.get<ZoneEntity>(`/sys/area/get-area-info/${id}`);
+            if (res !== null && res.code === 200) {
+                setState({
+                    zoneDisplay: res.data
+                });
+            }
+        } catch (error) {
+            throw error;
         }
     }
 });
