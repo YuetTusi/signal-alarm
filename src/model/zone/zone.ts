@@ -164,6 +164,12 @@ const zone = (setState: SetState, _: GetState): ZoneState => ({
         } catch (error) {
             throw error;
         }
+    },
+    /**
+     * 清空区域列表
+     */
+    clearZoneList() {
+        setState({ zoneList: [] });
     }
 });
 

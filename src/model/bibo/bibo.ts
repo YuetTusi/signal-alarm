@@ -74,6 +74,18 @@ const bibo = (setState: SetState, getState: GetState): BiboState => ({
             throw error;
         }
         setState({ alarmsOfDevice: alarms });
+    },
+    /**
+     * 清空地图上所有的设备
+     */
+    clearDevicesOnMap() {
+        setState({ devicesOnMap: [] });
+    },
+    /**
+     * 清空地图上所有多点定位
+     */
+    clearPoints() {
+        setState({ points: [] });
     }
 });
 

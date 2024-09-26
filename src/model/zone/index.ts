@@ -58,7 +58,11 @@ interface ZoneState {
     /**
      * id查询区域
      */
-    queryZoneById: (id: string) => void
+    queryZoneById: (id: string) => void,
+    /**
+     * 清空区域列表
+     */
+    clearZoneList: () => void
 }
 
 export type { ZoneState };

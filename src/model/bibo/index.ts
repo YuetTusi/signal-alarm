@@ -35,7 +35,15 @@ interface BiboState {
      * 查询设备的报警Top10
      * @param id 设备Id
      */
-    queryDeviceTopAlarms: (id: string) => Promise<void>
+    queryDeviceTopAlarms: (id: string) => Promise<void>,
+    /**
+     * 清空地图上所有的设备
+     */
+    clearDevicesOnMap: () => void,
+    /**
+     * 清空地图上所有多点定位
+     */
+    clearPoints: () => void
 }
 
 export type { BiboState };

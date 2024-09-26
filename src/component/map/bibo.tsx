@@ -64,7 +64,10 @@ const Bibo: FC<{}> = () => {
         queryZoneList,
         queryDevicesOnMap,
         queryDeviceTopAlarms,
-        queryZoneById
+        queryZoneById,
+        clearDevicesOnMap,
+        clearPoints,
+        clearZoneList
     } = useModel(useShallow(state => ({
         zoneList: state.zoneList,
         phoneAlarmData: state.phoneAlarmData,
@@ -77,7 +80,10 @@ const Bibo: FC<{}> = () => {
         queryZoneList: state.queryZoneList,
         queryDevicesOnMap: state.queryDevicesOnMap,
         queryDeviceTopAlarms: state.queryDeviceTopAlarms,
-        queryZoneById: state.queryZoneById
+        queryZoneById: state.queryZoneById,
+        clearDevicesOnMap: state.clearDevicesOnMap,
+        clearPoints: state.clearPoints,
+        clearZoneList: state.clearZoneList
     })));
     const alarms = usePhoneAlarm(phoneAlarmData);
 
@@ -261,6 +267,9 @@ const Bibo: FC<{}> = () => {
         devices = [];
         disposeAllMarker(p, map);
         p = [];
+        clearZoneList();
+        clearDevicesOnMap();
+        clearPoints();
         if (map !== null) {
             initMap('bibo', map);
             map = null;
