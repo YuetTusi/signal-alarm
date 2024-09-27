@@ -47,10 +47,6 @@ const getColumns = (handle: (actionType: ActionType, data: Bluetooth) => void): 
         render(val: string) {
             return <NoWarpLabel title={val} width={150}>{val}</NoWarpLabel>;
         }
-    }, {
-        title: '设备ID',
-        key: 'deviceId',
-        dataIndex: 'deviceId'
     },
     {
         title: '设备类型',
@@ -60,6 +56,10 @@ const getColumns = (handle: (actionType: ActionType, data: Bluetooth) => void): 
         title: '设备名称',
         key: 'name',
         dataIndex: 'name'
+    }, {
+        title: '设备ID',
+        key: 'deviceId',
+        dataIndex: 'deviceId'
     }, {
         title: '设备场所',
         key: 'siteName',

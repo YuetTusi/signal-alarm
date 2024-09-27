@@ -94,11 +94,11 @@ const Bibo: FC<{}> = () => {
     useEffect(() => {
 
         if (map === null || alarmsOfDevice === undefined) {
-            // devices.forEach(dev => {
-            //     dev.setIcon((dev.options as MarkerOptionsEx).status === DeviceState.Normal
-            //         ? defaultIcon : offlineIcon);
-            //     (dev.options as MarkerOptionsEx).hasAlarm = false;
-            // });
+            devices.forEach(dev => {
+                dev.setIcon((dev.options as MarkerOptionsEx).status === DeviceState.Normal
+                    ? defaultIcon : offlineIcon);
+                (dev.options as MarkerOptionsEx).hasAlarm = false;
+            });
             return;
         }
 
