@@ -5,6 +5,9 @@ import { useModel } from '@/model';
 import { useResize, useUnmount } from '@/hook';
 import { helper } from '@/utility/helper';
 import { AlarmChartBox } from './styled/style';
+import { AlarmType } from '@/schema/conf';
+
+const { alarmType } = helper.readConf();
 
 var $chart: echarts.ECharts;
 var option = {
@@ -149,10 +152,10 @@ const AlarmChart: FC<{}> = () => {
 
     const getData = () => {
         const bands = helper.readBand();
-        return bands.map(item => {
-            if (alarmBarData.has(item.code)) {
-                const data = alarmBarData.get(item.code);
-                if (data?.areaId === zoneDisplay?.id) {
+        if (alarmType === AlarmType.Single) {
+            return bands.map(item => {
+                if (alarmBarData.has(item.code)) {
+                    const data = alarmBarData.get(item.code);
                     return {
                         code: item.code,
                         value: data?.rssi === undefined ? '' : Math.abs(data.rssi!),
@@ -167,15 +170,36 @@ const AlarmChart: FC<{}> = () => {
                         deviceId: undefined
                     };
                 }
-            } else {
-                return {
-                    code: item.code,
-                    value: null,
-                    captureTime: '',
-                    deviceId: undefined
-                };
-            }
-        });
+            });
+        } else {
+            return bands.map(item => {
+                if (alarmBarData.has(item.code)) {
+                    const data = alarmBarData.get(item.code);
+                    if (data?.areaId === zoneDisplay?.id) {
+                        return {
+                            code: item.code,
+                            value: data?.rssi === undefined ? '' : Math.abs(data.rssi!),
+                            captureTime: data?.captureTime ?? '',
+                            deviceId: data?.deviceId
+                        };
+                    } else {
+                        return {
+                            code: item.code,
+                            value: null,
+                            captureTime: '',
+                            deviceId: undefined
+                        };
+                    }
+                } else {
+                    return {
+                        code: item.code,
+                        value: null,
+                        captureTime: '',
+                        deviceId: undefined
+                    };
+                }
+            });
+        }
     };
 
     useEffect(() => {
