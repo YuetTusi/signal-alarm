@@ -19,9 +19,7 @@ var option = {
         axisPointer: {
             type: 'shadow'
         },
-        formatter(params: any[]) {
-            const [first] = params;
-            return `<div class="bar-tooltip">
+        formatter: ([first]: any[]) => `<div class="bar-tooltip">
                 <div class="tt-caption">
                     ${first.marker}
                     ${first.name}
@@ -30,7 +28,7 @@ var option = {
                     <span>
                         <label>强度：</label>
                     </span>
-                    <b style="text-align:right;">${helper.isNullOrUndefined(first.data?.value) ? '-' : first.data.value}</b>
+                    <b style="text-align:right;">${helper.isNullOrUndefined(first.data?.value) ? '-' : '-' + first.data.value}</b>
                 </div>
                 <div class="tt-row">
                     <label>设备ID：</label>
@@ -40,8 +38,8 @@ var option = {
                     <label>告警时间：</label>
                     <b>${first.data.captureTime ?? '-'}</b>
                 </div>
-            </div>`;
-        }
+            </div>`
+
     },
     xAxis: {
         type: 'category',
@@ -157,7 +155,7 @@ const AlarmChart: FC<{}> = () => {
                 if (data?.areaId === zoneDisplay?.id) {
                     return {
                         code: item.code,
-                        value: data?.rssi ?? '',
+                        value: data?.rssi === undefined ? '' : Math.abs(data.rssi!),
                         captureTime: data?.captureTime ?? '',
                         deviceId: data?.deviceId
                     };
