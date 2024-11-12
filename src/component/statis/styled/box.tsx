@@ -13,7 +13,7 @@ export const CenterFixedBox = styled.div`
 
 export const ScrollList = styled.div`
 
-    height: ${helper.PLATFORM === 'linux' ? 190 : 164}px;
+    height: ${helper.PLATFORM === 'linux' ? 242 : 164}px;
     overflow: hidden;
     &>ul{
         margin:0;

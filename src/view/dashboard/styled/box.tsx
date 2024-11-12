@@ -17,7 +17,7 @@ export const DashboardBox = styled.div`
     &>.left-box{
         box-sizing: border-box;
         flex:none;
-        width: 422px;
+        width: 522px;
         &>div{
             margin-bottom: 10px;
         }
@@ -46,7 +46,8 @@ export const DashboardBox = styled.div`
     .alarm-bg{
         position: relative;
         width: 100%;
-        height: ${helper.PLATFORM === 'linux' ? 610 : 558}px;
+        height: ${helper.PLATFORM === 'linux' ? 710 : 558}px;
+        /* height: 710px; */
         background-image: url(${alarmBg});
         background-repeat: no-repeat;
         background-size: 100% 100%;
