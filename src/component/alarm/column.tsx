@@ -59,7 +59,8 @@ const getColumns = (handle: ActionHandle): ColumnsType<AlarmMsg> => [
         dataIndex: 'rssi',
         width: 110,
         render(val) {
-            return val + 'dBm';
+
+            return (Number(val) + 100) + ' dBm';
         }
     }, {
         title: '状态',

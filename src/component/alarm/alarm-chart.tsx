@@ -158,7 +158,7 @@ const AlarmChart: FC<{}> = () => {
                     const data = alarmBarData.get(item.code);
                     return {
                         code: item.code,
-                        value: data?.rssi === undefined ? '' : Math.abs(data.rssi!),
+                        value: data?.rssi === undefined ? '' : data.rssi! + 100,
                         captureTime: data?.captureTime ?? '',
                         deviceId: data?.deviceId
                     };
@@ -178,7 +178,7 @@ const AlarmChart: FC<{}> = () => {
                     if (data?.areaId === zoneDisplay?.id) {
                         return {
                             code: item.code,
-                            value: data?.rssi === undefined ? '' : Math.abs(data.rssi!),
+                            value: data?.rssi === undefined ? '' : data.rssi! + 100,
                             captureTime: data?.captureTime ?? '',
                             deviceId: data?.deviceId
                         };
