@@ -30,7 +30,7 @@ const SpecialTypeChart: FC<{}> = () => {
 
     return <DisplayPanel>
         <div className="caption">今日专项检查分类统计</div>
-        <div className="content">
+        <div className="content" style={{ backgroundColor: '#100C2A' }}>
             <Loop
                 serieName="今日专项检查分类统计"
                 data={convertData()} />
