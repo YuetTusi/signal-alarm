@@ -170,8 +170,5 @@ const RadarInfo: FC<RadarInfoProp> = ({ open, data, deviceId, onClose }) => {
     </RadarBox>;
 };
 
-RadarInfo.defaultProps = {
-    onClose: () => { }
-};
 
 export { RadarInfo };

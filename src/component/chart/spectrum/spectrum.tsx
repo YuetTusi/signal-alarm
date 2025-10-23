@@ -315,10 +315,4 @@ const Spectrum: FC<SpectrumProp> = ({
     </>;
 };
 
-Spectrum.defaultProps = {
-    domId: '',
-    realData: [],
-    compareData: []
-}
-
 export { Spectrum };

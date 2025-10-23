@@ -78,7 +78,7 @@ const CompareSpectrumModal: FC<CompareSpectrumModalProp> = ({
         onCancel={onCancelClick}
         centered={true}
         maskClosable={false}
-        destroyOnClose={true}
+        destroyOnHidden={true}
         forceRender={true}
         width={680}
         title="频谱比对"
@@ -115,11 +115,5 @@ const CompareSpectrumModal: FC<CompareSpectrumModalProp> = ({
     </Modal>
 };
 
-CompareSpectrumModal.defaultProps = {
-    open: false,
-    deviceId: '',
-    onCancel: () => { },
-    onOk: () => { }
-};
 
 export { CompareSpectrumModal };

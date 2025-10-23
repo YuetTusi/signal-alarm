@@ -45,7 +45,7 @@ const BatchModal: FC<BatchModalProp> = ({ open, data, onOk, onCancel }) => {
         title="批量处理"
         getContainer="#app"
         centered={true}
-        destroyOnClose={true}
+        destroyOnHidden={true}
         maskClosable={false}
         width={640}
     >

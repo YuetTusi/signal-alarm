@@ -70,9 +70,4 @@ const TerminalList: FC<TopListProp> = ({ data }) => {
         {renderList()}
     </ListBox>
 };
-
-TerminalList.defaultProps = {
-    data: []
-};
-
 export { TerminalList };

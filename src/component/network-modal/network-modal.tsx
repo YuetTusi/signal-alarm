@@ -100,7 +100,7 @@ const NetworkModal: FC<NetworkModalProp> = ({
         open={open}
         centered={true}
         maskClosable={false}
-        destroyOnClose={true}
+        destroyOnHidden={true}
         width={400}
         title="应用设置"
         getContainer="#app">
@@ -145,12 +145,6 @@ const NetworkModal: FC<NetworkModalProp> = ({
             </Item>
         </Form>
     </Modal>
-};
-
-NetworkModal.defaultProps = {
-    open: false,
-    onCancel: () => { },
-    onOk: () => { }
 };
 
 export { NetworkModal };

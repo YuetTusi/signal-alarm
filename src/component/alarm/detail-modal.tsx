@@ -33,7 +33,7 @@ const DetailModal: FC<DetailModalProp> = ({ open, onCancel }) => {
         title="频段告警详情"
         getContainer="#app"
         centered={true}
-        destroyOnClose={true}
+        destroyOnHidden={true}
         maskClosable={false}
         width={1660}>
         <AlarmTable />

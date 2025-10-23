@@ -56,7 +56,7 @@ const StatusModal: FC<StatusProp> = ({ open, data, onCancel, onOk }) => {
         width={500}
         centered={true}
         maskClosable={false}
-        destroyOnClose={false}>
+        destroyOnHidden={false}>
         <Form
             form={formRef}
             layout="inline"

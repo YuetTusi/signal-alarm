@@ -24,7 +24,7 @@ const DetailModal: FC<DetailModalProp> = ({ open, data, onCancel }) => {
         width={600}
         centered={true}
         maskClosable={false}
-        destroyOnClose={false}>
+        destroyOnHidden={false}>
         <Descriptions
             bordered={true}
             size="middle"

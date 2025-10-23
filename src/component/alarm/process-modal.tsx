@@ -35,7 +35,7 @@ const ProcessModal: FC<ProcessModalProp> = ({ open, data, onOk, onCancel }) => {
         title="处理预警"
         getContainer="#app"
         centered={true}
-        destroyOnClose={true}
+        destroyOnHidden={true}
         maskClosable={false}
         width={600}
     >

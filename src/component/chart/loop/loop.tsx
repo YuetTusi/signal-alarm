@@ -108,9 +108,5 @@ const Loop: FC<LoopProp> = ({ data, serieName }) => {
             ref={chartDom} />;
 };
 
-Loop.defaultProps = {
-    serieName: '',
-    data: []
-}
 
 export { Loop };

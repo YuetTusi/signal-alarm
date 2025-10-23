@@ -122,10 +122,5 @@ const Bar: FC<BarProp> = ({ xData, yData, serieName }) => {
             ref={chartDom} />;
 };
 
-Bar.defaultProps = {
-    serieName: '',
-    xData: [],
-    yData: []
-}
 
 export { Bar };

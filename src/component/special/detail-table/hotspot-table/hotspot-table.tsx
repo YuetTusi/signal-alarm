@@ -296,6 +296,4 @@ const HotspotTable: FC<HotspotTableProp> = ({ }) => {
     </HotspotTableBox>
 };
 
-HotspotTable.defaultProps = {};
-
 export { HotspotTable };

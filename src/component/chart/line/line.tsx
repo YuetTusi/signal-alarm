@@ -119,9 +119,4 @@ const Line: FC<LineProp> = ({ data, days, serieName }) => {
             ref={chartDom} />;
 };
 
-Line.defaultProps = {
-    serieName: '',
-    data: []
-}
-
 export { Line };

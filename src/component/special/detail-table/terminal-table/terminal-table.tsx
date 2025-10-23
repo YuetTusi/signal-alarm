@@ -196,6 +196,4 @@ const TerminalTable: FC<TerminalTableProp> = () => {
     </>
 };
 
-TerminalTable.defaultProps = {};
-
 export { TerminalTable };

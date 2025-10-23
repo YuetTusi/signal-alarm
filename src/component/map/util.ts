@@ -83,16 +83,17 @@ export const loadMap = (domId: string, background: string, width: number, height
         doubleClickZoom: false,
         attributionControl: false,
         maxBounds: bounds,
-        preferCanvas: true
+        preferCanvas: true,
+        minZoom: 18,
+        maxZoom: 24,
     });
     if (!background.startsWith('data:image/png;base64,')) {
         bg = 'data:image/png;base64,' + background;
     }
     L.imageOverlay(bg, bounds).addTo(map);
     map.fitBounds(bounds);
-    map.setMinZoom(18);
-    map.setMaxZoom(22);
-    // map.setZoom(20);
+    // map.setMinZoom(18);
+    // map.setMaxZoom(22);
     return map;
 };
 

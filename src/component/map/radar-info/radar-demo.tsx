@@ -56,9 +56,5 @@ const RadarDemo: FC<RadarInfoProp> = ({ open, onClose }) => {
     </RadarBox>;
 };
 
-RadarDemo.defaultProps = {
-    open: false,
-    onClose: () => { }
-};
 
 export { RadarDemo };

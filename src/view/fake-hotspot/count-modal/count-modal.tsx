@@ -12,7 +12,7 @@ const CountModal: CountModalComp = ({ open, data, onCancel }) => <Modal
     open={open}
     onCancel={onCancel}
     centered={true}
-    destroyOnClose={true}
+    destroyOnHidden={true}
     maskClosable={false}
     width={600}
     title="命中详情">

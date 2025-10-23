@@ -62,7 +62,7 @@ const DetailModel: FC<DetailModalProp> = ({ open, defaultTabKey, onCancel }) => 
         getContainer="#app"
         title="专项检查详情"
         centered={true}
-        destroyOnClose={false}
+        destroyOnHidden={false}
         maskClosable={false}
         forceRender={true}
     >
@@ -98,7 +98,7 @@ const DetailModel: FC<DetailModalProp> = ({ open, defaultTabKey, onCancel }) => 
                     }
                 ]}
                 activeKey={tabKey}
-                destroyInactiveTabPane={true}
+                destroyOnHidden={true}
                 onChange={(activeKey: string) => setTabKey(activeKey)}
             />
         </ModalBox>

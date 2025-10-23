@@ -46,7 +46,7 @@ const VoiceControlModal: FC<VoiceControlProp> = ({ onOk, onCancel, open }) => {
         open={open}
         centered={true}
         maskClosable={false}
-        destroyOnClose={true}
+        destroyOnHidden={true}
         width={380}
         title="预警声音开关设置"
         getContainer="#app">
@@ -62,12 +62,6 @@ const VoiceControlModal: FC<VoiceControlProp> = ({ onOk, onCancel, open }) => {
             </Item>
         </Form>
     </Modal>
-};
-
-VoiceControlModal.defaultProps = {
-    open: false,
-    onOk: () => { },
-    onCancel: () => { }
 };
 
 export { VoiceControlModal };

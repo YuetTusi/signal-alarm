@@ -82,9 +82,4 @@ const Rose: FC<RoseProp> = ({ data, serieName }) => {
             ref={chartDom} />;
 };
 
-Rose.defaultProps = {
-    serieName: '',
-    data: []
-}
-
 export { Rose };

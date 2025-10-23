@@ -139,6 +139,4 @@ const WiretapTable: FC<WiretapTableProp> = () => {
     </>
 };
 
-WiretapTable.defaultProps = {};
-
 export { WiretapTable };

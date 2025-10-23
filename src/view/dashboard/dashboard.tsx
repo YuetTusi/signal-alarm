@@ -1,4 +1,3 @@
-// import dayjs from 'dayjs';
 import electron, { IpcRendererEvent } from 'electron';
 import { FC, memo, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
@@ -27,6 +26,17 @@ const { ipcRenderer } = electron;
 const { alarmType } = helper.readConf();
 
 /**
+ * 计算高度
+ */
+const getBoxHeight = (isFullScreen: boolean) => {
+    if (isFullScreen) {
+        return helper.PLATFORM === 'linux' ? '1070px' : '918px';
+    } else {
+        return helper.PLATFORM === 'linux' ? '710px' : '558px';
+    }
+}
+
+/**
  * 主页 
  */
 const Dashboard: FC<{}> = memo(() => {
@@ -34,6 +44,7 @@ const Dashboard: FC<{}> = memo(() => {
     const location = useLocation();
 
     const {
+        mapFullscreen,
         phoneAlarmData,
         querySpecialTypeStatisData,
         queryAlarmWeekStatisData,
@@ -47,6 +58,7 @@ const Dashboard: FC<{}> = memo(() => {
         querySignalTop,
         queryFakeHotspotList
     } = useModel(useShallow((state) => ({
+        mapFullscreen: state.mapFullscreen,
         phoneAlarmData: state.phoneAlarmData,
         querySpecialTypeStatisData: state.querySpecialTypeStatisData,
         queryAlarmWeekStatisData: state.queryAlarmWeekStatisData,
@@ -225,9 +237,7 @@ const Dashboard: FC<{}> = memo(() => {
     }, [alarmDropAll]);
 
     useSubscribe('query-each-10', () => querySignalTop());
-
     useSubscribe('query-each-15', () => querySpecialTypeStatisData());
-
     useSubscribe('query-each-20', () => queryFakeHotspotList());
 
     /**
@@ -244,7 +254,7 @@ const Dashboard: FC<{}> = memo(() => {
         </div>;
 
     return <DashboardBox>
-        <div className="left-box">
+        <div className="left-box" style={{ display: mapFullscreen ? 'none' : 'block' }}>
             <SignalList />
             {/* <AlarmSiteTopChart /> */}
             {/* <WhiteListTop /> */}
@@ -256,15 +266,15 @@ const Dashboard: FC<{}> = memo(() => {
         </div>
         <div className="center-box">
             <div className="main-box">
-                <div className="alarm-bg">
+                <div className="alarm-bg" style={{ height: getBoxHeight(mapFullscreen) }}>
                     {renderByAlarmType()}
                 </div>
             </div>
-            <div className="bottom-box">
+            <div className="bottom-box" style={{ display: mapFullscreen ? 'none' : 'block' }}>
                 <AlarmInfo />
             </div>
         </div>
-        <div className="right-box">
+        <div className="right-box" style={{ display: mapFullscreen ? 'none' : 'block' }}>
             <Clock />
             <WapInfo />
         </div>

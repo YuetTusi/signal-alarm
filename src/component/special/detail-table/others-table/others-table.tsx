@@ -141,6 +141,4 @@ const OthersTable: FC<OthersTableProp> = () => {
     </>
 };
 
-OthersTable.defaultProps = {};
-
 export { OthersTable };

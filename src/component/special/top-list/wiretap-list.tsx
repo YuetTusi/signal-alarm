@@ -39,9 +39,4 @@ const WiretapList: FC<TopListProp> = ({ data, type }) => {
         {renderList()}
     </ListBox>
 };
-
-WiretapList.defaultProps = {
-    data: []
-};
-
 export { WiretapList };

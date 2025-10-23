@@ -26,7 +26,7 @@ const BackgroundPreviewModal: FC<BackgroundPreviewModalProp> = ({ open, bg, onCa
         title="背景预览"
         centered={true}
         maskClosable={false}
-        destroyOnClose={true}
+        destroyOnHidden={true}
         getContainer="#app">
         <ScrollImg>
             <img src={getImageSource()} />

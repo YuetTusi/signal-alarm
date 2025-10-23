@@ -40,8 +40,4 @@ const WapList: FC<TopListProp> = ({ data, type }) => {
     </ListBox>
 };
 
-WapList.defaultProps = {
-    data: []
-};
-
 export { WapList };

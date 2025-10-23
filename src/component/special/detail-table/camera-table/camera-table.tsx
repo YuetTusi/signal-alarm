@@ -142,6 +142,4 @@ const CameraTable: FC<CameraTableProp> = () => {
     </>
 };
 
-CameraTable.defaultProps = {};
-
 export { CameraTable };

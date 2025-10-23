@@ -16,7 +16,7 @@ const ReportDetailModal: FC<ReportDetailModalProp> =
         width={1520}
         centered={true}
         maskClosable={false}
-        destroyOnClose={true}
+        destroyOnHidden={true}
         getContainer="#app">
         <ModalBox>
             <ReportTable />

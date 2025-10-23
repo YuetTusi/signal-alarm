@@ -256,7 +256,7 @@ const WapInfo: FC<WapInfoProp> = ({ }) => {
                     items={toTabItem(getData(specialActiveKey), specialActiveKey)}
                     activeKey={specialActiveKey}
                     defaultActiveKey={SpiTab.All}
-                    destroyInactiveTabPane={false}
+                    destroyOnHidden={false}
                     moreIcon={<DoubleRightOutlined />}
                     type="card"
                     className="wap-tab" />

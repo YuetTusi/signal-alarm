@@ -53,6 +53,8 @@ const Bibo: FC<{}> = () => {
     const [legendVisible, setLegendVisible] = useState<boolean>(false);
     const currentAreaId = useRef<number>(0);
     const {
+        mapFullscreen,
+        setMapFullscreen,
         zoneList,
         phoneAlarmData,
         points,
@@ -69,6 +71,8 @@ const Bibo: FC<{}> = () => {
         clearPoints,
         clearZoneList
     } = useModel(useShallow(state => ({
+        mapFullscreen: state.mapFullscreen,
+        setMapFullscreen: state.setMapFullscreen,
         zoneList: state.zoneList,
         phoneAlarmData: state.phoneAlarmData,
         points: state.points,
@@ -90,6 +94,10 @@ const Bibo: FC<{}> = () => {
     useEffect(() => {
         queryZoneList();
     }, []);
+
+    useEffect(() => {
+        queryZoneList();
+    }, [mapFullscreen]);
 
     useEffect(() => {
 
@@ -352,15 +360,20 @@ const Bibo: FC<{}> = () => {
             </span>
             <span>
                 <Button
+                    onClick={() => setMapFullscreen(!mapFullscreen)}
+                    type="primary"
+                    className="fullscreen-button"
+                    autoInsertSpace={false}>
+                    {mapFullscreen ? '退出全屏' : '全屏'}
+                </Button>
+                <Button
                     onClick={() => setLegendVisible(prev => !prev)}
                     type="primary">
                     {legendVisible ? '关闭图例' : '信号图例'}
                 </Button>
             </span>
         </div>
-        <div className="map-box" id="bibo">
-
-        </div>
+        <div className="map-box" id="bibo"></div>
         <RadarInfo
             open={radar}
             data={alarms}

@@ -68,7 +68,7 @@ const EditModal: FC<EditModalProp> = ({ open, data, onOk, onCancel }) => {
         centered={true}
         forceRender={false}
         maskClosable={false}
-        destroyOnClose={false}
+        destroyOnHidden={false}
         getContainer="#app">
         <EditForm formRef={formRef} data={data} />
     </Modal>

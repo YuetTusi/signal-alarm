@@ -40,9 +40,5 @@ const Signal: FC<SignalProp> = ({ value, min, max }) => {
     </Tooltip>
 };
 
-Signal.defaultProps = {
-    min: 0,
-    max: 300
-}
 
 export { Signal };

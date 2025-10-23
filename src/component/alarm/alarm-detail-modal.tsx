@@ -20,7 +20,7 @@ const AlarmDetailModal: FC<AlarmDetailModalProp> = ({ open, data, onCancel }) =>
         title="预警详情"
         getContainer="#app"
         centered={true}
-        destroyOnClose={true}
+        destroyOnHidden={true}
         maskClosable={false}
         width={600}
     >

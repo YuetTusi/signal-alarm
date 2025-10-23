@@ -49,7 +49,7 @@ const SignalDescModal: FC<SignalDescModalProp> = ({
         getContainer="#app"
         centered={true}
         maskClosable={false}
-        destroyOnClose={true}>
+        destroyOnHidden={true}>
         <Descriptions bordered={true} size="small" style={{ marginTop: '20px' }}>
             <Item label="频段" span={3}>{renderBandName(data)}</Item>
             <Item label="最新频率" span={3}>{data?.lastFreq === undefined ? '-' : `${round(data.lastFreq, 1)} MHz`}</Item>

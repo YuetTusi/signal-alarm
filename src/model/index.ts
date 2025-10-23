@@ -2,6 +2,7 @@ import { create, StoreApi } from 'zustand';
 import { useShallow } from 'zustand/react/shallow';
 import { zustandLog } from '@/utility/zustand-log';
 import { reading, ReadingState } from './reading';
+import { appSetting, AppSettingState } from './app-setting';
 import { specialWap, SpecialWapState } from './special-wap';
 import { specialHotspot, SpecialHotspotState } from './special-hotspot';
 import { specialTerminal, SpecialTerminalState } from './special-terminal';
@@ -45,6 +46,7 @@ interface OtherState {
  */
 type State = OtherState
     & ReadingState
+    & AppSettingState
     & LoginState
     & SpecialWapState
     & SpecialHotspotState
@@ -88,6 +90,7 @@ type SetState = StoreApi<State>['setState'];
 const useModel = create<State>(zustandLog((setState: SetState, getState: GetState) => ({
 
     ...reading(setState, getState),
+    ...appSetting(setState, getState),
     ...login(setState, getState),
     ...specialTop(setState, getState),
     ...specialTypeStatis(setState, getState),

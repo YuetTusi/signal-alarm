@@ -10,8 +10,4 @@ const Demotion: FC<DemotionProp> = ({ widget }) =>
         : <>{widget}</>;
 
 
-Demotion.defaultProps = {
-    widget: undefined
-};
-
 export { Demotion };

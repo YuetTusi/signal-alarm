@@ -39,7 +39,7 @@ const PasswordModal: FC<PasswordModalProp> = ({ open, onOk, onCancel }) => {
         title="修改密码"
         centered={true}
         maskClosable={false}
-        destroyOnClose={true}
+        destroyOnHidden={true}
         forceRender={true}
         width={390}
     >

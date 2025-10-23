@@ -39,8 +39,8 @@ const Map: FC<MapProp> = ({
         });
         L.imageOverlay(background, bounds).addTo(map);
         map.fitBounds(bounds);
-        map.setMinZoom(18);
-        map.setMaxZoom(22);
+        // map.setMinZoom(18);
+        // map.setMaxZoom(22);
 
         if (x !== 0 && y !== 0) {
             const mark = L.marker([x, y], { icon: defaultIcon }).addTo(map!);

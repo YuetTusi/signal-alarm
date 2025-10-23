@@ -83,7 +83,7 @@ const EditModal: FC<EditModalProp> = ({ open, data, onCancel, onOk }) => {
         width={650}
         centered={true}
         maskClosable={false}
-        destroyOnClose={false}>
+        destroyOnHidden={false}>
 
         <Form
             form={formRef}

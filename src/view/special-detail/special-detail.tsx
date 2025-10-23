@@ -91,7 +91,7 @@ const SpecialDetail: FC<{}> = () => {
                     }
                 ]}
                 activeKey={tabKey}
-                destroyInactiveTabPane={true}
+                destroyOnHidden={true}
                 onChange={(activeKey: string) => setTabKey(activeKey)}
             />
         </TabBox>

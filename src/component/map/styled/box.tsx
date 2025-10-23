@@ -23,12 +23,16 @@ export const BiboBox = styled.div`
     flex-direction: column;
 
     .d-box{
+        position:relative;
         flex:none;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        padding: 10px;
+        padding: 10px 0;
+        .fullscreen-button{
+            margin-right:4px;
+        }
     }
     .map-box{
         flex:1;

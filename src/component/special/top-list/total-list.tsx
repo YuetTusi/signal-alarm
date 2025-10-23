@@ -79,8 +79,4 @@ const TotalList: FC<TotalListProp> = ({ data, type }) => {
     </ListBox>
 };
 
-TotalList.defaultProps = {
-    data: []
-};
-
 export { TotalList };

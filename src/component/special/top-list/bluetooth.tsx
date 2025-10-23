@@ -76,8 +76,4 @@ const BluetoothList: FC<TopListProp> = ({ data }) => {
     </ListBox>
 };
 
-BluetoothList.defaultProps = {
-    data: []
-};
-
 export { BluetoothList, Bluetooth };

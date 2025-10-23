@@ -71,7 +71,7 @@ const AddModal: FC<AddModalProp> = ({
         getContainer="#app"
         centered={true}
         maskClosable={false}
-        destroyOnClose={true}
+        destroyOnHidden={true}
         title="添加白名单">
         <Form
             form={formRef}
@@ -129,12 +129,6 @@ const AddModal: FC<AddModalProp> = ({
             </Row>
         </Form>
     </Modal>
-};
-
-AddModal.defaultProps = {
-    open: false,
-    onCancel: () => { },
-    onOk: () => { }
 };
 
 export { AddModal };

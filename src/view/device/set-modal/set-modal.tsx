@@ -81,7 +81,7 @@ const SetModal: FC<SetModalProp> = ({
         title="配置下发"
         getContainer="#app"
         forceRender={true}
-        destroyOnClose={true}
+        destroyOnHidden={true}
         maskClosable={false}
         centered={true}>
         {renderDesc()}

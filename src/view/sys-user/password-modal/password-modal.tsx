@@ -54,7 +54,7 @@ const PasswordModal: FC<PasswordModalProp> = ({ open, data, onCancel, onOk }) =>
         width={500}
         centered={true}
         maskClosable={false}
-        destroyOnClose={false}>
+        destroyOnHidden={false}>
         <Form
             form={formRef}
             layout="vertical"

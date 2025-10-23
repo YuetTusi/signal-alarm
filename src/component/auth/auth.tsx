@@ -11,10 +11,6 @@ const Auth: FC<AuthProp> = ({ deny, demotion, children }) =>
         : <>{children}</>;
 
 
-Auth.defaultProps = {
-    deny: false,
-    demotion: undefined
-}
 
 export { Auth, Demotion };
 export default Auth;

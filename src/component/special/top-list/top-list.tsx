@@ -40,8 +40,5 @@ const TopList: FC<TopListProp> = ({ data, type }) => {
     </ListBox>
 };
 
-TopList.defaultProps = {
-    data: []
-};
 
 export { TopList };

@@ -41,7 +41,7 @@ export const AddModal: FC<AddModalProp> = ({ open, onOk, onClose }) => {
         getContainer="#app"
         centered={true}
         maskClosable={false}
-        destroyOnClose={true}>
+        destroyOnHidden={true}>
         <AddForm formRef={formRef} />
     </Modal>;
 };

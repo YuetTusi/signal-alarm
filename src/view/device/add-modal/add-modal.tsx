@@ -93,7 +93,7 @@ const AddModal: FC<AddModalProp> = ({
             title={data === undefined ? '添加设备' : '编辑设备'}
             getContainer="#app"
             forceRender={true}
-            destroyOnClose={true}
+            destroyOnHidden={true}
             maskClosable={false}
             centered={true}>
             <FormBox>

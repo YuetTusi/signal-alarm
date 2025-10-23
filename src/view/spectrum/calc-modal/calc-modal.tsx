@@ -55,7 +55,7 @@ const CalcModal: FC<CalcModalProp> = ({ open, onCancel, onOk }) => {
         open={open}
         centered={true}
         maskClosable={false}
-        destroyOnClose={true}
+        destroyOnHidden={true}
         forceRender={true}
         width={640}
         getContainer="#app"
@@ -134,10 +134,5 @@ const CalcModal: FC<CalcModalProp> = ({ open, onCancel, onOk }) => {
     </Modal>
 };
 
-CalcModal.defaultProps = {
-    open: false,
-    onCancel: () => { },
-    onOk: () => { }
-}
 
 export { CalcModal };

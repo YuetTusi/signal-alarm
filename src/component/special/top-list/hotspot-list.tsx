@@ -19,8 +19,5 @@ const HotspotList: FC<TopListProp> = ({ data }) => {
     </ListBox>
 };
 
-HotspotList.defaultProps = {
-    data: []
-};
 
 export { HotspotList };

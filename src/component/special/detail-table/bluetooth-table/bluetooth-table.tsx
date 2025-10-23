@@ -194,6 +194,4 @@ const BluetoothTable: FC<BluetoothTableProp> = () => {
     </>
 };
 
-BluetoothTable.defaultProps = {};
-
 export { BluetoothTable };
